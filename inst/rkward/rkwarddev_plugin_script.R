@@ -1,21 +1,24 @@
-local({
-## Prepare
-require(rkwarddev)
-rkwarddev.required("0.06-5")
+## Author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-# define where the plugin should write its files
-output.dir <- tempdir()
+require(rkwarddev)
+rkwarddev.required("0.08-1")
+
+local({
+# set the output directory to overwrite the actual plugin
+output.dir <- "/media/alf/datos/tmp/rkward"
 # overwrite an existing plugin in output.dir?
 overwrite <- TRUE
-# if you set guess.getters to TRUE, the resulting code will need RKWard >= 0.6.0
 guess.getter <- TRUE
+rk.set.indent(by="  ")
+rk.set.empty.e(TRUE)
+update.translations <- FALSE
 
-rkt.script.root <- file.path("~","daten","R","rkward_plugins","git","rk.Teaching","inst","rkward")
+rkt.script.root <- file.path("/","media","alf","datos","drive","INVESTIGACION","desarrollo","rk.Teaching","inst","rkward")
 rkt.components.root <- file.path(rkt.script.root,"rkwarddev_components")
 
-## Compute
+
 about.plugin <- rk.XML.about(
-  name="rk.teaching.main", author=c(
+  name="rk.Teaching", author=c(
     person(given="Alfredo", family="Sánchez Alberca", email="asalber@ceu.es", role=c("aut", "cre")),
     person(given="Meik", family="Michalke", email="meik.michalke@hhu.de", role=c("ctb"))
   ),
@@ -46,13 +49,12 @@ plugin.dependencies <- rk.XML.dependencies(
   )
 )
 
-############
-## your plugin dialog and JavaScript should be put here
-############
+## Components
 
-source(file.path(rkt.components.root, "component_concordance_kappa_cohen.R"), local=TRUE)
-source(file.path(rkt.components.root, "component_concordance_intraclass_correlation_coefficient.R"), local=TRUE)
-source(file.path(rkt.components.root, "component_data_filter.R"), local=TRUE)
+source(file.path(rkt.components.root, "component_variable_calculation.R"), local=TRUE)
+source(file.path(rkt.components.root, "component_data_filtering.R"), local=TRUE)
+
+
 
 #############
 ## the main call
@@ -64,49 +66,19 @@ plugin.dir <- rk.plugin.skeleton(
   dependencies=plugin.dependencies,
   path=output.dir,
   guess.getter=guess.getter,
-#  scan=c("var", "saveobj", "settings"),
-  scan=c("saveobj", "settings"),
-  xml=list(
-    dialog=rkt.cnckppc.dialog,
-    wizard=rkt.cnckppc.wizard#,
-#     snippets=,
-#     logic=
-  ),
-  js=list(
-    require="psych",
-    results.header=FALSE,
-#     header.add=,
-#     variables=,
-#    globals="var x, y;",
-#     preprocess=,
-    calculate=rkt.cnckppc.JS.calc,
-    printout=rkt.cnckppc.JS.print#,
-#     doPrintout=,
-#     load.silencer=
-  ),
-  rkh=list(
-    #summary=,
-    #usage=,
-    #sections=,
-    #settings=,
-    #related=,
-    #technical=
-  ),
   create=c("pmap", "xml", "js", "desc"),
   overwrite=overwrite,
   components=list(
-    rkt.component.intraclasscorr,
-    rkt.component.data.filter
+    rkt.component.variable.calculation,
+    rkt.component.data.filtering
   ),
-  #provides=c("logic", "dialog"), 
-  pluginmap=list(
-    name="Kappa de Cohen",
-    hierarchy=list("Teaching", "Concordance")
-  ), 
-  tests=FALSE, 
+  pluginmap=NULL,
+  tests=FALSE,
   edit=FALSE, 
   load=TRUE, 
   show=FALSE
 )
-
+  if(isTRUE(update.translations)){
+    rk.updatePluginMessages(file.path(output.dir,"rk.Teaching","inst","rkward","rk.Teaching.pluginmap"))
+  } else {}
 })
