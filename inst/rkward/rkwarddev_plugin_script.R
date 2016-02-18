@@ -3,9 +3,9 @@
 require(rkwarddev)
 rkwarddev.required("0.08-1")
 
-local({
+rk.local({
 # set the output directory to overwrite the actual plugin
-output.dir <- "/media/alf/datos/tmp/rkward"
+output.dir <- tempdir()
 # overwrite an existing plugin in output.dir?
 overwrite <- TRUE
 guess.getter <- TRUE
@@ -13,8 +13,8 @@ rk.set.indent(by="  ")
 rk.set.empty.e(TRUE)
 update.translations <- FALSE
 
-rkt.script.root <- file.path("/","media","alf","datos","drive","INVESTIGACION","desarrollo","rk.Teaching","inst","rkward")
-rkt.components.root <- file.path(rkt.script.root,"rkwarddev_components")
+## you must first setwd() to $YOURSOURCES/rk.Teaching/inst/rkward for this to run properly
+rkt.components.root <- normalizePath("rkwarddev_components")
 
 
 about.plugin <- rk.XML.about(
@@ -51,6 +51,8 @@ plugin.dependencies <- rk.XML.dependencies(
 
 ## Components
 
+source(file.path(rkt.components.root, "component_concordance_kappa_cohen.R"), local=TRUE)
+source(file.path(rkt.components.root, "component_concordance_intraclass_correlation_coefficient.R"), local=TRUE)
 source(file.path(rkt.components.root, "component_variable_calculation.R"), local=TRUE)
 source(file.path(rkt.components.root, "component_data_filtering.R"), local=TRUE)
 
@@ -65,18 +67,29 @@ plugin.dir <- rk.plugin.skeleton(
   about=about.plugin,
   dependencies=plugin.dependencies,
   path=output.dir,
+  provides=c("dialog","wizard"),
   guess.getter=guess.getter,
+  xml=list(
+    dialog=rkt.cnckppc.dialog,
+    wizard=rkt.cnckppc.wizard
+  ),
+  js=list(
+    calculate=rkt.cnckppc.JS.calc,
+    printout=rkt.cnckppc.JS.print
+  ),
   create=c("pmap", "xml", "js", "desc"),
   overwrite=overwrite,
   components=list(
+    rkt.component.intraclasscorr,
     rkt.component.variable.calculation,
     rkt.component.data.filtering
   ),
-  pluginmap=NULL,
+  pluginmap=list(name="Kappa de Cohen", hierarchy="Teaching"),
   tests=FALSE,
   edit=FALSE, 
   load=TRUE, 
-  show=FALSE
+  show=FALSE,
+  gen.info="$SRC/inst/rkward/rkwarddev_plugin_script.R"
 )
   if(isTRUE(update.translations)){
     rk.updatePluginMessages(file.path(output.dir,"rk.Teaching","inst","rkward","rk.Teaching.pluginmap"))

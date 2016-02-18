@@ -159,14 +159,13 @@ rkt.datafiltering.JS.calc <- rk.paste.JS(
   rkdev.varslot.variables.shortname <- rk.JS.vars(rkdev.varslot.variables, modifiers="shortname", join=", "),
   rk.i18n.comment("Create a new dataset with the filtered data"),
   echo(".GlobalEnv$", rkt.datafiltering.saveobject.save, " <- subset(", rkt.datafiltering.varslot.dataframe, ", subset=", rkdev.input.condition),
-  ite(id(rkdev.frame.variables_frame.checked),
-    rk.paste.JS(
-      rkdev.varslot.variables.shortname,
-      ite(id(rkdev.varslot.variables.shortname, " != ''"),
+  js(
+    if(rkdev.frame.variables_frame){
+      rkdev.varslot.variables.shortname
+      if(rkdev.varslot.variables.shortname != ""){
         echo(", select=c(", rkdev.varslot.variables.shortname, ")")
-      ),
-      level=3
-    )
+      } else {}
+    } else {}
   ),
   echo(")\n"),
   rk.i18n.comment("Copy also the labels of original data set"),
