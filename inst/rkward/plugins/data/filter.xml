@@ -8,7 +8,7 @@
 	<logic>
 		<connect governor="current_object" client="dataframe.available" />
 		<connect governor="dataframe.available" client="selector.root" />
-		<convert id="dataframe_sel" sources="dataframe.available" mode="notequals" />
+		<convert id="dataframe_sel" sources="dataframe.available" mode="equals" standard="true" />
 		<connect governor="dataframe_sel" client="condition.enabled" />
 		<connect governor="dataframe_sel" client="variables_frame.enabled" />
 	</logic>
@@ -23,7 +23,7 @@
 						<input id="condition" label="Condición de selección" />
 					</tab>
 					<tab id="tab_variables" label="Filtrar variables"  >
-						<frame id="variables_frame" label="Seleccionar sólo las siguientes variables" checkable="true" checked="false" value="1">
+						<frame id="variables_frame" label="Seleccionar sólo las siguientes variables" checkable="true" checked="false">
 							<varslot id="variables" label="Seleccionar variables" source="selector" multi="true" required="true"  />
 						</frame>		
 					</tab>

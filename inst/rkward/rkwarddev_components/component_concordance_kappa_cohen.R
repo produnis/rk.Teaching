@@ -1,65 +1,64 @@
 ## used as the plugin's main component
 # name of the active component, relevant for help page content
-rk.set.comp("Kappa de Cohen")
+rk.set.comp("Cohen's Kappa")
 
 
 ## dialog section
-  rkt.cnckppc.varselector.selector <- rk.XML.varselector(
-    label="Seleccionar variables",
+  rkt.cohenkappa.varselector.selector <- rk.XML.varselector(
+    label="Select variables",
     id.name="selector"
   )
 
-  rkt.cnckppc.varslot.x <- rk.XML.varslot(
-    label="Primera medida",
-    source=rkt.cnckppc.varselector.selector,
+  rkt.cohenkappa.varslot.x <- rk.XML.varslot(
+    label="First measure",
+    source=rkt.cohenkappa.varselector.selector,
     required=TRUE,
     types=c("factor"),
     id.name="x"
   )
 
-  rkt.cnckppc.varslot.y <- rk.XML.varslot(
-    label="Segunda medida",
-    source=rkt.cnckppc.varselector.selector,
+  rkt.cohenkappa.varslot.y <- rk.XML.varslot(
+    label="Second measure",
+    source=rkt.cohenkappa.varselector.selector,
     required=TRUE,
     types=c("factor"),
     id.name="y"
   )
 
 
-  rkt.cnckppc.dialog <- rk.XML.dialog(
-    rkt.cnckppc.row.row_vars <- rk.XML.row(
-      rkt.cnckppc.varselector.selector,
+  rkt.cohenkappa.dialog <- rk.XML.dialog(
+    rkt.cohenkappa.row.row_vars <- rk.XML.row(
+      rkt.cohenkappa.varselector.selector,
       rk.XML.col(
-        rkt.cnckppc.varslot.x,
-        rkt.cnckppc.varslot.y
+        rkt.cohenkappa.varslot.x,
+        rkt.cohenkappa.varslot.y
       ),
       id.name="row_vars"
     ),
-    label="Test de concordancia Kappa de Cohen"
+    label="Cohen's Kappa concordance test"
   )
 
 
 ## wizard section
-  rkt.cnckppc.wizard <- rk.XML.wizard(
+  rkt.cohenkappa.wizard <- rk.XML.wizard(
     rk.XML.page(
       rk.XML.text(
-        text="Seleccionar las variables con las medidas."
+        text="Select the variables with the measures."
       ),
-      rkt.cnckppc.copy.row_vars <- rk.XML.copy(
-        id=rkt.cnckppc.row.row_vars
+      rkt.cohenkappa.copy.row_vars <- rk.XML.copy(
+        id=rkt.cohenkappa.row.row_vars
       )
     ),
-    label="Test de concordancia Kappa de Cohen"
+    label="Cohen's Kappa concordance test"
   )
 
 
 ## JavaScript calculate
-  rkt.cnckppc.JS.calc <- rk.paste.JS(
-    x <- rk.JS.vars(rkt.cnckppc.varslot.x, guess.getter=guess.getter),
+  rkt.cohenkappa.JS.calc <- rk.paste.JS(
+    x <- rk.JS.vars(rkt.cohenkappa.varslot.x, guess.getter=guess.getter),
     id("var data = ", x, ".split('[[')[0];"),
-    xShort <- rk.JS.vars(rkt.cnckppc.varslot.x, modifiers="shortname", guess.getter=guess.getter),
-    yShort <- rk.JS.vars(rkt.cnckppc.varslot.y, modifiers="shortname", guess.getter=guess.getter),
-    rk.i18n.comment("Código R"),
+    xShort <- rk.JS.vars(rkt.cohenkappa.varslot.x, modifiers="shortname", guess.getter=guess.getter),
+    yShort <- rk.JS.vars(rkt.cohenkappa.varslot.y, modifiers="shortname", guess.getter=guess.getter),
     echo("table <- xtabs(~", xShort, "+", yShort, ", data="),
     "echo(data);",
     echo(")\n"),
@@ -68,10 +67,10 @@ rk.set.comp("Kappa de Cohen")
 
 
 ## JavaScript printout
-  rkt.cnckppc.JS.print <- rk.paste.JS(
-    rk.JS.header("Test de concordancia Kappa de Cohen", addFromUI=rkt.cnckppc.varslot.x, addFromUI=rkt.cnckppc.varslot.y),
+  rkt.cohenkappa.JS.print <- rk.paste.JS(
+    rk.JS.header("Cohen's Kappa concordance test", addFromUI=rkt.cohenkappa.varslot.x, addFromUI=rkt.cohenkappa.varslot.y),
     echo ("rk.results (list("),
     echo (i18n("Kappa"), " = results$kappa"),
-    echo (", ", i18n("Kappa ponderado"), " = results$weighted.kappa"),
+    echo (", ", i18n("Weigted kappa"), " = results$weighted.kappa"),
     echo ("))\n")
   )

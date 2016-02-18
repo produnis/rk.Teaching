@@ -120,39 +120,33 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
 
 
 ## logic section
-rkt.datafiltering.logic <- rk.XML.logic(
+rk.XML.logic(
   rk.XML.connect(
     governor="current_object",
-    client=rkt.datafiltering.varslot.dataframe,
+    client="dataframe",
     set="available"
   ),
   rk.XML.connect(
-    governor=rkt.datafiltering.varslot.dataframe,
-    client=rkt.datafiltering.varselector.selector,
+    governor="dataframe",
+    client="selector",
     get="available",
     set="root"
-  )#,
-  ## the plugin contains
-  ##   <convert id="dataframe_sel" sources="dataframe.available" mode="notequals" />
-  ## but it's missing a "standard" to compare against? commenting this out for the moment
-#     rkt.datafiltering.convert.dataframe_sel <- rk.XML.convert(
-#       sources=list(available=rkt.datafiltering.varslot.dataframe),
-#       mode="notequals",
-#       id.name="dataframe_sel"
-#     ),
-#     rk.XML.connect(
-#       governor=rkt.datafiltering.convert.dataframe_sel,
-#       client=rkdev.input.condition
-#     ),
-#     rk.XML.connect(
-#       governor=rkt.datafiltering.convert.dataframe_sel,
-#       client=rkdev.frame.variables_frame
-#     )
+  ),
+  rk.XML.convert(
+    sources=list(available="dataframe"),
+    mode=c(equals="true"),
+    id.name="dataframe_sel"
+  ),
+  rk.XML.connect(
+    governor="dataframe_sel",
+    client="condition"
+  ),
+  rk.XML.connect(
+    governor="dataframe_sel",
+    client="variables_frame"
+  )
 )
 
-
-# dummy object to see if frame is checked
-#rkdev.frame.variables_frame.checked <- rk.JS.vars(rkdev.frame.variables_frame, modifiers="checked")
 
 ## JavaScript calculate
 rkt.datafiltering.JS.calc <- rk.paste.JS(
@@ -161,7 +155,6 @@ rkt.datafiltering.JS.calc <- rk.paste.JS(
   echo(".GlobalEnv$", rkt.datafiltering.saveobject.save, " <- subset(", rkt.datafiltering.varslot.dataframe, ", subset=", rkdev.input.condition),
   js(
     if(rkdev.frame.variables_frame){
-      rkdev.varslot.variables.shortname
       if(rkdev.varslot.variables.shortname != ""){
         echo(", select=c(", rkdev.varslot.variables.shortname, ")")
       } else {}
@@ -177,7 +170,7 @@ rkt.datafiltering.JS.calc <- rk.paste.JS(
 
 ## JavaScript printout
 rkt.datafiltering.JS.print <- rk.paste.JS(
-  rk.JS.header("Filtrado de datos",
+  rk.JS.header("Data filtering",
     addFromUI=rkt.datafiltering.varslot.dataframe,
     addFromUI=rkdev.input.condition,
     addFromUI=rkdev.varslot.variables)
@@ -185,39 +178,25 @@ rkt.datafiltering.JS.print <- rk.paste.JS(
 
 
 ## make a component of all parts
-rkt.component.data.filtering <- rk.plugin.component(
+rkt.component.datafiltering <- rk.plugin.component(
   about="Data filtering",
   xml=list(
     dialog=rkt.datafiltering.dialog,
     wizard=rkt.datafiltering.wizard,
-#     snippets=,
     logic=rkt.datafiltering.logic
   ),
   js=list(
-#     require=,
     results.header=FALSE,
-#     header.add=,
-#     variables=,
-    globals=id("var ", 
-      rkt.datafiltering.varslot.dataframe, ", ",
-      rkdev.input.condition, ", ",
-      rkdev.varslot.variables, ";"
-    ),
-#     preprocess=rkt.datafiltering.JS.pre,
+#     globals=id("var ", 
+#       rkt.datafiltering.varslot.dataframe, ", ",
+#       rkdev.input.condition, ", ",
+#       rkdev.varslot.variables, ";"
+#     ),
     calculate=rkt.datafiltering.JS.calc,
-    printout=rkt.datafiltering.JS.print#,
-#     doPrintout=,
-#     load.silencer=
+    printout=rkt.datafiltering.JS.print
   ),
-#   rkh=list(),
-#   provides=c("logic", "dialog"),
-  scan=c("var", "saveobj", "settings"),
+  scan=c("var"),
   guess.getter=guess.getter,
   hierarchy=list("Teaching", "Data"),
-#   include=NULL,
   create=c("xml", "js"),
-#   dependencies=NULL,
-  hints=FALSE,
-#   gen.info=TRUE,
-#   indent.by="\t"
 )

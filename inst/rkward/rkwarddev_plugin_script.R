@@ -11,7 +11,7 @@ overwrite <- TRUE
 guess.getter <- TRUE
 rk.set.indent(by="  ")
 rk.set.empty.e(TRUE)
-update.translations <- FALSE
+update.translations <- TRUE
 
 ## you must first setwd() to $YOURSOURCES/rk.Teaching/inst/rkward for this to run properly
 rkt.components.root <- normalizePath("rkwarddev_components")
@@ -50,12 +50,10 @@ plugin.dependencies <- rk.XML.dependencies(
 )
 
 ## Components
-
 source(file.path(rkt.components.root, "component_concordance_kappa_cohen.R"), local=TRUE)
-source(file.path(rkt.components.root, "component_concordance_intraclass_correlation_coefficient.R"), local=TRUE)
+# source(file.path(rkt.components.root, "component_concordance_intraclass_correlation_coefficient.R"), local=TRUE)
 source(file.path(rkt.components.root, "component_variable_calculation.R"), local=TRUE)
 source(file.path(rkt.components.root, "component_data_filtering.R"), local=TRUE)
-
 
 
 #############
@@ -70,21 +68,21 @@ plugin.dir <- rk.plugin.skeleton(
   provides=c("dialog","wizard"),
   guess.getter=guess.getter,
   xml=list(
-    dialog=rkt.cnckppc.dialog,
-    wizard=rkt.cnckppc.wizard
+    dialog=rkt.cohenkappa.dialog,
+    wizard=rkt.cohenkappa.wizard
   ),
   js=list(
-    calculate=rkt.cnckppc.JS.calc,
-    printout=rkt.cnckppc.JS.print
+    calculate=rkt.cohenkappa.JS.calc,
+    printout=rkt.cohenkappa.JS.print
   ),
   create=c("pmap", "xml", "js", "desc"),
   overwrite=overwrite,
   components=list(
-    rkt.component.intraclasscorr,
-    rkt.component.variable.calculation,
-    rkt.component.data.filtering
+#     rkt.component.intraclasscorr,
+     rkt.component.variable.calculation,
+     rkt.component.datafiltering
   ),
-  pluginmap=list(name="Kappa de Cohen", hierarchy="Teaching"),
+  pluginmap=list(name="Kappa de Cohen", hierarchy=list("Teaching","Concordance")),
   tests=FALSE,
   edit=FALSE, 
   load=TRUE, 
