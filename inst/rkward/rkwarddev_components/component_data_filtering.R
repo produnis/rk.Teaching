@@ -120,7 +120,7 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
 
 
 ## logic section
-rk.XML.logic(
+rkt.datafiltering.logic <- rk.XML.logic(
   rk.XML.connect(
     governor="current_object",
     client="dataframe",
