@@ -60,9 +60,9 @@ rkt.varcalc.wizard <- rk.XML.wizard(
   ),
   rk.XML.page(
     rk.XML.text(
-      text="Insert the expression to compute the new variable.\n
-      The expression can contains any variable of the Workspace and any operator of R. Don't put an equal sign at the begining.\n
-      Examples: height*100, weight/height^2."
+      text="<p>Insert the expression to compute the new variable.</p>
+      <p>The expression can contains any variable of the Workspace and any operator of R. Don't put an equal sign at the begining.</p>
+      <p>Examples: height*100, weight/height^2.</p>"
     ),
     expression <- rk.XML.copy(
       id="expression"

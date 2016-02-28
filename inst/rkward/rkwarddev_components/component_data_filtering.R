@@ -19,14 +19,14 @@ rkt.datafiltering.varslot.dataframe <- rk.XML.varslot(
 rkt.datafiltering.tabbook <- rk.XML.tabbook(
   tabs=list(
     "Filter cases"=list(
-      rkdev.input.condition <- rk.XML.input(
+      rkt.datafiltering.input.condition <- rk.XML.input(
         label="Selection condition",
         id.name="condition"
       )
     )      ,
     "Filter variables"=list(
-      rkdev.frame.variables_frame <- rk.XML.frame(
-        rkdev.varslot.variables <- rk.XML.varslot(
+      rkt.datafiltering.frame.variables <- rk.XML.frame(
+        rkt.datafiltering.varslot.variables <- rk.XML.varslot(
           label="Select variables",
           source=rkt.datafiltering.varselector.selector,
           required=TRUE,
@@ -45,7 +45,8 @@ rkt.datafiltering.tabbook <- rk.XML.tabbook(
 rkt.datafiltering.saveobject.save <- rk.XML.saveobj(
   label="Save new data frame",
   initial="new.data.frame",
-  id.name="save"
+  id.name="save",
+  checkable=FALSE
 )
 
 rkt.datafiltering.dialog <- rk.XML.dialog(
@@ -90,7 +91,7 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
         Examples: gender==&quot;female&quot;, age&gt;20, gender==&quot;female&quot; | age&gt;20."
     ),
     rkt.datafiltering.copy.condition <- rk.XML.copy(
-      id=rkdev.input.condition
+      id=rkt.datafiltering.input.condition
     ),
     id.name="page_condition"
   ),
@@ -102,7 +103,7 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
       id=rkt.datafiltering.varselector.selector
     ),
     rkt.datafiltering.copy.variables_frame <- rk.XML.copy(
-      id=rkdev.frame.variables_frame
+      id=rkt.datafiltering.frame.variables
     ),
     id.name="page_variables"
   ),
@@ -122,11 +123,6 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
 ## logic section
 rkt.datafiltering.logic <- rk.XML.logic(
   rk.XML.connect(
-    governor="current_object",
-    client="dataframe",
-    set="available"
-  ),
-  rk.XML.connect(
     governor="dataframe",
     client="selector",
     get="available",
@@ -134,46 +130,63 @@ rkt.datafiltering.logic <- rk.XML.logic(
   ),
   rk.XML.convert(
     sources=list(available="dataframe"),
-    mode=c(equals="true"),
-    id.name="dataframe_sel"
+    mode=c(and=""),
+    id.name="dataframe_selected"
   ),
   rk.XML.connect(
-    governor="dataframe_sel",
-    client="condition"
+    governor="dataframe_selected",
+    client="condition",
+    get=""
   ),
   rk.XML.connect(
-    governor="dataframe_sel",
-    client="variables_frame"
+    governor="dataframe_selected",
+    client="variables_frame",
+    get=""
   )
 )
 
 
 ## JavaScript calculate
+rkt.datafiltering.varslot.variables.shortname <- rk.JS.vars(rkt.datafiltering.varslot.variables, modifiers="shortname", join=", ")
 rkt.datafiltering.JS.calc <- rk.paste.JS(
-  rkdev.varslot.variables.shortname <- rk.JS.vars(rkdev.varslot.variables, modifiers="shortname", join=", "),
-  rk.i18n.comment("Create a new dataset with the filtered data"),
-  echo(".GlobalEnv$", rkt.datafiltering.saveobject.save, " <- subset(", rkt.datafiltering.varslot.dataframe, ", subset=", rkdev.input.condition),
+  rkt.datafiltering.varslot.variables.shortname,
+  comment("Create a new dataset with the filtered data\n"),
+  echo(".GlobalEnv$", rkt.datafiltering.saveobject.save, " <- subset(", rkt.datafiltering.varslot.dataframe, ", subset=", rkt.datafiltering.input.condition),
   js(
-    if(rkdev.frame.variables_frame){
-      if(rkdev.varslot.variables.shortname != ""){
-        echo(", select=c(", rkdev.varslot.variables.shortname, ")")
+    if(rkt.datafiltering.frame.variables){
+      if(rkt.datafiltering.varslot.variables.shortname != ""){
+        echo(", select=c(", rkt.datafiltering.varslot.variables.shortname, ")")
       } else {}
     } else {}
   ),
   echo(")\n"),
-  rk.i18n.comment("Copy also the labels of original data set"),
+  comment("Copy also the labels of original data set\n"),
   echo("for(i in 1:length(names(", rkt.datafiltering.saveobject.save, "))){\n"),
   echo("\t attr(.GlobalEnv$", rkt.datafiltering.saveobject.save, "[[names(", rkt.datafiltering.saveobject.save, ")[i]]],\".rk.meta\") = attr(", rkt.datafiltering.varslot.dataframe, "[[names(", rkt.datafiltering.saveobject.save, ")[i]]],\".rk.meta\")\n"),
-  echo("}\n")
+  echo("}\n"),
+  var=FALSE
 )
 
 
 ## JavaScript printout
 rkt.datafiltering.JS.print <- rk.paste.JS(
-  rk.JS.header("Data filtering",
-    addFromUI=rkt.datafiltering.varslot.dataframe,
-    addFromUI=rkdev.input.condition,
-    addFromUI=rkdev.varslot.variables)
+#  rk.JS.header("Data filtering",
+#    addFromUI=rkt.datafiltering.varslot.dataframe,
+#    addFromUI=rkt.datafiltering.input.condition,
+#    addFromUI=rkt.datafiltering.varslot.variables)
+  echo("rk.header(", i18n("Data filtering"), ", parameters=list(", 
+  i18n(rkt.datafiltering.varslot.dataframe@attributes$label), " = \"", rkt.datafiltering.varslot.dataframe, "\""),
+  js(
+    if(rkt.datafiltering.input.condition != ""){
+      echo(", ", i18n("Selection condition"), " = \"", rkt.datafiltering.input.condition, "\"")
+    }
+  ),
+  js(
+    if (rkt.datafiltering.frame.variables && rkt.datafiltering.varslot.variables != ""){
+      echo(",", i18n("Variables seleccionadas"), " = \"", rkt.datafiltering.varslot.variables.shortname, "\"")
+    }
+  ),
+  echo("))\n")
 )
 
 
@@ -187,11 +200,12 @@ rkt.component.datafiltering <- rk.plugin.component(
   ),
   js=list(
     results.header=FALSE,
-#     globals=id("var ", 
-#       rkt.datafiltering.varslot.dataframe, ", ",
-#       rkdev.input.condition, ", ",
-#       rkdev.varslot.variables, ";"
-#     ),
+    globals=id("var ", 
+      rkt.datafiltering.varslot.dataframe, ", ",
+      rkt.datafiltering.input.condition, ", ",
+      rkt.datafiltering.frame.variables, ", ",
+      rkt.datafiltering.varslot.variables, ";"
+    ),
     calculate=rkt.datafiltering.JS.calc,
     printout=rkt.datafiltering.JS.print
   ),
