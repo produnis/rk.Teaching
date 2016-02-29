@@ -52,8 +52,9 @@ plugin.dependencies <- rk.XML.dependencies(
 ## Components
 source(file.path(rkt.components.root, "component_concordance_kappa_cohen.R"), local=TRUE)
 # source(file.path(rkt.components.root, "component_concordance_intraclass_correlation_coefficient.R"), local=TRUE)
-source(file.path(rkt.components.root, "component_variable_calculation.R"), local=TRUE)
-source(file.path(rkt.components.root, "component_data_filtering.R"), local=TRUE)
+# source(file.path(rkt.components.root, "component_data_filtering.R"), local=TRUE)
+# source(file.path(rkt.components.root, "component_variable_calculation.R"), local=TRUE)
+source(file.path(rkt.components.root, "component_variable_recoding.R"), local=TRUE)
 
 
 #############
@@ -79,8 +80,9 @@ plugin.dir <- rk.plugin.skeleton(
   overwrite=overwrite,
   components=list(
 #     rkt.component.intraclasscorr,
-     rkt.component.variable.calculation,
-     rkt.component.datafiltering
+#      rkt.component.datafiltering,
+#      rkt.component.variable.calculation,
+     rkt.component.recoding
   ),
   pluginmap=list(name="Kappa de Cohen", hierarchy=list("Teaching","Concordance")),
   tests=FALSE,

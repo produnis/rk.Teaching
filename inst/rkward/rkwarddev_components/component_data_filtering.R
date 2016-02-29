@@ -212,5 +212,5 @@ rkt.component.datafiltering <- rk.plugin.component(
   scan=c("var"),
   guess.getter=guess.getter,
   hierarchy=list("Teaching", "Data"),
-  create=c("xml", "js"),
+  create=c("xml", "js")
 )
