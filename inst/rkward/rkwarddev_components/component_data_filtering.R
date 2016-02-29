@@ -200,11 +200,11 @@ rkt.component.datafiltering <- rk.plugin.component(
   ),
   js=list(
     results.header=FALSE,
-    globals=id("var ", 
-      rkt.datafiltering.varslot.dataframe, ", ",
-      rkt.datafiltering.input.condition, ", ",
-      rkt.datafiltering.frame.variables, ", ",
-      rkt.datafiltering.varslot.variables, ";"
+    globals=list(
+      rk.JS.vars(rkt.datafiltering.varslot.dataframe,
+      rkt.datafiltering.input.condition,
+      rkt.datafiltering.frame.variables,
+      rkt.datafiltering.varslot.variables)
     ),
     calculate=rkt.datafiltering.JS.calc,
     printout=rkt.datafiltering.JS.print
