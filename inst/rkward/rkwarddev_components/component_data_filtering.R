@@ -179,9 +179,7 @@ rkt.datafiltering.JS.print <- rk.paste.JS(
   js(
     if(rkt.datafiltering.input.condition != ""){
       echo(", ", i18n("Selection condition"), " = \"", rkt.datafiltering.input.condition, "\"")
-    }
-  ),
-  js(
+    },
     if (rkt.datafiltering.frame.variables && rkt.datafiltering.varslot.variables != ""){
       echo(",", i18n("Variables seleccionadas"), " = \"", rkt.datafiltering.varslot.variables.shortname, "\"")
     }
@@ -202,9 +200,10 @@ rkt.component.datafiltering <- rk.plugin.component(
     results.header=FALSE,
     globals=list(
       rk.JS.vars(rkt.datafiltering.varslot.dataframe,
-      rkt.datafiltering.input.condition,
-      rkt.datafiltering.frame.variables,
-      rkt.datafiltering.varslot.variables)
+        rkt.datafiltering.input.condition,
+        rkt.datafiltering.varslot.variables
+      ),
+      rk.JS.vars(rkt.datafiltering.frame.variables, modifiers="checked")
     ),
     calculate=rkt.datafiltering.JS.calc,
     printout=rkt.datafiltering.JS.print
