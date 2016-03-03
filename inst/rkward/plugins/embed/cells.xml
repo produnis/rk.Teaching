@@ -17,20 +17,20 @@
 
 	<dialog label="Cells" >
 		<column id="col1">
-			<radio id="breaksFunction" label="Método" >
+			<radio id="breaksFunction" label="Method" >
 				<option value="Sturges" label="Sturges"  checked="true" />
 				<option value="scott" label="Scott" />
 				<option value="FD" label="Friedman-Diaconis" />
-				<option value="num" label="Número de intervalos" />
-				<option value="vec" label="Definir los límites de los intervalos" />
+				<option value="num" label="Number of intervals" />
+				<option value="vec" label="Define interval limits" />
 			</radio>
 			<row>
-				<spinbox id="breaks_num" label="Intervalos sugeridos" type="integer" initial="10" min="0" max="50" />
+				<spinbox id="breaks_num" label="Intervals suggested" type="integer" initial="10" min="0" max="50" />
 				<text>    </text>
-				<input id="breaks_vec" label="Insertar los puntos de corte separados por comas" size="small" required="true" />
+				<input id="breaks_vec" label="Insert the cut-off points" size="small" required="true" />
 			</row>
 			<row>
-				<checkbox id="rightclosed" label="Intervalos cerrados por la derecha"/>
+				<checkbox id="rightclosed" label="Rigth-closed intervals"/>
 			</row>
 			<stretch/>
 		</column>
@@ -39,9 +39,8 @@
 	<wizard label="cells">
 		<page id="pag_cells">
 			<text id="txt_cells">
-				Seleccionar el método de agrupación en clases o intervalos.
-
-				Después seleccionar si se desean intervalos cerrados por la derecha (por defecto son cerrados por la izquierda).
+                            <p>Select the grouping method for classes.</p>
+                            <p>Then, check the bottom box if you want right-closed intervals (by default intervals are left-closed).</p>
 			</text>
 			<copy id="col1" />
 		</page>

@@ -8,16 +8,16 @@
 		<external id="variable"/>
 	</logic>
 	
-	<dialog label="Filtro" >
-		<frame id="filter_frame" label="Filtro" checkable="true" checked="false" value_unckecked="0" value="1">
-			<input id="filter" label="Condición de selección" />
+	<dialog label="Filter" >
+		<frame id="filter_frame" label="Filter" checkable="true" checked="false">
+			<input id="condition" label="Selection condition" />
 		</frame>
 	</dialog>
 
-	<wizard label="Filtro">
+	<wizard label="Filter">
 		<page id="page_filter">
 			<text id="txt_var">
-				Activar la casilla siguiente para realizar un filtrado previo de los datos e introducir la condición de selección de los datos. 
+                            <p>Check the box to fiter data. You must introduce the the selection codition.</p> 
 			</text>
 			<copy id="filter_frame" />
 		</page>

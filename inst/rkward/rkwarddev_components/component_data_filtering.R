@@ -3,14 +3,14 @@ rk.set.comp("Data filtering")
 
 
 ## dialog section
-rkt.datafiltering.varselector.selector <- rk.XML.varselector(
+rkt.datafiltering.selector <- rk.XML.varselector(
   label="Select data frame or variable",
   id.name="selector"
 )
 
-rkt.datafiltering.varslot.dataframe <- rk.XML.varslot(
+rkt.datafiltering.dataframe <- rk.XML.varslot(
   label="Data frame",
-  source=rkt.datafiltering.varselector.selector,
+  source=rkt.datafiltering.selector,
   required=TRUE,
   classes=c("data.frame"),
   id.name="dataframe"
@@ -19,16 +19,16 @@ rkt.datafiltering.varslot.dataframe <- rk.XML.varslot(
 rkt.datafiltering.tabbook <- rk.XML.tabbook(
   tabs=list(
     "Filter cases"=list(
-      rkt.datafiltering.input.condition <- rk.XML.input(
+      rkt.datafiltering.condition <- rk.XML.input(
         label="Selection condition",
         id.name="condition"
       )
     )      ,
     "Filter variables"=list(
-      rkt.datafiltering.frame.variables <- rk.XML.frame(
-        rkt.datafiltering.varslot.variables <- rk.XML.varslot(
+      rkt.datafiltering.variables.frame <- rk.XML.frame(
+        rkt.datafiltering.variables <- rk.XML.varslot(
           label="Select variables",
-          source=rkt.datafiltering.varselector.selector,
+          source=rkt.datafiltering.selector,
           required=TRUE,
           multi=TRUE,
           id.name="variables"
@@ -42,7 +42,7 @@ rkt.datafiltering.tabbook <- rk.XML.tabbook(
   )
 )
 
-rkt.datafiltering.saveobject.save <- rk.XML.saveobj(
+rkt.datafiltering.save <- rk.XML.saveobj(
   label="Save new data frame",
   initial="new.data.frame",
   id.name="save",
@@ -51,11 +51,11 @@ rkt.datafiltering.saveobject.save <- rk.XML.saveobj(
 
 rkt.datafiltering.dialog <- rk.XML.dialog(
   rkt.datafiltering.row.row_vars <- rk.XML.row(
-    rkt.datafiltering.varselector.selector,
+    rkt.datafiltering.selector,
     rk.XML.col(
-      rkt.datafiltering.varslot.dataframe,
+      rkt.datafiltering.dataframe,
       rkt.datafiltering.tabbook,
-      rkt.datafiltering.saveobject.save
+      rkt.datafiltering.save
     ),
     id.name="row_vars"
   ),
@@ -65,55 +65,44 @@ rkt.datafiltering.dialog <- rk.XML.dialog(
 
 ## wizard section
 rkt.datafiltering.wizard <- rk.XML.wizard(
-  rkt.datafiltering.page.page_dataframe <- rk.XML.page(
-    rk.XML.text(
-      text="Data frame selection"
-    ),
-    rkt.datafiltering.varselector.selector2 <- rk.XML.varselector(
+  rk.XML.page(
+    rk.XML.text(text="Select the data frame to filter."),
+    rkt.datafiltering.selector2 <- rk.XML.varselector(
       label="Select the data frame to filter",
       id.name="selector2"
     ),
-    rkt.datafiltering.varslot.dataframe <- rk.XML.varslot(
+    rk.XML.varslot(
       label="Data frame",
-      source=rkt.datafiltering.varselector.selector2,
+      source=rkt.datafiltering.selector2,
       required=TRUE,
       classes=c("data.frame"),
       id.name="dataframe"
     ),
+#     rk.XML.copy(id=rkt.datafiltering.selector),
+#     rk.XML.copy(id=rkt.datafiltering.dataframe),
     id.name="page_dataframe"
   ),
-  rkt.datafiltering.page.page_condition <- rk.XML.page(
+  rk.XML.page(
     rk.XML.text(
-      text="Insert the filtering condition to select cases.
-
-        Any logic or relational operator of R can be used in the condition expression.
-
-        Examples: gender==&quot;female&quot;, age&gt;20, gender==&quot;female&quot; | age&gt;20."
+      text="<p>Insert the filtering condition to select cases.</p>
+      <p>Any logic or relational operator of R can be used in the condition expression.</p>
+      <p><b>Examples</b>: gender==\"female\", age&gt;20, gender==\"female\" & age&gt;20.</p>"
     ),
-    rkt.datafiltering.copy.condition <- rk.XML.copy(
-      id=rkt.datafiltering.input.condition
-    ),
+    rk.XML.copy(id=rkt.datafiltering.condition),
     id.name="page_condition"
   ),
-  rkt.datafiltering.page.page_variables <- rk.XML.page(
+  rk.XML.page(
     rk.XML.text(
-      text="To select only a subset of variables, mark the checkbox and select the desired variables."
-    ),
-    rkt.datafiltering.copy.selector <- rk.XML.copy(
-      id=rkt.datafiltering.varselector.selector
-    ),
-    rkt.datafiltering.copy.variables_frame <- rk.XML.copy(
-      id=rkt.datafiltering.frame.variables
-    ),
+      text="<p>To select only a subset of variables, mark the checkbox and select the desired variables.</p>"),
+    rk.XML.copy(id=rkt.datafiltering.selector),
+    rk.XML.copy(id=rkt.datafiltering.variables.frame),
     id.name="page_variables"
   ),
-  rkt.datafiltering.page.page_save <- rk.XML.page(
-    rk.XML.text(
-      text="Insert a name for the new data frame."
+  rk.XML.page(
+    rk.XML.text(text="<p>Insert a name for the new data frame.</p>"
     ),
-    rkt.datafiltering.copy.save <- rk.XML.copy(
-      id=rkt.datafiltering.saveobject.save
-    ),
+    rk.XML.copy(id=rkt.datafiltering.save),
+    rk.XML.stretch(),
     id.name="page_save"
   ),
   label="Data filtering"
@@ -130,7 +119,7 @@ rkt.datafiltering.logic <- rk.XML.logic(
   ),
   rk.XML.convert(
     sources=list(available="dataframe"),
-    mode=c(and=""),
+    mode=c(notequals=""),
     id.name="dataframe_selected"
   ),
   rk.XML.connect(
@@ -147,22 +136,22 @@ rkt.datafiltering.logic <- rk.XML.logic(
 
 
 ## JavaScript calculate
-rkt.datafiltering.varslot.variables.shortname <- rk.JS.vars(rkt.datafiltering.varslot.variables, modifiers="shortname", join=", ")
+rkt.datafiltering.variables.shortname <- rk.JS.vars(rkt.datafiltering.variables, modifiers="shortname", join=", ")
 rkt.datafiltering.JS.calc <- rk.paste.JS(
-  rkt.datafiltering.varslot.variables.shortname,
+  rkt.datafiltering.variables.shortname,
   comment("Create a new dataset with the filtered data\n"),
-  echo(".GlobalEnv$", rkt.datafiltering.saveobject.save, " <- subset(", rkt.datafiltering.varslot.dataframe, ", subset=", rkt.datafiltering.input.condition),
+  echo(".GlobalEnv$", rkt.datafiltering.save, " <- subset(", rkt.datafiltering.dataframe, ", subset=", rkt.datafiltering.condition),
   js(
-    if(rkt.datafiltering.frame.variables){
-      if(rkt.datafiltering.varslot.variables.shortname != ""){
-        echo(", select=c(", rkt.datafiltering.varslot.variables.shortname, ")")
+    if(rkt.datafiltering.variables.frame){
+      if(rkt.datafiltering.variables.shortname != ""){
+        echo(", select=c(", rkt.datafiltering.variables.shortname, ")")
       } else {}
     } else {}
   ),
   echo(")\n"),
   comment("Copy also the labels of original data set\n"),
-  echo("for(i in 1:length(names(", rkt.datafiltering.saveobject.save, "))){\n"),
-  echo("\t attr(.GlobalEnv$", rkt.datafiltering.saveobject.save, "[[names(", rkt.datafiltering.saveobject.save, ")[i]]],\".rk.meta\") = attr(", rkt.datafiltering.varslot.dataframe, "[[names(", rkt.datafiltering.saveobject.save, ")[i]]],\".rk.meta\")\n"),
+  echo("for(i in 1:length(names(", rkt.datafiltering.save, "))){\n"),
+  echo("\t attr(.GlobalEnv$", rkt.datafiltering.save, "[[names(", rkt.datafiltering.save, ")[i]]],\".rk.meta\") = attr(", rkt.datafiltering.dataframe, "[[names(", rkt.datafiltering.save, ")[i]]],\".rk.meta\")\n"),
   echo("}\n"),
   var=FALSE
 )
@@ -170,18 +159,14 @@ rkt.datafiltering.JS.calc <- rk.paste.JS(
 
 ## JavaScript printout
 rkt.datafiltering.JS.print <- rk.paste.JS(
-#  rk.JS.header("Data filtering",
-#    addFromUI=rkt.datafiltering.varslot.dataframe,
-#    addFromUI=rkt.datafiltering.input.condition,
-#    addFromUI=rkt.datafiltering.varslot.variables)
   echo("rk.header(", i18n("Data filtering"), ", parameters=list(", 
-  i18n(rkt.datafiltering.varslot.dataframe@attributes$label), " = \"", rkt.datafiltering.varslot.dataframe, "\""),
+  i18n(rkt.datafiltering.dataframe@attributes$label), " = \"", rkt.datafiltering.dataframe, "\""),
   js(
-    if(rkt.datafiltering.input.condition != ""){
-      echo(", ", i18n("Selection condition"), " = \"", rkt.datafiltering.input.condition, "\"")
+    if(rkt.datafiltering.condition != ""){
+      echo(", ", i18n("Selection condition"), " = '", rkt.datafiltering.condition, "'")
     },
-    if (rkt.datafiltering.frame.variables && rkt.datafiltering.varslot.variables != ""){
-      echo(",", i18n("Variables seleccionadas"), " = \"", rkt.datafiltering.varslot.variables.shortname, "\"")
+    if (rkt.datafiltering.variables.frame && rkt.datafiltering.variables != ""){
+      echo(",", i18n("Variables seleccionadas"), " = '", rkt.datafiltering.variables.shortname, "'")
     }
   ),
   echo("))\n")
@@ -199,11 +184,11 @@ rkt.component.datafiltering <- rk.plugin.component(
   js=list(
     results.header=FALSE,
     globals=list(
-      rk.JS.vars(rkt.datafiltering.varslot.dataframe,
-        rkt.datafiltering.input.condition,
-        rkt.datafiltering.varslot.variables
+      rk.JS.vars(rkt.datafiltering.dataframe,
+        rkt.datafiltering.condition,
+        rkt.datafiltering.variables
       ),
-      rk.JS.vars(rkt.datafiltering.frame.variables, modifiers="checked")
+      rk.JS.vars(rkt.datafiltering.variables.frame, modifiers="checked")
     ),
     calculate=rkt.datafiltering.JS.calc,
     printout=rkt.datafiltering.JS.print

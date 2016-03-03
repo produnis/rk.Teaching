@@ -5,47 +5,50 @@
 	<help file="FrequencyTabulation.rkh" />
 
 	<logic>
-		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
+		<convert id="grouped_mode" sources="grouped.state" mode="equals" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
 		<connect client="cells.variable" governor="variable.available" />
 		<connect client="filter_embed.variable" governor="variable.available" />
 	</logic>
 
-	<dialog label="Distribución de frecuencias">
+	<dialog label="Frequency tabulation">
 		<tabbook>
 			<tab label="Variables" id="tab_vars">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variable"/>
+					<varselector id="selector" label="Select variable"/>
 					<column>
-						<varslot id="variable" label="Variable a tabular" source="selector" required="true" />
-						<checkbox id="grouped" label="Tabular por grupos" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" multi="true" types="factor" source="selector" required="true"/>
+						<varslot id="variable" label="Variable to tabulate" source="selector" required="true" />
+						<checkbox id="grouped" label="Tabulate by groups" value_unchecked="0" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" multi="true" types="factor" source="selector" required="true"/>
 						<embed id="filter_embed" component="rkTeaching::filter_embed"/>
 					</column>
 				</row>
 			</tab>
-			<tab label="Clases" id="tab_cells">
-				<frame id="intervals_frame" label="Agrupar en intervalos" checkable="true" checked="false">
+			<tab label="Classes" id="tab_cells">
+				<frame id="intervals_frame" label="Grouping intervals" checkable="true" checked="false">
 					<embed id="cells" component="rkTeaching::cells"/>
 				</frame>
 			</tab>
 		</tabbook>
 	</dialog>
 	
-	<wizard label="Distribución de frecuencias">
+	<wizard label="Frequency tabulation">
 		<page id="page_vars">
 			<text id="txt_var">
-				Seleccionar la variable a tabular. Debe ser una variable numérica. 
+                            <p>Select the variable to tabulate.</p>
 			</text>
 			<copy id="selector" />
 			<copy id="variable" />
 		</page>
-		<page id="page_filter">
+		<page id="page_grouped">
 			<text id="txt_var">
-				Activar la casilla siguiente para realizar un filtrado previo de los datos e introducir la condición de selección de los datos. 
+                            <p>Check the box to tabulate the variable by groups. You must insert the grouping variables.</p>
 			</text>
-			<copy id="filter_frame" />
+                        <copy id="selector"/>
+			<copy id="grouped"/>
+                        <copy id="groups"/>
 		</page>
+                <embed id="filter_embed" component="rkTeaching::filter_embed"/>
 		<embed id="cells" component="rkTeaching::cells"/>
 	</wizard>
 </document>

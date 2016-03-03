@@ -61,19 +61,19 @@ function printout(){
 	// printout the results
 	echo('rk.header(');
 	if (getBoolean("relative_freq")){
-		echo('"Tabla bidimensional de frecuencias relativas de ' + varrowsname + ' y ' + varcolumnsname + '"');
+		echo('"Two-dimensional relative frequency table of ' + varrowsname + ' and ' + varcolumnsname + '"');
 	}
 	else {
-		echo('"Tabla bidimensional de frecuencias absolutas de ' + varrowsname + ' y ' + varcolumnsname + '"');
+		echo('"Two-dimensional absolute frequency table of ' + varrowsname + ' y ' + varcolumnsname + '"');
 	}
-	echo(', parameters=list("Variable de las filas" = rk.get.description (' + varrows + ')' + ', "Variable de las columnas" = rk.get.description (' + varcolumns + ')' + getString("filter_embed.code.printout"));
+	echo(', parameters=list("Row variable" = rk.get.description (' + varrows + ')' + ', "Column variable" = rk.get.description (' + varcolumns + ')' + getString("filter_embed.code.printout"));
 	if (getBoolean("grouped")) {
-		echo(', "Variable(s) de agrupaci&oacute;n" = rk.get.description(' + groups + ',paste.sep=", ")');
+		echo(', "Grouping variable(s)" = rk.get.description(' + groups + ',paste.sep=", ")');
 	}
 	echo('))\n');
 	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Grupo ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste("Group ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
 		echo('\t\t rk.results(result[[i]])\n');
 		echo('}\n');
 	}

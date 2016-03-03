@@ -11,14 +11,14 @@ function calculate(){
 	var variable = getString("variable");
 	if (getBoolean("filter_frame.checked")){
 		var data = variable.split('[[')[0];
-		var filter = getString("filter");
-		echo (data + ' <- subset(' + data + ', subset=' + filter + ')\n');
+		var condition = getString("condition");
+		echo (data + ' <- subset(' + data + ', subset=' + condition + ')\n');
 	}
 }
 
 function printout(){
 	// printout the results
 	if (getBoolean("filter_frame.checked")){
-		echo(", 'Filtro' = '" + getString("filter") + "'");
+		echo(", 'Filter' = '" + getString("condition") + "'");
 	}
 }

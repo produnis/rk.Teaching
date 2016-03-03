@@ -34,18 +34,18 @@ function calculate(){
 
 function printout(){
 	// printout the results
-	echo('rk.header("Tabla de frecuencias de ' + variablename + '", ');
+	echo('rk.header("Frequency table of ' + variablename + '", ');
 	echo('parameters=list("Variable" = rk.get.description(' + variable + ')' + getString("filter_embed.code.printout"));
 	if (getBoolean("intervals_frame.checked")){
 		echo(getString("cells.code.printout"));
 	}
 	if (getBoolean("grouped")) {
-		echo(', "Variable(s) de agrupaci&oacute;n" = rk.get.description(' + groups + ',paste.sep=", ")');
+		echo(', "Grouping variable(s)" = rk.get.description(' + groups + ',paste.sep=", ")');
 	}
 	echo ('))\n');
 	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Grupo ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste("Group ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
 		echo('\t\t rk.results(result[[i]])\n');
 		echo('}\n');
 	}

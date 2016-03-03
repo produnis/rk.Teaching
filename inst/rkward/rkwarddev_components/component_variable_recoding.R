@@ -88,9 +88,9 @@ rkt.recoding.wizard <- rk.XML.wizard(
 #rkt.recoding.variable.shortname <- rk.JS.vars(rkt.recoding.variable, modifiers="shortname")
 rkt.recoding.JS.calc <- rk.paste.JS(
 #  rkt.recoding.variable.shortname,
-  "rules = rules.replace(/\\n/gi,'; ');",
+  "rules = rules.replace(/\\n/gi,'; ').replace(/'/g,'\"');",
   "comment(\"Applying the recoding rules\");",
-  echo (".GlobalEnv$", rkt.recoding.save, " <- car::recode(", rkt.recoding.variable, ", \"", rkt.recoding.rules, "\""),
+  echo (".GlobalEnv$", rkt.recoding.save, " <- car::recode(", rkt.recoding.variable, ", '", rkt.recoding.rules, "'"),
   js(
     if(rkt.recoding.asfactor){
       echo (", as.factor.result=TRUE");
@@ -105,7 +105,7 @@ rkt.recoding.JS.calc <- rk.paste.JS(
 rkt.recoding.JS.print <- rk.paste.JS(
   echo("rk.header(", i18n(rkt.recoding.dialog@attributes$label), ", parameters=list(", 
   i18n(rkt.recoding.variable@attributes$label), " = rk.get.description(", rkt.recoding.variable, "),",
-  i18n(rkt.recoding.rules@attributes$label), " = \"", rkt.recoding.rules, "\",",
+  i18n(rkt.recoding.rules@attributes$label), " = '", rkt.recoding.rules, "',",
   i18n("New variable"), " = rk.get.description(", rkt.recoding.save, ")",
   "))\n")
 )
@@ -123,10 +123,12 @@ rkt.component.recoding <- rk.plugin.component(
   js=list(
     require="car",
     results.header=FALSE,
-    globals=id("var ", 
-      rkt.recoding.variable, ", ",
-      rkt.recoding.rules, ", ",
-      rkt.recoding.save, "; "
+    globals=list(
+      rk.JS.vars(
+	rkt.recoding.variable,
+	rkt.recoding.rules,
+	rkt.recoding.save
+      )
     ),
     calculate=rkt.recoding.JS.calc,
     printout=rkt.recoding.JS.print

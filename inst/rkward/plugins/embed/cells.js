@@ -3,15 +3,15 @@
 var classes, breaks, classesheader;
 
 function makeCodes () {
-	classesheader = ', "M&eacute;todo de determinaci&oacute;n de los intervalos " = "';
+	classesheader = ', "Grouping method" = "';
 	var variable = getString("variable");
 	var breaksmethod = getString("breaksFunction");
 	if (breaksmethod == "num") {
 		breaks = 'pretty(range(na.omit(' + variable + ')),' + getString("breaks_num") + ')';
-		classesheader += 'Aproximadamente ' + getString("breaks_num") + ' intervalos"';
+		classesheader += 'Approximately ' + getString("breaks_num") + ' intervals"';
 	} else if (breaksmethod == "vec") {
 		breaks = 'c(' +  getString("breaks_vec") + ')';
-		classesheader += 'Definidos por el usuario: ' + getString ("breaks_vec") + '"';
+		classesheader += 'Defined by the user: ' + getString ("breaks_vec") + '"';
 	} else {
 		breaks = 'pretty(range(na.omit(' + variable + ')), nclass.' + breaksmethod + '(' +  variable + '))';
 		classesheader += breaksmethod + '"';
