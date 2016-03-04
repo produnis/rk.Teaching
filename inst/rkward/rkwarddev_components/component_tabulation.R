@@ -111,17 +111,27 @@ rkt.tabulation.logic <- rk.XML.logic(
 ## JavaScript calculate
 #rkt.recoding.variable.shortname <- rk.JS.vars(rkt.recoding.variable, modifiers="shortname")
 rkt.tabulation.JS.calc <- rk.paste.JS(
-#   "rules = rules.replace(/\\n/gi,'; ');",
-#   "comment(\"Applying the recoding rules\");",
-#   echo (".GlobalEnv$", rkt.recoding.save, " <- car::recode(", rkt.recoding.variable, ", \"", rkt.recoding.rules, "\""),
+  rk.JS.vars(rkt.tabulation.variable),
+  "data = variable.split('[[')[0];",
+  rk.JS.vars(rkt.tabulation.variable, modifiers="shortname"),
+  comment("Fitering data\n"),
+  "echo(getString(\"filter_embed.code.calculate\"))",
+  comment("Computing frequencies\n"),
+#   // Intervals
+# 	if (getBoolean("intervals_frame.checked")){
+# 		echo('result <- frequencyTableIntervals(' + data + ', ' + quote(variablename) + getString("cells.code.calculate")); 
+# 	}
+# 	// Non intervals
+# 	else{
+	"echo(\"result <- frequencyTable(\" + data + \", \" + quote(variableShortname));",
+# 	}
+#   comment("Grouped tabulation\n"),
 #   js(
-#     if(rkt.recoding.asfactor){
-#       echo (", as.factor.result=TRUE");
-#     } else {
-#       echo (", as.factor.result=FALSE");
+#     if (rkt.tabulation.grouped) {
+#       echo(", groups=c(", rk.JS.vars(rkt.tabulation.groups, modifiers="shortname", join(", ")), ")");
 #     }
 #   ),
-#   echo(")\n")
+  echo(")\n")
 )
 
 ## JavaScript printout
@@ -143,13 +153,15 @@ rkt.component.tabulation <- rk.plugin.component(
   ),
   js=list(
     require="rk.Teaching",
-    results.header=FALSE
-#     globals=id("var ", 
-#       rkt.tabulation.variable, ", ",
-#       rkt.tabulation.rules, ", ",
-#       rkt.tabulation.save, "; "
-#     ),
-#     calculate=rkt.tabulation.JS.calc,
+    results.header=FALSE,
+    globals=list(
+      rk.JS.vars(
+	rkt.tabulation.variable,
+	rkt.tabulation.groups,
+	rkt.tabulation.grouped
+      )
+    ),
+    calculate=rkt.tabulation.JS.calc
 #     printout=rkt.tabulation.JS.print
   ),
   scan=c("var"),

@@ -2,20 +2,21 @@
 rk.set.comp("Data filtering")
 
 ## dialog
-
 rkt.filter.condition <- rk.XML.input(
-      label="Selection condition",
-      id.name="condition"
-    )
+  label="Selection condition",
+  id.name="condition"
+)
 
+rkt.filter.condition.frame <- rk.XML.frame(
+  rkt.filter.condition,
+  label="Filter",
+  checkable=TRUE,
+  chk=FALSE,
+  id.name="filter_frame"
+)
+    
 rkt.filter.dialog <- rk.XML.dialog(
-  rk.XML.frame(
-    rkt.filter.condition,
-    label="Filter",
-    checkable=TRUE,
-    chk=FALSE,
-    id.name="filter_frame"
-  ),
+  rkt.filter.condition.frame,
   label="Data filtering"
 ) 
 
@@ -39,6 +40,19 @@ rkt.filter.logic <- rk.XML.logic(
 )
 
 
+## JavaScript calculate
+rkt.filter.JS.calc <- rk.paste.JS(
+  "var variable = getString(\"variable\");",
+  "var data = variable.split('[[')[0];",
+  js(
+    if (rkt.filter.condition.frame){
+    "echo (data + \" <- subset(\" + data + \", subset=\" + condition + \")\\n\");"
+#      echo (data, " <- subset(", data, ", subset=", rkt.filter.condition, ")\n")
+    }
+  )
+)
+
+
 ## make a component of all parts
 rkt.component.filter <- rk.plugin.component(
   about="filter_embed",
@@ -48,13 +62,8 @@ rkt.component.filter <- rk.plugin.component(
     logic=rkt.filter.logic
   ),
   js=list(
-    results.header=FALSE
-#     globals=id("var ", 
-#       rkt.filter.variable, ", ",
-#       rkt.filter.rules, ", ",
-#       rkt.filter.save, "; "
-#     ),
-#     calculate=rkt.filter.JS.calc,
+    results.header=FALSE,
+    calculate=rkt.filter.JS.calc
 #     printout=rkt.filter.JS.print
   ),
   scan=c("var"),
