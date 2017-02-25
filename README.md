@@ -43,6 +43,10 @@ This plugin is built using the [rkwarddev](https://files.kde.org/rkward/R/pckg/r
 script file, located at `rk.Teaching/inst/rkward/rkwarddev_plugin_script.R`. This script is written in `R` code and *generates*
 all of the other plugin files when run. Therefore, in case you'd like to add to this plugin, please add to this script file.
 
+### Branches
+
+Please note that all development happens in the `develop` branch. Pull requests against the `master` branch will be rejected, as it is reserved for the current stable release.
+
 ## Licence
 
 Copyright 2012-2015 Alfredo Sánchez Alberca <asalber@ceu.es>
