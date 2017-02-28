@@ -4,12 +4,12 @@ rk.set.comp("Data filtering")
 
 ## dialog section
 rkt.datafiltering.selector <- rk.XML.varselector(
-  label="Select data frame or variable",
+  label="Select data set or variable",
   id.name="selector"
 )
 
 rkt.datafiltering.dataframe <- rk.XML.varslot(
-  label="Data frame",
+  label="Data set to filter",
   source=rkt.datafiltering.selector,
   required=TRUE,
   classes=c("data.frame"),
@@ -43,7 +43,7 @@ rkt.datafiltering.tabbook <- rk.XML.tabbook(
 )
 
 rkt.datafiltering.save <- rk.XML.saveobj(
-  label="Save new data frame",
+  label="Save new data set",
   initial="new.data.frame",
   id.name="save",
   checkable=FALSE
@@ -66,7 +66,7 @@ rkt.datafiltering.dialog <- rk.XML.dialog(
 ## wizard section
 rkt.datafiltering.wizard <- rk.XML.wizard(
   rk.XML.page(
-    rk.XML.text(text="Select the data frame to filter."),
+    rk.XML.text(text="Select the data set to filter."),
     rkt.datafiltering.selector2 <- rk.XML.varselector(
       label="Select the data frame to filter",
       id.name="selector2"
@@ -99,7 +99,7 @@ rkt.datafiltering.wizard <- rk.XML.wizard(
     id.name="page_variables"
   ),
   rk.XML.page(
-    rk.XML.text(text="<p>Insert a name for the new data frame.</p>"
+    rk.XML.text(text="<p>Insert a name for the new data set.</p>"
     ),
     rk.XML.copy(id=rkt.datafiltering.save),
     rk.XML.stretch(),
@@ -166,7 +166,7 @@ rkt.datafiltering.JS.print <- rk.paste.JS(
       echo(", ", i18n("Selection condition"), " = '", rkt.datafiltering.condition, "'")
     },
     if (rkt.datafiltering.variables.frame && rkt.datafiltering.variables != ""){
-      echo(",", i18n("Variables seleccionadas"), " = '", rkt.datafiltering.variables.shortname, "'")
+      echo(",", i18n("Selected variables"), " = '", rkt.datafiltering.variables.shortname, "'")
     }
   ),
   echo("))\n")

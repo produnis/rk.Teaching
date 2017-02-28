@@ -8,7 +8,7 @@ function preprocess() {
 }
 
 function calculate() {
-    // Filter
+        // Filter
 	echo(getString("filter_embed.code.calculate"));
 	// Load variables
 	variable = getList("variable");
@@ -34,7 +34,7 @@ function calculate() {
 	else {
 		boxcolor = ', fill=I("#FF9999")'; // Default box color
 	}
-    // Set border color
+	// Set border color
 	bordercolor = getString("boxbordercolor.code.printout");
 	if (bordercolor != '') {
 		bordercolor = ', colour=I(' + bordercolor + ')';
@@ -75,9 +75,9 @@ function preview() {
 function doPrintout(full) {
 	// Print header
 	if (full) {
-		echo ('rk.header ("Diagrama de caja de ' + getList("variable.shortname").join(', ') + '", list ("Variable(s)" = rk.get.description(' + variable + ', paste.sep=", ")' + getString("filter_embed.code.printout"));
+		echo ('rk.header ("Box plot of ' + getList("variable.shortname").join(', ') + '", list ("Variable(s)" = rk.get.description(' + variable + ', paste.sep=", ")' + getString("filter_embed.code.printout"));
 		if (getBoolean("grouped")) {
-			echo(', "Variable(s) de agrupaci&oacute;n" = rk.get.description(' + groups + ', paste.sep=", ")');
+			echo(', "Grouping variable(s)" = rk.get.description(' + groups + ', paste.sep=", ")');
 		}
 		echo('))\n');
 		echo ('rk.graph.on ()\n');

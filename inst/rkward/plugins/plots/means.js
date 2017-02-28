@@ -23,7 +23,7 @@ function doPrintout (full) {
 	};
 
 	if (full) {
-		echo ('rk.header ("Diagrama de medias", list ("Variable" = rk.get.description (' + x + '), "Grupos" = rk.get.description(' + groups.split("\n") + ', paste.sep=", ")))\n');
+		echo ('rk.header ("Means plot", list ("Variable" = rk.get.description (' + x + '), "Groups" = rk.get.description(' + groups.split("\n") + ', paste.sep=", ")))\n');
 		echo ('\n');
 		echo ('rk.graph.on ()\n');
 	}

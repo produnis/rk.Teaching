@@ -1,0 +1,79 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin >
+<document>
+    <code file="data_filtering.js"/>
+    <help file="data_filtering.rkh"/>
+
+    <logic>
+        <connect governor="current_object" client="dataframe.available" />
+        <connect governor="dataframe.available" client="selector.root"/>
+        <convert id="dataframeSelected" sources="dataframe.available" mode="notequals" standard=""/>
+        <connect governor="dataframeSelected" client="condition.enabled"/>
+        <connect governor="dataframeSelected" client="variablesFrame.enabled"/>
+    </logic>
+
+    <dialog label="Data filtering">
+        <row>
+            <varselector id="selector" label="Select data frame or variable"/>
+            <column>
+                <varslot id="dataframe" label="Data frame to filter" source="selector" classes="data.frame" required="true"/>
+                <tabbook>
+                    <tab label="Filter cases">
+                        <input id="condition" label="Selection condition"/>
+                    </tab>
+                    <tab label="Filter variables">
+                        <frame id="variablesFrame" label="Select only the following variables" checkable="true" checked="false">
+                            <varslot id="variables" label="Selected variables" source="selector" required="true" multi="true"/>
+                        </frame>
+                    </tab>
+                </tabbook>
+                <saveobject id="newDataframe" label="Save new data frame" checkable="false" initial="new.data.frame"/>
+            </column>
+        </row>
+    </dialog>
+
+    <wizard label="Data filtering">
+        <page id="pageDataframe">
+            <text>
+                Select the data frame to filter.
+            </text>
+            <varselector id="selector2" label="Select data frame"/>
+            <varslot id="dataframe" label="Data frame" source="selector2" classes="data.frame" required="true"/>
+        </page>
+        <page id="pageCondition">
+            <text>
+                <p>
+                    Insert the filtering condition to select cases.
+                </p>
+                <p>
+                    Any logic or relational operator of R can be used in the condition expression.
+                </p>
+                <p>
+                    <b>
+                        Examples
+                    </b>
+                    : gender=="female", age&gt;20, gender=="female" &amp; age&gt;20.
+                </p>
+            </text>
+            <copy id="condition"/>
+        </page>
+        <page id="pageVariables">
+            <text>
+                <p>
+                    To select only a subset of variables, mark the checkbox and select the desired variables.
+                </p>
+            </text>
+            <copy id="selector"/>
+            <copy id="variablesFrame"/>
+        </page>
+        <page id="pageSave">
+            <text>
+                <p>
+                    Insert a name for the new data set.
+                </p>
+            </text>
+            <copy id="newDataframe"/>
+            <stretch/>
+        </page>
+    </wizard>
+</document>

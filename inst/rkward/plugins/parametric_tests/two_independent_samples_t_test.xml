@@ -2,113 +2,100 @@
 
 <!DOCTYPE rkplugin>
 <document>
-	<code file="two_independent_samples_t_test.js" />
-	<help file="two_independent_samples_t_test.rkh" />
-
-	<logic>
-		<connect governor="factor.available" client="levels.variable" />
-		<connect governor="variable.available" client="filter_embed.variable" />
-	</logic>
-
-	<dialog label="Test T para la comparación de medias de dos poblaciones independientes">
-		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
-					<column>
-						<varslot id="variable" label="Comparar" source="selector" types="number" required="true" />
-						<varslot id="factor" label="Según" source="selector" types="factor" required="true" />
-
-						<frame id="levels_frame" label="Definir poblaciones">
-							<row>
-								<embed id="levels" component="rkward::level_select" />
-								<column>
-									<valueslot id="population1" label="Población 1" source="levels.selector" />
-									<valueslot id="population2" label="Población 2" source="levels.selector" />
-								</column>
-							</row>
-						</frame>
-						<embed id="filter_embed" component="rkTeaching::filter_embed" />
-						<stretch />
-					</column>
-				</row>
-			</tab>
-			<tab id="tab_settings" label="Opciones de contraste">
-				<row>
-					<column id="hypotesis_col">
-						<radio id="hypothesis" label="Hipotesis alternativa">
-							<option value="two.sided" label="Bilateral (&#8800;)" />
-							<option value="greater" label="Unilateral mayor (&gt;)" />
-							<option value="less" label="Unilateral menor (&lt;)" />
-						</radio>
-						<stretch />
-					</column>
-					<column>
-						<frame id="confint_frame" label="Intervalo de confianza" checkable="true" checked="true" value="1">
-							<spinbox id="conflevel" label="Nivel de confianza" type="real" min="0" max="0.99" initial="0.95" />
-						</frame>
-					</column>
-				</row>
-			</tab>
-		</tabbook>
-	</dialog>
-
-	<wizard label="Test T para la comparación de medias de dos poblaciones independientes">
-		<page>
-			<text>
-				<p>
-					<b>Este procedimiento realiza el contraste de la T de Student para ver si hay diferencias significativas entre las medias poblacionales
-						de una variable cuantitativa en dos poblaciones distintas y estimar cuánto vale la diferencia entre las medias mediante un intervalo
-						de confianza.</b>
-				</p>
-				<p>
-					<b>Para aplicar este procedimiento, la variable dependiente debe ser numérica y la variable independiente debe ser un factor con dos
-						categorías que definan las poblaciones a comparar.</b>
-				</p>
-			</text>
-		</page>
-		<page>
-			<text>
-				<p>
-					Seleccionar la variable numérica cuyas medias se desea comparar en el campo
-					<b>Comparar</b>
-					.
-				</p>
-				<p>
-					Después, seleccionar el factor con las categorías a comparar en el campo
-					<b>Según</b>
-					.
-				</p>
-				<p>A continuación hay que definir las dos poblaciones a comparar seleccionando los valores de las categorías correspondientes a cada una
-					de las dos poblaciones.</p>
-			</text>
-			<copy id="row_vars" />
-			<stretch />
-		</page>
-		<page>
-			<text>
-				<p>Seleccionar el tipo de hipótesis alternativa a contrastar y especificar qué media se presume que es mayor:</p>
-				- Seleccionar bilateral, si se presupone que las medias de ambas poblaciones son distintas pero no se sabe qué media es mayor.
-				<br />
-				- Seleccionar unilateral mayor si se presupone que la media de la primera población es mayor que la media de la segunda.
-				<br />
-				- Seleccionar unilateral menor si se presupone que la media de la primera población es menor que la media de la segunda.
-				<p>El orden de las categorías es el establecido en la definición de las variables.</p>
-				<p>La selección de una hipótesis alternativa unilateral suele aumentar la potencia del contraste.</p>
-			</text>
-			<copy id="hypothesis" />
-			<stretch />
-		</page>
-		<page>
-			<text>
-				<p>Si se desea obtener un intervalo de confianza para estimar la diferencia de medias entre las dos poblaciones,
-					seleccionar la opción
-					correspondiente e indicar el nivel de confianza del intervalo (un 95% de confianza se corresponde con un 5% de
-					significación).</p>
-				<p>A medida que se aumente el nivel de confianza del intervalo se perderá precisión en la estimación.</p>
-			</text>
-			<copy id="confint_frame" />
-			<stretch />
-		</page>
-	</wizard>
+    <code file="two_independent_samples_t_test.js" />
+    <help file="two_independent_samples_t_test.rkh" />
+    
+    <logic>
+        <connect governor="factor.available" client="levels.variable" />
+        <connect governor="variable.available" client="filter_embed.variable" />
+    </logic>
+    
+    <dialog label="t-tesf for comparing the means of two independent populations">
+        <tabbook>
+            <tab id="tab_variables" label="Variables">
+                <row id="row_vars">
+                    <varselector id="selector" label="Select variables" />
+                    <column>
+                        <varslot id="variable" label="Compare means of" source="selector" types="number" required="true" />
+                        <varslot id="factor" label="According to" source="selector" types="factor" required="true" />
+                        <frame id="levels_frame" label="Populations to compare">
+                            <row>
+                                <column>
+                                    <text>Levels</text>
+                                    <embed id="levels" component="rkward::level_select" />
+                                </column>
+                                <column>
+                                    <valueslot id="population1" label="Compare population" source="levels.selector" />
+                                    <valueslot id="population2" label="With population" source="levels.selector" />
+                                </column>
+                            </row>
+                        </frame>
+                        <embed id="filter_embed" component="rkTeaching::filter_embed" />
+                        <stretch />
+                    </column>
+                </row>
+            </tab>
+            <tab id="tab_settings" label="Test options">
+                <row>
+                    <column>
+                        <radio id="hypothesis" label="Alternative hypothesis">
+                            <option value="two.sided" label="Two-sided (&#8800;)" />
+                            <option value="greater" label="Greater (&gt;)" />
+                            <option value="less" label="Less (&lt;)" />
+                        </radio>
+                        <frame id="confint_frame" label="Confidence interval for the difference of means" checkable="true" checked="true" value="1">
+                            <spinbox id="conflevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95" />
+                        </frame>
+                        <stretch />
+                    </column>
+                </row>
+            </tab>
+        </tabbook>
+    </dialog>
+    
+    <wizard label="t-tesf for comparing the means of two independent populations wizard">
+        <page>
+            <text>
+                <p>
+                    This procedure does the Student t-test for detecting a significant difference between the means of two  independent populations and estimating the difference with a confidence interval.
+                </p>
+                <p>
+                    The dependent variable must be numeric and the independent variable must be a factor.
+                </p>
+            </text>
+        </page>
+        <page>
+            <text>
+                <p>
+                    Insert the numeric variable for which to compare the means in the field <b>Compare</b>.
+                </p>
+                <p>
+                    After, insert the factor in the field <b>According to</b>.
+                </p>
+                <p>Next, select the category of the factor for the first population in the field <b>Compare population</b> and the category for the second population in the field <b>With population</b>.</p>
+            </text>
+            <copy id="row_vars" />
+            <stretch />
+        </page>
+        <page>
+            <text>
+                <p>Select the type of alternative hypothesis to test:</p>
+                <ul>
+                    <li>Check two-sided you have no assumption about what mean is greater.</li>
+                    <li>Check greater if you assume that the mean of the first population is greater than the mean of the second population.</li>
+                    <li>Check less if you assume that the mean of the first population is less than the mean of the second population.</li>
+                </ul>
+                <p>The one-sided hypothesis tends to increase the power of the test.</p>
+            </text>
+            <copy id="hypothesis" />
+            <stretch />
+        </page>
+        <page>
+            <text>
+                <p>If you wants a confidence interval to estimate the difference between the means of the populations check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
+            </text>
+            <copy id="confint_frame" />
+            <stretch />
+        </page>
+    </wizard>
 </document>

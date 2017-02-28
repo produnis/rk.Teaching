@@ -1,0 +1,68 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin >
+<document>
+    <code file="variable_recoding.js"/>
+    <help file="variable_recoding.rkh"/>
+
+    <logic></logic>
+
+    <dialog label="Variable recoding">
+        <row id="row_vars">
+            <varselector id="selector" label="Select variable"/>
+            <column>
+                <varslot id="variable" label="Variable to recode" source="selector" required="true"/>
+                <input id="rules" label="Recoding rules" size="large"/>
+                <saveobject id="save" label="Save new variable" checkable="false" initial="new.variable"/>
+                <checkbox id="asfactor" label="Convert in factor" value="true" value_unchecked="0" checked="true"/>
+            </column>
+        </row>
+    </dialog>
+
+    <wizard label="Variable recoding">
+        <page id="page_variable">
+            <text>
+                Select the variable to recode.
+            </text>
+            <copy id="selector"/>
+            <copy id="variable"/>
+        </page>
+        <page id="page_rules">
+            <text>
+                <p>
+                    Insert the recodification rules.
+                </p>
+                <p>
+                    Each rule must be defined in a different line with the following format:
+                    <br/>
+                    old value = new value
+                </p>
+                <p>
+                    The old value can be intervals with the format
+                    <br/>
+                    lower limit:upper limit
+                    <br/>
+                    and you can use the keywords "lo" for the minimum and "hi"; for the maximum value of the sample.
+                </p>
+                <p>
+                    <b>
+                        Examples
+                    </b>
+                    : lo:49.9 = "F", 50:54.9 = "E", 55:59.9 = "D", 60:69.9 = "C", 70:89.9 = "B", 90:94.9 = "A", 95:100 = "A+"
+                </p>
+            </text>
+            <copy id="rules"/>
+        </page>
+        <page id="page_new_variable">
+            <text>
+                Inser the name for the new variable and click the button Change to select the data frame where to save it. By default the new variable is saved in .GlobalEnv.
+            </text>
+            <copy id="save"/>
+        </page>
+        <page id="page_factor">
+            <text>
+                Check the box to convert the new variable in a factor.
+            </text>
+            <copy id="asfactor"/>
+        </page>
+    </wizard>
+</document>

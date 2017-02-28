@@ -13,51 +13,51 @@
 		<connect client="filter_embed.variable" governor="x.available" />
 	</logic>
 
-	<dialog label="Scatterplot">
+	<dialog label="Scatter plot">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
+			<tab id="tab_variables" label="Variables">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+					<varselector id="selector" label="Select variables" />
 					<column>
-						<varslot id="y" label="Variable Y" source="selector" types="number unknown" required="true" />
-						<varslot id="x" label="Variable X" source="selector" types="number unknown" required="true" />
-						<checkbox id="grouped" label="Dibujar por grupos" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" types="factor" multi="true" required="true" />
+						<varslot id="y" label="Y variable" source="selector" types="number unknown" required="true" />
+						<varslot id="x" label="X variable" source="selector" types="number unknown" required="true" />
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" multi="true" required="true" />
 						<embed id="filter_embed" component="rkTeaching::filter_embed" />
 						<stretch />
 						<preview id="preview" />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_regression" label="Línea de ajuste">
-				<frame id="regression_frame" label="Modelo de regresión">
-					<checkbox id="linear" label="Lineal" />
-					<checkbox id="cuadratic" label="Cuadrático" />
-					<checkbox id="cubic" label="Cúbico" />
-					<checkbox id="potential" label="Potencial" />
-					<checkbox id="exponential" label="Exponencial" />
-					<checkbox id="logarithmic" label="Logarítmico" />
-					<checkbox id="inverse" label="Inverso" />
+			<tab id="tab_regression" label="Fitted line">
+				<frame id="regression_frame" label="Regression model">
+					<checkbox id="linear" label="Linear" />
+					<checkbox id="cuadratic" label="Cuadratic" />
+					<checkbox id="cubic" label="Cubic" />
+					<checkbox id="potential" label="Potential" />
+					<checkbox id="exponential" label="Exponential" />
+					<checkbox id="logarithmic" label="Logarithmic" />
+					<checkbox id="inverse" label="Inverse" />
 					<checkbox id="sigmoid" label="Sigmoidal" />
 				</frame>
-				<checkbox id="confidentstrip" label="Dibujar banda de error" checked="false" />
+				<checkbox id="confidencestrip" label="Plot confidence strip" checked="false" />
 				<stretch />
 			</tab>
 
-			<tab id="tab_point_options" label="Opciones de los puntos">
+			<tab id="tab_point_options" label="Point options">
 				<row>
 					<column>
-						<radio id="position" label="Agrupamiento">
-							<option value="mixed" label="Juntos" checked="true" />
-							<option value="faceted" label="Separados" />
+						<radio id="position" label="Point clouds layout">
+							<option value="mixed" label="Mixed" checked="true" />
+							<option value="faceted" label="Separated" />
 						</radio>
 						<stretch />
 					</column>
 					<column>
-						<embed id="pointcolor" label="Color de los puntos" component="rkTeaching::color_chooser" />
-						<embed id="pointsymbol" label="Símbolo de los puntos" component="rkTeaching::point_chooser" />
-						<spinbox id="pointsize" label="Tamaño de los puntos" type="integer" min="0" max="10" initial="3" />
-						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos" />
+						<embed id="pointcolor" label="Points color" component="rkTeaching::color_chooser" />
+						<embed id="pointsymbol" label="Points symbol" component="rkTeaching::point_chooser" />
+						<spinbox id="pointsize" label="Points size" type="integer" min="0" max="10" initial="3" />
+						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options" />
 						<stretch />
 					</column>
 				</row>
@@ -65,41 +65,43 @@
 		</tabbook>
 	</dialog>
 
-	<wizard label="Scatterplot">
+	<wizard label="Scatter plot wizard">
 		<page id="pag_vars">
 			<text>
-				Seleccionar las variables a dibujar en los ejes X e Y.
-				Si se desea diferenciar los puntos para las distintas
-				categorías de una variable categórica, seleccionar la variable categórica que define los grupos.
+                            <p>Select the variables to represent in the X and Y axiSeleccionar las variables a dibujar en los ejes X e Y.</p>
+				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.</p>
 			</text>
 			<copy id="row_vars" />
 		</page>
 		<page id="pag_regression">
 			<text>
-				Si se desea dibujar algún modelo de regresión, active la la opción correspondiente.
+				If you want to plot a regression model check the corresponding box.
 			</text>
 			<copy id="regression_frame" />
+                        <stretch />
 		</page>
+                <page>
+                    <text>
+                        Check the box to plot a confidence strip around the regression models. 
+                    </text>
+                    <copy id="confidencestrip" />
+                    <stretch />
+                </page>
 		<page id="page_position_points">
 			<text>
-				Si se han diferenciado los puntos para las distintas categorías de una variable categórica, indicar si se desea
-				presentar los puntos de las distintas categorías en el mismo diagrama o en diagramas distintos.
+                            Check the box <b>Mixed</b> to plot the point clouds of different categories in the same chart or check the <b>Separated</b> box to plot every point cloud in its own chart.
 			</text>
 			<copy id="position" />
+                        <stretch />
 		</page>
 		<page id="page_color_poins">
+			<copy id="pointcolor"/>
+			<copy id="pointsymbol"/>
 			<text>
-				Indicar el color de los puntos (sólo en caso de no haber seleccionado la opción de dibujar por grupos).
-			</text>
-			<embed id="pointcolor" label="Color de los puntos" component="rkTeaching::color_chooser" />
-			<text>
-				Indicar el símbolo de los puntos.
-			</text>
-			<embed id="pointsymbol" label="Símbolo de los puntos" component="rkTeaching::point_chooser" />
-			<text>
-				Indicar el tamaño de los puntos.
+				Choose the point size.
 			</text>
 			<copy id="pointsize" />
+                        <stretch />
 		</page>
 		<embed id="plotoptions" component="rkTeaching::plot_options" />
 	</wizard>

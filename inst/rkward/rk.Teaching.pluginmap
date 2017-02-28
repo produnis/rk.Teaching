@@ -1,23 +1,17 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
 <document namespace="rkTeaching">
-	<about 
+	<about
 		name="rk.Teaching"
 		shortinfo="RKWard GUI that introduces some utilities for teaching Statistic."
 		longinfo="RKWard GUI that introduces some utilities for teaching Statistic. This plugin is specially designed for using in introductory courses of Statistic."
 		version="0.01"
 		releasedate="2013-06-01"
 		url="http://rkward.sf.net"
-		license="GPL (&gt;= 3)"
-	>
-		<author 
-			given="Alfredo"
-			family="Sánchez Alberca"
-			email="asalber@ceu.es"
-			role="aut, cre"
-		 />
+		license="GPL (&gt;= 3)">
+		<author given="Alfredo" family="Sánchez Alberca" email="asalber@ceu.es" role="aut, cre"/>
 	</about>
-	<dependencies rkward_min_version="0.6.1" />
+	<dependencies rkward_min_version="0.6.4"/>
 	<require file="plugins/packages.pluginmap"/>
 	<require file="plugins/data.pluginmap"/>
 	<require file="plugins/frequencytabulation.pluginmap"/>
@@ -27,8 +21,8 @@
 	<require file="plugins/parametric_tests.pluginmap"/>
 	<require file="plugins/non_parametric_tests.pluginmap"/>
 	<require file="plugins/concordance.pluginmap"/>
-	<require file="plugins/probability.pluginmap" />
+	<require file="plugins/probability.pluginmap"/>
 	<require file="plugins/distributions.pluginmap"/>
 	<require file="plugins/simulations.pluginmap"/>
-<!--	-->
+	<!--	-->
 </document>

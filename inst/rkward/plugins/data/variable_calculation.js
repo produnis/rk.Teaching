@@ -1,23 +1,25 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
+var dataframe,
+    expression,
+    save;
 
-// globals
-var data, variable, expresion;
-
-function preprocess(){
-	// add requirements etc. here
+function setGlobalVars() {
+    dataframe = getString("dataframe");
+    expression = getString("expression");
+    save = getString("save");
 }
 
-function calculate () {
-	variable = getString("save");
-	data = getString("dataframe");
-	expresion = getString("expression");
-	// Create a new variable from a formula
-	echo ('.GlobalEnv$' + variable + ' <- with(' + data + ', ' + expresion + ')\n');	
-	// Clean the label of the new variable
-    echo('\t attr(.GlobalEnv$' + variable + ',".rk.meta") = NULL\n');
+function preprocess() {
+    setGlobalVars();
 }
 
-function printout () {
-	echo ('rk.header ("C&aacute;lculo de variable", parameters=list("Conjunto de datos" = "' + data + '", "Nueva variable"= rk.get.description(' + variable + '), "Expresi&oacute;n" = "' + expresion + '"))\n');
+function calculate() {
+    // Create a new variable with the given expression
+    echo(".GlobalEnv$" + save + " <- with(" + dataframe + ", " + expression + ")\n");
+    // Remove the label of the new variable
+    echo("attr(.GlobalEnv$" + save + ",'.rk.meta') <- NULL\n");
 }
 
+function printout() {
+    new Header(i18n("Variable calculation")).addFromUI("dataframe").addFromUI("save").addFromUI("expression").print();
+}

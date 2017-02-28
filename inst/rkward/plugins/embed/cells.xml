@@ -1,33 +1,33 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkplugin>
 <document>
-	<code file="cells.js" />
-	<help file="cells.rkh" />
-	
+	<code file="cells.js"/>
+	<help file="cells.rkh"/>
+
 	<logic>
 		<external id="variable"/>
 		<convert id="isbreaks_num" sources="breaksFunction.string" mode="equals" standard="num"/>
-		<connect client="breaks_num.enabled" governor="isbreaks_num"/>
+		<connect client="breaksNum.enabled" governor="isbreaks_num"/>
 		<convert id="isbreaks_vec" sources="breaksFunction.string" mode="equals" standard="vec"/>
-		<connect client="breaks_vec.enabled" governor="isbreaks_vec"/>
+		<connect client="breaksVec.enabled" governor="isbreaks_vec"/>
 		<convert id="isbreaks_int" sources="breaksFunction.string" mode="equals" standard="int"/>
 		<convert id="isbreaks_intORvec" mode="or" sources="isbreaks_int;isbreaks_vec"/>
 		<connect client="include_lowest.enabled" governor="isbreaks_intORvec"/>
 	</logic>
 
-	<dialog label="Cells" >
+	<dialog label="Cells">
 		<column id="col1">
-			<radio id="breaksFunction" label="Method" >
-				<option value="Sturges" label="Sturges"  checked="true" />
-				<option value="scott" label="Scott" />
-				<option value="FD" label="Friedman-Diaconis" />
-				<option value="num" label="Number of intervals" />
-				<option value="vec" label="Define interval limits" />
+			<radio id="breaksFunction" label="Method">
+				<option value="Sturges" label="Sturges" checked="true"/>
+				<option value="scott" label="Scott"/>
+				<option value="FD" label="Friedman-Diaconis"/>
+				<option value="num" label="Number of intervals"/>
+				<option value="vec" label="Define interval limits"/>
 			</radio>
 			<row>
-				<spinbox id="breaks_num" label="Intervals suggested" type="integer" initial="10" min="0" max="50" />
-				<text>    </text>
-				<input id="breaks_vec" label="Insert the cut-off points" size="small" required="true" />
+				<spinbox id="breaksNum" label="Intervals suggested" type="integer" initial="10" min="0" max="50"/>
+				<text></text>
+				<input id="breaksVec" label="Insert the cut-off points" size="small" required="true"/>
 			</row>
 			<row>
 				<checkbox id="rightclosed" label="Rigth-closed intervals"/>
@@ -38,11 +38,11 @@
 
 	<wizard label="cells">
 		<page id="pag_cells">
-			<text id="txt_cells">
-                            <p>Select the grouping method for classes.</p>
-                            <p>Then, check the bottom box if you want right-closed intervals (by default intervals are left-closed).</p>
+			<text>
+				<p>Select the grouping method for classes.</p>
+				<p>Then, check the bottom box if you want right-closed intervals (by default intervals are left-closed).</p>
 			</text>
-			<copy id="col1" />
+			<copy id="col1"/>
 		</page>
 	</wizard>
 </document>

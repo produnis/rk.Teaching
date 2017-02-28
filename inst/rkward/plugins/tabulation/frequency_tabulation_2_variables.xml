@@ -1,0 +1,85 @@
+<!-- Author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="frequency_tabulation_2_variables.js"/>
+	<help file="frequency_tabulation_2_variables.rkh"/>
+
+	<logic>
+		<convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect client="cells_rows.variable" governor="varRows.available"/>
+		<connect client="cells_columns.variable" governor="varColumns.available"/>
+	</logic>
+
+	<dialog label="Two-variables frequency tabulation">
+		<tabbook id="tabs">
+			<tab label="Variables" id="tabVars">
+				<row>
+					<varselector id="selector"/>
+					<column>
+						<varslot id="varRows" label="Variable to tabulate in rows" source="selector" required="true"/>
+						<varslot id="varColumns" label="Variable to tabulate in columns" source="selector" required="true"/>
+						<checkbox id="grouped" label="Tabulate by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" multi="true" types="factor" source="selector" required="true"/>
+						<include file="../common/filter.xml"/>
+					</column>
+				</row>
+			</tab>
+			<tab label="Frequency options" id="tabFreq">
+				<checkbox id="relativeFreq" label="Relative frequencies" value_unchecked="0" checked="false"/>
+				<checkbox id="marginalFreq" label="Marginal frequencies" value_unchecked="0" checked="false"/>
+				<stretch/>
+			</tab>
+			<tab label="Row classes" id="tabCellsRows">
+				<frame id="intervalsRowsFrame" label="Group rows into class intervals" checkable="true" checked="false">
+					<embed id="cells_rows" component="rkTeaching::cells"/>
+				</frame>
+			</tab>
+			<tab label="Column classes" id="tabCellsColumns">
+				<frame id="intervalsColumnsFrame" label="Group columns into class intervals" checkable="true" checked="false">
+					<embed id="cells_columns" component="rkTeaching::cells"/>
+				</frame>
+			</tab>
+		</tabbook>
+	</dialog>
+
+	<wizard label="Two-variables frequency tabulation wizard">
+		<page id="page_vars">
+			<text id="txt_var">
+				<p>Select the variables to tabulate in rows and columns respectively.</p>
+				<p>If you want different frequency tables for the categories of one or several factors, check the box
+					<b>Tabulate by groups</b>
+					and select the factors to define the groups. If you select more than one factor you will get one frequency table for every category combination of the factors.</p>
+			</text>
+			<copy id="row_vars"/>
+		</page>
+		<page id="page_frequency_options">
+			<text>
+				<p>Check the box if you want relative frequencies.</p>
+			</text>
+			<copy id="relative_freq"/>
+			<stretch/>
+		</page>
+		<page id="page_frequency_options">
+			<text>
+				Check the box if you want the marginal frequencies.
+			</text>
+			<copy id="marginal_freq"/>
+			<stretch/>
+		</page>
+		<page id="page_row_classes">
+			<text>
+				Check the box if you want to group the rows variable into intervals.
+			</text>
+			<copy id="intervals_rows_frame"/>
+			<stretch/>
+		</page>
+		<page id="page_column_classes">
+			<text>
+				Check the box if you want to group the columns variable into intervals.
+			</text>
+			<copy id="intervals_columns_frame"/>
+			<stretch/>
+		</page>
+	</wizard>
+</document>

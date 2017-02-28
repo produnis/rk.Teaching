@@ -24,30 +24,30 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Test T para la media de ' + getString("x.shortname") + ' - ' + getString("y.shortname") + '", ');
-	echo ('parameters=list ("Comparaci&oacute;n de" = rk.get.description(' + x + '), "Con" = rk.get.description(' + y + ')' + getString("filter_embed.code.printout") + ', "Hip&oacute;tesis nula" = paste("media ", rk.get.short.name(' + x + '), " = media ", rk.get.short.name(' + y + '))');
+	echo ('rk.header ("t-test for the mean of ' + getString("x.shortname") + ' - ' + getString("y.shortname") + '", ');
+	echo ('parameters=list ("Comparison of " = rk.get.description(' + x + '), "with" = rk.get.description(' + y + ')' + getString("filter_embed.code.printout") + ', "Null hypothesis" = paste("mean ", rk.get.short.name(' + x + '), " = mean ", rk.get.short.name(' + y + '))');
 	if (hypothesis=="two.sided"){
-		echo(', "Hip&oacute;tesis alternativa" = paste("media ", rk.get.short.name(' + x + '), " &ne; media ", rk.get.short.name(' + y + '))');
+		echo(', "Alternative hypothesis" = paste("mean ", rk.get.short.name(' + x + '), " &ne; mean ", rk.get.short.name(' + y + '))');
 	}
 	else if (hypothesis=="greater") {
-		echo(', "Hip&oacute;tesis alternativa" = paste("media ", rk.get.short.name(' + x + '), " &gt; media ", rk.get.short.name(' + y + '))');
+		echo(', "Alternative hypothesis" = paste("mean ", rk.get.short.name(' + x + '), " &gt; mean ", rk.get.short.name(' + y + '))');
 	}
     else {
-    	echo(', "Hip&oacute;tesis alternativa" = paste("media ", rk.get.short.name(' + x + '), " &lt; media ", rk.get.short.name(' + y + '))');
+    	echo(', "Alternative hypothesis" = paste("mean ", rk.get.short.name(' + x + '), " &lt; mean ", rk.get.short.name(' + y + '))');
     }
 	if (confint) {
-		echo (', "Nivel de confianza del intervalo" = "' + conflevel + '"');
+		echo (', "Confidence level of the confidence interval" = "' + conflevel + '"');
 	}
 	echo('))\n');
 	echo ('rk.results (list(');
 	echo ('"Variable" = paste(rk.get.short.name(' + x + '), "-", rk.get.short.name(' + y + ')), ');
-	echo ('"Diferencia media estimada" = result$estimate, ');
-	echo ('"Grados de libertad" = result$parameter, ');
-	echo ('"Estad&iacute;stico t" = result$statistic, ');
-	echo ('"p-valor" = result$p.value');
+	echo ('"Estimated mean difference" = result$estimate, ');
+	echo ('"Degrees of freedom" = result$parameter, ');
+	echo ('"t statistic" = result$statistic, ');
+	echo ('"p-value" = result$p.value');
 	if (confint) {
-		echo (', "Nivel de confianza %" = (100 * attr(result$conf.int, "conf.level"))');
-		echo (', "Intervalo de confianza para la media de la diferencia" = result$conf.int');
+		echo (', "% Confidence level" = (100 * attr(result$conf.int, "conf.level"))');
+		echo (', "Confidence interval for<br/>the mean of difference" = result$conf.int');
 	}
 	echo ('))\n');
 }

@@ -15,7 +15,7 @@
 		<connect client="tab_grid.visible" governor="allow_grid"/>
 		
 		<external id="allow_axes" default="true" />
-		<connect client="tab_axex.visible" governor="allow_axes"/>
+		<connect client="tab_axes.visible" governor="allow_axes"/>
 
 		<external id="allow_log" default="true" />
 		<external id="allow_xlim" default="true" />
@@ -49,148 +49,162 @@
 		<connect client="ylab_expression.enabled" governor="ylabfilled" />
 		<convert id="mainfilled" mode="notequals" sources="main.text" standard="" />
 		<connect client="main_expression.enabled" governor="mainfilled" />
+                <convert id="subfilled" mode="notequals" sources="sub.text" standard="" />
+		<connect client="sub_expression.enabled" governor="subfilled" />
 
 		<connect client="xlog.visible" governor="allow_log"/>
 		<connect client="ylog.visible" governor="allow_log"/>			
  	</logic>
 	
-	<dialog label="Opciones gráficas" >
+	<dialog label="Graphic options" >
 		<tabbook>
-			<tab id="tab_title" label="Título">
-				<row id="row_title">
-					<column>
-						<input id="main" label="Título" size="large" />
-						<checkbox id="main_expression" label="Expresión de R" checked="false"/>
-					</column>
+			<tab id="tab_title" label="Titles">
+				<column id="col_titles" >
+					<frame label="Main title">
+						<input id="main" label="Main title (on top). Leave empty for default title" />
+						<checkbox id="main_expression" label="R expression" checked="false"/>
+					</frame>
+					<frame label="Subtitle">
+						<input id="sub" label="Sub-title (at bottom). Leave empty for default title" />
+						<checkbox id="sub_expression" label="R expression" checked="false"/>
+					</frame>
 					<stretch/>
-				</row>
+				</column>
 			</tab>
-			<tab id="tab_axes" label="Ejes" >
+			<tab id="tab_axes" label="Axes" >
 				<row>
-					<column id="col_x_axe">
-						<frame id="x_axe" label="Eje X">
-							<frame label="Etiqueta">
-								<input id="xlab" label="Título" />
-								<checkbox id="xlab_expression" label="Expresión de R" checked="false" />
+					<column id="col_x_axis">
+						<frame id="x_axis" label="X-axis">
+							<frame label="Label">
+								<input id="xlab" label="Title" />
+								<checkbox id="xlab_expression" label="R expression" checked="false" />
 							</frame>
-							<frame id="x_range" label="Rango">
+							<frame id="x_range" label="Range">
 								<row>
-									<input id="xminvalue" label="Mínimo" />
-									<input id="xmaxvalue" label="Máximo" />
+									<input id="xminvalue" label="Min value" />
+									<input id="xmaxvalue" label="Max value" />
 								</row>
 							</frame>
-							<dropdown id="x_lab_orientation" label="Orientación de las etiquetas" >
-								<option value="" label="defecto" checked="true" />
+							<dropdown id="x_lab_orientation" label="Label orientation" >
+								<option value="" label="Default" checked="true" />
 								<option value="0" label="Horizontal" />
 								<option value="90" label="Vertical" />
 							</dropdown>
-							<checkbox id="xlog" label="Escala logarítmica" checked="false"/>
+							<checkbox id="xlog" label="Logarithmic scale" checked="false"/>
 						</frame>
 						<stretch/>
 					</column>
-					<column id="col_y_axe">
-						<frame id="y_axe" label="Eje Y">
-							<frame label="Etiqueta">
-								<input id="ylab" label="Título" />
-								<checkbox id="ylab_expression" label="Expresión de R" checked="false" />
+					<column id="col_y_axis">
+						<frame id="y_axis" label="Y-axis">
+							<frame label="Label">
+								<input id="ylab" label="Title" />
+								<checkbox id="ylab_expression" label="R expression" checked="false" />
 							</frame>
-							<frame id="y_range" label="Rango">
+							<frame id="y_range" label="Range">
 								<row>
-									<input id="yminvalue" label="Mínimo" />
-									<input id="ymaxvalue" label="Máximo" />
+									<input id="yminvalue" label="Min value" />
+									<input id="ymaxvalue" label="Max value" />
 								</row>
 							</frame>
-							<dropdown id="y_lab_orientation" label="Orientación de las etiquetas" >
-								<option value="" label="defecto" checked="true" />
+							<dropdown id="y_lab_orientation" label="Label orientation" >
+								<option value="" label="Default" checked="true" />
 								<option value="0" label="Horizontal" />
 								<option value="90" label="Vertical" />
 							</dropdown>
-							<checkbox id="ylog" label="Escala logarítmica" checked="false"/>
+							<checkbox id="ylog" label="Logarithmic scale" checked="false"/>
 						</frame>
 						<stretch/>
 					</column>
 				</row>
-				<checkbox id="flip_axis" label="Intercambiar ejes" checked="false"/>
+				<checkbox id="switch_axes" label="Switch axes" checked="false"/>
 			</tab>
-			<tab id="tab_grid" label="Cuadrícula" >
+			<tab id="tab_grid" label="Grid" >
 					<row id="row_grid">
-						<frame id="grid_major" label="Cuadrícula mayor">
-							<checkbox id="grid_horizontal_major" label="Horizontales" checked="true"/>
-							<checkbox id="grid_vertical_major" label="Verticales" checked="true"/>
-							<embed id="grid_major_line_color" component="rkTeaching::color_chooser" label="Color de la línea de cuadrícula mayor"/>
+						<frame id="grid_major" label="Major grid">
+							<checkbox id="grid_horizontal_major" label="Horizontal" checked="true"/>
+							<checkbox id="grid_vertical_major" label="Vertical" checked="true"/>
+							<embed id="grid_major_line_color" component="rkTeaching::color_chooser" label="Major grid color"/>
 						</frame>
-						<frame id="grid_minor" label="Cuadrícula menor">
-							<checkbox id="grid_horizontal_minor" label="Horizontales" checked="true"/>
-							<checkbox id="grid_vertical_minor" label="Verticales" checked="true"/>
-							<embed id="grid_minor_line_color" component="rkTeaching::color_chooser" label="Color de la línea de cuadrícula menor"/>
+						<frame id="grid_minor" label="Minor grid">
+							<checkbox id="grid_horizontal_minor" label="Horizontal" checked="true"/>
+							<checkbox id="grid_vertical_minor" label="Vertical" checked="true"/>
+							<embed id="grid_minor_line_color" component="rkTeaching::color_chooser" label="Minor grid color"/>
 						</frame>
 					</row>
-					<frame id="frame_grid_background_color" label="Color de fondo">
-						<embed id="grid_background_color" component="rkTeaching::color_chooser" label="Color de la cuadrícula"/>
+					<frame id="frame_grid_background_color" label="Background color">
+						<embed id="grid_background_color" component="rkTeaching::color_chooser" label="Color"/>
 					</frame>			
 					<stretch/>
 			</tab>
-			<tab id="tab_legend" label="Leyenda" >
-				<dropdown id="legend" label="Posición de la leyenda" >
-					<option value="" label="defecto" checked="true" />
-					<option value="none" label="ninguna" />
-					<option value="top" label="arriba" />
-					<option value="bottom" label="abajo" />
-					<option value="left" label="izquierda" />
-					<option value="right" label="derecha" />					
+			<tab id="tab_legend" label="Legend" >
+				<dropdown id="legend" label="Legend position" >
+					<option value="" label="Default" checked="true" />
+					<option value="none" label="None" />
+					<option value="top" label="Top" />
+					<option value="bottom" label="Bottom" />
+					<option value="left" label="Left" />
+					<option value="right" label="Right" />					
 				</dropdown>
 				<stretch/>
 			</tab>
+                        <tab id="tab_margins" label="Margins" >
+                            <frame id="custom_margins" label="Custom margins" checkable="true" checked="false">
+                                        <spinbox id="margin_top" type="real" initial="4" default_precision="1" min="0" label="Top"/>
+					<spinbox id="margin_bottom" type="real" initial="5" default_precision="1" min="0" label="Bottom"/>
+					<spinbox id="margin_left" type="real" initial="4" default_precision="1" min="0" label="Left"/>
+					<spinbox id="margin_right" type="real" initial="2" default_precision="1" min="0" label="Right"/>
+                            </frame>
+                        </tab>
 		</tabbook>
 	</dialog>
 	
-	<wizard label="Asistente para opciones gráficas" >
+	<wizard label="Graphic options wizard" >
 		<page id="page_title">
 			<text>
-				Introduce el título del gráfico.
+				Enter the main title and the subtitle of the chart.
 			</text>
-			<copy id="row_title"/>
+			<copy id="col_titles"/>
 		</page>
-		<page id="page_x_axe">
+		<page id="page_x_axis">
 			<text>
-				Introduce el título del eje X, el rango de valores a representar y la orientación de las etiquetas del eje.<br/>
-				Si se desea una escala logarítmica marcar la casilla corespondiente. 
+                            <p>Enter the title of the X-axis, the range of values to represent and the orientation of tick marks labels.</p>
+                            <p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
 			</text>
-			<copy id="col_x_axe"/>
+			<copy id="col_x_axis"/>
 			<stretch/>
 		</page>
-		<page id="page_y_axe">
+		<page id="page_y_axis">
 			<text>
-				Introduce el título del eje Y, el rango de valores a representar y la orientación de las etiquetas del eje.<br/>
-				Si se desea una escala logarítmica marcar la casilla corespondiente. 
+                            <p>Enter the title of the Y-axis, the range of values to represent and the orientation of tick marks labels.</p>
+                            <p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
 			</text>
-			<copy id="col_y_axe"/>
+			<copy id="col_y_axis"/>
 			<stretch/>
 		</page>
-		<page id="page_flip_axis">
+		<page id="page_switch_axes">
 			<text>
-				Si se desea intercambiar los ejes, marcar la casilla.
+				Check the box to switch the axes.
 			</text>
-			<copy id="flip_axis" />
+			<copy id="switch_axes" />
 			<stretch/>
 		</page>
 		<page id="page_grid">
 			<text>
-				Si se desea dibujar una cuadrícula horizontal o vertical, marcar las casillas correspondientes y elegir el color de las líneas de la cuadrícula.
+				If you want an horizontal or vertical grid, check the corresponding boxes and choose the color for the grid lines
 			</text>
 			<copy id="row_grid" />
 			<stretch/>
 		</page>
 		<page id="page_grid">
 			<text>
-				Seleccionar el color de fondo de la cuadrícula.
+                                Select the background color.
 			</text>
 			<embed id="grid_background_color" component="rkTeaching::color_chooser" label="Color de la cuadrícula"/>
 			<stretch/>
 		</page>
 		<page id="page_leyend">
 			<text>
-				Si se desea dibujar una leyenda, indicar la posición.
+				If you want a legend select the position for it.
 			</text>
 			<copy id="legend"/>
 			<stretch/>

@@ -9,30 +9,30 @@
 		<connect client="groups.visible" governor="grouped_mode"/>
 	</logic>
 	
-	<dialog label="Ajuste de Modelo No Lineal">
+	<dialog label="Non-linear regression">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
+			<tab id="tab_variables" label="Variables">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables"/>
+					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Variable dependiente" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Variable independiente" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Ajuste por grupos" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" multi="true" required="true"/>
+						<varslot id="y" label="Dependent variable" type="numeric" source="selector" required="true" />
+						<varslot id="x" label="Independent variable" type="numeric" source="selector" required="true" />
+						<checkbox id="grouped" label="Regression by groups" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" source="selector" multi="true" required="true"/>
 						<embed id="filter_embed" component="rkTeaching::filter_embed"/>						
-						<saveobject id="save" label="Guardar modelo" initial="regression.model" checkable="true"/>
+						<saveobject id="save" label="Save model" initial="regression.model" checkable="true"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_model" label="Modelo de regresión" >
+			<tab id="tab_model" label="Regression models" >
 				<radio id="model" label="Modelo" >
-					<option value="linear" label="Lineal" />
-					<option value="cuadratic" label="Cuadrático" />
-					<option value="cubic" label="Cúbico" />
+					<option value="linear" label="Linear" />
+					<option value="cuadratic" label="Cuadratic" />
+					<option value="cubic" label="Cubic" />
 					<option value="potential" label="Potencial" />
-					<option value="exponential" label="Exponencial" />
-					<option value="logarithmic" label="Logarítmico" />
-					<option value="inverse" label="Inverso" />
+					<option value="exponential" label="Exponential" />
+					<option value="logarithmic" label="Logarithmic" />
+					<option value="inverse" label="Inverse" />
 					<option value="sigmoid" label="Sigmoidal" />
 				</radio>
 				<stretch/>
@@ -40,44 +40,21 @@
 		</tabbook>
 	</dialog>
 	
-	<wizard label="Ajuste de Modelo No Lineal">
-		<page id="page_y">
+	<wizard label="Non-linear regression model wizard">
+		<page id="pag_vars">
 			<text>
-				Selecionar la variable dependiente.
+                            <p>Select the dependent and independent variables.</p>
+				<p>If you want differenciate the regression models for the categories of one or several factors, check the box <b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.</p>
 			</text>
-			<varselector id="selector2" label="Seleccionar variable"/>
-			<varslot id="y" label="Variable dependiente" source="selector2" type="numeric" required="true" />
+			<copy id="row_vars" />
 		</page>
-		<page id="page_x">
+                <page id="pag_model">
 			<text>
-				Selecionar la variable independiente.
-			</text>
-			<copy id="selector" />
-			<copy id="x" />
-		</page>	
-		<page id="page_filter">
-			<text>
-				Activar la casilla si se desea un filtrado previo de los datos e introducir la condición de selección.
-
-				Puede usarse cualquier operador relacional o lógico de R.
-
-				Ejemplos: sexo=="mujer", edad>20, sexo=="mujer" | edad>0.
-
-			</text>
-			<copy id="filter_frame" />
-		</page>	
-		<page id="page_model">
-			<text>
-				Seleccionar el tipo de modelo.
+                            <p>Select the type of model to fit.</p>
 			</text>
 			<copy id="model" />
-		</page>	
-		<page id="page_save">
-			<text id="txt_var">
-				Si se desea guardar el modelo, activar la casilla e introducir un nombre para el modelo.  
-			</text>
-			<copy id="save" />
+                        <stretch />
 		</page>
-	</wizard>
+        </wizard>
 	
 </document>

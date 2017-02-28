@@ -52,20 +52,20 @@ function calculate () {
 }
 
 function printout () {
-	echo('rk.header ("Regresi&oacute;n Lineal de ' + yname + ' sobre ' + xname + '", parameters=list("Variable dependiente" = rk.get.description(' + y + '), "Variables independientes" = rk.get.description(' + x + ', paste.sep=", ")' + getString("filter_embed.code.printout"));
+	echo('rk.header ("Linear regression of ' + yname + ' on ' + xname + '", parameters=list("Dependent variable" = rk.get.description(' + y + '), "Independent variable(s)" = rk.get.description(' + x + ', paste.sep=", ")' + getString("filter_embed.code.printout"));
 	if (getBoolean("grouped")) {
-		echo(', "Variable de agrupaci&oacute;n" = rk.get.description(' + groups + ', paste.sep=", ")');
+		echo(', "Grouping variable(s)" = rk.get.description(' + groups + ', paste.sep=", ")');
 	}
 	if (getBoolean("save.active")){
-		echo(', "Nombre del modelo" = "' + modelname + '"');
+		echo(', "Model name" = "' + modelname + '"');
 	}
 	echo("))\n");
 	// Grouped mode
 	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Grupo ' + groupsname.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste("Group ' + groupsname.join('.') + ' = ", names(result)[i]),level=3)\n');
 		// Ecuación del modelo
-		echo('\t rk.header ("Ecuaci&oacute;n del modelo",level=4)\n'); 
+		echo('\t rk.header ("Model equation",level=4)\n'); 
 		if (getBoolean("intercept")){
 			echo('\t rk.print (c("' + yname + '", " = ", paste(round(result[[i]]$coeff[1,1],4), paste(round(result[[i]]$coeff[-1,1],4), rownames(result[[i]]$coeff)[-1], collapse=" + "), sep=" + ")))\n');
 		}
@@ -73,31 +73,31 @@ function printout () {
 			echo('\t rk.print (c("' + yname + '", " = ", paste(round(result[[i]]$coeff[,1],4), rownames(result[[i]]$coeff), collapse=" + ")))\n');
 		}
 		// Estimaciones
-		echo('\t rk.header ("Coeficientes del modelo",level=4)\n');
+		echo('\t rk.header ("Model coefficients",level=4)\n');
 		echo('\t rk.results (list(');
 	    if (getBoolean("intercept")){
-	    	echo('"Coeficiente" = c("T&eacute;rmino independiente", rownames(result[[i]]$coeff)[-1])');
+	    	echo('"Coefficient" = c("Intercept", rownames(result[[i]]$coeff)[-1])');
 	    }
 	    else{
-	    	echo('"Coeficiente" = rownames(result[[i]]$coeff)');
+	    	echo('"Coefficient" = rownames(result[[i]]$coeff)');
 	    }
-			echo(', "Estimaci&oacute;n" = result[[i]]$coeff[,1]');
-			echo(', "Error est&aacute;ndar" = result[[i]]$coeff[,2]');
-			echo(', "Estad&iacute;stico t" = result[[i]]$coeff[,3]');
-			echo(', "p-valor" = result[[i]]$coeff[,4]))\n');
+			echo(', "Estimation" = result[[i]]$coeff[,1]');
+			echo(', "Std.Error" = result[[i]]$coeff[,2]');
+			echo(', "t-statistic" = result[[i]]$coeff[,3]');
+			echo(', "p-value" = result[[i]]$coeff[,4]))\n');
 		// Ajuste del modelo
-		echo('\t rk.header ("Ajuste del modelo", level=4)\n');
+		echo('\t rk.header ("Model goodness of fit", level=4)\n');
 		echo('\t rk.results (list(');
 		echo('"R<sup>2</sup>" = result[[i]]$r.squared,');
-		echo('"R<sup>2</sup> ajustado" = result[[i]]$adj.r.squared,');
-		echo('"Estad&iacute;stico F" = result[[i]]$fstatistic[1],');
-		echo('"p-valor" = pf(result[[i]]$fstatistic[1],result[[i]]$fstatistic[2],result[[i]]$fstatistic[3],lower.tail=FALSE)))\n');
+		echo('"R<sup>2</sup> ajusted" = result[[i]]$adj.r.squared,');
+		echo('"F-statistic" = result[[i]]$fstatistic[1],');
+		echo('"p-value" = pf(result[[i]]$fstatistic[1],result[[i]]$fstatistic[2],result[[i]]$fstatistic[3],lower.tail=FALSE)))\n');
 		echo('}\n');
 	}
 	// Non grouped mode
 	else{
 		// Ecuación del modelo
-		echo('rk.header ("Ecuaci&oacute;n del modelo",level=4)\n'); 
+		echo('rk.header ("Model equation",level=4)\n'); 
 		if (getBoolean("intercept")){
 			echo('rk.print (c("' + yname + '", " = ", paste(round(result$coeff[1,1],4), paste(round(result$coeff[-1,1],4), rownames(result$coeff)[-1], collapse=" + "), sep=" + ")))\n');
 		}
@@ -105,25 +105,25 @@ function printout () {
 			echo('rk.print (c("' + yname + '", " = ", paste(round(result$coeff[,1],4), rownames(result$coeff), collapse=" + ")))\n');
 		}
 		// Estimaciones
-		echo('rk.header ("Coeficientes del modelo",level=4)\n');
+		echo('rk.header ("Model coefficients",level=4)\n');
 		echo('rk.results (list(');
 	    if (getBoolean("intercept")){
-	    	echo('"Coeficiente" = c("T&eacute;rmino independiente", rownames(result$coeff)[-1])');
+	    	echo('"Coefficient" = c("Intercept", rownames(result$coeff)[-1])');
 	    }
 	    else{
-	    	echo('"Coeficiente" = rownames(result$coeff)');
+	    	echo('"Coefficient" = rownames(result$coeff)');
 	    }
-			echo(', "Estimaci&oacute;n" = result$coeff[,1]');
-			echo(', "Error est&aacute;ndar" = result$coeff[,2]');
-			echo(', "Estad&iacute;stico t" = result$coeff[,3]');
-			echo(', "p-valor" = result$coeff[,4]))\n');
+			echo(', "Estimation" = result$coeff[,1]');
+			echo(', "Std.Error" = result$coeff[,2]');
+			echo(', "t-statistic" = result$coeff[,3]');
+			echo(', "p-value" = result$coeff[,4]))\n');
 		// Ajuste del modelo
-		echo('rk.header ("Ajuste del modelo", level=4)\n');
+		echo('rk.header ("Model goodness of fit", level=4)\n');
 		echo('rk.results (list(');
 		echo('"R<sup>2</sup>" = result$r.squared,');
-		echo('"R<sup>2</sup> ajustado" = result$adj.r.squared,');
-		echo('"Estad&iacute;stico F" = result$fstatistic[1],');
-		echo('"p-valor" = pf(result$fstatistic[1],result$fstatistic[2],result$fstatistic[3],lower.tail=FALSE)))\n');
+		echo('"R<sup>2</sup> ajusted" = result$adj.r.squared,');
+		echo('"F-statistic" = result$fstatistic[1],');
+		echo('"p-value" = pf(result$fstatistic[1],result$fstatistic[2],result$fstatistic[3],lower.tail=FALSE)))\n');
 	}
 }
 

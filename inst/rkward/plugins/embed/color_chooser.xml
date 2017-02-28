@@ -10,82 +10,85 @@
 	<help file="color_chooser.rkh" />
 	<logic>
 	</logic>
-	<dialog label="Elegir color" >
+	<dialog label="Choose color" >
 		<dropdown id="color" label="Color">
 			<option value="" label="defecto" checked="true" />
-			<option value="yellow" label="Amarillo" />
-			<option value="yellow1" label="Amarillo1" />
-			<option value="yellow2" label="Amarillo2" />
-			<option value="yellow3" label="Amarillo3" />
-			<option value="yellow4" label="Amarillo4" />
-			<option value="wheat" label="Amarillo trigo" />
-			<option value="yellowgreen" label="Amarillo verdoso" />
-			<option value="blue" label="Azul" />
-			<option value="blue1" label="Azul1" />
-			<option value="blue2" label="Azul2" />
-			<option value="blue3" label="Azul3" />
-			<option value="blue4" label="Azul4" />
-			<option value="steelblue" label="Azul acero" />
-			<option value="azure" label="Azul celeste" />
-			<option value="skyblue" label="Azul cielo" />
-			<option value="royalblue" label="Azul real" />
-			<option value="white" label="Blanco" />
-			<option value="snow" label="Blanco nieve" />
-			<option value="cyan" label="Cian" />
-			<option value="gray" label="Gris" />
-			<option value="gray1" label="Gris1" />
-			<option value="gray2" label="Gris2" />
-			<option value="gray3" label="Gris3" />
-			<option value="gray4" label="Gris4" />
-			<option value="slategrey" label="Gris plomo" />
-			<option value="linen" label="Lino" />
+			<option value="yellow" label="Yellow" />
+			<option value="yellow1" label="Yellow1" />
+			<option value="yellow2" label="Yellow2" />
+			<option value="yellow3" label="Yellow3" />
+			<option value="yellow4" label="Yellow4" />
+			<option value="wheat" label="Wheat yellow" />
+			<option value="yellowgreen" label="Yellow green" />
+			<option value="blue" label="Blue" />
+			<option value="blue1" label="Blue1" />
+			<option value="blue2" label="Blue2" />
+			<option value="blue3" label="Blue3" />
+			<option value="blue4" label="Blue4" />
+			<option value="steelblue" label="Steel blue" />
+			<option value="azure" label="Azure blue" />
+			<option value="skyblue" label="Sky blue" />
+			<option value="royalblue" label="Royal blue" />
+			<option value="white" label="White" />
+			<option value="snow" label="Snow white" />
+			<option value="cyan" label="Cyan" />
+			<option value="gray" label="Gray" />
+			<option value="gray1" label="Gray1" />
+			<option value="gray2" label="Gray2" />
+			<option value="gray3" label="Gray3" />
+			<option value="gray4" label="Gray4" />
+			<option value="slategrey" label="Slate gray" />
+			<option value="linen" label="Linen" />
 			<option value="magenta" label="Magenta" />
 			<option value="magenta1" label="Magenta1" />
 			<option value="magenta2" label="Magenta2" />
 			<option value="magenta3" label="Magenta3" />
 			<option value="magenta4" label="Magenta4" />
-			<option value="brown" label="Marrón" />
-			<option value="tan" label="Marrón bronceado" />
-			<option value="sienna" label="Marrón Siena" />
-			<option value="sandybrown" label="Melocotón" />
-			<option value="peachpuff" label="Melocotón pálido" />
-			<option value="orange" label="Naranja" />
-			<option value="navajowhite" label="Naranja pálido" />
-			<option value="papayawhip" label="Naranja papaya" />
-			<option value="black" label="Negro" />
-			<option value="gold" label="Oro" />
-			<option value="red" label="Rojo" />
-			<option value="red1" label="Rojo1" />
-			<option value="red2" label="Rojo2" />
-			<option value="red3" label="Rojo3" />
-			<option value="red4" label="Rojo4" />
-			<option value="tomato" label="Rojo tomate" /><copy id="row_vars" />
-			<option value="pink" label="Rosa" />
-			<option value="mistyrose" label="Rosa pálido" />
-			<option value="salmon" label="Salmón" />
-			<option value="green" label="Verde" />
-			<option value="green1" label="Verde1" />
-			<option value="green2" label="Verde2" />
-			<option value="green3" label="Verde3" />
-			<option value="green4" label="Verde4" />
-			<option value="lawngreen" label="Verde cesped" />
-			<option value="limegreen" label="Verde lima" />
-			<option value="seagreen" label="Verde mar" />
-			<option value="mintcream" label="Verde menta" />
-			<option value="palegreen" label="Verde pálido" />
-			<option value="springgreen" label="Verde primavera" />
-			<option value="violet" label="Violeta" />
-			<option value="violetred1" label="Violeta1" />
-			<option value="violetred2" label="Violeta2" />
-			<option value="violetred3" label="Violeta3" />
-			<option value="violetred4" label="Violeta4" />
-			<option value="thistle" label="Violeta cardo" />
-			<option value="orchid" label="Violeta orquídea" />
-			<option value="darkviolet" label="Violeta oscuro" />
+			<option value="brown" label="Brown" />
+			<option value="tan" label="Tan brown" />
+			<option value="sienna" label="Sienna brown" />
+			<option value="sandybrown" label="Peach" />
+			<option value="peachpuff" label="Puff peach" />
+			<option value="orange" label="Orange" />
+			<option value="navajowhite" label="Pale orange" />
+			<option value="papayawhip" label="Papaya" />
+			<option value="black" label="Black" />
+			<option value="gold" label="Gold" />
+			<option value="red" label="Red" />
+			<option value="red1" label="Red1" />
+			<option value="red2" label="Red2" />
+			<option value="red3" label="Red3" />
+			<option value="red4" label="Red4" />
+			<option value="tomato" label="Tomato red" />
+			<option value="pink" label="Pink" />
+			<option value="mistyrose" label="Pale pink" />
+			<option value="salmon" label="Salmon" />
+			<option value="green" label="Green" />
+			<option value="green1" label="Green1" />
+			<option value="green2" label="Green2" />
+			<option value="green3" label="Green3" />
+			<option value="green4" label="Green4" />
+			<option value="lawngreen" label="Lawn green" />
+			<option value="limegreen" label="Lime green" />
+			<option value="seagreen" label="Sea green" />
+			<option value="mintcream" label="Mint green" />
+			<option value="palegreen" label="Pale green" />
+			<option value="springgreen" label="Spring green" />
+			<option value="violet" label="Violet" />
+			<option value="violetred1" label="Violet1" />
+			<option value="violetred2" label="Violet2" />
+			<option value="violetred3" label="Violet3" />
+			<option value="violetred4" label="Violet4" />
+			<option value="thistle" label="Thistle violet" />
+			<option value="orchid" label="Orchid violet" />
+			<option value="darkviolet" label="Dark violet" />
 		</dropdown>
 	</dialog>
 	
-	<wizard label="Asistente para selector de color">
-		<copy id="color" />
+	<wizard label="Color chooser wizard">
+            <text>
+                Choose the color.
+            </text>
+            <copy id="color" />
 	</wizard>
 </document>

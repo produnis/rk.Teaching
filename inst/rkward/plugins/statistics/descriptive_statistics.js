@@ -42,21 +42,21 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Estad&iacute;sticos descriptivos de ' + varnames.join(', ') + '"');
+	echo ('rk.header ("Descriptive statistics of ' + varnames.join(', ') + '"');
 	echo (', parameters=list("Variables" = rk.get.description(' + vars + ', paste.sep=", ")');
 	if (getBoolean("filter_frame.checked")){
 		echo(", 'Filtro' = '" + getString("filter") + "'");
 	}
 	if (getBoolean("grouped")) {
-		echo(', "Variable(s) de agrupaci&oacute;n" = rk.get.description(' + getList("groups") + ',paste.sep=", ")');
+		echo(', "Grouping variable(s)" = rk.get.description(' + getList("groups") + ',paste.sep=", ")');
 	}
-	echo (', "Eliminar valores desconocidos" = ');
+	echo (', "Omit missing values" = ');
 	if (getBoolean("narm")) echo ('"Si"');
 	else echo ('"No"');
 	echo ('))\n');
 	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Grupo ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste("Group ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
 		echo('\t\t rk.results(result[[i]])\n');
 		echo('}\n');
 	}

@@ -61,24 +61,24 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Matriz de Correlaci&oacute;n de ' + getList("variables.shortname").join(', ') + '", parameters=list ("Variables" = rk.get.description(' + variables + ', paste.sep=", "), "M&eacute;todo" = "' + method + '"');
+	echo ('rk.header ("Correlation matrix of ' + getList("variables.shortname").join(', ') + '", parameters=list ("Variables" = rk.get.description(' + variables + ', paste.sep=", "), "Method" = "' + method + '"');
 	if (missing="pairwise.complete.obs"){
-		echo(', "Exclusi&oacute;n de casos con valores omitidos" = "Por pares"');
+		echo(', "Omitting missing values" = "Pairwise"');
 	} else {
-		echo(', "Exclusi&oacute;n de casos con valores omitidos" = "En todas las variables"');
+		echo(', "Omitting missing values" = "In all the variables"');
 	}
 	echo('))\n');
-	echo ('rk.header ("Coeficientes de correlaci&oacute;n", level=3)\n');
-	echo ('rk.results (data.frame (round(result,4), check.names=FALSE), titles=c ("Coeficientes", colnames(data)))\n');
+	echo ('rk.header ("Correlation coefficient", level=3)\n');
+	echo ('rk.results (data.frame (round(result,4), check.names=FALSE), titles=c ("Coefficients", colnames(data)))\n');
 	if (getBoolean("p")) {	
-		echo ('rk.header ("p-valor y tama&ntilde;o de la muestra", level=3)\n');
+		echo ('rk.header ("p-value and sample size", level=3)\n');
 		echo ('rk.results (data.frame (result.p, check.names=FALSE), titles=c ("n \\\\ p", names (data)))\n');
 	}
 	echo ('if(length(transformed.vars) > 0){\n');
-	echo ('	rk.header("Variables tratadas como rangos num&eacute;ricos", level=3)\n');
+	echo ('	rk.header("Variables treated as ranks", level=3)\n');
 	echo ('	for (i in names(transformed.vars)) {\n');
 	echo ('		rk.print(paste("Variable:", i))\n');
-	echo ('		rk.results(transformed.vars[[i]], titles=c("Valor original", "Rango asignado"))\n');
+	echo ('		rk.results(transformed.vars[[i]], titles=c("Real value", "Rank assigned"))\n');
 	echo ('	}\n');
 	echo ('}\n');
 }

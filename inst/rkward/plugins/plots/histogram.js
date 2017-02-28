@@ -15,7 +15,7 @@ function calculate() {
 	data = variable.split('[[')[0];
 	variablename = getString("variable.shortname");
 	xlab = ' + xlab("' + variablename + '")';
-	ylab = ' + ylab("Frecuencia absoluta")';
+	ylab = ' + ylab("Absolute frequency")';
 	fill = '';
 	// Set bar color
 	barcolor = getString("barfillcolor.code.printout")
@@ -68,20 +68,20 @@ function calculate() {
 		echo('df <- frequencyTableIntervals(' + data + ', ' + quote(variablename) + ', breaks=breaks, center=TRUE, width=TRUE)\n');
 	}
 	// Set frecuency type
-	y = 'Frec.Abs.';
+	y = 'Abs.Freq.';
 	if (getBoolean("relative")) {
-		y = 'Frec.Rel.';
-		ylab = ' + ylab("Frecuencia relativa")';
+		y = 'Rel.Freq.';
+		ylab = ' + ylab("Relative frequency")';
 		if (getBoolean("grouped") && getString("position")==='stack' ) {
-			echo('df <- transform(df,Frec.Rel.=Frec.Abs./sum(Frec.Abs.))\n');
+			echo('df <- transform(df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
 		}
 	}
 	if (getBoolean("cumulative")) {
-		y = 'Frec.Abs.Acum.';
-		ylab = ' + ylab("Frecuencia absoluta acumulada")';
+		y = 'Cum.Abs.Freq.';
+		ylab = ' + ylab("Cumulative absolute frequency")';
 		if (getBoolean("relative")){
-			y = 'Frec.Rel.Acum.';
-			ylab = ' + ylab("Frecuencia relativa acumulada")';
+			y = 'Cum.Rel.Freq.';
+			ylab = ' + ylab("Cumulative relatie frequency")';
 		}
 	}
 //	y = '';
@@ -112,9 +112,9 @@ function preview () {
 function doPrintout (full) {
 	// Print header
 	if (full) {
-		echo('rk.header ("Histograma de ' + variablename + '", parameters=list ("Variable" = rk.get.description (' + variable + ')' + getString("filter_embed.code.printout"));
+		echo('rk.header ("Histogram of ' + variablename + '", parameters=list ("Variable" = rk.get.description (' + variable + ')' + getString("filter_embed.code.printout"));
 		if (getBoolean("grouped")) {
-			echo(', "Variable de agrupaci&oacute;n" = rk.get.description(' + groups + ', paste.sep=", ")');
+			echo(', "Grouping variable(s)" = rk.get.description(' + groups + ', paste.sep=", ")');
 		}
 		echo(getString("histogram_opt.code.printout") + getString("cells.code.printout") + '))\n');
 		echo('\n');
@@ -123,7 +123,7 @@ function doPrintout (full) {
 	// Plot
 	echo('try ({\n');
 	// Histogram
-	echo('p <- ggplot(data=df, aes(x=Centro, y=' + y + ')' + getString("plotoptions.code.printout") + ') + geom_bar(aes(width=Amplitud' + fill + '), stat="identity"' + barcolor + bordercolor + position + ')' + ' + scale_x_continuous(breaks=breaks)' + xlab + ylab + facet + getString("plotoptions.code.calculate") + '\n');
+	echo('p <- ggplot(data=df, aes(x=Center, y=' + y + ')' + getString("plotoptions.code.printout") + ') + geom_bar(aes(width=Width' + fill + '), stat="identity"' + barcolor + bordercolor + position + ')' + ' + scale_x_continuous(breaks=breaks)' + xlab + ylab + facet + getString("plotoptions.code.calculate") + '\n');
 	// Density
 	if (getBoolean("density")) {
 		echo('p <- p + geom_line(aes(x=' + variablename + ', y = ..density..), data=' + data + ', stat = "density")\n');
@@ -132,10 +132,10 @@ function doPrintout (full) {
 	if (getBoolean("polygon")) {
 		if (getBoolean("cumulative")) {
 			if (getBoolean("relative")) {
-				echo('df <- data.frame(x=breaks, y=c(0,df[["Frec.Rel.Acum."]]))\n');
+				echo('df <- data.frame(x=breaks, y=c(0,df[["Cum.Rel.Freq."]]))\n');
 			}
 			else {
-				echo('df <- data.frame(x=breaks, y=c(0,df[["Frec.Abs.Acum."]]))\n');
+				echo('df <- data.frame(x=breaks, y=c(0,df[["Cum.Abs.Freq."]]))\n');
 			}
 			echo('p <- p + geom_line(aes(x=x, y=y), data=df)\n');
 		}

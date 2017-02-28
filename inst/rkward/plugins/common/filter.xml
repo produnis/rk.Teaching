@@ -1,0 +1,6 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<column>
+	<frame id="filter" label="Filter" checkable="true" checked="false">
+		<input id="condition" label="Selection condition"/>
+	</frame>
+</column>

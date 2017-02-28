@@ -18,37 +18,37 @@
 		<connect client="filter_embed.variable" governor="variable.available" />
 	</logic>
 
-	<dialog label="Diagrama de caja">
+	<dialog label="Box plot">
 		<tabbook>
-			<tab label="Seleccionar variables" id="tab_variables">
+			<tab id="tab_variables" label="Variable(s)">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+					<varselector id="selector" label="Select variable(s)" />
 					<column>
 						<varslot id="variable" label="Variable(s)" multi="true" types="number" source="selector" required="true" />
-						<checkbox id="grouped" label="Dibujar por grupos" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" types="factor" source="selector" multi="true" required="true" />
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true" />
 						<embed id="filter_embed" component="rkTeaching::filter_embed" />
 						<stretch />
 						<preview id="preview" />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_box_options" label="Opciones de las cajas">
+			<tab id="tab_box_options" label="Box options">
 				<row>
 					<column id="col_box_options">
-						<checkbox id="notch" label="Dibujar muescas" checked="false" />
-						<checkbox id="means" label="Dibujar medias" checked="false" />
-						<checkbox id="points" label="Dibujar puntos" checked="false" />
+						<checkbox id="notch" label="Plot notches" checked="false" />
+						<checkbox id="means" label="Plot mean(s)" checked="false" />
+						<checkbox id="points" label="Plot points" checked="false" />
 						<stretch />
 					</column>
 					<column id="col_color_options">
-						<frame id="frame_boxfillcolor" label="Color de relleno">
-							<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Color de relleno" />
+						<frame id="frame_boxfillcolor" label="Fill color">
+							<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Color" />
 						</frame>
-						<frame id="frame_boxbordercolor" label="Color de borde">
-							<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Color de borde" />
+						<frame id="frame_boxbordercolor" label="Border color">
+							<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Color" />
 						</frame>
-						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos" />
+						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options" />
 						<stretch />
 					</column>
 				</row>
@@ -56,33 +56,33 @@
 		</tabbook>
 	</dialog>
 
-	<wizard label="Asistente para diagrama de caja">
+	<wizard label="Box plot wizard">
 		<page id="page_variables">
 			<text>
-				Seleccionar la variable para la que desea dibujar el diagrama de caja.
-				<br />
-				Si se desean varios diagramas de caja para las categorías de una variable, marcar la casilla "Dibujar por grupos" y
-				seleccionar la variable categórica que define los grupos.
+                                <p>Select the variables to plot the box plot.</p>
+                                <p>If you want different boxes for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one box for every category combination of the factors.</p>
 			</text>
 			<copy id="row_vars" />
 			<stretch/>
 		</page>
 		<page id="page_box_options">
 			<text>
-				Si se desea dibujar muescas (intervalo de confianza para la mediana), la media o los valores de la variable sobre el diagrama, marcar las casillas correspondientes.
+                            <p>Check the box <b>Plot notches</b> to plot the notches for the confidence interval for the median</p>
+                            <p>Check the box <b>Plot the mean(s)</b> to plot the mean(s) on the box(es).</p>
+                            <p>Check the box <b>Plot the points</b> to plot a point for every data in the sample.</p>
 			</text>
 			<copy id="col_box_options" />
 			<stretch />
 		</page>
 		<page id="page_color_options">
 			<text>
-				Seleccionar el color de relleno de la caja.
+				Select the fill color of the box.
 			</text>
-			<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Color de relleno" />
+			<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Fill color" />
 			<text>
-				Seleccionar el color del borde de la caja.
+				Select the border color of the box.
 			</text>
-			<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Color de borde" />
+			<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Border color" />
 			<stretch />
 		</page>
 		<embed id="plotoptions" component="rkTeaching::plot_options" />

@@ -2,23 +2,23 @@
 <!DOCTYPE rkpluginmap>
 <document base_prefix="parametric_tests/" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="one_sample_t_test" file="one_sample_t_test.xml" label="Test T para una muestra" />
-		<component type="standard" id="two_independent_samples_t_test" file="two_independent_samples_t_test.xml" label="Test T para dos muestras independientes" />
-		<component type="standard" id="two_paired_samples_t_test" file="two_paired_samples_t_test.xml" label="Test T para dos muestras pareadas" />
+		<component type="standard" id="one_sample_t_test" file="one_sample_t_test.xml" label="t-test for the mean of one population" />
+		<component type="standard" id="two_independent_samples_t_test" file="two_independent_samples_t_test.xml" label="t-test for comparing the means of two independent populations" />
+		<component type="standard" id="two_paired_samples_t_test" file="two_paired_samples_t_test.xml" label="t-test for comparing the means of two paired populations" />
 		<component type="standard" id="anova" file="anova.xml" label="ANOVA" />
-		<component type="standard" id="one_proportion_test" file="one_proportion_test.xml" label="Test para una proporción" />
-		<component type="standard" id="two_proportions_test" file="two_proportions_test.xml" label="Test para dos proporciones" />
-		<component type="standard" id="f_test" file="f_test.xml" label="Test F de Fisher" />
-		<component type="standard" id="levene_test" file="levene_test.xml" label="Test de Levene" />		
-		<component type="standard" id="mean_sample_size" file="mean_sample_size.xml" label="Cálculo del tamaño muestral para la media" />
-		<component type="standard" id="test_t_sample_size" file="test_t_sample_size.xml" label="Cálculo del tamaño muestral para el test T" />
-		<component type="standard" id="proportion_sample_size" file="proportion_sample_size.xml" label="Cálculo del tamaño muestral para una proporción" />
+		<component type="standard" id="one_proportion_test" file="one_proportion_test.xml" label="Test for one proportion" />
+		<component type="standard" id="two_proportions_test" file="two_proportions_test.xml" label="Test for comparing two proportions" />
+		<component type="standard" id="f_test" file="f_test.xml" label="Fisher's F test" />
+		<component type="standard" id="levene_test" file="levene_test.xml" label="Levene's test" />		
+		<component type="standard" id="mean_sample_size" file="mean_sample_size.xml" label="Sample size to estimate one mean" />
+		<component type="standard" id="test_t_sample_size" file="test_t_sample_size.xml" label="Sample size for the t-test" />
+		<component type="standard" id="proportion_sample_size" file="proportion_sample_size.xml" label="Sample size to estimate one proportion" />
 	</components>
 	
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="parametric_tests" label="Tests paramétricos">
-				<menu id="means" label="Medias">
+			<menu id="parametric_tests" label="Parametric tests">
+				<menu id="means" label="Means">
 					<entry component="one_sample_t_test"/>
 					<entry component="two_independent_samples_t_test"/>
 					<entry component="two_paired_samples_t_test"/>
@@ -26,11 +26,11 @@
 					<entry component="mean_sample_size"/>
 					<entry component="test_t_sample_size"/>
 				</menu>
-				<menu id="variances" label="Varianzas">
+				<menu id="variances" label="Variances">
 					<entry component="f_test"/>
 					<entry component="levene_test"/>
 				</menu>
-				<menu id="proportions" label="Proporciones">
+				<menu id="proportions" label="Proportions">
 					<entry component="one_proportion_test"/>
 					<entry component="two_proportions_test"/>
 					<entry component="proportion_sample_size"/>

@@ -25,12 +25,12 @@ function calculate () {
 }
 
 function printout () {
-	echo('rk.header (paste("Predicciones de regresi&oacute;n de ", colnames(model$model)[1], " sobre ", colnames(model$model)[-1], collapse=", "), parameters=list("Nombre del modelo" = "' + model + '", "Variable dependiente" = colnames(model$model)[1], "Variable independiente" = paste(colnames(model$model)[-1], collapse=", "), "Ecuaci&oacute;n del modelo" = paste(colnames(model$model)[1], " = ", paste(round(model$coefficients[1],4), paste(round(model$coefficients[-1],4), names(model$coefficients)[-1], collapse=" + "), sep=" + "))))\n');
+	echo('rk.header (paste("Regression predictions of ", colnames(model$model)[1], " on ", colnames(model$model)[-1], collapse=", "), parameters=list("Model name" = "' + model + '", "Dependent variable" = colnames(model$model)[1], "Independent variable" = paste(colnames(model$model)[-1], collapse=", "), "Model equation" = paste(colnames(model$model)[1], " = ", paste(round(model$coefficients[1],4), paste(round(model$coefficients[-1],4), names(model$coefficients)[-1], collapse=" + "), sep=" + "))))\n');
 	if (getBoolean("intervals")){
-		echo('rk.results(setNames(list(results[,1],results[,2],results[,3],results[,4]),c(colnames(results)[1],paste("predicciones ",colnames(' + model +'$model)[1]), "l&iacute;m inf 95%","l&iacute;m sup 95%")))\n');
+		echo('rk.results(setNames(list(results[,1],results[,2],results[,3],results[,4]),c(colnames(results)[1],paste("predicciones ",colnames(' + model +'$model)[1]), "lower limit 95%","upper limit 95%")))\n');
 	}
 	else{
-		echo('rk.results(setNames(list(results[,1],results[,2]),c(colnames(results)[1],paste("predicciones ",colnames(' + model +'$model)[1]))))\n');
+		echo('rk.results(setNames(list(results[,1],results[,2]),c(colnames(results)[1],paste(colnames(' + model +'$model)[1]," prediction"))))\n');
 	}
 }
 

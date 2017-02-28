@@ -22,81 +22,75 @@
 		<connect client="filter_embed.variable" governor="variable.available" />
 	</logic>
 
-	<dialog label="Histograma">
+	<dialog label="Histogram">
 		<tabbook>
-			<tab id="tab_variables" label="Variable">
+			<tab id="tab_variables" label="Variable(s)">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variable" />
+					<varselector id="selector" label="Select variable(s)" />
 					<column>
 						<varslot id="variable" label="Variable" types="number" source="selector" required="true" />
-						<checkbox id="grouped" label="Dibujar por grupos" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" types="factor" source="selector" multi="true" required="true" />
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true" />
 						<embed id="filter_embed" component="rkTeaching::filter_embed" />
 						<stretch />
 						<preview id="preview" />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_hist_options" label="Opciones del histograma">
+			<tab id="tab_hist_options" label="Histogram options">
 				<row>
 					<column id="col_freq_options">
-						<frame id="frame_freq" label="Frecuencias">
-							<checkbox id="relative" label="Frecuencia relativa" checked="false" value="1" />
-							<checkbox id="cumulative" label="Frecuencia acumulada" checked="false" value="1" />
-							<checkbox id="density" label="Densidad" value="1" checked="false" />
+						<frame id="frame_freq" label="Frequencies">
+							<checkbox id="relative" label="Relative frequency" checked="false" value="1" />
+							<checkbox id="cumulative" label="Cumulative frequency" checked="false" value="1" />
+							<checkbox id="density" label="Density" value="1" checked="false" />
 						</frame>
-						<checkbox id="polygon" label="Polígono" checked="false" value="1" />
-						<radio id="position" label="Agrupamiento">
-							<option value="identity" label="Sobrepuestas" checked="true" />
-							<option value="dodge" label="Yuxtapuestas" />
-							<option value="stack" label="Apiladas" />
-							<option value="faceted" label="Separadas" />
+						<checkbox id="polygon" label="Polygon" checked="false" value="1" />
+						<radio id="position" label="Grouping options">
+							<option value="identity" label="Overlayed" checked="true" />
+							<option value="dodge" label="Juxtaposed" />
+							<option value="stack" label="Stacked" />
+							<option value="faceted" label="Separated" />
 						</radio>
 						<stretch />
 					</column>
 					<column id="col_color_options">
-						<frame id="frame_barfillcolor" label="Color de relleno">
-							<embed id="barfillcolor" component="rkTeaching::color_chooser" label="Color de relleno" />
+						<frame id="frame_barfillcolor" label="Fill color">
+							<embed id="barfillcolor" component="rkTeaching::color_chooser" label="Color" />
 						</frame>
-						<frame id="frame_barbordercolor" label="Color de borde">
-							<embed id="barbordercolor" component="rkTeaching::color_chooser" label="Color de borde" />
+						<frame id="frame_barbordercolor" label="Border color">
+							<embed id="barbordercolor" component="rkTeaching::color_chooser" label="Color" />
 						</frame>
-						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos" />
+						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options" />
 						<stretch />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_cells" label="Clases">
+			<tab id="tab_cells" label="Classes">
 				<embed id="cells" component="rkTeaching::cells" />
 			</tab>
 		</tabbook>
 	</dialog>
 
-	<wizard label="Asistente para histograma">
+	<wizard label="Histogram wizard">
 		<page id="page_variables">
 			<text>
-				Seleccionar la variable numérica para la que desea dibujar el histograma.
-				<br />
-				Si se desean varios histogramas para las categorías de una variable, marcar la casilla "Dibujar por grupos" y seleccionar
-				la variable categórica que define los grupos.
+                                <p>Select the variable to plot the histogram.</p>
+                                <p>If you want different histograms for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one histogram for every category combination of the factors.</p>
 			</text>
 			<copy id="row_vars" />
 		</page>
 		<page id="page_hist_options">
 			<text>
-				Seleccionar el tipo de frecuencias a representar
-				<br />
+                                <p>Select the type of frequency to plot.</p>
 			</text>
 			<copy id="frame_freq" />
 			<text>
-				Marcar la casilla si se desea dibujar un polígono sobre el histograma.
-				<br />
+                                <p>Check the box if you want to plot the polygon on the histogram.</p>
 			</text>
 			<copy id="polygon" />
 			<text>
-				En el caso de dibujar varios histogramas para las categorías de una variable, indicar la forma en que se se presentarán las
-				barras (sobrepuestas unas sobre otras, yuxtapuestas unas al lado de otras, apiladas unas encima de otras o separadas en
-				histogramas separados).
+                            <p>In case of plotting several histograms by groups, select the layout for the bars: overlaped (over each other), justapoxed (next to each other), stacked (on top of each other) or separated (in separated hisograms).</p>
 			</text>
 			<copy id="position" />
 			<stretch />
@@ -104,13 +98,13 @@
 		<embed id="cells" component="rkTeaching::cells" />
 		<page id="page_color_border">
 			<text>
-				Seleccionar el color de relleno de las barras.
+				Select the fill color for the bars.
 			</text>
-			<embed id="barfillcolor" component="rkTeaching::color_chooser" label="Color de relleno" />
+			<embed id="barfillcolor" component="rkTeaching::color_chooser" label="Fill color" />
 			<text>
-				Seleccionar el color del borde de las barras.
+				Select the border color for the bars.
 			</text>
-			<embed id="barbordercolor" component="rkTeaching::color_chooser" label="Color de borde" />
+			<embed id="barbordercolor" component="rkTeaching::color_chooser" label="Border color" />
 			<stretch />
 		</page>
 		<page>

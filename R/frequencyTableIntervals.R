@@ -44,20 +44,20 @@ tabulateFrequenciesIntervals <- function(data, variable, breaks=NULL, right=FALS
 	#}
 	result <- data.frame(c(result,centers))
 	colnames(result) <- variable
-	result <- transform(result, clases=cut(result[[variable]], breaks=breaks, right=right, include.lowest=include.lowest))
-	result <- count(result, "clases")
-	colnames(result)[1] <- paste("Clases",variable,sep=".")
-	colnames(result)[2] <- "Frec.Abs."
-	result[["Frec.Abs."]] <- result[["Frec.Abs."]] - rep(1,length(centers))
+	result <- transform(result, classes=cut(result[[variable]], breaks=breaks, right=right, include.lowest=include.lowest))
+	result <- count(result, "classes")
+	colnames(result)[1] <- paste(variable,"classes",sep=" ")
+	colnames(result)[2] <- "Abs.Freq."
+	result[["Abs.Freq."]] <- result[["Abs.Freq."]] - rep(1,length(centers))
 	if (center) {
-		result[["Centro"]] <- centers
+		result[["Center"]] <- centers
 	}
 	if (width) {
-		result[["Amplitud"]] <- breaks[-1]-breaks[-length(breaks)]
+		result[["Width"]] <- breaks[-1]-breaks[-length(breaks)]
 	}
 	if (center | width) {
-		result <- cbind(result[,names(result)!="Frec.Abs."], Frec.Abs.=result[["Frec.Abs."]])
+		result <- cbind(result[,names(result)!="Abs.Freq."], Abs.Freq.=result[["Abs.Freq."]])
 	}
-	result <- mutate(result, Frec.Rel.=round(Frec.Abs./sum(Frec.Abs.),decimals), Frec.Abs.Acum.=cumsum(Frec.Abs.), Frec.Rel.Acum.=round(Frec.Abs.Acum./sum(Frec.Abs.),decimals))
+	result <- mutate(result, Rel.Freq.=round(Abs.Freq./sum(Abs.Freq.),decimals), Cum.Abs.Freq.=cumsum(Abs.Freq.), Cum.Rel.Freq.=round(Cum.Abs.Freq./sum(Abs.Freq.),decimals))
 	return(result)
 }

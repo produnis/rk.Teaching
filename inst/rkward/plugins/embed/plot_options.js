@@ -64,9 +64,9 @@ function calculate () {
 	}
 	
 	// flip axis
-	var flip_axis = '';
-	if (getBoolean("flip_axis")) {
-		flip_axis = ' + coord_flip()';
+	var switch_axes = '';
+	if (getBoolean("switch_axes")) {
+		switch_axes = ' + coord_flip()';
 	}
 
 	// legend
@@ -105,7 +105,7 @@ function calculate () {
 		grid_minor_line_color = ' + theme(panel.grid.minor=element_line(colour=' + grid_minor_line_color + '))';
 	}
 	
-	ggplotoptions =  main + xlab + ylab + coord + flip_axis + x_lab_orientation + y_lab_orientation + legend + grid_horizontal_major + grid_horizontal_minor + grid_vertical_major + grid_vertical_minor + grid_major_line_color + grid_minor_line_color + grid_background_color;
+	ggplotoptions =  main + xlab + ylab + coord + switch_axes + x_lab_orientation + y_lab_orientation + legend + grid_horizontal_major + grid_horizontal_minor + grid_vertical_major + grid_vertical_minor + grid_major_line_color + grid_minor_line_color + grid_background_color;
 	echo (ggplotoptions);
 }
 

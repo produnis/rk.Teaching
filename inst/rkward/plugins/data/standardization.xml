@@ -1,0 +1,41 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
+<!DOCTYPE rkplugin>
+<document>
+	<code file="standardization.js"/>
+	<help file="standardization.rkh"/>
+
+	<logic>
+			<connect governor="current_object" client="dataframe.available" />
+			<connect governor="dataframe.available" client="selector.root"/>
+			<convert id="dataframeSelected" sources="dataframe.available" mode="notequals" standard=""/>
+			<connect governor="dataframeSelected" client="variables.enabled"/>
+	</logic>
+
+	<dialog label="Standardization of variables">
+		<row>
+			<varselector id="selector" label="Select variables"/>
+			<column>
+				<varslot id="dataframe" label="Data frame" source="selector" classes="data.frame" required="true"/>
+				<varslot id="variables" label="Variables to standardize" source="selector" required="true" multi="true" types="numeric"/>
+			</column>
+		</row>
+	</dialog>
+
+	<wizard label="Standardization of variables">
+		<page id="pageDataframe">
+				<text>
+						Select the data frame with the variables to standardize.
+				</text>
+				<varselector id="selector2" label="Select data frame"/>
+				<varslot id="dataframe" label="Data frame" source="selector2" classes="data.frame" required="true"/>
+		</page>
+		<page id="pageVariables">
+			<text>
+				Select the variables to standardize.
+			</text>
+			<copy id="selector"/>
+			<copy id="variables"/>
+		</page>
+	</wizard>
+</document>

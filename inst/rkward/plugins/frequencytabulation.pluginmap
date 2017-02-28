@@ -2,16 +2,15 @@
 <!DOCTYPE rkpluginmap>
 <document base_prefix="tabulation/" namespace="rkTeaching">
 	<components>
-		<component id="FrequencyTabulation" label="Tabla de frecuencias" file="FrequencyTabulation.xml" type="standard"/>
-		<component id="FrequencyTabulation2Varibles" label="Tabla de frecuencias bidimensional" file="FrequencyTabulation2Variables.xml" type="standard"/>
+		<component id="FrequencyTabulation" label="Frequency table" file="frequency_tabulation.xml" type="standard"/>
+		<component id="FrequencyTabulation2Varibles" label="Two-dimensional frequency table" file="frequency_tabulation_2_variables.xml" type="standard"/>
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="FrequencyTabulation" label="Distribución de frecuencias">
-				<entry component="FrequencyTabulation" />
-				<entry component="FrequencyTabulation2Varibles" />
+			<menu id="FrequencyTabulation" label="Frequency distribution">
+				<entry component="FrequencyTabulation"/>
+				<entry component="FrequencyTabulation2Varibles"/>
 			</menu>
 		</menu>
 	</hierarchy>
-	<require file="../embed.pluginmap"/>
 </document>

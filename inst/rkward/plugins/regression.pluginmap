@@ -2,15 +2,15 @@
 <!DOCTYPE rkpluginmap>
 <document base_prefix="regression/" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="linear_regression" file="linear_regression.xml" label="Regresión lineal" />
-		<component type="standard" id="non_linear_regression" file="non_linear_regression.xml" label="Regresión no lineal" />
-		<component type="standard" id="regression_comparison" file="regression_comparison.xml" label="Comparación de modelos" />
-		<component type="standard" id="regression_predictions" file="regression_predictions.xml" label="Predicciones" />
-		<component type="standard" id="correlation" file="correlation.xml" label="Correlación" />
+		<component type="standard" id="linear_regression" file="linear_regression.xml" label="Linear regression" />
+		<component type="standard" id="non_linear_regression" file="non_linear_regression.xml" label="Non-linear regression" />
+		<component type="standard" id="regression_comparison" file="regression_comparison.xml" label="Models comparison" />
+		<component type="standard" id="regression_predictions" file="regression_predictions.xml" label="Predictions" />
+		<component type="standard" id="correlation" file="correlation.xml" label="Correlation" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="regression" label="Regresión">
+			<menu id="regression" label="Regression">
 					<entry component="linear_regression"/>
 					<entry component="non_linear_regression"/>
 					<entry component="regression_comparison"/>

@@ -32,11 +32,11 @@ function calculate() {
 }
 
 function printout () {
-	echo ('rk.header ("Comparaci&oacute;n de modelos de regresi&oacute;n de ' + yname + ' sobre ' + xname + '", parameters=list("Variable dependiente" = rk.get.description(' + y + '), "Variable independiente" = rk.get.description(' + x + ')' + getString("filter_embed.code.printout") + "))\n");
+	echo ('rk.header ("Comparison of regression models of ' + yname + ' on ' + xname + '", parameters=list("Dependent variable" = rk.get.description(' + y + '), "Independent variable" = rk.get.description(' + x + ')' + getString("filter_embed.code.printout") + "))\n");
 	// Grouped mode
 	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Grupo ' + groupsname.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste("Group ' + groupsname.join('.') + ' = ", names(result)[i]),level=3)\n');
 		echo('\t rk.results(result[[i]])\n');
 		echo('}\n');
 	}

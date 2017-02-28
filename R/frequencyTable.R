@@ -19,15 +19,15 @@ frequencyTable <- function(data, variable, groups=NULL, decimals=4){
 	if (is.null(groups)){
 		result <- na.omit(data[variable])
 		result <- count(result, variable)
-		colnames(result)[2] <- "Frec.Abs."
-		result <- mutate(result,Frec.Rel.=round(Frec.Abs./sum(Frec.Abs.),decimals),Frec.Abs.Acum.=cumsum(Frec.Abs.),Frec.Rel.Acum.=round(Frec.Abs.Acum./sum(Frec.Abs.),decimals))
+		colnames(result)[2] <- "Abs.Freq."
+		result <- mutate(result,Rel.Freq.=round(Abs.Freq./sum(Abs.Freq.),decimals),Cum.Abs.Freq.=cumsum(Abs.Freq.),Cum.Rel.Freq.=round(Cum.Abs.Freq./sum(Abs.Freq.),decimals))
 	}
 	else {
 		f <- function(df){
 			output <- na.omit(df[variable])
 			output <- count(output,variable)
-			colnames(output)[2] <- "Frec.Abs."
-			mutate(output,Frec.Rel.=round(Frec.Abs./sum(Frec.Abs.),decimals),Frec.Abs.Acum.=cumsum(Frec.Abs.),Frec.Rel.Acum.=round(Frec.Abs.Acum./sum(Frec.Abs.),decimals))
+			colnames(output)[2] <- "Abs.Freq."
+			mutate(output,Rel.Freq.=round(Abs.Freq./sum(Abs.Freq.),decimals),Cum.Abs.Freq.=cumsum(Abs.Freq.),Cum.Rel.Freq.=round(Cum.Abs.Freq./sum(Abs.Freq.),decimals))
 		}
 		result <- dlply(data,groups,f)
 	}

@@ -9,67 +9,50 @@
 		<connect client="groups.visible" governor="grouped_mode"/>
 	</logic>
 
-	<dialog label="Comparación de Modelos de Regresión">
+	<dialog label="Regression model comparison">
 		<tabbook>
 			<tab id="variables_tab" label="Variables">
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables"/>
+					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Variable dependiente" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Variable independiente" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Ajuste por grupos" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" multi="true" required="true"/>
+						<varslot id="y" label="Dependent variable" type="numeric" source="selector" required="true" />
+						<varslot id="x" label="Independent variable" type="numeric" source="selector" required="true" />
+						<checkbox id="grouped" label="Regression by groups" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" source="selector" multi="true" required="true"/>
 						<embed id="filter_embed" component="rkTeaching::filter_embed"/>	
 						<stretch/>					
 					</column>
 				</row>
 			</tab>
-			<tab id="model_tab" label="Modelos de regresión">		
-				<frame id="model" label="Modelo" >
-					<checkbox id="linear" label="Lineal" value="'linear'," checked="true"/>
-					<checkbox id="cuadratic" label="Cuadrático" value="'cuadratic',"/>
-					<checkbox id="cubic" label="Cúbico" value="'cubic',"/>
-					<checkbox id="potential" label="Potencial" value="'potential',"/>
-					<checkbox id="exponential" label="Exponencial" value="'exponential',"/>
-					<checkbox id="logarithmic" label="Logarítmico" value="'logarithmic',"/>
-					<checkbox id="inverse" label="Inverso" value="'inverse',"/>
+			<tab id="model_tab" label="Regression models">		
+				<frame id="model" label="Model" >
+					<checkbox id="linear" label="Linear" value="'linear'," checked="true"/>
+					<checkbox id="cuadratic" label="Cuadratic" value="'cuadratic',"/>
+					<checkbox id="cubic" label="Cubic" value="'cubic',"/>
+					<checkbox id="potential" label="Potential" value="'potential',"/>
+					<checkbox id="exponential" label="Exponential" value="'exponential',"/>
+					<checkbox id="logarithmic" label="Logarithmic" value="'logarithmic',"/>
+					<checkbox id="inverse" label="Inverse" value="'inverse',"/>
 					<checkbox id="sigmoid" label="Sigmoidal" value="'sigmoid',"/>
 				</frame>
 			</tab>
 		</tabbook>
 	</dialog>
 	
-	<wizard label="Comparación de Modelos de Regresión">
-		<page id="page_y">
+	<wizard label="Regression model comparison wizard">
+		<page id="pag_vars">
 			<text>
-				Selecionar la variable dependiente.
+                            <p>Select the dependent and independet variables.</p>
+				<p>If you want differenciate the regression models for the categories of one or several factors, check the box <b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one comparison for every category combination of the factors.</p>
 			</text>
-			<varselector id="selector2" label="Seleccionar variable"/>
-			<varslot id="y" label="Variable dependiente" source="selector2" type="numeric" required="true" />
+			<copy id="row_vars" />
 		</page>
-		<page id="page_x">
-			<text>
-				Selecionar la variables independiente.
-			</text>
-			<copy id="selector" />
-			<copy id="x" />
-		</page>	
-		<page id="page_filter">
-			<text>
-				Activar la casilla si se desea un filtrado previo de los datos e introducir la condición de selección.
-
-				Puede usarse cualquier operador relacional o lógico de R.
-
-				Ejemplos: sexo=="mujer", edad>20, sexo=="mujer" | edad>0.
-
-			</text>
-			<copy id="filter_frame" />
-		</page>	
 		<page id="page_model">
 			<text>
-				Seleccionar los tipos de modelos a comparar.
+				Check the boxes of the models to compare.
 			</text>
 			<copy id="model" />
+                        <stretch />
 		</page>		
 	</wizard>
 	

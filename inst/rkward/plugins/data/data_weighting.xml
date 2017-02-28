@@ -1,0 +1,48 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
+<!DOCTYPE rkplugin>
+<document>
+	<code file="data_weighting.js"/>
+	<help file="data_weighting.rkh"/>
+
+	<logic>
+		<connect governor="current_object" client="dataframe.available"/>
+		<connect governor="dataframe.available" client="selector.root"/>
+		<convert id="dataframeSelected" sources="dataframe.available" mode="notequals" standard=""/>
+		<connect governor="dataframeSelected" client="freq.enabled"/>
+	</logic>
+
+	<dialog label="Data weighting">
+		<row>
+			<varselector id="selector" label="Select data frame or variable"/>
+			<column>
+				<varslot id="dataframe" label="Data frame to weight" source="selector" classes="data.frame" required="true"/>
+				<varslot id="freq" label="Weighting frequencies" source="selector" types="numeric" required="true"/>
+				<saveobject id="newDataframe" label="Save new data frame" initial="new.data.frame"/>
+			</column>
+		</row>
+	</dialog>
+
+	<wizard label="Data weighting wizard">
+		<page id="pageData">
+			<text>
+				Select the data frame to weight.
+			</text>
+			<varselector id="selector2" label="Select data frame"/>
+			<varslot id="dataframe" label="Data frame to weight" source="selector2" classes="data.frame" required="true"/>
+		</page>
+		<page id="pageFrequency">
+			<text>
+				Select the variable that contains the weighting frequencies.
+			</text>
+			<copy id="selector"/>
+		</page>
+		<page id="pageSave">
+			<text>
+				Enter the name for the new data set. By default the new data set is saved in the .GlobalEnv environment.
+			</text>
+			<copy id="newDataframe"/>
+			<stretch/>
+		</page>
+	</wizard>
+</document>

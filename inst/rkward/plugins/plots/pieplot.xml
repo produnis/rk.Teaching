@@ -13,45 +13,43 @@
 		<connect client="filter_embed.variable" governor="variable.available" />
 	</logic>
 	
-	<dialog label="Diagrama de sectores">
+	<dialog label="Pie chart">
 		<tabbook>
-			<tab label="Seleccionar variable" id="tab_variables">
+			<tab id="tab_variables" label="Variable(s)" >
 				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variable(s)"/>
+					<varselector id="selector" label="Select variable(s)"/>
 					<column>
-						<varslot id="variable" label="Variable(s)" source="selector" required="true" />
-						<checkbox id="grouped" label="Dibujar por grupos" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" types="factor" required="true"/>			
+						<varslot id="variable" label="Variable" source="selector" required="true" />
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
+						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" required="true"/>			
 						<embed id="filter_embed" component="rkTeaching::filter_embed"/>
 						<stretch/>
 						<preview id="preview"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_pie_options" label="Opciones de los sectores">
+			<tab id="tab_pie_options" label="Sector options">
 				<frame id="frame_freq" label="Frecuencias">
-					<checkbox id="rel_freq" label="Frecuencia relativa" checked="false" value="1" />
+					<checkbox id="rel_freq" label="Relative frequency" checked="false" value="1" />
 				</frame>
 				<stretch/>
-				<embed id="plotoptions" component="rkward::plot_options" as_button="true" label="Opciones generales de gráficos"/>
+				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
 			</tab>
 		</tabbook>
 	</dialog>
 	
-	<wizard label="Asistente para diagrama de sectores">
+	<wizard label="Pie chart wizard">
 		<page id="page_variables">
 			<text>
-				Seleccionar la variable para la que desea dibujar el diagrama de caja.
-				<br />
-				Si se desean varios diagramas de sectores para las categorías de una variable, marcar la casilla "Dibujar por grupos" y
-				seleccionar la variable categórica que define los grupos.
+				<p>Select the variables to plot the pie chart.</p>
+                                <p>If you want different pie charts for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one pie chart for every category combination of the factors.</p>
 			</text>
 			<copy id="row_vars" />
 			<stretch/>
 		</page>
 		<page id="page_pie_options">
 			<text>
-				Si se deseas que los sectores representen la frecuencia relativa marca la casilla.
+				Check the box if you want sectors represent relative frequencies.
 			</text>
 			<copy id="rel_freq" />
 			<stretch />

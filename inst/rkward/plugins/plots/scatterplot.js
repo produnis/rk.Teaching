@@ -54,7 +54,7 @@ function calculate () {
 		}
 	}
 	// Set regression confidence strip
-	if (getBoolean("confidentstrip")){
+	if (getBoolean("confidencestrip")){
 		se = ', ymin=inf.conf.int.95, ymax=sup.conf.int.95';
 	}
 	else {
@@ -71,7 +71,7 @@ function calculate () {
 		}
 		echo(')\n');
 		echo('df <- df[complete.cases(df),]\n');
-		smooth = '+ scale_linetype("Ajuste de regresi\u00f3n")';
+		smooth = '+ scale_linetype("Regression model")';
 	}
 	if (getBoolean("linear")){
 		if (getBoolean("grouped")) {
@@ -80,8 +80,8 @@ function calculate () {
 		else {
 			echo('df_linear <- predictions(lm(y~x,data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Lineal"), data=df_linear, stat="identity")';
-		model.push('Lineal (' + yname + ' = a+b*' + xname + ')');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Linear"), data=df_linear, stat="identity")';
+		model.push('Linear (' + yname + ' = a+b*' + xname + ')');
 	}
 	if (getBoolean("cuadratic")){
 		if (getBoolean("grouped")) {
@@ -90,8 +90,8 @@ function calculate () {
 		else {
 			echo('df_cuadratic <- predictions(lm(y~x+I(x^2),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Cuadr\u00e1tico"), data=df_cuadratic, stat="identity")';
-		model.push('Cuadr&aacute;tico (' + yname + ' = a+b*' + xname + '+c*' + xname + '^2)');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Cuadratic"), data=df_cuadratic, stat="identity")';
+		model.push('Cuadratic (' + yname + ' = a+b*' + xname + '+c*' + xname + '^2)');
 	}
 	if (getBoolean("cubic")){
 		if (getBoolean("grouped")) {
@@ -100,8 +100,8 @@ function calculate () {
 		else {
 			echo('df_cubic <- predictions(lm(y~x+I(x^2)+I(x^3),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="C\u00fabico"), data=df_cubic, stat="identity")';
-		model.push('C&uacute;bico (' + yname + ' = a+b*' + xname + '+c*' + xname + '^2+d*' + xname + '^3)');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Cubic"), data=df_cubic, stat="identity")';
+		model.push('Cubic (' + yname + ' = a+b*' + xname + '+c*' + xname + '^2+d*' + xname + '^3)');
 	}
 	if (getBoolean("potential")){
 		if (getBoolean("grouped")) {
@@ -114,8 +114,8 @@ function calculate () {
 			echo('df_potential[,-1]=exp(df_potential[,-1])\n');
 			echo('names(df_potential)[2]="pred.y"\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Potencial"), data=df_potential, stat="identity")';
-		model.push('Potencial (' + yname + ' = a*' + xname + '^b)');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Potential"), data=df_potential, stat="identity")';
+		model.push('Potential (' + yname + ' = a*' + xname + '^b)');
 	}
 	if (getBoolean("exponential")){
 		if (getBoolean("grouped")) {
@@ -128,8 +128,8 @@ function calculate () {
 			echo('df_exponential[,-1]=exp(df_exponential[,-1])\n');
 			echo('names(df_exponential)[2]="pred.y"\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Exponencial"), data=df_exponential, stat="identity")';
-		model.push('Exponencial (' + yname + ' = exp(a+b*' + xname + '))');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Exponential"), data=df_exponential, stat="identity")';
+		model.push('Exponential (' + yname + ' = exp(a+b*' + xname + '))');
 	}
 	if (getBoolean("logarithmic")){
 		if (getBoolean("grouped")) {
@@ -138,8 +138,8 @@ function calculate () {
 		else {
 			echo('df_logarithmic <- predictions(lm(y~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Logar\u00edtmico"), data=df_logarithmic, stat="identity")';
-		model.push('Logar&iacute;tmico (' + yname + ' = a+b*log(' + xname + '))');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Logarithmic"), data=df_logarithmic, stat="identity")';
+		model.push('Logarithmic (' + yname + ' = a+b*log(' + xname + '))');
 	}
 	if (getBoolean("inverse")){
 		if (getBoolean("grouped")) {
@@ -148,8 +148,8 @@ function calculate () {
 		else {
 			echo('df_inverse <- predictions(lm(y~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
 		}
-		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Inverso"), data=df_inverse, stat="identity")';
-		model.push('Inverso (' + yname + ' = a+b/' + xname + ')');
+		smooth += ' + geom_smooth(aes(x=x, y=pred.y' + se + smoothcolor + ', linetype="Inverse"), data=df_inverse, stat="identity")';
+		model.push('Inverse (' + yname + ' = a+b/' + xname + ')');
 	}
 	if (getBoolean("sigmoid")){
 		if (getBoolean("grouped")) {
@@ -179,12 +179,12 @@ function preview () {
 
 function doPrintout (full) {
 	if (full) {
-		echo ('rk.header ("Diagrama de dispersi&oacute;n de ' + yname + ' sobre ' + xname + '", parameters = list ("Variable X" = rk.get.description(' + x + "), 'Variable Y' = rk.get.description(" + y +  ')' + getString("filter_embed.code.printout"));
+		echo ('rk.header ("Scatter plot of ' + yname + ' on ' + xname + '", parameters = list ("X variable" = rk.get.description(' + x + "), 'Y variable' = rk.get.description(" + y +  ')' + getString("filter_embed.code.printout"));
 		if (getBoolean("grouped")) {
-			echo(', "Variable de agrupaci&oacute;n" = rk.get.description(' + groups + ', paste.sep=", ")');
+			echo(', "Grouping variable(s)" = rk.get.description(' + groups + ', paste.sep=", ")');
 		}
 		if (regression){
-			echo(', "Ajuste de regresi&oacute;n" = "' + model.join(', ') + '"');
+			echo(', "Regression model" = "' + model.join(', ') + '"');
 		}
 		echo("))\n");
 		echo ('rk.graph.on()\n');

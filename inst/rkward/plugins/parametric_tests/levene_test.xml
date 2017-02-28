@@ -2,49 +2,50 @@
 
 <!DOCTYPE rkplugin>
 <document>
-	<code file="levene_test.js"/>
-	<help file="levene_test.rkh"/>
-	
-	<logic>
-		<connect client="filter_embed.variable" governor="variable.available" />
-	</logic>
-
-	<dialog label="Test de Levene para la comparación de varianzas">
-		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
-					<column>
-						<varslot id="variable" label="Comparar" source="selector" types="number" required="true" />
-						<varslot id="factor" label="Según" source="selector" types="factor" required="true" />
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>
-						<stretch />
-					</column>
-				</row>
-			</tab>
-			<tab id="tab_settings" label="Opciones de contraste">
-				<radio id="center" label="Centro">
-					<option value="median" label="Mediana" />
-					<option value="mean" label="Media" />
-				</radio>
-			</tab>
-		</tabbook>
-	</dialog>
-	
-	<wizard label="Test de Levene para la comparación de varianzas">
-		<page>
-			<text>
-			<p>Seleccionar la variable numérica a comparar.</p>
-			<p>Después, seleccionar el factor con los niveles a comparar.</p> 
-			</text>
-			<copy id="row_vars"/>
-		</page>
-		<page>
-			<text>
-				<p>Seleccionar si la variabilidad se mide con respecto a la mediana o a la media.</p>
-			</text>
-			<copy id="center"/>
-			<stretch/>
-		</page>
-	</wizard>
+    <code file="levene_test.js"/>
+    <help file="levene_test.rkh"/>
+    
+    <logic>
+        <connect client="filter_embed.variable" governor="variable.available" />
+    </logic>
+    
+    <dialog label="Levene's test for comparing variances">
+        <tabbook>
+            <tab id="tab_variables" label="Variables">
+                <row id="row_vars">
+                    <varselector id="selector" label="Select variable(s)" />
+                    <column>
+                        <varslot id="variable" label="Compare variance of" source="selector" types="number" required="true" />
+                        <varslot id="factor" label="According to" source="selector" types="factor" required="true" />
+                        <embed id="filter_embed" component="rkTeaching::filter_embed"/>
+                        <stretch />
+                    </column>
+                </row>
+            </tab>
+            <tab id="tab_settings" label="Test options">
+                <radio id="center" label="Variability with respect to">
+                    <option value="median" label="Median" />
+                    <option value="mean" label="Mean" />
+                </radio>
+                <stretch />
+            </tab>
+        </tabbook>
+    </dialog>
+    
+    <wizard label="Levene's test for comparing variances wizard">
+        <page>
+            <text>
+                <p>Select the numeric variable whose variances wants to compare.</p>
+                <p>After, select the factor with the levels to compare.</p> 
+            </text>
+            <copy id="row_vars"/>
+        </page>
+        <page>
+            <text>
+                <p>Check the box corresponding to the central tendency measure with respect to which the variability is measured.</p>
+            </text>
+            <copy id="center"/>
+            <stretch/>
+        </page>
+    </wizard>
 </document>

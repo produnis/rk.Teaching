@@ -18,13 +18,13 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("C&aacute;lculo del tama&ntilde;o muestral para el test T", parameter=list(');
-	if (type=="one.sample") echo ('"Tipo de prueba" = "Contraste para una muestra"');
-	else if (type=="two.sample") echo ('"Tipo de prueba" = "Contraste para dos muestras independientes"');
-	else echo ('"Tipo de prueba" = "Contraste para dos muestras pareadas"');
-	if (h1=="two.sided") echo (', "Hip&oacute;tesis alternativa" = "Bilateral"');
-	else echo (', "Hip&oacute;tesis alternativa" = "Unilateral"');
-	echo (', "Diferencia entre las medias" = "' + delta + '", "Desviaci&oacute;n t&iacute;pica" = "' + sd + '", "Nivel de significaci&oacute;n" ="' + siglevel + '", "Potencia" = "' + power + '"))\n');
+	echo ('rk.header ("Sample size computation for the t-test", parameter=list(');
+	if (type=="one.sample") echo ('"Type of test" = "One population"');
+	else if (type=="two.sample") echo ('"Type of test" = "Two independent populations"');
+	else echo ('"Type of test" = "Two paired populations"');
+	if (h1=="two.sided") echo (', "Alternative hypothesis" = "Two-sided"');
+	else echo (', "Alternative hypothesis" = "One-sided"');
+	echo (', "Difference between the means" = "' + delta + '", "Standard deviation" = "' + sd + '", "Significance level" ="' + siglevel + '", "Power" = "' + power + '"))\n');
 
-	echo ('rk.results (list("Tama&ntilde;o muestral necesario"= result$n))\n');
+	echo ('rk.results (list("Sample size required"= result$n))\n');
 }
