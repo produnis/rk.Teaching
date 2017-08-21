@@ -6,8 +6,8 @@ Translation:
   Frequency distribution:
   Charts:
     ✔ Scatter plot matrix @done(2017-08-21 13:30) @project(Translation / Charts)
-    ☐ Means plot
-    ☐ Interaction plot
+    ✔ Means plot @done(2017-08-21 18:32) @project(Translation / Charts)
+    ✔ Interaction plot @done(2017-08-21 19:10) @project(Translation / Charts)
   Desriptive statistics:
   Regression:
     ✔ Non-linear regression @done(2017-08-21 13:30) @project(Translation / Regression)

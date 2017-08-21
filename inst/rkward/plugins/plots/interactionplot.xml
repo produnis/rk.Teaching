@@ -1,57 +1,56 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
 <!DOCTYPE rkplugin>
 <document>
-	<code file="interactionplot.js" />
-	<help file="interactionplot.rkh" />
+	<code file="interactionplot.js"/>
+	<help file="interactionplot.rkh"/>
 	<logic>
-		<connect client="plotoptions.xvar" governor="x.available" />
-		<set id="plotoptions.allow_log" to="true" />
-		<set id="plotoptions.allow_type" to="false" />
-		<set id="plotoptions.allow_asp" to="true" />
-		<set id="plotoptions.allow_grid" to="true" />
-		<connect client="filter_embed.variable" governor="variable.available" />
+		<connect client="plotoptions.xvar" governor="x.available"/>
+		<set id="plotoptions.allow_log" to="true"/>
+		<set id="plotoptions.allow_type" to="false"/>
+		<set id="plotoptions.allow_asp" to="true"/>
+		<set id="plotoptions.allow_grid" to="true"/>
 	</logic>
 
-	<dialog label="Diagrama de interacción">
+	<dialog label="Interaction plot">
 		<tabbook>
-			<tab label="Variable(s)">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+			<tab id="tabVariables" label="Variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variable(s)"/>
 					<column>
-						<varslot id="variable" label="Variable respuesta" multi="false" types="number" source="selector" required="true" />
-						<varslot id="x" label="Grupos eje X" multi="false" types="factor" source="selector" required="true" />
-						<varslot id="trace" label="Grupos de trazado" multi="false" types="factor" source="selector" required="true" />
-						<embed id="filter_embed" component="rkTeaching::filter_embed" />
-						<stretch />
-						<preview id="preview" />
+						<varslot id="variable" label="Response variable" multi="false" types="numeric" source="selector" required="true"/>
+						<varslot id="xGroups" label="x-axis groups" multi="false" types="factor" source="selector" required="true"/>
+						<varslot id="trace" label="trace groups" multi="false" types="factor" source="selector" required="true"/>
+						<include file="../common/filter.xml"/>
+						<preview id="preview"/>
 					</column>
 				</row>
 			</tab>
-			<tab label="Opciones de medias">
-				<checkbox id="lines" label="Dibujar líneas" checked="true" />
-				<stretch />
-				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos" />
+			<tab id="tabOptions" label="Options">
+				<checkbox id="lines" label="Plot lines" checked="true"/>
+				<stretch/>
+				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphics options"/>
 			</tab>
 		</tabbook>
 	</dialog>
 
-	<wizard label="Asistente para diagrama de interacción">
-		<page id="page_variables">
+	<wizard label="Interaction plot wizard">
+		<page id="pageVariables">
 			<text>
-				Seleccionar primero la variable respuesta numérica para la que se desea dibujar el diagrama de interacción.
-				<br />
-				Después seleccionar la variable categórica cuyas categorías se quieran representar en el eje X y la variable categórica
-				cuyas categorías se quieran representar con distintas líneas de trazado.
+				<p>Select the numeric response variable to plot the means.</p>
+				<p>Then, select the factor to plot in the x-axis.</p>
+				<p>Finally, select the factor to define the traces.</p>
 			</text>
-			<copy id="row_vars" />
-			<stretch />
+			<copy id="rowVars"/>
+			<stretch/>
 		</page>
-		<page id="page_interaction_options">
+		<page id="pageOptions">
 			<text>
-				Si se desea dibujar líneas uniendo las medias de la misma categoría marcar la casilla.
+				Check the box to plot lines joining the means of the same category.
 			</text>
-			<copy id="lines" />
-			<stretch />
+			<copy id="lines"/>
+			<stretch/>
 		</page>
-		<embed id="plotoptions" component="rkTeaching::plot_options" />
+		<embed id="plotoptions" component="rkTeaching::plot_options"/>
 	</wizard>
 </document>
