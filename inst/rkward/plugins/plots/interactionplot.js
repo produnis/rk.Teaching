@@ -42,19 +42,15 @@ function calculate() {
   }
 }
 
-function printout() {
-  doPrintout(true);
-}
-
 function preview() {
   preprocess();
   calculate();
-  doPrintout(false);
+  printout(true);
 }
 
-function doPrintout(full) {
+function printout(isPreview) {
   // Print header
-  if (full) {
+  if (!isPreview) {
     header = new Header(i18n("Interaction plot of %1 and %2 on %3", xGroupsName, traceGroupsName, variableName));
     header.add(i18n("Data frame"), dataframe);
     header.add(i18n("Response variable"), variableName);
@@ -65,13 +61,13 @@ function doPrintout(full) {
     }
     header.print();
     echo('rk.graph.on()\n');
-    }
+  }
   // Plot
   echo('try ({\n');
   echo('interactionPlot <- ggplot(data=' + dataframe + ', aes(x=' + xGroupsName + ', y=' + variableName + ', colour=' + traceGroupsName + '))' + points + lines + getString("plotoptions.code.calculate") + '\n');
   echo('print(interactionPlot)\n');
   echo('})\n');
-  if (full) {
+  if (!isPreview) {
     echo('rk.graph.off ()\n');
   }
 }

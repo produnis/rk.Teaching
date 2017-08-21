@@ -2,7 +2,7 @@ To do file for rk.Teaching project
 
 Translation:
   Data:
-    ☐ Standarization
+    ✔ Standarization @done(2017-08-21 19:11) @project(Translation / Data)
   Frequency distribution:
   Charts:
     ✔ Scatter plot matrix @done(2017-08-21 13:30) @project(Translation / Charts)
@@ -31,7 +31,7 @@ Translation:
     ☐ Chi-square
     ☐ Fisher's F
   Parametric tests:
-    ☐ T-test for the mean of one population
+    ✔ T-test for the mean of one population @done(2017-08-21 20:36) @project(Translation / Parametric tests)
     ☐ T-test for comparing the means of two paired populations
     ☐ T-test for comparing the means of two independent populations
     ☐ Sample size to estimate one mean
@@ -56,6 +56,7 @@ Translation:
 
 Optimization:
   ☐ Use dplyr to compute basic statistics.
+  ☐ Review plots preview (look at interaction plot as example).
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:

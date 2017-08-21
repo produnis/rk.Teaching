@@ -38,6 +38,7 @@ function preprocess() {
 function calculate() {
   // Filter
   filter();
+  // Prepare data frame
   echo('df <- data.frame(y=c(' + variables.join() + '), x=factor(rep(c(' + variablesNames.map(quote) + '), each=nrow(' + dataframe + ')))');
   if (grouped) {
     echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variables.length + ')');
