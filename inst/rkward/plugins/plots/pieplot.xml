@@ -2,58 +2,58 @@
 
 <!DOCTYPE rkplugin>
 <document>
-	<code file="pieplot.js" />
-	<help file="pieplot.rkh" />
-	
+	<code file="pieplot.js"/>
+	<help file="pieplot.rkh"/>
+
 	<logic>
-		<set id="plotoptions.allow_axes" to="false" />
-		<set id="plotoptions.allow_grid" to="false" />
-		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
-		<connect client="groups.visible" governor="grouped_mode"/>
-		<connect client="filter_embed.variable" governor="variable.available" />
+		<set id="plotOptions.allow_axes" to="false"/>
+		<set id="plotOptions.allow_grid" to="false"/>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
 	</logic>
-	
+
 	<dialog label="Pie chart">
 		<tabbook>
-			<tab id="tab_variables" label="Variable(s)" >
-				<row id="row_vars">
+			<tab id="tabVariables" label="Variable(s)">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variable(s)"/>
 					<column>
-						<varslot id="variable" label="Variable" source="selector" required="true" />
-						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" required="true"/>			
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>
-						<stretch/>
+						<varslot id="variable" label="Variable" source="selector" required="true"/>
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" required="true"/>
+						<include file="../common/filter.xml"/>
 						<preview id="preview"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_pie_options" label="Sector options">
-				<frame id="frame_freq" label="Frecuencias">
-					<checkbox id="rel_freq" label="Relative frequency" checked="false" value="1" />
+			<tab id="tabPieOptions" label="Sector options">
+				<frame id="frameFreq" label="Frecuencias">
+					<checkbox id="relative" label="Relative frequency" checked="false"/>
 				</frame>
 				<stretch/>
-				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
 			</tab>
 		</tabbook>
 	</dialog>
-	
+
 	<wizard label="Pie chart wizard">
-		<page id="page_variables">
+		<page id="pageVariables">
 			<text>
 				<p>Select the variables to plot the pie chart.</p>
-                                <p>If you want different pie charts for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one pie chart for every category combination of the factors.</p>
+				<p>If you want different pie charts for the categories of one or several factors, check the box
+					<b>Plot by groups</b>
+					and select the factors to define the groups. If you select more than one factor you will get one pie chart for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 			<stretch/>
 		</page>
 		<page id="page_pie_options">
 			<text>
 				Check the box if you want sectors represent relative frequencies.
 			</text>
-			<copy id="rel_freq" />
-			<stretch />
+			<copy id="relative"/>
+			<stretch/>
 		</page>
-		<embed id="plotoptions" component="rkTeaching::plot_options" />
+		<embed id="plotOptions" component="rkTeaching::plot_options"/>
 	</wizard>
 </document>

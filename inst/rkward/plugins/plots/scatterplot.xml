@@ -1,64 +1,64 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
 <!DOCTYPE rkplugin>
 <document>
-	<code file="scatterplot.js" />
-	<help file="scatterplot.rkh" />
+	<code file="scatterplot.js"/>
+	<help file="scatterplot.rkh"/>
 
 	<logic>
-		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1" />
-		<connect client="groups.visible" governor="grouped_mode" />
-		<connect client="pointcolor.enabled" governor="grouped_mode.not" />
-		<connect client="position.enabled" governor="grouped_mode" />
-		<convert id="smooth_check" mode="equals" sources="smooth.state" standard="1" />
-		<connect client="spread.enabled" governor="smooth_check" />
-		<connect client="filter_embed.variable" governor="x.available" />
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect client="pointColor.enabled" governor="groupedMode.not"/>
+		<connect client="position.enabled" governor="groupedMode"/>
+		<convert id="smoothCheck" mode="equals" sources="smooth.state" standard="1"/>
+		<connect client="spread.enabled" governor="smoothCheck"/>
 	</logic>
 
 	<dialog label="Scatter plot">
 		<tabbook>
-			<tab id="tab_variables" label="Variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Select variables" />
+			<tab id="tabVariables" label="Variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Y variable" source="selector" types="number unknown" required="true" />
-						<varslot id="x" label="X variable" source="selector" types="number unknown" required="true" />
-						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" multi="true" required="true" />
-						<embed id="filter_embed" component="rkTeaching::filter_embed" />
-						<stretch />
-						<preview id="preview" />
+						<varslot id="y" label="Y variable" source="selector" types="numeric" required="true"/>
+						<varslot id="x" label="X variable" source="selector" types="numeric" required="true"/>
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
+						<preview id="preview"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_regression" label="Fitted line">
-				<frame id="regression_frame" label="Regression model">
-					<checkbox id="linear" label="Linear" />
-					<checkbox id="cuadratic" label="Cuadratic" />
-					<checkbox id="cubic" label="Cubic" />
-					<checkbox id="potential" label="Potential" />
-					<checkbox id="exponential" label="Exponential" />
-					<checkbox id="logarithmic" label="Logarithmic" />
-					<checkbox id="inverse" label="Inverse" />
-					<checkbox id="sigmoid" label="Sigmoidal" />
+			<tab id="tabRegression" label="Fitted line">
+				<frame id="regressionFrame" label="Regression model">
+					<checkbox id="linear" label="Linear"/>
+					<checkbox id="quadratic" label="Quadratic"/>
+					<checkbox id="cubic" label="Cubic"/>
+					<checkbox id="potential" label="Potential"/>
+					<checkbox id="exponential" label="Exponential"/>
+					<checkbox id="logarithmic" label="Logarithmic"/>
+					<checkbox id="inverse" label="Inverse"/>
+					<checkbox id="sigmoid" label="Sigmoidal"/>
 				</frame>
-				<checkbox id="confidencestrip" label="Plot confidence strip" checked="false" />
-				<stretch />
+				<checkbox id="confidenceStrip" label="Plot confidence strip" checked="false"/>
+				<stretch/>
 			</tab>
 
-			<tab id="tab_point_options" label="Point options">
+			<tab id="tabPointOptions" label="Point options">
 				<row>
 					<column>
 						<radio id="position" label="Point clouds layout">
-							<option value="mixed" label="Mixed" checked="true" />
-							<option value="faceted" label="Separated" />
+							<option value="mixed" label="Mixed" checked="true"/>
+							<option value="faceted" label="Separated"/>
 						</radio>
-						<stretch />
+						<stretch/>
 					</column>
 					<column>
-						<embed id="pointcolor" label="Points color" component="rkTeaching::color_chooser" />
-						<embed id="pointsymbol" label="Points symbol" component="rkTeaching::point_chooser" />
-						<spinbox id="pointsize" label="Points size" type="integer" min="0" max="10" initial="3" />
-						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options" />
-						<stretch />
+						<embed id="pointColor" label="Points color" component="rkTeaching::color_chooser"/>
+						<embed id="pointSymbol" label="Points symbol" component="rkTeaching::point_chooser"/>
+						<spinbox id="pointSize" label="Points size" type="integer" min="0" max="10" initial="3"/>
+						<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
@@ -66,43 +66,47 @@
 	</dialog>
 
 	<wizard label="Scatter plot wizard">
-		<page id="pag_vars">
+		<page id="pageVariables">
 			<text>
-                            <p>Select the variables to represent in the X and Y axiSeleccionar las variables a dibujar en los ejes X e Y.</p>
-				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.</p>
+				<p>Select the variables to represent in the X and Y axiSeleccionar las variables a dibujar en los ejes X e Y.</p>
+				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box	<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 		</page>
-		<page id="pag_regression">
+		<page id="pageRegression">
 			<text>
 				If you want to plot a regression model check the corresponding box.
 			</text>
-			<copy id="regression_frame" />
-                        <stretch />
+			<copy id="regressionFrame"/>
+			<stretch/>
 		</page>
-                <page>
-                    <text>
-                        Check the box to plot a confidence strip around the regression models. 
-                    </text>
-                    <copy id="confidencestrip" />
-                    <stretch />
-                </page>
-		<page id="page_position_points">
+		<page>
 			<text>
-                            Check the box <b>Mixed</b> to plot the point clouds of different categories in the same chart or check the <b>Separated</b> box to plot every point cloud in its own chart.
+				Check the box to plot a confidence strip around the regression models.
 			</text>
-			<copy id="position" />
-                        <stretch />
+			<copy id="confidenceStrip"/>
+			<stretch/>
 		</page>
-		<page id="page_color_poins">
-			<copy id="pointcolor"/>
-			<copy id="pointsymbol"/>
+		<page id="pagePointsPosition">
+			<text>
+				Check the box
+				<b>Mixed</b>
+				to plot the point clouds of different categories in the same chart or check the
+				<b>Separated</b>
+				box to plot every point cloud in its own chart.
+			</text>
+			<copy id="position"/>
+			<stretch/>
+		</page>
+		<page id="pagePoinsAspect">
+			<copy id="pointColor"/>
+			<copy id="pointSymbol"/>
 			<text>
 				Choose the point size.
 			</text>
-			<copy id="pointsize" />
-                        <stretch />
+			<copy id="pointSize"/>
+			<stretch/>
 		</page>
-		<embed id="plotoptions" component="rkTeaching::plot_options" />
+		<embed id="plotOptions" component="rkTeaching::plot_options"/>
 	</wizard>
 </document>

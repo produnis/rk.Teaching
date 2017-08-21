@@ -5,17 +5,17 @@ function prepareLabel (labelname) {
 	label = label.join('\\n');
 	if (label!='') {
 		if (!getBoolean(labelname + '_expression')) {
-			label = quote(label); 
+			label = quote(label);
 		}
 	}
 	return label;
 }
-	
+
 function preprocess () {
 }
 
 function calculate () {
-	var ggplotoptions = '';
+	var ggplotOptions = '';
 	// Title
 	var main = prepareLabel('main');
 	if (main!=''){
@@ -24,49 +24,49 @@ function calculate () {
 
 	// X axe
 	// X axi label
-	var xlab = prepareLabel("xlab");
-	if (xlab!='') {
-		xlab = ' + xlab(' + xlab + ')';
+	var xLab = prepareLabel("xLab");
+	if (xLab!='') {
+		xLab = ' + xlab(' + xLab + ')';
 	}
 	// X range
-	var xminvalue = getString("xminvalue");
-	var xmaxvalue = getString("xmaxvalue");
-	var xlim = '';
-	if ((xminvalue != '') && (xmaxvalue != '')) {
-		xlim = 'xlim=c(' + xminvalue + ',' + xmaxvalue + ')';
+	var xMinValue = getString("xMinValue");
+	var xMaxValue = getString("xMaxValue");
+	var xLim = '';
+	if ((xMinValue != '') && (xMaxValue != '')) {
+		xLim = 'xlim=c(' + xMinValue + ',' + xMaxValue + ')';
 	}
 	// X ticks labels orientation
-	var x_lab_orientation = getString("x_lab_orientation");
-	if (x_lab_orientation!=='') {
-		x_lab_orientation = ' + theme(axis.text.x=element_text(angle=' + x_lab_orientation + ', vjust=0.5))';
-	} 
-	
+	var xLabOrientation = getString("xLabOrientation");
+	if (xLabOrientation!=='') {
+		xLabOrientation = ' + theme(axis.text.x=element_text(angle=' + xLabOrientation + ', vjust=0.5))';
+	}
+
 	// Y axe
 	// X axi label
-	var ylab = prepareLabel("ylab");
-	if (ylab!='') {
-		ylab = ' + ylab(' + ylab + ')';
+	var yLab = prepareLabel("yLab");
+	if (yLab!='') {
+		yLab = ' + ylab(' + yLab + ')';
 	}
 	// Y range
-	var yminvalue = getString("yminvalue");
-	var ymaxvalue = getString("ymaxvalue");
-	var ylim = '';
-	if ((yminvalue != '') && (ymaxvalue != '')) {
-		ylim = 'ylim=c(' + yminvalue + ',' + ymaxvalue + ')';
+	var yMinValue = getString("yMinValue");
+	var yMaxValue = getString("yMaxValue");
+	var yLim = '';
+	if ((yMinValue != '') && (yMaxValue != '')) {
+		yLim = 'ylim=c(' + yMinValue + ',' + yMaxValue + ')';
 	}
-	
-	var coord = ' + coord_cartesian(' + xlim + ',' + ylim + ')';
-			
+
+	var coord = ' + coord_cartesian(' + xLim + ',' + yLim + ')';
+
 	// Y ticks labels orientation
-	var y_lab_orientation = getString("y_lab_orientation");
-	if (y_lab_orientation!=='') {
-		y_lab_orientation = ' + theme(axis.text.y=element_text(angle=' + y_lab_orientation + ', hjust=0.5))';
+	var yLabOrientation = getString("yLabOrientation");
+	if (yLabOrientation!=='') {
+		yLabOrientation = ' + theme(axis.text.y=element_text(angle=' + yLabOrientation + ', hjust=0.5))';
 	}
-	
+
 	// flip axis
-	var switch_axes = '';
-	if (getBoolean("switch_axes")) {
-		switch_axes = ' + coord_flip()';
+	var switchAxes = '';
+	if (getBoolean("switchAxes")) {
+		switchAxes = ' + coord_flip()';
 	}
 
 	// legend
@@ -74,43 +74,43 @@ function calculate () {
 	if (legend != '') {
 		legend = ' + theme(legend.position="' + legend + '")';
 	}
-	
+
 	// grid
-	var grid_horizontal_major = '';
-	if (!getBoolean("grid_horizontal_major")) {
-		grid_horizontal_major = ' + theme(panel.grid.major.x=element_blank())';
+	var gridHorizontalMajor = '';
+	if (!getBoolean("gridHorizontalMajor")) {
+		gridHorizontalMajor = ' + theme(panel.grid.major.x=element_blank())';
 	}
-	var grid_horizontal_minor = '';
-	if (!getBoolean("grid_horizontal_minor")) {
-		grid_horizontal_minor = ' + theme(panel.grid.minor.x=element_blank())';
+	var gridHorizontalMinor = '';
+	if (!getBoolean("gridHorizontalMinor")) {
+		gridHorizontalMinor = ' + theme(panel.grid.minor.x=element_blank())';
 	}
-	var grid_vertical_major = '';
-	if (!getBoolean("grid_vertical_major")) {
-		grid_vertical_major = ' + theme(panel.grid.major.y=element_blank())';
+	var gridVerticalMajor = '';
+	if (!getBoolean("gridVerticalMajor")) {
+		gridVerticalMajor = ' + theme(panel.grid.major.y=element_blank())';
 	}
-	var grid_vertical_minor = '';
-	if (!getBoolean("grid_vertical_minor")) {
-		grid_vertical_minor = ' + theme(panel.grid.minor.y=element_blank())';
+	var gridVerticalMinor = '';
+	if (!getBoolean("gridVerticalMinor")) {
+		gridVerticalMinor = ' + theme(panel.grid.minor.y=element_blank())';
 	}
-	var grid_background_color = getString("grid_background_color.code.printout");
-	if (grid_background_color!='') {
-		grid_background_color = ' + theme(panel.background=element_rect(fill=' + grid_background_color + '))';
+	var gridBackgroundColor = getString("gridBackgroundColor.code.printout");
+	if (gridBackgroundColor!='') {
+		gridBackgroundColor = ' + theme(panel.background=element_rect(fill=' + gridBackgroundColor + '))';
 	}
-	var grid_major_line_color = getString("grid_major_line_color.code.printout");
-	if (grid_major_line_color!='') {
-		grid_major_line_color = ' + theme(panel.grid.major=element_line(colour=' + grid_major_line_color + '))';
+	var gridMajorLineColor = getString("gridMajorLineColor.code.printout");
+	if (gridMajorLineColor!='') {
+		gridMajorLineColor = ' + theme(panel.grid.major=element_line(colour=' + gridMajorLineColor + '))';
 	}
-	var grid_minor_line_color = getString("grid_minor_line_color.code.printout");
-	if (grid_minor_line_color!='') {
-		grid_minor_line_color = ' + theme(panel.grid.minor=element_line(colour=' + grid_minor_line_color + '))';
+	var gridMinorLineColor = getString("gridMinorLineColor.code.printout");
+	if (gridMinorLineColor!='') {
+		gridMinorLineColor = ' + theme(panel.grid.minor=element_line(colour=' + gridMinorLineColor + '))';
 	}
-	
-	ggplotoptions =  main + xlab + ylab + coord + switch_axes + x_lab_orientation + y_lab_orientation + legend + grid_horizontal_major + grid_horizontal_minor + grid_vertical_major + grid_vertical_minor + grid_major_line_color + grid_minor_line_color + grid_background_color;
-	echo (ggplotoptions);
+
+	ggplotOptions =  main + xLab + yLab + coord + switchAxes + xLabOrientation + yLabOrientation + legend + gridHorizontalMajor + gridHorizontalMinor + gridVerticalMajor + gridVerticalMinor + gridMajorLineColor + gridMinorLineColor + gridBackgroundColor;
+	echo (ggplotOptions);
 }
 
 function printout () {
-	// main title 
+	// main title
 	var main = prepareLabel('main');
 	if (main!=''){
 		main = ', main=' + main;
@@ -118,13 +118,13 @@ function printout () {
 
 	// X axi log transformation
 	var log='';
-	if (getBoolean("xlog")) {
+	if (getBoolean("xLog")) {
 		log = ', log="x"';
 	}
 	// Y axi log transformation
 	if (getBoolean("ylog")) {
 		log = ', log="y"';
-		if (getBoolean("xlog")) {
+		if (getBoolean("xLog")) {
 			log = ', log="xy"';
 		}
 	}
@@ -132,4 +132,3 @@ function printout () {
 	options = main + log;
 	echo (options);
 }
-

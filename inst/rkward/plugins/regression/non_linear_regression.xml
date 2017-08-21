@@ -2,59 +2,60 @@
 <document>
 	<code file="non_linear_regression.js"/>
 	<help file="non_linear_regression.rkh"/>
-	
+
 	<logic>
-		<connect client="filter_embed.variable" governor="y.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
 	</logic>
-	
+
 	<dialog label="Non-linear regression">
 		<tabbook>
-			<tab id="tab_variables" label="Variables">
-				<row id="row_vars">
+			<tab id="tabVars" label="Variables">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Dependent variable" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Independent variable" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Regression by groups" checked="false" />
-						<varslot id="groups" label="Grouping variable(s)" source="selector" multi="true" required="true"/>
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>						
+						<varslot id="y" label="Dependent variable" source="selector" types="numeric" required="true"/>
+						<varslot id="x" label="Independent variable(s)" types="numeric" source="selector" required="true"/>
+						<checkbox id="grouped" label="Regression by groups" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
 						<saveobject id="save" label="Save model" initial="regression.model" checkable="true"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_model" label="Regression models" >
-				<radio id="model" label="Modelo" >
-					<option value="linear" label="Linear" />
-					<option value="cuadratic" label="Cuadratic" />
-					<option value="cubic" label="Cubic" />
-					<option value="potential" label="Potencial" />
-					<option value="exponential" label="Exponential" />
-					<option value="logarithmic" label="Logarithmic" />
-					<option value="inverse" label="Inverse" />
-					<option value="sigmoid" label="Sigmoidal" />
+			<tab id="tabModel" label="Regression models">
+				<radio id="model" label="Model">
+					<option value="linear" label="Linear"/>
+					<option value="quadratic" label="Quadratic"/>
+					<option value="cubic" label="Cubic"/>
+					<option value="potential" label="Potencial"/>
+					<option value="exponential" label="Exponential"/>
+					<option value="logarithmic" label="Logarithmic"/>
+					<option value="inverse" label="Inverse"/>
+					<option value="sigmoid" label="Sigmoidal"/>
 				</radio>
 				<stretch/>
 			</tab>
 		</tabbook>
 	</dialog>
-	
+
 	<wizard label="Non-linear regression model wizard">
-		<page id="pag_vars">
+		<page id="pageVars">
 			<text>
-                            <p>Select the dependent and independent variables.</p>
-				<p>If you want differenciate the regression models for the categories of one or several factors, check the box <b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.</p>
+				<p>Select the dependent and independent variables.</p>
+				<p>If you want differenciate the regression models for the categories of one or several factors, check the box
+					<b>Regression by groups</b>
+					and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 		</page>
-                <page id="pag_model">
+		<page id="pageModel">
 			<text>
-                            <p>Select the type of model to fit.</p>
+				<p>Select the type of model to fit.</p>
 			</text>
-			<copy id="model" />
-                        <stretch />
+			<copy id="model"/>
+			<stretch/>
 		</page>
-        </wizard>
-	
+	</wizard>
+
 </document>

@@ -2,54 +2,52 @@
 
 <!DOCTYPE rkplugin>
 <document>
-	<code file="boxplot.js" />
-	<help file="boxplot.rkh" />
+	<code file="boxplot.js"/>
+	<help file="boxplot.rkh"/>
 
 	<logic>
-		<set id="plotoptions.allow_type" to="true" />
-		<set id="plotoptions.allow_ylim" to="true" />
-		<set id="plotoptions.allow_xlim" to="false" />
-		<set id="plotoptions.allow_log" to="false" />
-		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1" />
-		<connect client="groups.visible" governor="grouped_mode" />
-		<connect client="frame_barfillcolor.enabled" governor="grouped_mode.not" />
-		<connect client="frame_barbordercolor.enabled" governor="grouped_mode.not" />
-		<connect client="plotoptions.allow_legend" governor="grouped_mode" />
-		<connect client="filter_embed.variable" governor="variable.available" />
+		<set id="plotOptions.allow_type" to="true"/>
+		<set id="plotOptions.allow_ylim" to="true"/>
+		<set id="plotOptions.allow_xlim" to="false"/>
+		<set id="plotOptions.allow_log" to="false"/>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect client="frameBarFillColor.enabled" governor="groupedMode.not"/>
+		<connect client="frameBarBorderColor.enabled" governor="groupedMode.not"/>
+		<connect client="plotOptions.allow_legend" governor="groupedMode"/>
 	</logic>
 
 	<dialog label="Box plot">
 		<tabbook>
-			<tab id="tab_variables" label="Variable(s)">
-				<row id="row_vars">
-					<varselector id="selector" label="Select variable(s)" />
+			<tab id="tabVariables" label="Variable(s)">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variable(s)"/>
 					<column>
-						<varslot id="variable" label="Variable(s)" multi="true" types="number" source="selector" required="true" />
-						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false" />
-						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true" />
-						<embed id="filter_embed" component="rkTeaching::filter_embed" />
-						<stretch />
-						<preview id="preview" />
+						<varslot id="variable" label="Variable(s)" multi="true" types="numeric" source="selector" required="true"/>
+						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
+						<preview id="preview"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_box_options" label="Box options">
+			<tab id="tabBoxOptions" label="Box options">
 				<row>
-					<column id="col_box_options">
-						<checkbox id="notch" label="Plot notches" checked="false" />
-						<checkbox id="means" label="Plot mean(s)" checked="false" />
-						<checkbox id="points" label="Plot points" checked="false" />
-						<stretch />
+					<column id="colBoxOptions">
+						<checkbox id="notch" label="Plot notches" checked="false"/>
+						<checkbox id="means" label="Plot mean(s)" checked="false"/>
+						<checkbox id="points" label="Plot points" checked="false"/>
+						<stretch/>
 					</column>
-					<column id="col_color_options">
-						<frame id="frame_boxfillcolor" label="Fill color">
-							<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Color" />
+					<column id="colColorOptions">
+						<frame id="frameBoxFillColor" label="Fill color">
+							<embed id="boxFillColor" component="rkTeaching::color_chooser" label="Color"/>
 						</frame>
-						<frame id="frame_boxbordercolor" label="Border color">
-							<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Color" />
+						<frame id="frameBoxBorderColor" label="Border color">
+							<embed id="boxBorderColor" component="rkTeaching::color_chooser" label="Color"/>
 						</frame>
-						<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options" />
-						<stretch />
+						<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
@@ -57,34 +55,42 @@
 	</dialog>
 
 	<wizard label="Box plot wizard">
-		<page id="page_variables">
+		<page id="pageVariables">
 			<text>
-                                <p>Select the variables to plot the box plot.</p>
-                                <p>If you want different boxes for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one box for every category combination of the factors.</p>
+				<p>Select the variables to plot the box plot.</p>
+				<p>If you want different boxes for the categories of one or several factors, check the box
+					<b>Plot by groups</b>
+					and select the factors to define the groups. If you select more than one factor you will get one box for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 			<stretch/>
 		</page>
-		<page id="page_box_options">
+		<page id="pageBoxOptions">
 			<text>
-                            <p>Check the box <b>Plot notches</b> to plot the notches for the confidence interval for the median</p>
-                            <p>Check the box <b>Plot the mean(s)</b> to plot the mean(s) on the box(es).</p>
-                            <p>Check the box <b>Plot the points</b> to plot a point for every data in the sample.</p>
+				<p>Check the box
+					<b>Plot notches</b>
+					to plot the notches for the confidence interval for the median</p>
+				<p>Check the box
+					<b>Plot the mean(s)</b>
+					to plot the mean(s) on the box(es).</p>
+				<p>Check the box
+					<b>Plot the points</b>
+					to plot a point for every data in the sample.</p>
 			</text>
-			<copy id="col_box_options" />
-			<stretch />
+			<copy id="colBoxOptions"/>
+			<stretch/>
 		</page>
 		<page id="page_color_options">
 			<text>
 				Select the fill color of the box.
 			</text>
-			<embed id="boxfillcolor" component="rkTeaching::color_chooser" label="Fill color" />
+			<embed id="boxFillColor" component="rkTeaching::color_chooser" label="Fill color"/>
 			<text>
 				Select the border color of the box.
 			</text>
-			<embed id="boxbordercolor" component="rkTeaching::color_chooser" label="Border color" />
-			<stretch />
+			<embed id="boxBorderColor" component="rkTeaching::color_chooser" label="Border color"/>
+			<stretch/>
 		</page>
-		<embed id="plotoptions" component="rkTeaching::plot_options" />
+		<embed id="plotOptions" component="rkTeaching::plot_options"/>
 	</wizard>
 </document>

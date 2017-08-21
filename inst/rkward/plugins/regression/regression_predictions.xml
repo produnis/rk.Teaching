@@ -4,43 +4,44 @@
 <document>
 	<code file="regression_predictions.js"/>
 	<help file="regression_predictions.rkh"/>
-		
+
 	<dialog label="Regression predictions">
-		<row id="row_vars">
+		<row id="rowVars">
 			<varselector id="selector" label="Select the regression model"/>
 			<column>
 				<varslot id="model" label="Regression model" source="selector" classes="lm" required="true" />
 				<input id="values" label="Predictions for" size="small"/>
-				<frame id="use_dataframe" label="Use a data set" checkable="true" checked="false" value_unckecked="0" value="1">
+				<frame id="useDataframe" label="Use a data set" checkable="true" checked="false" value_unckecked="0" value="1">
 					<varslot id="dataframe" label="Predictions for the data set" classes="data.frame"  source="selector" required="true" />
 				</frame>
 				<checkbox id="intervals" label="Confidence intervals for the predictions" value="1"/>
 			</column>
 		</row>
 	</dialog>
-	
+
 	<wizard label="Regression predictions wizard">
-		<page id="page_model">
+		<page id="pageModel">
 			<text>
 				Select a regression model to make the predictions with.
 			</text>
 			<copy id="selector" />
 			<copy id="model" />
 		</page>
-		<page id="page_input">
+		<page id="pageInput">
 			<text>
-				Enter the values of the independent variable for which to predict the dependent variable (you can insert more than one value separated by commas), or select a data set with the values of the independent variable (the variable names in the data set must coincide with variable names in the model).
+				<p>Enter the values of the independent variable for which to predict the dependent variable (you can insert more than one value separated by commas), or select a data set with the values of the independent variable s(the variable names in the data set must coincide with variable names in the model).</p>
+				<p>For multiple regression use only the data set input.</p>
 			</text>
 			<copy id="values" />
-			<copy id="use_dataframe" />
-                        <stretch />
+			<copy id="useDataframe" />
+      <stretch />
 		</page>
-		<page id="page_intervals">
+		<page id="pageIntervals">
 			<text>
 				Check the box if you want the 95% confidence intervals for the predictions.
 			</text>
 			<copy id="intervals" />
-                        <stretch />
+      <stretch />
 		</page>
 	</wizard>
 </document>

@@ -1,69 +1,71 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+
 <!DOCTYPE rkplugin>
 <document>
 	<code file="correlation.js"/>
 	<help file="correlation.rkh"/>
 
 	<logic>
-		<connect client="filter_embed.variable" governor="variables.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
 	</logic>
 
-        <dialog label="Correlation matrix">
+	<dialog label="Correlation matrix">
 		<tabbook>
-			<tab id="tab_variables" label="Variables">
-				<row id="row_vars">
+			<tab id="tabVars" label="Variables">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variables"/>
 					<column>
 						<varslot id="variables" label="Variable(s)" type="numeric" min_vars="2" multi="true" source="selector" required="true" num_dimensions="1"/>
-                                                <checkbox id="grouped" label="Correlation by groups" checked="false" />
-                                                <varslot id="groups" label="Grouping variable(s)" source="selector" multi="true" required="true"/>
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>	
+						<checkbox id="grouped" label="Correlation by groups" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_Options" label="Correlation options" >
-				<radio id="method" label="Método">
-					<option label="Pearson correlation" value="pearson" checked="true" />
-					<option label="Kendall Tau" value="kendall" />
-					<option label="Spearman Rho" value="spearman" />
+			<tab id="tabOptions" label="Correlation options">
+				<radio id="method" label="Method">
+					<option label="Pearson correlation" value="pearson" checked="true"/>
+					<option label="Kendall Tau" value="kendall"/>
+					<option label="Spearman Rho" value="spearman"/>
 				</radio>
-				<checkbox id="p" label="Compute p-values" value="true" checked="true" />
-				<stretch />
+				<checkbox id="p" label="Compute p-values" value="true" checked="true"/>
+				<stretch/>
 				<radio id="missing" label="Omit missing values">
-					<option label="Pairwise" value="pairwise.complete.obs" checked="true" />
-					<option label="All the varibles" value="complete.obs" />
+					<option label="Pairwise" value="pairwise.complete.obs" checked="true"/>
+					<option label="All the variables" value="complete.obs"/>
 				</radio>
 			</tab>
 		</tabbook>
 	</dialog>
-	
+
 	<wizard label="Correlation matrix wizard">
-		<page id="page_variabless">
+		<page id="pageVars">
 			<text>
 				<p>Select the variables to correlate.</p>
-				<p>If you want differenciate the correlations for the categories of one or several factors, check the box <b>Correlation by groups</b> and select the factors to define the groups. If you select more than one factor you will get one correlation matrix for every category combination of the factors.</p>
+				<p>If you want differenciate the correlations for the categories of one or several factors, check the box	<b>Correlation by groups</b>
+				and select the factors to define the groups. If you select more than one factor you will get one correlation matrix for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 		</page>
-		<page id="page_method">
+		<page id="pageMethod">
 			<text>
 				Choose the desired type of correlation.
 			</text>
-			<copy id="method" />
+			<copy id="method"/>
 		</page>
-		<page id="page_p">
+		<page id="pageP">
 			<text>
 				Check the box if you want the p-values of the correlations.
 			</text>
-			<copy id="p" />
+			<copy id="p"/>
 		</page>
-		<page id="page_missing">
+		<page id="pageMissing">
 			<text>
-				Choose how to manage missing values. 
+				Choose how to manage missing values.
 			</text>
-			<copy id="missing" />
+			<copy id="missing"/>
 		</page>
 	</wizard>
-	
+
 </document>

@@ -1,4 +1,4 @@
-regcomp <- function(y,x, models=c("linear", "cuadratic", "cubic", "potential", "exponential", "logarithmic", "inverse", "sigmoid"), subset=NULL, decimals=4){
+regcomp <- function(y,x, models=c("linear", "quadratic", "cubic", "potential", "exponential", "logarithmic", "inverse", "sigmoid"), subset=NULL, decimals=4){
 	if (length(models)==0){
 		stop("You must select at least a model type")
 	}
@@ -11,8 +11,8 @@ regcomp <- function(y,x, models=c("linear", "cuadratic", "cubic", "potential", "
 		r <- c(r,summary(m)$r.squared)
 		p <- c(p,pf(q=c(summary(m)$fstatistic["value"]),df1=summary(m)$fstatistic["numdf"],df2=summary(m)$fstatistic["dendf"],lower.tail=FALSE))
 	}
-	if ("cuadratic" %in% models){
-		names <- c(names,"Cuadratic")
+	if ("quadratic" %in% models){
+		names <- c(names,"Quadratic")
 		m <- lm(y~x+I(x^2),subset=subset)
 		r <- c(r,summary(m)$r.squared)
 		p <- c(p,pf(q=c(summary(m)$fstatistic["value"]),df1=summary(m)$fstatistic["numdf"],df2=summary(m)$fstatistic["dendf"],lower.tail=FALSE))	
@@ -36,7 +36,7 @@ regcomp <- function(y,x, models=c("linear", "cuadratic", "cubic", "potential", "
 		p <- c(p,pf(q=c(summary(m)$fstatistic["value"]),df1=summary(m)$fstatistic["numdf"],df2=summary(m)$fstatistic["dendf"],lower.tail=FALSE))
 	}
 	if ("logarithmic" %in% models){
-		names <- c(names,"Logarirthmic")
+		names <- c(names,"Logarithmic")
 		m <- lm(y~log(x),subset=subset)
 		r <- c(r,summary(m)$r.squared)
 		p <- c(p,pf(q=c(summary(m)$fstatistic["value"]),df1=summary(m)$fstatistic["numdf"],df2=summary(m)$fstatistic["dendf"],lower.tail=FALSE))

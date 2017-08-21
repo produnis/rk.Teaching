@@ -1,208 +1,208 @@
 <!DOCTYPE rkplugin>
 <document>
-	<code file="plot_options.js" />
-	<help file="plot_options.rkh" />
-	
+	<code file="plot_options.js"/>
+	<help file="plot_options.rkh"/>
+
 	<logic>
-		<external id="default_main" default="" />
-		<external id="default_xlab" default="" />
-		<external id="default_ylab" default="" />
-		
+		<external id="default_main" default=""/>
+		<external id="default_xlab" default=""/>
+		<external id="default_ylab" default=""/>
+
 		<external id="allow_legend" default="false"/>
-		<connect client="tab_legend.visible" governor="allow_legend" />
-		
-		<external id="allow_grid" default="true" />
-		<connect client="tab_grid.visible" governor="allow_grid"/>
-		
-		<external id="allow_axes" default="true" />
-		<connect client="tab_axes.visible" governor="allow_axes"/>
+		<connect client="tabLegend.visible" governor="allow_legend"/>
 
-		<external id="allow_log" default="true" />
-		<external id="allow_xlim" default="true" />
-		<external id="allow_ylim" default="true" />
+		<external id="allow_grid" default="true"/>
+		<connect client="tabGrid.visible" governor="allow_grid"/>
 
-		<connect client="xminvalue.visible" governor="allow_xlim" />
-		<connect client="xmaxvalue.visible" governor="allow_xlim" />
-		<connect client="yminvalue.visible" governor="allow_ylim" />
-		<connect client="ymaxvalue.visible" governor="allow_ylim" />
-		<convert id="have_scale" mode="or" sources="xminvalue.visible;xmaxvalue.visible;yminvalue.visible;ymaxvalue.visible" />
-		<connect client="scale.visible" governor="have_scale" />
+		<external id="allow_axes" default="true"/>
+		<connect client="tabAxes.visible" governor="allow_axes"/>
+
+		<external id="allow_log" default="true"/>
+		<external id="allow_xlim" default="true"/>
+		<external id="allow_ylim" default="true"/>
+
+		<connect client="xMinValue.visible" governor="allow_xlim"/>
+		<connect client="xMaxValue.visible" governor="allow_xlim"/>
+		<connect client="yMinValue.visible" governor="allow_ylim"/>
+		<connect client="yMaxValue.visible" governor="allow_ylim"/>
+		<convert id="have_scale" mode="or" sources="xMinValue.visible;xMaxValue.visible;yMinValue.visible;yMaxValue.visible"/>
+		<connect client="scale.visible" governor="have_scale"/>
 
 		<!-- If we do not have an xvar specified, it is not possible to specify one xlimit but not the other -->
-		<convert id="xmin_specified" mode="notequals" sources="xminvalue.text" standard="" />
-		<convert id="xmax_specified" mode="notequals" sources="xmaxvalue.text" standard="" />
-		<convert id="xmin_required" mode="and" sources="xmax_specified" />
-		<convert id="xmax_required" mode="and" sources="xmin_specified" />
-		<connect client="xminvalue.required" governor="xmin_required" />
-		<connect client="xmaxvalue.required" governor="xmax_required" />
+		<convert id="xmin_specified" mode="notequals" sources="xMinValue.text" standard=""/>
+		<convert id="xmax_specified" mode="notequals" sources="xMaxValue.text" standard=""/>
+		<convert id="xmin_required" mode="and" sources="xmax_specified"/>
+		<convert id="xmax_required" mode="and" sources="xmin_specified"/>
+		<connect client="xMinValue.required" governor="xmin_required"/>
+		<connect client="xMaxValue.required" governor="xmax_required"/>
 		<!-- Same for y -->
-		<convert id="ymin_specified" mode="notequals" sources="yminvalue.text" standard="" />
-		<convert id="ymax_specified" mode="notequals" sources="ymaxvalue.text" standard="" />
-		<convert id="ymin_required" mode="and" sources="ymax_specified" />
-		<convert id="ymax_required" mode="and" sources="ymin_specified" />
-		<connect client="yminvalue.required" governor="ymin_required" />
-		<connect client="ymaxvalue.required" governor="ymax_required" />
+		<convert id="ymin_specified" mode="notequals" sources="yMinValue.text" standard=""/>
+		<convert id="ymax_specified" mode="notequals" sources="yMaxValue.text" standard=""/>
+		<convert id="ymin_required" mode="and" sources="ymax_specified"/>
+		<convert id="ymax_required" mode="and" sources="ymin_specified"/>
+		<connect client="yMinValue.required" governor="ymin_required"/>
+		<connect client="yMaxValue.required" governor="ymax_required"/>
 
-		<convert id="xlabfilled" mode="notequals" sources="xlab.text" standard="" />
-		<connect client="xlab_expression.enabled" governor="xlabfilled" />
-		<convert id="ylabfilled" mode="notequals" sources="ylab.text" standard="" />
-		<connect client="ylab_expression.enabled" governor="ylabfilled" />
-		<convert id="mainfilled" mode="notequals" sources="main.text" standard="" />
-		<connect client="main_expression.enabled" governor="mainfilled" />
-                <convert id="subfilled" mode="notequals" sources="sub.text" standard="" />
-		<connect client="sub_expression.enabled" governor="subfilled" />
+		<convert id="xlabfilled" mode="notequals" sources="xlab.text" standard=""/>
+		<connect client="xLabExpression.enabled" governor="xlabfilled"/>
+		<convert id="ylabfilled" mode="notequals" sources="ylab.text" standard=""/>
+		<connect client="yLabExpression.enabled" governor="ylabfilled"/>
+		<convert id="mainfilled" mode="notequals" sources="main.text" standard=""/>
+		<connect client="mainExpression.enabled" governor="mainfilled"/>
+		<convert id="subfilled" mode="notequals" sources="sub.text" standard=""/>
+		<connect client="subExpression.enabled" governor="subfilled"/>
 
-		<connect client="xlog.visible" governor="allow_log"/>
-		<connect client="ylog.visible" governor="allow_log"/>			
- 	</logic>
-	
-	<dialog label="Graphic options" >
+		<connect client="xLog.visible" governor="allow_log"/>
+		<connect client="yLog.visible" governor="allow_log"/>
+	</logic>
+
+	<dialog label="Graphic options">
 		<tabbook>
-			<tab id="tab_title" label="Titles">
-				<column id="col_titles" >
+			<tab id="tabTitle" label="Titles">
+				<column id="colTitles">
 					<frame label="Main title">
-						<input id="main" label="Main title (on top). Leave empty for default title" />
-						<checkbox id="main_expression" label="R expression" checked="false"/>
+						<input id="main" label="Main title (on top). Leave empty for default title"/>
+						<checkbox id="mainExpression" label="R expression" checked="false"/>
 					</frame>
 					<frame label="Subtitle">
-						<input id="sub" label="Sub-title (at bottom). Leave empty for default title" />
-						<checkbox id="sub_expression" label="R expression" checked="false"/>
+						<input id="sub" label="Sub-title (at bottom). Leave empty for default title"/>
+						<checkbox id="subExpression" label="R expression" checked="false"/>
 					</frame>
 					<stretch/>
 				</column>
 			</tab>
-			<tab id="tab_axes" label="Axes" >
+			<tab id="tabAxes" label="Axes">
 				<row>
-					<column id="col_x_axis">
-						<frame id="x_axis" label="X-axis">
+					<column id="colXAxis">
+						<frame id="xAxis" label="X-axis">
 							<frame label="Label">
-								<input id="xlab" label="Title" />
-								<checkbox id="xlab_expression" label="R expression" checked="false" />
+								<input id="xlab" label="Title"/>
+								<checkbox id="xLabExpression" label="R expression" checked="false"/>
 							</frame>
-							<frame id="x_range" label="Range">
+							<frame id="xRange" label="Range">
 								<row>
-									<input id="xminvalue" label="Min value" />
-									<input id="xmaxvalue" label="Max value" />
+									<input id="xMinValue" label="Min value"/>
+									<input id="xMaxValue" label="Max value"/>
 								</row>
 							</frame>
-							<dropdown id="x_lab_orientation" label="Label orientation" >
-								<option value="" label="Default" checked="true" />
-								<option value="0" label="Horizontal" />
-								<option value="90" label="Vertical" />
+							<dropdown id="xLabOrientation" label="Label orientation">
+								<option value="" label="Default" checked="true"/>
+								<option value="0" label="Horizontal"/>
+								<option value="90" label="Vertical"/>
 							</dropdown>
-							<checkbox id="xlog" label="Logarithmic scale" checked="false"/>
+							<checkbox id="xLog" label="Logarithmic scale" checked="false"/>
 						</frame>
 						<stretch/>
 					</column>
-					<column id="col_y_axis">
-						<frame id="y_axis" label="Y-axis">
+					<column id="colYAxis">
+						<frame id="yAxis" label="Y-axis">
 							<frame label="Label">
-								<input id="ylab" label="Title" />
-								<checkbox id="ylab_expression" label="R expression" checked="false" />
+								<input id="ylab" label="Title"/>
+								<checkbox id="yLabExpression" label="R expression" checked="false"/>
 							</frame>
-							<frame id="y_range" label="Range">
+							<frame id="yRange" label="Range">
 								<row>
-									<input id="yminvalue" label="Min value" />
-									<input id="ymaxvalue" label="Max value" />
+									<input id="yMinValue" label="Min value"/>
+									<input id="yMaxValue" label="Max value"/>
 								</row>
 							</frame>
-							<dropdown id="y_lab_orientation" label="Label orientation" >
-								<option value="" label="Default" checked="true" />
-								<option value="0" label="Horizontal" />
-								<option value="90" label="Vertical" />
+							<dropdown id="yLabOrientation" label="Label orientation">
+								<option value="" label="Default" checked="true"/>
+								<option value="0" label="Horizontal"/>
+								<option value="90" label="Vertical"/>
 							</dropdown>
-							<checkbox id="ylog" label="Logarithmic scale" checked="false"/>
+							<checkbox id="yLog" label="Logarithmic scale" checked="false"/>
 						</frame>
 						<stretch/>
 					</column>
 				</row>
-				<checkbox id="switch_axes" label="Switch axes" checked="false"/>
+				<checkbox id="switchAxes" label="Switch axes" checked="false"/>
 			</tab>
-			<tab id="tab_grid" label="Grid" >
-					<row id="row_grid">
-						<frame id="grid_major" label="Major grid">
-							<checkbox id="grid_horizontal_major" label="Horizontal" checked="true"/>
-							<checkbox id="grid_vertical_major" label="Vertical" checked="true"/>
-							<embed id="grid_major_line_color" component="rkTeaching::color_chooser" label="Major grid color"/>
-						</frame>
-						<frame id="grid_minor" label="Minor grid">
-							<checkbox id="grid_horizontal_minor" label="Horizontal" checked="true"/>
-							<checkbox id="grid_vertical_minor" label="Vertical" checked="true"/>
-							<embed id="grid_minor_line_color" component="rkTeaching::color_chooser" label="Minor grid color"/>
-						</frame>
-					</row>
-					<frame id="frame_grid_background_color" label="Background color">
-						<embed id="grid_background_color" component="rkTeaching::color_chooser" label="Color"/>
-					</frame>			
-					<stretch/>
+			<tab id="tabGrid" label="Grid">
+				<row id="rowGrid">
+					<frame id="gridMajor" label="Major grid">
+						<checkbox id="gridHorizontalMajor" label="Horizontal" checked="true"/>
+						<checkbox id="gridVerticalMajor" label="Vertical" checked="true"/>
+						<embed id="gridMajorLineColor" component="rkTeaching::color_chooser" label="Major grid color"/>
+					</frame>
+					<frame id="gridMinor" label="Minor grid">
+						<checkbox id="gridHorizontalMinor" label="Horizontal" checked="true"/>
+						<checkbox id="gridVerticalMinor" label="Vertical" checked="true"/>
+						<embed id="gridMinorLineColor" component="rkTeaching::color_chooser" label="Minor grid color"/>
+					</frame>
+				</row>
+				<frame id="frameGridBackgroundColor" label="Background color">
+					<embed id="gridBackgroundColor" component="rkTeaching::color_chooser" label="Color"/>
+				</frame>
+				<stretch/>
 			</tab>
-			<tab id="tab_legend" label="Legend" >
-				<dropdown id="legend" label="Legend position" >
-					<option value="" label="Default" checked="true" />
-					<option value="none" label="None" />
-					<option value="top" label="Top" />
-					<option value="bottom" label="Bottom" />
-					<option value="left" label="Left" />
-					<option value="right" label="Right" />					
+			<tab id="tabLegend" label="Legend">
+				<dropdown id="legend" label="Legend position">
+					<option value="" label="Default" checked="true"/>
+					<option value="none" label="None"/>
+					<option value="top" label="Top"/>
+					<option value="bottom" label="Bottom"/>
+					<option value="left" label="Left"/>
+					<option value="right" label="Right"/>
 				</dropdown>
 				<stretch/>
 			</tab>
-                        <tab id="tab_margins" label="Margins" >
-                            <frame id="custom_margins" label="Custom margins" checkable="true" checked="false">
-                                        <spinbox id="margin_top" type="real" initial="4" default_precision="1" min="0" label="Top"/>
-					<spinbox id="margin_bottom" type="real" initial="5" default_precision="1" min="0" label="Bottom"/>
-					<spinbox id="margin_left" type="real" initial="4" default_precision="1" min="0" label="Left"/>
-					<spinbox id="margin_right" type="real" initial="2" default_precision="1" min="0" label="Right"/>
-                            </frame>
-                        </tab>
+			<tab id="tabMargins" label="Margins">
+				<frame id="customMargins" label="Custom margins" checkable="true" checked="false">
+					<spinbox id="marginTop" type="real" initial="4" default_precision="1" min="0" label="Top"/>
+					<spinbox id="marginBottom" type="real" initial="5" default_precision="1" min="0" label="Bottom"/>
+					<spinbox id="marginLeft" type="real" initial="4" default_precision="1" min="0" label="Left"/>
+					<spinbox id="marginRight" type="real" initial="2" default_precision="1" min="0" label="Right"/>
+				</frame>
+			</tab>
 		</tabbook>
 	</dialog>
-	
-	<wizard label="Graphic options wizard" >
-		<page id="page_title">
+
+	<wizard label="Graphic options wizard">
+		<page id="pageTitle">
 			<text>
 				Enter the main title and the subtitle of the chart.
 			</text>
-			<copy id="col_titles"/>
+			<copy id="colTitles"/>
 		</page>
-		<page id="page_x_axis">
+		<page id="pageXAxis">
 			<text>
-                            <p>Enter the title of the X-axis, the range of values to represent and the orientation of tick marks labels.</p>
-                            <p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
+				<p>Enter the title of the X-axis, the range of values to represent and the orientation of tick marks labels.</p>
+				<p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
 			</text>
-			<copy id="col_x_axis"/>
+			<copy id="colXAxis"/>
 			<stretch/>
 		</page>
-		<page id="page_y_axis">
+		<page id="pageYAxis">
 			<text>
-                            <p>Enter the title of the Y-axis, the range of values to represent and the orientation of tick marks labels.</p>
-                            <p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
+				<p>Enter the title of the Y-axis, the range of values to represent and the orientation of tick marks labels.</p>
+				<p>If you want a logarithmic scale for the axis, check the corresponding box.</p>
 			</text>
-			<copy id="col_y_axis"/>
+			<copy id="colYAxis"/>
 			<stretch/>
 		</page>
-		<page id="page_switch_axes">
+		<page id="pageXwitchAxes">
 			<text>
 				Check the box to switch the axes.
 			</text>
-			<copy id="switch_axes" />
+			<copy id="switchAxes"/>
 			<stretch/>
 		</page>
-		<page id="page_grid">
+		<page id="pageGrid">
 			<text>
 				If you want an horizontal or vertical grid, check the corresponding boxes and choose the color for the grid lines
 			</text>
-			<copy id="row_grid" />
+			<copy id="rowGrid"/>
 			<stretch/>
 		</page>
-		<page id="page_grid">
+		<page id="pageBackground">
 			<text>
-                                Select the background color.
+				Select the background color.
 			</text>
-			<embed id="grid_background_color" component="rkTeaching::color_chooser" label="Color de la cuadrícula"/>
+			<embed id="gridBackgroundColor" component="rkTeaching::color_chooser" label="Color de la cuadrícula"/>
 			<stretch/>
 		</page>
-		<page id="page_leyend">
+		<page id="pageLeyend">
 			<text>
 				If you want a legend select the position for it.
 			</text>

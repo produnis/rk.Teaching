@@ -1,7 +1,5 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-include("../jscripts/common_functions.js")
-
 function preprocess() {
 	if (getBoolean("filterFrame.checked")) {
 		echo("true");

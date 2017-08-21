@@ -1,5 +1,5 @@
-//author: Alfredo Sánchez Alberca (asalber@ceu.es)
-//
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
+
 include("../common/common_functions.js")
 include("../common/filter.js")
 
@@ -39,7 +39,7 @@ function preprocess() {
 function calculate() {
     // Filter
     filter();
-    // Load variables
+    // Interval classes
     if (intervalsRowsChecked) {
         echo(varRows + ' <- ' + 'cut(' + varRows + getString("cells_rows.code.calculate") + ', include.lowest=TRUE)\n');
     }

@@ -2,32 +2,30 @@
 <document>
 	<code file="regression_comparison.js"/>
 	<help file="regression_comparison.rkh"/>
-	
+
 	<logic>
-		<connect client="filter_embed.variable" governor="y.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
 	</logic>
 
 	<dialog label="Regression model comparison">
 		<tabbook>
-			<tab id="variables_tab" label="Variables">
-				<row id="row_vars">
+			<tab id="tabVars" label="Variables">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Dependent variable" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Independent variable" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Regression by groups" checked="false" />
-						<varslot id="groups" label="Grouping variable(s)" source="selector" multi="true" required="true"/>
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>	
-						<stretch/>					
+						<varslot id="y" label="Dependent variable" source="selector" types="numeric" required="true"/>
+						<varslot id="x" label="Independent variable(s)" types="numeric" source="selector" required="true"/>
+						<checkbox id="grouped" label="Regression by groups" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="model_tab" label="Regression models">		
-				<frame id="model" label="Model" >
+			<tab id="tabModel" label="Regression models">
+				<frame id="model" label="Model">
 					<checkbox id="linear" label="Linear" value="'linear'," checked="true"/>
-					<checkbox id="cuadratic" label="Cuadratic" value="'cuadratic',"/>
+					<checkbox id="quadratic" label="Quadratic" value="'quadratic',"/>
 					<checkbox id="cubic" label="Cubic" value="'cubic',"/>
 					<checkbox id="potential" label="Potential" value="'potential',"/>
 					<checkbox id="exponential" label="Exponential" value="'exponential',"/>
@@ -38,22 +36,24 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	
+
 	<wizard label="Regression model comparison wizard">
-		<page id="pag_vars">
+		<page id="pageVars">
 			<text>
-                            <p>Select the dependent and independet variables.</p>
-				<p>If you want differenciate the regression models for the categories of one or several factors, check the box <b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one comparison for every category combination of the factors.</p>
+				<p>Select the dependent and independet variables.</p>
+				<p>If you want differenciate the regression models for the categories of one or several factors, check the box
+					<b>Regression by groups</b>
+					and select the factors to define the groups. If you select more than one factor you will get one comparison for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars"/>
 		</page>
-		<page id="page_model">
+		<page id="pageModel">
 			<text>
 				Check the boxes of the models to compare.
 			</text>
-			<copy id="model" />
-                        <stretch />
-		</page>		
+			<copy id="model"/>
+			<stretch/>
+		</page>
 	</wizard>
-	
+
 </document>

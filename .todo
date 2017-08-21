@@ -1,0 +1,74 @@
+To do file for rk.Teaching project
+
+Translation:
+  Data:
+    ☐ Standarization
+  Frequency distribution:
+  Charts:
+    ✔ Scatter plot matrix @done(2017-08-21 13:30) @project(Translation / Charts)
+    ☐ Means plot
+    ☐ Interaction plot
+  Desriptive statistics:
+  Regression:
+    ✔ Non-linear regression @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Model comparison @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Correlation @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Predictions @done(2017-08-21 13:30) @project(Translation / Regression)
+  Probability:
+    ☐ Gamblingel comparison
+    ☐ Cor
+    ☐ Build probability space
+    ☐ Repeat probability space
+    ☐ Combine probability spaces
+    ☐ Compute probability
+  Probability distributions:
+    ☐ Uniform discrete
+    ☐ Binomial
+    ☐ Poisson
+    ☐ Uniform continuous
+    ☐ Normal
+    ☐ Student's t
+    ☐ Chi-square
+    ☐ Fisher's F
+  Parametric tests:
+    ☐ T-test for the mean of one population
+    ☐ T-test for comparing the means of two paired populations
+    ☐ T-test for comparing the means of two independent populations
+    ☐ Sample size to estimate one mean
+    ☐ Sample size for the t-test
+    ☐ ANOVA
+    ☐ Fisher's F test
+    ☐ Levene's test
+    ☐ Test for one proportion
+    ☐ Test for comparing two proportions
+    ☐ Sample size to estimate a proportion
+  Non-parametric tests:
+    ☐ Lillieford's test
+    ☐ Shapiro-Wilks test
+    ☐ Chi-square test
+    ☐ Mann-Whitney test
+    ☐ Wilcoxon test
+    ☐ Kruskal-Wallis test
+    ☐ Friedman test
+  Concordance:
+    ☐ Intraclass correlation coefficient
+    ☐ Cohen's kappa
+
+Optimization:
+  ☐ Use dplyr to compute basic statistics.
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+  ✔ Linear regression @done(2017-06-12 13:25) @project(Translation / Regression)
+  ✔ Data filtering @done(2017-02-02 18:51) @project(Translation / Data)
+  ✔ Variable calculation @done(2017-02-03 18:51) @project(Translation / Data)
+  ✔ Variable recodification @done(2017-02-06 18:51) @project(Translation / Data)
+  ✔ Data weighting @done(2017-02-07 18:51) @project(Translation / Data)
+  ✔ Frequency table @done(2017-02-9 18:54) @project(Translation / Frequency distribution)
+  ✔ Two-dimensional frequency table @done(2017-02-13 18:54) @project(Translation / Frequency distribution)
+  ✔ Bar chart  @done(2017-03-01 18:55) @project(Translation / Charts)
+  ✔ Histogram @done(2017-03-06 18:55) @project(Translation / Charts)
+  ✔ Pie chart @done(2017-03-08 18:55) @project(Translation / Charts)
+  ✔ Box plot @done(2017-03-10 18:55) @project(Translation / Charts)
+  ✔ Scatter plot @done(2017-03-20 18:55) @project(Translation / Charts)
+  ✔ Basic statistics @done(2017-03-12 18:56) @project(Translation / Desriptive statistics)
