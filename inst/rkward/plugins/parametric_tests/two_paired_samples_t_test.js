@@ -44,16 +44,18 @@ function calculate() {
   if (getConfInt) {
     options += ", conf.level=" + confLevel;
   }
-  // Set grouped mode
+  // Grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
     echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(xName) + ']], df[[' + quote(yName) + ']]' + options + '))\n');
   } else {
+    // Non-grouped mode
     echo('result <- t.test (' + x + ', ' + y + options + ')\n');
   }
 }
 
 function printout() {
+  // Header
   header = new Header(i18n("T-test for the mean of %1 - %2", xName, yName));
   header.add(i18n("Data frame"), dataframe);
   header.add(i18n("Comparison of"), i18n("%1 with %2", xName, yName));

@@ -12,13 +12,13 @@
 
   <dialog label="T-test for comparing the means of two paired populations">
     <tabbook>
-      <tab id="tab_variables" label="Variables">
+      <tab id="tabVariables" label="Variables">
         <row id="rowVars">
           <varselector id="selector" label="Select variables"/>
           <column>
             <varslot id="x" label="Compare mean of population" source="selector" types="numeric" required="true"/>
             <varslot id="y" label="With mean of population" source="selector" types="numeric" required="true"/>
-            <checkbox id="grouped" label="Means by groups" value_unchecked="0" checked="false"/>
+            <checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
             <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
             <include file="../common/filter.xml"/>
             <stretch/>
@@ -46,7 +46,17 @@
   <wizard label="T-test for comparing the means of two paired populations wizard">
     <page>
       <text>
-        <p>Insert the two variables to compare</p>
+        <p>
+          This procedure does the Student t-test for detecting a significant difference between the means of two paired populations and estimating the difference with a confidence interval.
+        </p>
+        <p>
+          The variables to compare must be numeric.
+        </p>
+      </text>
+    </page>
+    <page>
+      <text>
+        <p>Insert the two variables to compare in the fields <b>Compare de mean of population</b> and <b>with the mean of population</b>.</p>
         <p>If you want different tests for the categories of one or several factors, check the box
           <b>Test by groups</b>
           and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.</p>

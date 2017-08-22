@@ -47,6 +47,7 @@ function calculate() {
 }
 
   function printout() {
+    // Header
     header = new Header(i18n("Correlation matrix of %1", variablesNames.join(", ")));
     header.add(i18n("Data frame"), dataframe);
     header.add(i18n("Variables"), variablesNames.join(", "));
