@@ -37,7 +37,7 @@ Translation:
     ☐ Sample size to estimate one mean
     ☐ Sample size for the t-test
     ☐ ANOVA
-    ☐ Fisher's F test
+    ✔ Fisher's F test @done(2017-08-22 17:48) @project(Translation / Parametric tests)
     ☐ Levene's test
     ☐ Test for one proportion
     ☐ Test for comparing two proportions

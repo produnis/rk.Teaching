@@ -44,7 +44,7 @@
               <option value="two.sided" label="Two-sided (&#8800;)"/>
               <option value="greater" label="Greater (&gt;)"/>
               <option value="less" label="Less (&lt;)"/>
-            </radio>
+      s      </radio>
             <frame id="frameConfInt" label="Confidence interval for the difference of means" checkable="true" checked="true" value="1">
               <spinbox id="confLevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
             </frame>
