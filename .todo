@@ -32,7 +32,7 @@ Translation:
     ☐ Fisher's F
   Parametric tests:
     ✔ T-test for the mean of one population @done(2017-08-21 20:36) @project(Translation / Parametric tests)
-    ☐ T-test for comparing the means of two paired populations
+    ✔ T-test for comparing the means of two paired populations @done(2017-08-22 10:51) @project(Translation / Parametric tests)
     ☐ T-test for comparing the means of two independent populations
     ☐ Sample size to estimate one mean
     ☐ Sample size for the t-test

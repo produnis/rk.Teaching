@@ -10,6 +10,7 @@ var dataframe,
   groups,
   groupsName,
   mean,
+  getConfInt
   confInt,
   confLevel,
   hypothesis;
@@ -35,6 +36,7 @@ function preprocess() {
 function calculate() {
   // Filter
   filter();
+  // Test settings
   var options = ', alternative="' + hypothesis + '", mu=' + mean;
   // Confidence interval
   if (getConfInt) {
@@ -43,7 +45,7 @@ function calculate() {
   // Set grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[["' + variableName + '"]]' + options + '))\n');
+    echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']]' + options + '))\n');
   } else {
     echo('result <- t.test (' + variable + options + ')\n');
   }
@@ -53,7 +55,7 @@ function printout() {
   header = new Header(i18n("T-test for the mean of %1", variableName));
   header.add(i18n("Data frame"), dataframe);
   header.add(i18n("Variable to test"), variableName);
-  header.add(i18n("Null hypothesis"), i18n("Mean of %1 = %2", variableName, mean))
+  header.add(i18n("Null hypothesis"), i18n("Mean of %1 = %2", variableName, mean));
   if (hypothesis == "two.sided") {
     header.add(i18n("Alternative hypothesis"), i18n("Mean &ne; %1", mean));
   } else if (hypothesis == "greater") {
@@ -88,6 +90,7 @@ function printout() {
     }
     echo('))}\n');
   } else {
+    // Non-grouped mode
     echo('rk.results (list(');
     echo(i18n("Variable") + ' = ' + quote(variableName) + ', ');
     echo(i18n("Estimated mean") + ' = result$estimate, ');
