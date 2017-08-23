@@ -1,97 +1,165 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
+include("../common/common_functions.js")
+include("../common/filter.js")
+
 // globals
-var x, freq, n, category, p, type, test, confint, conflevel, hypothesis;
+var dataframe,
+  variable,
+  variableName,
+  category,
+  groups,
+  groupsName,
+  manual,
+  freq,
+  n,
+  p,
+  type,
+  test,
+  confint,
+  conflevel,
+  hypothesis;
 
-function preprocess () {
-    
+function setGlobalVars() {
+  variable = getString("variable");
+  variableName = getString("variable.shortname");
+  dataframe = getDataframe(variable);
+  category = getString("category");
+  grouped = getBoolean("grouped");
+  groups = getList("groups");
+  groupsName = getList("groups.shortname");
+  manualFreq = getBoolean("manual.checked");
+  freq = getString("freq");
+  n = getString("n");
+  p = getString("proportion");
+  type = getString("type");
+  getConfInt = getBoolean("frameConfInt.checked");
+  confLevel = getString("confLevel");
+  hypothesis = getString("hypothesis");
 }
 
-function calculate () {
-    if (getBoolean("manual.checked")){
-        freq = getString("freq");
-        n = getString("n");
-        echo ('freq <- ' + freq + '\n');
-        echo ('n <- ' + n + '\n');
-        category='';
-    }
-    else {
-        // Filter
-        echo(getString("filter_embed.code.calculate"));
-        // Load variables
-        x = getString("variable");
-        category = getString("category");
-        echo ('freq <- length(' + x + '[' + x + '==' + category + '])\n');
-        echo ('n  <- length(' + x + ')\n');
-    }	
-    p = getString("proportion");
-    confint = getBoolean("confint_frame.checked");
-    conflevel = getString("conflevel");
-    hypothesis = getString("hypothesis");
-    var options = ', alternative="' + hypothesis + '", p=' + p ;
-    if (confint) {
-        options += ", conf.level=" + conflevel;
-    }
-    type = getString("type");
-    if (type=="binomial"){
-        echo('result <- binom.test (freq, n'+ options + ')\n');
-        test = "Exact binomial"
-    }
-    else if (type=="normal_correction"){
-        echo('result <- prop.test (freq, n'+ options + ')\n');
-        test = "Normal approximation with continuity correction"
-    }
-    else {
-        echo('result <- prop.test (freq, n'+ options + ', correct=FALSE)\n');
-        test = "Normal approximation without continuity correction"
-    }
+function preprocess() {
+  setGlobalVars();
+  echo('require(plyr)\n');
 }
 
-function printout () {
-    echo ('rk.header (paste("Test for estimating", ');
-    if (getBoolean("manual.checked")){
-        echo ('"one proportion"), parameters=list ("Sample frequency" = freq, "Sample size" = n');
-        echo(', "Null hyphotesis" = paste("Proportion =", ' + p + ')');
-    if (hypothesis=="two.sided"){
-        echo(', "Alternative hypothesis" = paste("Proportion &ne;", ' + p + ')');
+function calculate() {
+  // Test settings
+  var options = ', alternative="' + hypothesis + '", p=' + p;
+  if (getConfInt) {
+    options += ", conf.level=" + confLevel;
+  }
+  // Manual frequency
+  if (manualFreq) {
+    echo('freq <- ' + freq + '\n');
+    echo('n <- ' + n + '\n');
+    if (type == "binomial") {
+      echo('result <- binom.test (freq, n' + options + ')\n');
+    } else if (type == "normal_correction") {
+      echo('result <- prop.test (freq, n' + options + ')\n');
+    } else {
+      echo('result <- prop.test (freq, n' + options + ', correct=FALSE)\n');
     }
-    else if (hypothesis=="greater") {
-        echo(', "Alternative hypothesis" = paste("Proportion &gt;", ' + p + ')');
+  } else {
+    // Non-manual frequency
+    // Filter
+    filter();
+    // Set grouped mode
+    if (grouped) {
+      echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+      if (type == "binomial") {
+        echo('result <- dlply(' + dataframe + ', ".groups", function(df) binom.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + '))\n');
+      } else if (type == "normal_correction") {
+        echo('result <- dlply(' + dataframe + ', ".groups", function(df) prop.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + '))\n ');
+      } else {
+        echo('result <- dlply(' + dataframe + ', ".groups", function(df) prop.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + ', correct=FALSE))\n ');
+      }
+    } else {
+      echo('freq <- length(' + variable + '[' + variable + '==' + category + '])\n');
+      echo('n  <- length(' + variable + ')\n');
+      if (type == "binomial") {
+        echo('result <- binom.test (freq, n' + options + ')\n');
+      } else if (type == "normal_correction") {
+        echo('result <- prop.test (freq, n' + options + ')\n');
+      } else {
+        echo('result <- prop.test (freq, n' + options + ', correct=FALSE)\n');
+      }
     }
-    else {
-        echo(', "Alternative hypothesis" = paste("Proportion &lt;", ' + p + ')');
+  }
+}
+
+function printout() {
+  if (manualFreq) {
+    header = new Header(i18n("Test for one proportion"));
+    header.add(i18n("Null hypothesis"), i18n("Proportion = %1", p));
+    if (hypothesis == "two.sided") {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion &ne; %1", p));
+    } else if (hypothesis == "greater") {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion &gt; %1", p));
+    } else {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion &lt; %1", p));
     }
+  } else {
+    header = new Header(i18n("Test for the proportion of %1 = %2", variableName, category));
+    header.add(i18n("Data frame"), dataframe);
+    header.add(i18n("Variable to test"), variableName);
+    header.add(i18n("Null hypothesis"), i18n("Proportion of %1 = %2", category, p));
+    if (hypothesis == "two.sided") {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion of %1 &ne; %2", category, p));
+    } else if (hypothesis == "greater") {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion of %1 &gt; %2", category, p));
+    } else {
+      header.add(i18n("Alternative hypothesis"), i18n("Proportion of %1 &lt; %2", category, p));
     }
-    else{
-        echo ('"the proportion of ' + getString("variable.shortname") + ' =", ' + category + '), parameters=list ("Variable" = rk.get.description(' + x + '), "Proportion of" = ' + category + getString("filter_embed.code.printout") + ', "Sample frequency" = freq, "Sample size" = n');		
-    echo(', "Null hyphotesis" = paste("Proportion of", ' + category + ', "=", ' + p + ')');
-    if (hypothesis=="two.sided"){
-        echo(', "Alternative hypothesis" = paste("Proportion of",' + category + ', "&ne;", ' + p + ')');
+  }
+  if (type == "binomial") {
+    header.add(i18n("Type of test"), i18n("Exact binomial"));
+  } else if (type == "normal_correction") {
+    header.add(i18n("Type of test"), i18n("Normal approximation with continuity correction"));
+  } else {
+    header.add(i18n("Type of test"), i18n("Normal approximation without continuity correction"));
+  }
+  if (getConfInt) {
+    header.add(i18n("Confidence level of the confidence interval"), confLevel);
+  }
+  if (!manualFreq) {
+    if (grouped) {
+      header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
     }
-    else if (hypothesis=="greater") {
-        echo(', "Alternative hypothesis" = paste("Proportion of",' + category + ', "&gt;", ' + p + ')');
+    if (filtered) {
+      header.addFromUI("condition");
     }
-    else {
-        echo(', "Alternative hypothesis" = paste("Proportion of",' + category + ', "&lt;", ' + p + ')');
+  }
+  header.print();
+  // Grouped mode
+  if (!manualFreq & grouped) {
+    echo('for (i in 1:length(result)){\n');
+    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('rk.results (list(');
+    echo(i18n("Estimated proportion") + ' = result[[i]]$estimate, ');
+    if (type != "binomial") {
+      echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+      echo(i18n("Chi statistic") + ' = result[[i]]$statistic, ');
     }
+    echo(i18n("p-value") + ' = result[[i]]$p.value');
+    if (getConfInt) {
+      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
+      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result[[i]]$conf.int');
     }
-    echo(', "Type of test" = "' + test + '"');
-    if (confint) {
-        echo (', "Confidence level of the confidence interval" = "' + conflevel + '"');
+    echo('))}\n');
+  } else {
+    // Non-grouped mode
+    echo('rk.results (list(');
+    echo(i18n("Estimated proportion") + ' = result$estimate, ');
+    if (type != "binomial") {
+      echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+      echo(i18n("Chi statistic") + ' = result$statistic, ');
+    }
+    echo(i18n("p-value") + ' = result$p.value');
+    if (getConfInt) {
+      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
+      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result$conf.int');
     }
     echo('))\n');
-    echo ('rk.results (list(');
-    echo ('"Estimated proportion " = freq/n, ');
-    if (type!="binomial"){
-        echo ('"Degrees of freedom" = result$parameter, ');
-        echo ('"Chi statistic" = result$statistic, ');
-    }
-    echo ('"p-value" = result$p.value');
-    if (confint) {
-        echo (', "% Confidence level" = (100 * attr(result$conf.int, "conf.level"))');
-        echo (', "Confident interval<br/>for the proportion" = result$conf.int');
-    }
-    echo ('))\n');
+  }
 }
-
-

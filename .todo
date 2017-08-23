@@ -15,8 +15,7 @@ Translation:
     ✔ Correlation @done(2017-08-21 13:30) @project(Translation / Regression)
     ✔ Predictions @done(2017-08-21 13:30) @project(Translation / Regression)
   Probability:
-    ☐ Gamblingel comparison
-    ☐ Cor
+    ☐ Gambling
     ☐ Build probability space
     ☐ Repeat probability space
     ☐ Combine probability spaces
@@ -38,8 +37,8 @@ Translation:
     ☐ Sample size for the t-test
     ☐ ANOVA
     ✔ Fisher's F test @done(2017-08-22 17:48) @project(Translation / Parametric tests)
-    ☐ Levene's test
-    ☐ Test for one proportion
+    ✔ Levene's test @done(2017-08-23 19:10) @project(Translation / Parametric tests)
+    ✔ Test for one proportion @done(2017-08-23 21:59) @project(Translation / Parametric tests)
     ☐ Test for comparing two proportions
     ☐ Sample size to estimate a proportion
   Non-parametric tests:

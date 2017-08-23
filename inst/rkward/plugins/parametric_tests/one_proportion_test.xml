@@ -2,113 +2,126 @@
 
 <!DOCTYPE rkplugin>
 <document>
-    <code file="one_proportion_test.js"/>
-    <help file="one_proportion_test.rkh"/>
-    
-    <logic>
-        <convert id="manual_checked" sources="manual.checked" mode="equals" standard="1" />
-        <connect client="variable.enabled" governor="manual_checked.not" />
-        <connect client="selector.enabled" governor="manual_checked.not" />
-        <connect client="category.enabled" governor="manual_checked.not" />
-        <connect client="freq.enabled" governor="manual_checked" />
-        <connect client="n.enabled" governor="manual_checked" />
-        <connect client="filter_embed.enabled" governor="manual_checked.not" />		
-        <connect client="filter_embed.variable" governor="variable.available" />
-        <connect governor="variable.available" client="levels.variable" />
-    </logic>
-    
-    <dialog label="Test for estimating one proportion">
-        <tabbook>
-            <tab id="tab_variables" label="Variables">
-                <row id="row_vars">
-                    <varselector id="selector" label="Select variable(s)" />
-                    <column>
-                        <varslot id="variable" label="Variable" source="selector" required="true" size="small"/>	
-                        <row>
-                            <column>
-                                <text>Levels</text>
-                                <embed id="levels" component="rkward::level_select" />
-                            </column>
-                            <valueslot id="category" label="Proportion of" source="levels.selector" size="small"/>
-                        </row>
-                        <embed id="filter_embed" component="rkTeaching::filter_embed"/>
-                        <frame id="manual" label="Manual entry of frequencies" checkable="true" checked="false" value="1" value_unchecked="0">
-                            <input id="freq" label="Sample frequency" size="small" required="true" />
-                            <input id="n" label="Sample size" size="small" required="true"/>
-                        </frame>
-                        <stretch />
-                    </column>
-                </row>
-            </tab>
-            <tab id="tab_settings" label="Test options">
-                <column>
-                    <input id="proportion" label="Proportion value in null hypothesis" size="small" initial="0.5" />
-                    <radio id="hypothesis" label="Alternative hypothesis">
-                        <option value="two.sided" label="Two-sided (&#8800;)" />
-                        <option value="greater" label="Greater (&gt;)" />
-                        <option value="less" label="Less (&lt;)" />
-                        
-                    </radio>
-                    <radio id="type" label="Type of test">
-                        <option value="normal_correction" label="Normal approximation with continuity correction" />
-                        <option value="normal" label="Normal approximation without continuity correction" />
-                        <option value="binomial" label="Exact binomial" />
-                    </radio>
-                    <frame id="confint_frame" label="Confidence interval for the proportion" checkable="true" checked="true" value_unckecked="0" value="1">
-                        <spinbox id="conflevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95" />
-                    </frame>
-                    <stretch />
-                </column>
-            </tab>
-        </tabbook>
-    </dialog>
-    
-    <wizard label="Test for estimating one proportion wizard">
-        <page>
-            <text>
-                <p>Select one variable and the category for the proportion to test, or check the box <b>Manual entry of frequencies</b> and enter the sample frequency and size.</p>
-            </text>
-            <copy id="row_vars"/>
+  <code file="one_proportion_test.js"/>
+  <help file="one_proportion_test.rkh"/>
+
+  <logic>
+    <convert id="manualChecked" sources="manual.checked" mode="equals" standard="1"/>
+    <connect client="variable.enabled" governor="manualChecked.not"/>
+    <connect client="selector.enabled" governor="manualChecked.not"/>
+    <connect client="category.enabled" governor="manualChecked.not"/>
+    <connect client="freq.enabled" governor="manualChecked"/>
+    <connect client="n.enabled" governor="manualChecked"/>
+    <connect governor="variable.available" client="levels.variable"/>
+    <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+    <connect client="groups.visible" governor="groupedMode"/>
+    <connect client="grouped.enabled" governor="manualChecked.not"/>
+    <connect client="filter.enabled" governor="manualChecked.not"/>
+  </logic>
+
+  <dialog label="Test for the proportion of one population">
+    <tabbook>
+      <tab id="tabVariables" label="Variables">
+        <row id="rowVars">
+          <varselector id="selector" label="Select variable(s)"/>
+          <column>
+            <varslot id="variable" label="Variable" source="selector" required="true" size="small"/>
+            <row>
+              <column>
+                <embed id="levels" component="rkward::level_select"/>
+              </column>
+              <valueslot id="category" label="Proportion of" source="levels.selector" size="small"/>
+            </row>
+            <checkbox id="grouped" label="Means by groups" value_unchecked="0" checked="false"/>
+            <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
+            <include file="../common/filter.xml"/>
+            <frame id="manual" label="Manual entry of frequencies" checkable="true" checked="false" value="1" value_unchecked="0">
+              <input id="freq" label="Sample frequency" size="small" required="true"/>
+              <input id="n" label="Sample size" size="small" required="true"/>
+            </frame>
             <stretch/>
-        </page>
-        <page>
-            <text>
-                <p>Enter the value of the population proportion in the null hypothesis.</p> 
-            </text>
-            <copy id="proportion"/>
-            <stretch/>
-        </page>
-        <page>
-            <text>
-                <p>Select the type of alternative hypothesis to test:</p>
-                <ul>
-                    <li>Check two-sided you have no assumption about what mean is greater.</li>
-                    <li>Check greater if you assume that the mean of the first population is greater than the mean of the second population.</li>
-                    <li>Check less if you assume that the mean of the first population is less than the mean of the second population.</li>
-                </ul>
-                <p>The one-sided hypothesis tends to increase the power of the test.</p>
-            </text>
-            <copy id="hypothesis"/>
-            <stretch/>
-        </page>
-        <page>
-            <text>
-                <p>Select the type of test:</p>
-                <ul>
-                    <li>Check normal approximation with continuity correction for big sample sizes and continuous variables.</li>
-                    <li>Check normal approximation without continuity correction for big sample sizes and discrete variables.</li>
-                    <li>Check exact binomial for small sample sizes. </li>
-                </ul>
-            </text>
-            <copy id="type"/>
-            <stretch/>
-        </page>
-        <page>
-            <text>
-                <p>If you wants a confidence interval to estimate the proportion of the population check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
-            </text>
-            <copy id="confint_frame"/>
-            <stretch/>
-        </page>
-    </wizard>
+          </column>
+        </row>
+      </tab>
+      <tab id="tabOptions" label="Test options">
+        <column>
+          <input id="proportion" label="Proportion value in null hypothesis" size="small" initial="0.5"/>
+          <radio id="hypothesis" label="Alternative hypothesis">
+            <option value="two.sided" label="Two-sided (&#8800;)"/>
+            <option value="greater" label="Greater (&gt;)"/>
+            <option value="less" label="Less (&lt;)"/>
+
+          </radio>
+          <radio id="type" label="Type of test">
+            <option value="normal_correction" label="Normal approximation with continuity correction"/>
+            <option value="normal" label="Normal approximation without continuity correction"/>
+            <option value="binomial" label="Exact binomial"/>
+          </radio>
+          <frame id="frameConfInt" label="Confidence interval for the proportion" checkable="true" checked="true" value_unckecked="0" value="1">
+            <spinbox id="confLevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
+          </frame>
+          <stretch/>
+        </column>
+      </tab>
+    </tabbook>
+  </dialog>
+
+  <wizard label="Test for the proportion of one population wizard">
+    <page>
+      <text>
+        <p>
+          This procedure does the test for detecting a significant difference between the proportion of one population and a given value, and estimating the proportion with a confidence interval.
+        </p>
+      </text>
+    </page>
+    <page>
+      <text>
+        <p>Select one variable and the category for the proportion to test, or check the box
+          <b>Manual entry of frequencies</b>
+          and enter the sample frequency and size.</p>
+      </text>
+      <copy id="rowVars"/>
+      <stretch/>
+    </page>
+    <page>
+      <text>
+        <p>Enter the value of the population proportion in the null hypothesis.</p>
+      </text>
+      <copy id="proportion"/>
+      <stretch/>
+    </page>
+    <page>
+      <text>
+        <p>Select the type of alternative hypothesis to test:</p>
+        <ul>
+          <li>Check two-sided you have no assumption about what mean is greater.</li>
+          <li>Check greater if you assume that the mean of the first population is greater than the mean of the second population.</li>
+          <li>Check less if you assume that the mean of the first population is less than the mean of the second population.</li>
+        </ul>
+        <p>The one-sided hypothesis tends to increase the power of the test.</p>
+      </text>
+      <copy id="hypothesis"/>
+      <stretch/>
+    </page>
+    <page>
+      <text>
+        <p>Select the type of test:</p>
+        <ul>
+          <li>Check normal approximation with continuity correction for big sample sizes and continuous variables.</li>
+          <li>Check normal approximation without continuity correction for big sample sizes and discrete variables.</li>
+          <li>Check exact binomial for small sample sizes.
+          </li>
+        </ul>
+      </text>
+      <copy id="type"/>
+      <stretch/>
+    </page>
+    <page>
+      <text>
+        <p>If you wants a confidence interval to estimate the proportion of the population check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
+      </text>
+      <copy id="frameConfInt"/>
+      <stretch/>
+    </page>
+  </wizard>
 </document>
