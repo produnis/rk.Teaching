@@ -1,38 +1,89 @@
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
+
+include("../common/common_functions.js")
+include("../common/filter.js")
+
 // globals
-var variable, factor, center;
+var dataframe,
+  variable,
+  variableName,
+  factor,
+  factorName,
+  groups,
+  groupsName,
+  center;
 
-function preprocess () {
-    echo('require(car)\n');
+function setGlobalVars() {
+  variable = getString("variable");
+  variableName = getString("variable.shortname");
+  dataframe = getDataframe(variable);
+  factor = getString("factor");
+  factorName = getString("factor.shortname");
+  grouped = getBoolean("grouped");
+  groups = getList("groups");
+  groupsName = getList("groups.shortname");
+  center = getString("center");
 }
 
-function calculate () {
-    // Filter
-    echo(getString("filter_embed.code.calculate"));
-    // Load variables
-    variable = getString("variable");
-    factor = getString("factor");
-    center = getString("center");
-    var options = ', center=' + center;
+function preprocess() {
+  setGlobalVars();
+  echo('require(car)\n');
+  echo('require(plyr)\n');
+}
+
+function calculate() {
+  // Filter
+  filter();
+  // Test settings
+  var options = ', center=' + center;
+  // Grouped mode
+  if (grouped) {
+    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo('result <- dlply(' + dataframe + ', ".groups", function(df) leveneTest(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']]' + options + '))\n');
+  } else {
+    // Non-grouped mode
     echo('result <- leveneTest(' + variable + ', ' + factor + options + ')\n');
+  }
 }
 
-function printout () {
-    echo ('rk.header ("Levene\'s test for comparing variances of ' + getString("variable.shortname") + ' according to ' + getString("factor.shortname") + '", ');
-    echo ('parameters=list ("Variance comparison of " = rk.get.description(' + variable + '), "According to" = rk.get.description(' + factor + ')' + getString("filter_embed.code.printout"));
-    if (center=="median") {
-        echo (', "Variability with respect to" = "Median"');
-    }
-    else {
-        echo (', "Variability with respect to" = "Mean"');
-    }
+function printout() {
+  // Header
+  header = new Header(i18n("Levene's test for comparing variances of %1 according to %2", variableName, factorName));
+  header.add(i18n("Data frame"), dataframe);
+  header.add(i18n("Comparison of"), i18n("%1 according to %2", variableName, factorName));
+  header.add(i18n("Null hypothesis"), i18n("The variances of all the populations are equal"));
+  header.add(i18n("Alternative hypothesis"), i18n("At least two populations have different variances"));
+  if (center == "median") {
+    header.add(i18n("Variability with respect to"), i18n("Median"));
+  } else {
+    header.add(i18n("Variability with respect to"), i18n("Mean"));
+  }
+  if (grouped) {
+    header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
+  }
+  if (filtered) {
+    header.addFromUI("condition");
+  }
+  header.print();
+  // Grouped mode
+  if (grouped) {
+    echo('for (i in 1:length(result)){\n');
+    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('rk.results(list(');
+    echo(i18n("Variable") + ' = "' + variableName + '", ');
+    echo(i18n("Populations defined by") + ' = "' + factorName + '", ');
+    echo(i18n("Degrees of freedom") + ' = result[[i]]$Df, ');
+    echo(i18n("F statistic") + ' = result[[i]][["F value"]][1], ');
+    echo(i18n("p-value") + ' = result[[i]][["Pr(>F)"]][1]');
+    echo('))}\n');
+  } else {
+    // Non-grouped mode
+    echo('rk.results(list(');
+    echo(i18n("Variable") + ' = "' + variableName + '", ');
+    echo(i18n("Populations defined by") + ' = "' + factorName + '", ');
+    echo(i18n("Degrees of freedom") + ' = result$Df, ');
+    echo(i18n("F statistic") + ' = result[["F value"]][1], ');
+    echo(i18n("p-value") + ' = result[["Pr(>F)"]][1]');
     echo('))\n');
-    echo ('rk.results (list(');
-    echo ('"Variable"= rk.get.short.name(' + variable + '), ');
-    echo ('"Factor levels" = levels(' + factor + '), ');
-    echo ('"Degrees of freedom"=result[["Df"]], ');
-    echo ('"F statistic"=result[["F value"]][1], ');
-    echo ('"p-value"=result[["Pr(>F)"]][1]');
-    echo ('))\n');
+  }
 }
-
-

@@ -22,12 +22,12 @@ function setGlobalVars() {
   variable = getString("variable");
   variableName = getString("variable.shortname");
   dataframe = getDataframe(variable);
-  grouped = getBoolean("grouped");
-  groups = getList("groups");
   factor = getString("factor");
   factorName = getString("factor.shortname");
   population1 = getString("population1");
   population2 = getString("population2");
+  grouped = getBoolean("grouped");
+  groups = getList("groups");
   groupsName = getList("groups.shortname");
   getConfInt = getBoolean("frameConfInt.checked");
   confLevel = getString("confLevel");

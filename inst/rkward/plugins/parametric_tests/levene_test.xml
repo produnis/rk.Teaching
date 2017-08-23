@@ -2,50 +2,69 @@
 
 <!DOCTYPE rkplugin>
 <document>
-    <code file="levene_test.js"/>
-    <help file="levene_test.rkh"/>
-    
-    <logic>
-        <connect client="filter_embed.variable" governor="variable.available" />
-    </logic>
-    
-    <dialog label="Levene's test for comparing variances">
-        <tabbook>
-            <tab id="tab_variables" label="Variables">
-                <row id="row_vars">
-                    <varselector id="selector" label="Select variable(s)" />
-                    <column>
-                        <varslot id="variable" label="Compare variance of" source="selector" types="number" required="true" />
-                        <varslot id="factor" label="According to" source="selector" types="factor" required="true" />
-                        <embed id="filter_embed" component="rkTeaching::filter_embed"/>
-                        <stretch />
-                    </column>
-                </row>
-            </tab>
-            <tab id="tab_settings" label="Test options">
-                <radio id="center" label="Variability with respect to">
-                    <option value="median" label="Median" />
-                    <option value="mean" label="Mean" />
-                </radio>
-                <stretch />
-            </tab>
-        </tabbook>
-    </dialog>
-    
-    <wizard label="Levene's test for comparing variances wizard">
-        <page>
-            <text>
-                <p>Select the numeric variable whose variances wants to compare.</p>
-                <p>After, select the factor with the levels to compare.</p> 
-            </text>
-            <copy id="row_vars"/>
-        </page>
-        <page>
-            <text>
-                <p>Check the box corresponding to the central tendency measure with respect to which the variability is measured.</p>
-            </text>
-            <copy id="center"/>
+  <code file="levene_test.js"/>
+  <help file="levene_test.rkh"/>
+
+  <logic>
+    <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+    <connect client="groups.visible" governor="groupedMode"/>
+  </logic>
+
+  <dialog label="Levene's test for comparing variances of independent populations">
+    <tabbook>
+      <tab id="tabVariables" label="Variables">
+        <row id="rowVars">
+          <varselector id="selector" label="Select variable(s)"/>
+          <column>
+            <varslot id="variable" label="Compare variance of" source="selector" types="numeric" required="true"/>
+            <varslot id="factor" label="According to" source="selector" types="factor" required="true"/>
+            <checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
+            <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
+            <include file="../common/filter.xml"/>
             <stretch/>
-        </page>
-    </wizard>
+          </column>
+        </row>
+      </tab>
+      <tab id="tabOptions" label="Test options">
+        <radio id="center" label="Variability with respect to">
+          <option value="median" label="Median"/>
+          <option value="mean" label="Mean"/>
+        </radio>
+        <stretch/>
+      </tab>
+    </tabbook>
+  </dialog>
+
+  <wizard label="Levene's test for comparing variances of independent population wizard">
+    <page>
+      <text>
+        <p>
+          This procedure does the Leven's test for detecting a significant difference between the variances of several independent populations.
+        </p>
+        <p>
+          The dependent variable must be numeric and the independent variable must be a factor.
+        </p>
+      </text>
+    </page>
+    <page>
+      <text>
+        <p>
+          Insert the numeric variable for which to compare the variances in the field
+          <b>Compare</b>.
+        </p>
+        <p>
+          After, insert the factor that define the populations to compare in the field
+          <b>According to</b>.
+        </p>
+      </text>
+      <copy id="rowVars"/>
+    </page>
+    <page>
+      <text>
+        <p>Check the box corresponding to the central tendency measure with respect to which the variability is measured.</p>
+      </text>
+      <copy id="center"/>
+      <stretch/>
+    </page>
+  </wizard>
 </document>

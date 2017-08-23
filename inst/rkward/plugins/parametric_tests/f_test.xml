@@ -19,7 +19,7 @@
           <column>
             <varslot id="variable" label="Compare" source="selector" types="numeric" required="true"/>
             <varslot id="factor" label="According to" source="selector" types="factor" required="true"/>
-            <frame id="levels_frame" label="Populations to compare">
+            <frame id="frameLevels" label="Populations to compare">
               <row>
                 <column>
                   <embed id="levels" component="rkward::level_select"/>
