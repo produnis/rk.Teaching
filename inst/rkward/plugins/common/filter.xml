@@ -1,6 +1,5 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <column>
-	<frame id="filter" label="Filter" checkable="true" checked="false">
-		<input id="condition" label="Selection condition"/>
-	</frame>
+	<checkbox id="filter" label="Filter" value_unchecked="0" checked="false"/>
+	<input id="condition" label="Selection condition"/>
 </column>

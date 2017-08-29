@@ -39,7 +39,7 @@ Translation:
     ✔ Fisher's F test @done(2017-08-22 17:48) @project(Translation / Parametric tests)
     ✔ Levene's test @done(2017-08-23 19:10) @project(Translation / Parametric tests)
     ✔ Test for one proportion @done(2017-08-23 21:59) @project(Translation / Parametric tests)
-    ☐ Test for comparing two proportions
+    ✔ Test for comparing two proportions @done(2017-08-29 16:00) @project(Translation / Parametric tests)
     ☐ Sample size to estimate a proportion
   Non-parametric tests:
     ☐ Lillieford's test

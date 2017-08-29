@@ -51,14 +51,12 @@ function calculate() {
   }
   // Manual frequency
   if (manualFreq) {
-    echo('freq <- ' + freq + '\n');
-    echo('n <- ' + n + '\n');
     if (type == "binomial") {
-      echo('result <- binom.test (freq, n' + options + ')\n');
+      echo('result <- binom.test (' + freq + ',' + n +  options + ')\n');
     } else if (type == "normal_correction") {
-      echo('result <- prop.test (freq, n' + options + ')\n');
+      echo('result <- prop.test (' + freq + ',' + n +  options + ')\n');
     } else {
-      echo('result <- prop.test (freq, n' + options + ', correct=FALSE)\n');
+      echo('result <- prop.test (' + freq + ',' + n +  options + ', correct=FALSE)\n');
     }
   } else {
     // Non-manual frequency
@@ -67,22 +65,23 @@ function calculate() {
     // Set grouped mode
     if (grouped) {
       echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+      echo('result <- dlply(' + dataframe + ', ".groups", function(df){\n\tfreq <- table(df[[' +  quote(variableName) + ']])\n');
       if (type == "binomial") {
-        echo('result <- dlply(' + dataframe + ', ".groups", function(df) binom.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + '))\n');
+        echo('\tbinom.test(freq[[' + category + ']], sum(freq)' +  options + ')\n})\n');
       } else if (type == "normal_correction") {
-        echo('result <- dlply(' + dataframe + ', ".groups", function(df) prop.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + '))\n ');
+        echo('\tprop.test(freq[[' + category + ']], sum(freq)' +  options + ')\n})\n');
       } else {
-        echo('result <- dlply(' + dataframe + ', ".groups", function(df) prop.test(length(df[[' + quote(variableName) + ']][df[[' + quote(variableName) + ']] == ' + category + ']), length(df[[' + quote(variableName) + ']])' + options + ', correct=FALSE))\n ');
+        echo('\tprop.test(freq[[' + category + ']], sum(freq)' +  options + ', correct=FALSE)\n})\n');
       }
     } else {
-      echo('freq <- length(' + variable + '[' + variable + '==' + category + '])\n');
-      echo('n  <- length(' + variable + ')\n');
+      echo('freq <- table(' + variable + ')\n');
+      echo('result <-');
       if (type == "binomial") {
-        echo('result <- binom.test (freq, n' + options + ')\n');
+        echo('binom.test(freq[[' + category + ']], sum(freq)' +  options + ')\n');
       } else if (type == "normal_correction") {
-        echo('result <- prop.test (freq, n' + options + ')\n');
+        echo('prop.test(freq[[' + category + ']], sum(freq)' +  options + ')\n');
       } else {
-        echo('result <- prop.test (freq, n' + options + ', correct=FALSE)\n');
+        echo('prop.test(freq[[' + category + ']], sum(freq)' +  options + ', correct=FALSE)\n');
       }
     }
   }

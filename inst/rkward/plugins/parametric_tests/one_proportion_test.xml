@@ -16,6 +16,8 @@
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
     <connect client="grouped.enabled" governor="manualChecked.not"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
     <connect client="filter.enabled" governor="manualChecked.not"/>
   </logic>
 
@@ -27,14 +29,17 @@
           <column>
             <varslot id="variable" label="Variable" source="selector" required="true" size="small"/>
             <row>
-              <column>
-                <embed id="levels" component="rkward::level_select"/>
-              </column>
+              <embed id="levels" component="rkward::level_select"/>
               <valueslot id="category" label="Proportion of" source="levels.selector" size="small"/>
             </row>
-            <checkbox id="grouped" label="Means by groups" value_unchecked="0" checked="false"/>
-            <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
-            <include file="../common/filter.xml"/>
+            <row>
+              <column>
+                <include file="../common/grouping.xml"/>
+              </column>
+              <column>
+                <include file="../common/filter.xml"/>
+              </column>
+            </row>
             <frame id="manual" label="Manual entry of frequencies" checkable="true" checked="false" value="1" value_unchecked="0">
               <input id="freq" label="Sample frequency" size="small" required="true"/>
               <input id="n" label="Sample size" size="small" required="true"/>
@@ -50,7 +55,6 @@
             <option value="two.sided" label="Two-sided (&#8800;)"/>
             <option value="greater" label="Greater (&gt;)"/>
             <option value="less" label="Less (&lt;)"/>
-
           </radio>
           <radio id="type" label="Type of test">
             <option value="normal_correction" label="Normal approximation with continuity correction"/>
@@ -76,9 +80,13 @@
     </page>
     <page>
       <text>
-        <p>Select one variable and the category for the proportion to test, or check the box
+        <p>Select one variable and the category for the proportion to test.</p>
+        <p>If you want different tests for the categories of one or several factors, check the box
+          <b>Test by groups</b>
+          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.</p>
+        <p>If you do not want to create the variable required and you know the frequency of the sample, check the box
           <b>Manual entry of frequencies</b>
-          and enter the sample frequency and size.</p>
+          and enter the frequency and size of the sample.</p>
       </text>
       <copy id="rowVars"/>
       <stretch/>

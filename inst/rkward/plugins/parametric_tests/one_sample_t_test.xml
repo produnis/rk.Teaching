@@ -8,8 +8,9 @@
   <logic>
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
   </logic>
-
   <dialog label="T-test for the mean of one population">
     <tabbook>
       <tab id="tabVariables" label="Variable">
@@ -17,9 +18,7 @@
           <varselector id="selector" label="Select variable(s)"/>
           <column>
             <varslot id="variable" label="Mean of" source="selector" types="numeric" required="true"/>
-            <checkbox id="grouped" label="Means by groups" value_unchecked="0" checked="false"/>
-            <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
-            <include file="../common/filter.xml"/>
+            <include file="../common/grouping_filter.xml"/>
             <stretch/>
           </column>
         </row>
@@ -44,6 +43,13 @@
   </dialog>
 
   <wizard label="T-test for the mean of one population wizard">
+    <page>
+      <text>
+        <p>
+          This procedure does the T test for detecting a significant difference between the mean of one population and a given value, and estimating the mean with a confidence interval.
+        </p>
+      </text>
+    </page>
     <page>
       <text>
         <p>Insert the numeric variable to test.</p>

@@ -16,7 +16,7 @@
 				<row id="rowVars">
 					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="variables" label="Variable(s)" type="numeric" min_vars="2" multi="true" source="selector" required="true" num_dimensions="1"/>
+						<varslot id="variables" label="Variable(s)" type="numeric" min_vars="2" multi="true" source="selector" required="true"/>
 						<checkbox id="grouped" label="Correlation by groups" checked="false"/>
 						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
 						<include file="../common/filter.xml"/>

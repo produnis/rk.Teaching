@@ -27,7 +27,7 @@ function setGlobalVars() {
 }
 
 function preprocess() {
-
+  setGlobalVars();
   echo('require(rk.Teaching)\n');
   echo('require(plyr)\n');
 }
@@ -42,7 +42,7 @@ function calculate() {
     echo('result <- dlply(' + dataframe + ', ".groups", function(df) correlationMatrix(df[c("' + variablesNames.join("\", \"") + '")],  use="' + missing + '", method="' + method + '"))\n');
 	} else {
     // Correlation Matrix
-    echo('result <- correlationMatrix(' + dataframe + '[c("' + variablesNames.join("\", \"") + '")], use="' + missing + '", method="' + method + '")\n');
+    echo('result <- correlationMatrix(' + dataframe + '[c("' + variablesNames.join("\", \"") + '")], use=' + quote(missing) + ', method=' + quote(method) + ')\n');
   }
 }
 

@@ -10,8 +10,7 @@ var dataframe,
   groups,
   groupsName,
   mean,
-  getConfInt
-  confInt,
+  getConfInt,
   confLevel,
   hypothesis;
 
