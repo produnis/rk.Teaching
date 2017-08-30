@@ -33,8 +33,8 @@ Translation:
     ✔ T-test for the mean of one population @done(2017-08-21 20:36) @project(Translation / Parametric tests)
     ✔ T-test for comparing the means of two paired populations @done(2017-08-22 10:51) @project(Translation / Parametric tests)
     ✔ T-test for comparing the means of two independent populations @done(2017-08-22 13:46) @project(Translation / Parametric tests)
-    ☐ Sample size to estimate one mean
-    ☐ Sample size for the t-test
+    ✔ Sample size to estimate one mean @done(2017-08-30 20:04) @project(Translation / Parametric tests)
+    ✔ Sample size for the t-test @done(2017-08-30 21:55) @project(Translation / Parametric tests)
     ✔ ANOVA @done(2017-08-30 19:32) @project(Translation / Parametric tests)
     ✔ Fisher's F test @done(2017-08-22 17:48) @project(Translation / Parametric tests)
     ✔ Levene's test @done(2017-08-23 19:10) @project(Translation / Parametric tests)

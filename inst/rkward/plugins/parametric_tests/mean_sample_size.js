@@ -1,8 +1,5 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-include("../common/common_functions.js")
-include("../common/filter.js")
-
 // globals
 var sd,
   confLevel,

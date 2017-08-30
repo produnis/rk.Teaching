@@ -14,7 +14,7 @@
   <wizard label="Sample size computation for estimating one mean wizard">
     <page>
       <text>
-        <p>This procedure computes the sample size reiquired to estimate the mean of one population using a confidence interval with confidence level and error given.</p>
+        <p>This procedure computes the sample size reiquired to estimate the mean of one population using a confidence interval with a given confidence level and error.</p>
       </text>
     </page>
     <page>
