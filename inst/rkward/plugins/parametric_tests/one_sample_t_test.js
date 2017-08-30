@@ -51,6 +51,7 @@ function calculate() {
 }
 
 function printout() {
+  // Header
   header = new Header(i18n("T-test for the mean of %1", variableName));
   header.add(i18n("Data frame"), dataframe);
   header.add(i18n("Variable to test"), variableName);
@@ -90,7 +91,7 @@ function printout() {
     echo('))}\n');
   } else {
     // Non-grouped mode
-    echo('rk.results (list(');
+    echo('rk.results(list(');
     echo(i18n("Variable") + ' = ' + quote(variableName) + ', ');
     echo(i18n("Estimated mean") + ' = result$estimate, ');
     echo(i18n("Degrees of freedom") + ' = result$parameter, ');
