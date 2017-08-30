@@ -40,7 +40,10 @@ Translation:
     ✔ Levene's test @done(2017-08-23 19:10) @project(Translation / Parametric tests)
     ✔ Test for one proportion @done(2017-08-23 21:59) @project(Translation / Parametric tests)
     ✔ Test for comparing two proportions @done(2017-08-29 16:00) @project(Translation / Parametric tests)
-    ☐ Sample size to estimate a proportion
+    ✔ Sample size to estimate a proportion @done(2017-08-30 22:10) @project(Translation / Parametric tests)
+    ☐ Sample size for one proportion test
+    ☐ Sample size for two proportions test
+    ☐ Sample size for the ANOVA test
   Non-parametric tests:
     ☐ Lillieford's test
     ☐ Shapiro-Wilks test

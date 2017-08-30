@@ -22,7 +22,7 @@ function calculate() {
 
 function printout() {
   // Header
-  header = new Header(i18n("Sample size for estimating one mean"));
+  header = new Header(i18n("Sample size computation to estimate one mean"));
   header.add(i18n("Standard deviation of the population"), sd);
   header.add(i18n("Confidence level"), confLevel);
   header.add(i18n("Error"), '&#177;' + error);

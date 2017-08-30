@@ -1,23 +1,32 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 // globals
-var sd, conflevel, error, errortype;
+var sd,
+  confLevel,
+  error;
 
-function preprocess () {
-    echo('require(rk.Teaching)\n');
+function setGlobalVars() {
+  p = getString("p");
+  confLevel = getString("confLevel");
+  error = getString("error");
 }
 
-function calculate () {
-    p = getString("p");
-    conflevel = getString("conflevel");
-    error = getString("error");
-    echo('result <- sampleSizeOneProportion(p=' + p + ', sig.level= 1-' + conflevel + ', error=' + error + ')\n');
+function preprocess() {
+  setGlobalVars();
+  echo('require(rk.Teaching)\n');
 }
 
-function printout () {
-    echo ('rk.header ("Sample size computation to estimate a proportion in a population", ');
-    echo ('parameters=list ("Estimated proportion in the population" = "' + p + '", "Confidence level" ="' + conflevel + '", "Error" = "&#177;' + error + '"))\n');
-    echo ('rk.results (list("Sample size required"= result$n))\n');
+function calculate() {
+  echo('result <- sampleSizeOneProportion(p=' + p + ', sig.level= 1-' + confLevel + ', error=' + error + ')\n');
 }
 
-
+function printout() {
+  // Header
+  header = new Header(i18n("Sample size computation to estimate a proportion"));
+  header.add(i18n("Estimated proportion in the population"), p);
+  header.add(i18n("Confidence level"), confLevel);
+  header.add(i18n("Error"), '&#177;' + error);
+  header.print();
+  // Sample size result
+  echo('rk.results (list(' + i18n("Sample size required") + ' = result$n))\n');
+}

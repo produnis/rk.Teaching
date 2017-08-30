@@ -2,35 +2,40 @@
 
 <!DOCTYPE rkplugin>
 <document>
-    <code file="proportion_sample_size.js"/>
-    <help file="proportion_sample_size.rkh"/>
-    
-    <dialog label="Sample size computation to estimate a proportion in one population">	
-        <input id="p" label="Proportion in the population" initial="0.5" required="true" />
-        <spinbox id="conflevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95" />
-        <input id="error" label="Error &#177;" initial="0.1" required="true"/>
-    </dialog>
-    
-    <wizard label="Sample size computation to estimate a proportion in one population wizard">
-        <page>
-            <text>
-                <p>Enter the estimate of the proportion in the population. I you don't have an estimate enter 0.5.</p> 
-            </text>
-            <copy id="p"/>
-        </page>
-        <page>
-            <text>
-                <p>Enter the confidence level for the estimate.</p>
-            </text>
-            <copy id="conflevel"/>
-            <stretch/>
-        </page>
-        <page>
-            <text>
-                <p>Enter the maximum error for the estimate.</p> 
-            </text>
-            <copy id="error"/>
-            <stretch/>
-        </page>
-    </wizard>
+  <code file="proportion_sample_size.js"/>
+  <help file="proportion_sample_size.rkh"/>
+
+  <dialog label="Sample size computation to estimate a proportion in one population">
+    <input id="p" label="Proportion in the population" initial="0.5" required="true"/>
+    <spinbox id="confLevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
+    <input id="error" label="Error &#177;" initial="0.1" required="true"/>
+  </dialog>
+
+  <wizard label="Sample size computation to estimate a proportion in one population wizard">
+    <page>
+      <text>
+        <p>This procedure computes the sample size reiquired to estimate a proportion in one population using a confidence interval with a given confidence level and error.</p>
+      </text>
+    </page>
+    <page>
+      <text>
+        <p>Enter the estimate of the proportion in the population. I you don't have an estimate enter 0.5.</p>
+      </text>
+      <copy id="p"/>
+    </page>
+    <page>
+      <text>
+        <p>Enter the confidence level for the estimate.</p>
+      </text>
+      <copy id="confLevel"/>
+      <stretch/>
+    </page>
+    <page>
+      <text>
+        <p>Enter the maximum error for the estimate.</p>
+      </text>
+      <copy id="error"/>
+      <stretch/>
+    </page>
+  </wizard>
 </document>
