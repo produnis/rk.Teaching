@@ -41,11 +41,11 @@ Translation:
     ✔ Test for one proportion @done(2017-08-23 21:59) @project(Translation / Parametric tests)
     ✔ Test for comparing two proportions @done(2017-08-29 16:00) @project(Translation / Parametric tests)
     ✔ Sample size to estimate a proportion @done(2017-08-30 22:10) @project(Translation / Parametric tests)
-    ☐ Sample size for one proportion test
-    ☐ Sample size for two proportions test
-    ☐ Sample size for the ANOVA test
+    ☐ Sample size for one proportion test @low 
+    ☐ Sample size for two proportions test @low 
+    ☐ Sample size for the ANOVA test @low 
   Non-parametric tests:
-    ☐ Lillieford's test
+    ✔ Lillieford's test @done (2017-9-14 15:19:16)
     ☐ Shapiro-Wilks test
     ☐ Chi-square test
     ☐ Mann-Whitney test
@@ -58,7 +58,7 @@ Translation:
 
 Optimization:
   ☐ Use dplyr to compute basic statistics.
-  ☐ Change gruoping option in dialogs (look at the one sample t test).
+  ☐ Change grouping option in dialogs (look at the one sample t test).
   ☐ Review plots preview (look at interaction plot as example).
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
