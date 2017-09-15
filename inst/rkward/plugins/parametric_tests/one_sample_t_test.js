@@ -77,8 +77,8 @@ function printout() {
   // Grouped mode
   if (grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results (list(');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('\trk.results (list(');
     echo(i18n("Variable") + ' = ' + quote(variableName) + ', ');
     echo(i18n("Estimated mean") + ' = result[[i]]$estimate, ');
     echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');

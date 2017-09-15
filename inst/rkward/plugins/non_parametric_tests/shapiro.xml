@@ -1,27 +1,38 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="shapiro.js"/>
 	<help file="shapiro.rkh"/>
-	
 	<logic>
-		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
-		<connect client="groups.visible" governor="grouped_mode"/>
-		<connect client="grouping.enabled" governor="grouped_mode"/>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-	
-	
-	<dialog label="Test de normalidad de Shapiro-Wilk">
-		<row>
+	<dialog label="Shapiro-Wilks normality test">
+		<row id="rowVars">
+			<varselector id="selector" label="Select variable(s)"/>
 			<column>
-				<varselector id="selector" label="Seleccionar variables"/>
-			</column>
-			<column>
-				<varslot id="x" label="Variable(s):" type="numeric" source="selector" required="true"/>
-				<checkbox id="grouped" label="Contraste por grupos" value_unchecked="0" checked="false" />
-				<varslot id="groups" label="según" source="selector" required="true"/>
+				<varslot id="variable" label="Variable to test" source="selector" types="numeric" required="true"/>
+				<include file="../common/grouping_filter.xml"/>
+				<stretch/>
 			</column>
 		</row>
 	</dialog>
+	<wizard label="Shapiro-Wilks normality test wizard">
+		<page>
+			<text>
+				<p>This procedure does the Shapiro-Wilks test for detecting a significant departure from normality of a quantitative variable.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Insert the numeric variable to test.</p>
+				<p>If you want different tests for the categories of one or several factors, check the box <b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.
+				</p>
+			</text>
+			<copy id="rowVars"/>
+			<stretch/>
+		</page>
+	</wizard>
 </document>

@@ -46,12 +46,13 @@ Translation:
     ☐ Sample size for the ANOVA test @low 
   Non-parametric tests:
     ✔ Lillieford's test @done (2017-9-14 15:19:16)
-    ☐ Shapiro-Wilks test
+    ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
     ☐ Chi-square test
     ☐ Mann-Whitney test
     ☐ Wilcoxon test
     ☐ Kruskal-Wallis test
     ☐ Friedman test
+    ☐ Add qq chart to normality tests. @low 
   Concordance:
     ☐ Intraclass correlation coefficient
     ☐ Cohen's kappa

@@ -23,6 +23,7 @@
 		<page>
 			<text>
 				<p>This procedure does the Lilliefors test (a correction of the Kolmogorov-Smirnov test) for detecting a significant departure from normality of a quantitative variable.</p>
+				<p>This test has a low power for small samples (n<30). In such a case, use instead the Shapiro-Wilks test.</p>
 			</text>
 		</page>
 		<page>
