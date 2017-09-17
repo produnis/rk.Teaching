@@ -1,37 +1,30 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="binomial_plot.js" />
 	<help file="binomial_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 		<set id="plotoptions.default_pointtype" to="p"/>
 	</logic>
-	
 	<snippets>
-		<snippet id="range_options">
-		</snippet>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox default_precision="2" type="integer" id="size" min="1" initial="1" label="Número de repeticiones" />
-				<spinbox default_precision="2" type="real" id="prob" min="0" initial="0.5" label="Probabilidad de éxito"/>
+		<snippet id="rangeOptions"></snippet>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="integer" id="size" min="1" initial="1" label="Number of trials" />
+				<spinbox default_precision="2" type="real" id="prob" min="0" initial="0.5" label="Probability of success"/>
 			</frame>
 			<stretch />
 		</snippet>
-		<snippet id="parameters_wizard">
-			<text>
-				Introducir el número de repeticiones de la binomial (n) y la probabilidad de éxito en cada repetición (p).	
-			</text>
+		<snippet id="parametersWizard">
+			<text>Insert the number of trials (repetitions) of the binomial (n) and the probability of success in each trial (p).</text>
 		</snippet>
-		<include file="plot_dist_common_snippets.xml"/>
+		<include file="../common/plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad Binomial" >
-		<insert snippet="discrete_layout"/>
+	<dialog label="Binomial probability distribution plot">
+		<insert snippet="discreteLayout"/>
 	</dialog>
-	
-	<wizard label="Gráfico de probabilidad Binomial">
-		<insert snippet="discrete_wizard"/>
+	<wizard label="Binomial probability distribution plot">
+		<insert snippet="discreteWizard"/>
 	</wizard>
 </document>

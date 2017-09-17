@@ -22,7 +22,7 @@ Translation:
     ☐ Compute probability
   Probability distributions:
     ☐ Uniform discrete
-    ☐ Binomial
+    ✔ Binomial @done (2017-9-18 00:38:00)
     ☐ Poisson
     ☐ Uniform continuous
     ☐ Normal
