@@ -23,6 +23,8 @@ Translation:
   Probability distributions:
     ☐ Uniform discrete
     ✔ Binomial @done (2017-9-18 00:38:00)
+    ☐ Geometric
+    ☐ Hypergeometric
     ☐ Poisson
     ☐ Uniform continuous
     ☐ Normal

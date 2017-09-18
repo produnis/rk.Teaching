@@ -53,6 +53,9 @@
 	</snippet>
 	<!--  for the wizards -->
 	<snippet id="discreteWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
 		<page id="pageParameters">
 			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
@@ -94,7 +97,7 @@
 	</snippet>
 	<snippet id="densityHelp">
 		<setting id="function">
-			<li> Density Function, or </li>				Seleccionar las opciones gráficas.						
+			<li> Density Function, or </li>				Seleccionar las opciones gráficas.												
 			<li> Distribution Function </li>
 		</setting>
 	</snippet>
