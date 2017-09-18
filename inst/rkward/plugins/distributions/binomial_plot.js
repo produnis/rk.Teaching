@@ -3,7 +3,7 @@
 var size,
 	prob;
 
-include('../common/plot_dist_common.js');
+include('plot_dist_common.js');
 
 function getParameters() {
 	size = getString("size");

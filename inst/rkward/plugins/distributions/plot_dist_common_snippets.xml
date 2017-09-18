@@ -33,7 +33,7 @@
 				<insert snippet="discreteOptions"/>
 				<stretch/>
 				<preview id="preview" label="Preview"/>
-				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
 			</column>
 		</row>
 	</snippet>

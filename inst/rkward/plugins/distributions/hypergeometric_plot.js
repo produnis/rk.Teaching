@@ -6,7 +6,7 @@ var populationSize,
   sampleSize;
 
 
-include('../common/plot_dist_common.js');
+include('plot_dist_common.js');
 
 function getParameters() {
   populationSize = getString("populationSize");

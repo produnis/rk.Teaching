@@ -1,32 +1,49 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var q, fun, size, prob, tail;
+var q,
+	fun,
+	size,
+	prob,
+	tail;
 
-function calculate () {
+function setGlobals() {
+	q = getString("q");
 	size = getString("size");
 	prob = getString("prob");
-	q = 'c(' + getString("q").replace (/[, ]+/g, ", ") + ')';
 	tail = getString("tail");
 	fun = getString("function");
-	echo ('result <- ' + fun + 'binom(' + q + ', size = ' + size + ', prob = ' + prob);
-	if (fun == 'p'){
+}
+
+function calculate() {
+	setGlobals();
+	// q = 'c(' + getString("q").replace(/[, ]+/g, ", ") + ')';
+	echo('result <- ' + fun + 'binom(c(' + q + '), size = ' + size + ', prob = ' + prob);
+	if (fun === 'p') {
 		echo(', ' + tail);
 	}
 	echo(')\n');
 }
 
-function printout () {
-	var title = 'Probabilidades';
-	var label = '';
-	if (fun == 'p') {
-		title += ' acumuladas';
-		label += ' , "Cola de acumulaci&oacute;n" = ';
-		if (tail=="lower.tail=TRUE" )
-			label += '"Izquierda (&le;)"';
-		else
-			label += '"Derecha (>)"';
+function printout() {
+	if (fun === 'p') {
+		header = new Header(i18n("Binomial cumulative probabilities B(%1,%2)", size, prob));
+	} else {
+		header = new Header(i18n("Binomial probabilities B(%1,%2)", size, prob));
 	}
-	echo ('rk.header ("' + title + ' Binomial B(' + size + ',' + prob + ')", list("N&uacute;mero de repeticiones" = "' + size + '", "Probabilidad de &eacute;xito" = "' + prob + '"' + label + '))\n');
-	echo ('rk.results (list("Valores" = ' + q + ', "' + title + '" = result))\n');
-}
+	header.add(i18n("Number of trials"), size);
+	header.add(i18n("Probability of success"), prob);
+	if (fun === 'p') {
+		if (tail === "lower.tail=TRUE") {
+			header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+		} else {
+			header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+		}
+	}
+	header.print();
 
+	if (fun === 'p') {
+		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
+	} else {
+		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Probability") + ' = result))\n');
+	}
+}

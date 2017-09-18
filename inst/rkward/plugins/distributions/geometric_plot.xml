@@ -21,7 +21,7 @@
 		<snippet id="parametersWizard">
 			<text>Insert the probability of success in each trial (p).</text>
 		</snippet>
-		<include file="../common/plot_dist_common_snippets.xml"/>
+		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
 	<dialog label="Geometric probability distribution plot">
 		<insert snippet="discreteLayout"/>

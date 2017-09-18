@@ -1,34 +1,30 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="binomial_probabilities.js" />
 	<help file="binomial_probabilities.rkh" />
-	
 	<logic>
-		<insert snippet="discrete_logic"/>
+		<insert snippet="discreteLogic"/>
 	</logic>
-	
 	<snippets>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox id="size" label="Nº de repeticiones" default_precision="2" type="integer" initial="1" min="1" />
-				<spinbox id="prob" label="Probabilidad de éxito" default_precision="2" type="real" initial="0.5" min="0" max="1" />
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox id="size" label="Number of trials" default_precision="2" type="integer" initial="1" min="1" />
+				<spinbox id="prob" label="Probability of success" default_precision="2" type="real" initial="0.5" min="0" max="1" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
-			<text>
-				Introducir el número de repeticiones de la binomial (n) y la probabilidad de éxito en cada repetición (p).	
-			</text>
+		<snippet id="introductionWizard">
+      <text>The binomial probability distribution model describes the probability of getting k successes in an sequence of n independent trials, with two possible outcomes (success/failure), where the probability of success in each of them is p.</text>
+    </snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the number of trials (repetitions) of the binomial (n) and the probability of success in each trial (p).</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Probabilidad Binomial" >
-		<insert snippet="probabilities_discrete_layout"/>
+	<dialog label="Binomial probability">
+		<insert snippet="probabilitiesDiscreteLayout"/>
 	</dialog>
-	
-	<wizard label="Probabilidad Binomial" >
-		<insert snippet="probabilities_discrete_wizard"/>
-	</wizard>	
+	<wizard label="Binomial probability">
+		<insert snippet="probabilitiesDiscreteWizard"/>
+	</wizard>
 </document>

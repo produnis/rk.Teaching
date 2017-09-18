@@ -22,7 +22,7 @@
 		<snippet id="parametersWizard">
 			<text>Insert the number of trials (repetitions) of the binomial (n) and the probability of success in each trial (p).</text>
 		</snippet>
-		<include file="../common/plot_dist_common_snippets.xml"/>
+		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
 	<dialog label="Binomial probability distribution plot">
 		<insert snippet="discreteLayout"/>
