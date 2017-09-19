@@ -25,6 +25,7 @@ function calculate() {
 }
 
 function printout() {
+	// Header
 	if (fun === 'p') {
 		header = new Header(i18n("Binomial cumulative probabilities B(%1,%2)", size, prob));
 	} else {
@@ -40,7 +41,7 @@ function printout() {
 		}
 	}
 	header.print();
-
+	// Results
 	if (fun === 'p') {
 		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
 	} else {
