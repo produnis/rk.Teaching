@@ -3,7 +3,8 @@
 var prob,
   min,
   max,
-  n;
+  n,
+  fun;
 
 include('plot_dist_common.js');
 

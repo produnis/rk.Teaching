@@ -1,19 +1,30 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var p, fun, lambda, tail;
+var p,
+	lambda,
+	tail;
 
-function calculate () {
+function setGlobals() {
+	p = getString("p");
 	lambda = getString("lambda");
-	p = 'c(' + getString("p").replace (/[, ]+/g, ", ") + ')';
 	tail = getString("tail");
-	echo ('result <- (qpois(p = ' + p + ', lambda = ' + lambda + ', ' + tail + '))\n');
 }
 
-function printout () {
-	echo ('rk.header ("Cuantiles Poisson P(' + lambda + ')", list ("Media" = "' + lambda + '", "Cola de acumulaci&oacute;n" = ');
-	if (tail=="lower.tail=TRUE" )
-		echo('"Izquierda (&le;)"));\n');
-	else
-		echo('"Derecha (&gt;)"));\n');
-	echo ('rk.results (list("Probabilidades acumuladas" = ' + p + ', "Cuantiles" = result))\n');
+function calculate() {
+	setGlobals();
+	echo('result <- (qpois(p = c(' + p + '), lambda = ' + lambda + ', ' + tail + '))\n');
+}
+
+function printout() {
+	// Header
+	header = new Header(i18n("Poisson quantiles P(%1)", lambda));
+	header.add(i18n("Mean"), lambda);
+	if (tail === "lower.tail=TRUE") {
+		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+	} else {
+		header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+	}
+	header.print();
+	// Result
+	echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
 }

@@ -14,7 +14,6 @@ function setGlobals() {
 
 function calculate() {
 	setGlobals();
-	// q = 'c(' + getString("q").replace(/[, ]+/g, ", ") + ')';
 	echo('result <- ' + fun + 'geom(c(' + q + '), prob = ' + prob);
 	if (fun === 'p') {
 		echo(', ' + tail);
