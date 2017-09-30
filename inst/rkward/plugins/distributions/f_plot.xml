@@ -15,13 +15,13 @@
 				<spinbox default_precision="2" type="real" id="max" initial="10" label="Máximo" />
 			</frame>
 		</snippet>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
 				<spinbox default_precision="2" type="integer" id="df1" initial="1" label="Grados de libertad del numerador" />
 				<spinbox default_precision="2" type="integer" id="df2" min="0.01" initial="1" label="Grados de libertad del denominador"/>
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
+		<snippet id="parametersWizard">
 			<text>
 				Introducir los grados de libertad del numerador y del denominador de la distribución F de Fisher. 	
 			</text>

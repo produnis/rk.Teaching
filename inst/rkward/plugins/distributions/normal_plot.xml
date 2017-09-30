@@ -30,7 +30,7 @@
 	<dialog label="Normal probability distribution plot">
 		<insert snippet="continousLayout"/>
 	</dialog>
-	<wizard label="Gráfico de probabilidad Chi-cuadrado">
+	<wizard label="Normal probability distribution plot">
 		<insert snippet="continousWizard"/>
 	</wizard>
 </document>

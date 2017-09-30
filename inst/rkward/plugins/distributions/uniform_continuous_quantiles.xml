@@ -1,0 +1,27 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="uniform_continuous_quantiles.js" />
+	<help file="uniform_continuous_quantiles.rkh" />
+	<snippets>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox id="min" label="Min" default_precision="2" type="real" initial="0" />
+				<spinbox id="max" label="Max" default_precision="2" type="real" initial="1" />
+			</frame>
+		</snippet>
+		<snippet id="introductionWizard">
+			<text>The Uniform continuous probability distribution model describes a probability distribution where intervals of the same legth in the range have the same probability (equiprobability). The parameters that describe this distribution are the minimum and the maximum of the variable range.</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the minimum and the maximum value of the variable range.</text>
+		</snippet>
+		<include file="dist_snippets.xml"/>
+	</snippets>
+	<dialog label="Continuous uniform quantiles">
+		<insert snippet="quantilesLayout"/>
+	</dialog>
+	<wizard label="Continuous uniform quantiles">
+		<insert snippet="quantilesWizard"/>
+	</wizard>
+</document>
