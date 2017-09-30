@@ -1,7 +1,8 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 var size,
-	prob;
+	prob,
+	fun;
 
 include('plot_dist_common.js');
 

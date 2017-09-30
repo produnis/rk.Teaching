@@ -1,39 +1,36 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="normal_plot.js" />
 	<help file="normal_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 	</logic>
-	
 	<snippets>
-		<snippet id="range_options">
-			<frame id="range" label="Rango" checkable="true" checked="false">
-				<spinbox default_precision="2" type="real" id="min" initial="-3.29" label="Mínimo" />
-				<spinbox default_precision="2" type="real" id="max" initial="3.29" label="Máximo" />
+		<snippet id="rangeOptions">
+			<frame id="range" label="Range" checkable="true" checked="false">
+				<spinbox default_precision="2" type="real" id="min" initial="-3.29" label="Min" />
+				<spinbox default_precision="2" type="real" id="max" initial="3.29" label="Max" />
 			</frame>
 		</snippet>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox default_precision="2" type="real" id="mean" initial="0" label="Media" />
-				<spinbox default_precision="2" type="real" id="sd" min="0.01" initial="1" label="Desviación típica"/>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="real" id="mean" initial="0" label="Mean" />
+				<spinbox default_precision="2" type="real" id="sd" min="0.01" initial="1" label="Standard deviation"/>
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
-			<text>
-				Introducir la media y la desviación típica de la distribución Normal.	
-			</text>
+		<snippet id="introductionWizard">
+      <text>The Normal probability distribution model is the the most common continuous probability distribution model. It describes the probability of many natural variables due to the central limit theorem. The parameters that describe this distribution are the mean and the standard deviation of the population.</text>
+    </snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the mean and the standard deviation of the population.				</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad Normal" >
-		<insert snippet="continous_layout"/>
+	<dialog label="Normal probability distribution plot">
+		<insert snippet="continousLayout"/>
 	</dialog>
-
 	<wizard label="Gráfico de probabilidad Chi-cuadrado">
-		<insert snippet="continous_wizard"/>
+		<insert snippet="continousWizard"/>
 	</wizard>
 </document>

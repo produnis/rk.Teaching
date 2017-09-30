@@ -24,10 +24,10 @@ Translation:
     ☐ Uniform discrete
     ✔ Binomial @done (2017-9-18 00:38:00)
     ✔ Geometric @done (2017-9-19 12:51:11)
-    ☐ Hypergeometric
-    ☐ Poisson
+    ✔ Hypergeometric @done (2017-9-30 10:31:58)
+    ✔ Poisson @done (2017-9-30 10:31:59)
     ☐ Uniform continuous
-    ☐ Normal
+    ✔ Normal @done (2017-9-30 11:30:54)
     ☐ Student's t
     ☐ Chi-square
     ☐ Fisher's F
