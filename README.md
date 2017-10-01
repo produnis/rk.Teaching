@@ -26,7 +26,8 @@ To install it directly from GitHub, you can use `install_github()` from the [dev
 
 ```
 library(devtools)
-install_github("rkward-community/rk.Teaching")
+install_github("rkward-community/rk.Teaching") # stable release
+install_github("rkward-community/rk.Teaching", ref="develop") # development release
 ```
 
 You can safely ignore warnings about the (unavailable) package "rkward", it was installed together with RKWard.
@@ -34,7 +35,8 @@ You can safely ignore warnings about the (unavailable) package "rkward", it was 
 ## Contributing
 
 See http://api.kde.org/doc/rkwardplugins/ for documentation on writing plugins for RKWard.
-Contact rkward-devel@kde.org for help and requests.
+Please contact the [RKWard development mailing list](https://mail.kde.org/mailman/listinfo/rkward-devel)
+for help, reports and requests.
 
 - Submit pull requests or patches
 - Contact us to get write access
@@ -43,9 +45,13 @@ This plugin is built using the [rkwarddev](https://files.kde.org/rkward/R/pckg/r
 script file, located at `rk.Teaching/inst/rkward/rkwarddev_plugin_script.R`. This script is written in `R` code and *generates*
 all of the other plugin files when run. Therefore, in case you'd like to add to this plugin, please add to this script file.
 
+### Branches
+
+Please note that all development happens in the `develop` branch. Pull requests against the `master` branch will be rejected, as it is reserved for the current stable release.
+
 ## Licence
 
-Copyright 2012-2015 Alfredo Sánchez Alberca <asalber@ceu.es>
+Copyright 2012-2017 Alfredo Sánchez Alberca <asalber@ceu.es>
 
 rk.Teaching is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

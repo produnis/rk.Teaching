@@ -34,16 +34,18 @@ rkt.filter.wizard <- rk.XML.wizard(
 
 ## logic
 rkt.filter.logic <- rk.XML.logic(
-  rk.XML.external(
+  rkt.filter.extVariable <- rk.XML.external(
     id="variable"
   )
 )
 
 
 ## JavaScript calculate
+rkt.filter.JS.VarVariable <- rk.JS.vars(rkt.filter.extVariable, getter="getString")
+rkt.filter.JS.varData <- rk.JS.method("split", values="[[", suffix="[0]", object=rkt.filter.JS.VarVariable, var="data")
 rkt.filter.JS.calc <- rk.paste.JS(
-  "var variable = getString(\"variable\");",
-  "var data = variable.split('[[')[0];",
+  rkt.filter.JS.VarVariable,
+  rkt.filter.JS.varData,
   js(
     if (rkt.filter.condition.frame){
     "echo (data + \" <- subset(\" + data + \", subset=\" + condition + \")\\n\");"
