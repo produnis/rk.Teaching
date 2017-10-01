@@ -1,5 +1,4 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="chi_plot.js" />
@@ -7,12 +6,11 @@
 	<logic>
 		<insert snippet="commonLogic"/>
 	</logic>
-	
 	<snippets>
 		<snippet id="rangeOptions">
-			<frame id="range" label="Rango" checkable="true" checked="false">
-				<spinbox default_precision="2" type="real" id="min" initial="0" label="Mínimo" />
-				<spinbox default_precision="2" type="real" id="max" initial="15" label="Máximo" />
+			<frame id="range" label="Range" checkable="true" checked="false">
+				<spinbox default_precision="2" type="real" id="min" initial="0" label="Min" />
+				<spinbox default_precision="2" type="real" id="max" initial="15" label="Max" />
 			</frame>
 		</snippet>
 		<snippet id="distOptions">
@@ -20,19 +18,21 @@
 				<spinbox default_precision="2" type="integer" id="df" initial="1" label="Degrees of freedom" />
 			</frame>
 		</snippet>
-		<snippet id="parametersWizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir los grados de libertad de la distribución Chi-cuadrado.	
+				<p>The Chi-square probability distribution defines the probality distribution of the sum of the square of n indpendent standard normal variables.</p>
+				<p>The parameter n that describe this distribution is the degrees of freedom, that is the number of squared standard normal added.</p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom.</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad Chi-cuadrado" >
+	<dialog label="Chi-square probability plot">
 		<insert snippet="continousLayout"/>
 	</dialog>
-
-	<wizard label="Gráfico de probabilidad Chi-cuadrado">
+	<wizard label="Chi-square probability plot">
 		<insert snippet="continousWizard"/>
 	</wizard>
 </document>

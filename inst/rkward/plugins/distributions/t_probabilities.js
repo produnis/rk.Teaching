@@ -5,15 +5,15 @@ var q,
 	tail,
 	plot;
 
-	function setGlobals() {
-		q = getString("q");
-		df = getString("df");
-		tail = getString("tail");
-		plot = getBoolean("plot");
-	}
+function setGlobals() {
+	q = getString("q");
+	df = getString("df");
+	tail = getString("tail");
+	plot = getBoolean("plot");
+}
 
 function calculate() {
-	setGlobals();	
+	setGlobals();
 	echo('result <- (pt(q = c(' + q + '), df = ' + df + ', ' + tail + '))\n');
 }
 

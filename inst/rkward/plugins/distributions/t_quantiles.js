@@ -27,4 +27,4 @@ function printout() {
 	header.print();
 	// Result
 	echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
-	}
+}

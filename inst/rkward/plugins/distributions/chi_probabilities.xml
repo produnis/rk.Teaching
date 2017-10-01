@@ -1,26 +1,29 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="chi_probabilities.js" />
+	<help file="chi_probabilities.rkh" />
 	<snippets>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
 				<spinbox id="df" min="0" label="Degrees of freedom" default_precision="2" type="real" initial="1" />
 			</frame>
 		</snippet>
-		<snippet id="parametersWizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir los grados de libertad de la distribución Chi-cuadrado.	
+				<p>The Chi-square probability distribution defines the probality distribution of the sum of the square of n indpendent standard normal variables.</p>
+				<p>The parameter n that describe this distribution is the degrees of freedom, that is the number of squared standard normal added.</p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom.</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	<dialog label="Probabilidad acumulada Chi-cuadrado" >
+	<dialog label="Chi-square probability">
 		<insert snippet="probabilitiesContinousLayout"/>
 	</dialog>
-
-	<wizard label="Probabilidad acumulada Chi-cuadrado" >
+	<wizard label="Chi-square probability">
 		<insert snippet="probabilitiesContinousWizard"/>
-	</wizard>	
+	</wizard>
 </document>
