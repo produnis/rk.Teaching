@@ -1,5 +1,4 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="f_plot.js" />
@@ -7,33 +6,35 @@
 	<logic>
 		<insert snippet="commonLogic"/>
 	</logic>
-	
 	<snippets>
 		<snippet id="rangeOptions">
-			<frame id="range" label="Rango" checkable="true" checked="false">
-				<spinbox default_precision="2" type="real" id="min" initial="0" label="Mínimo" />
-				<spinbox default_precision="2" type="real" id="max" initial="10" label="Máximo" />
+			<frame id="range" label="Range" checkable="true" checked="false">
+				<spinbox default_precision="2" type="real" id="min" initial="0" label="Min" />
+				<spinbox default_precision="2" type="real" id="max" initial="10" label="Max" />
 			</frame>
 		</snippet>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox default_precision="2" type="integer" id="df1" initial="1" label="Degrees of freedom del numerador" />
-				<spinbox default_precision="2" type="integer" id="df2" min="0.01" initial="1" label="Degrees of freedom del denominador"/>
+				<spinbox default_precision="2" type="integer" id="df1" initial="1" label="Numerator degrees of freedom" />
+				<spinbox default_precision="2" type="integer" id="df2" min="0.01" initial="1" label="Denominator degrees of freedom"/>
 			</frame>
 		</snippet>
-		<snippet id="parametersWizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir los grados de libertad del numerador y del denominador de la distribución F de Fisher. 	
+				<p>The Fisher-Snedecor probability distribution is a probability distribution that arises in the testing of whether two populations have the same variance. Mathematically this distributions describes the probability distribution of the variable that result of the quotient of two independent chi-square distributions with m and n degrees of freedom, each divided by its degrees of freedom.</p>
+				<p>The parameters that define this distribution are the degrees of freedom of the numerator and denominator, that are the sample size minus one of the samples drawn from both populations.</p>
+				<p><a href="http://aprendeconalf.es/statistics/manual/continuous_random_variables.html#Fisher-Snedecor’sFdistribution">More info</a></p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom of the numerator and denominator.</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad F de Fisher" >
+	<dialog label="Fisher-Snedecor F probability plot">
 		<insert snippet="continousLayout"/>
 	</dialog>
-
-	<wizard label="Gráfico de probabilidad F de Fisher">
+	<wizard label="Fisher-Snedecor F probability plot">
 		<insert snippet="continousWizard"/>
 	</wizard>
 </document>

@@ -19,16 +19,16 @@ function calculate() {
 }
 
 function printout() {
-// Header
-header = new Header(i18n("Normal quantiles N(%1,%2)", mean, sd));
-header.add(i18n("Mean"), mean);
-header.add(i18n("Standard deviation"), sd);
-if (tail === "lower.tail=TRUE") {
-	header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
-} else {
-	header.add(i18n("Accumulation tail"), i18n("Right (>)"));
-}
-header.print();
-// Result
-echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
+	// Header
+	header = new Header(i18n("Normal quantiles N(%1,%2)", mean, sd));
+	header.add(i18n("Mean"), mean);
+	header.add(i18n("Standard deviation"), sd);
+	if (tail === "lower.tail=TRUE") {
+		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+	} else {
+		header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+	}
+	header.print();
+	// Result
+	echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
 }

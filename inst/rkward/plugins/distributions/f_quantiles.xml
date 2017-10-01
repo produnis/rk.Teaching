@@ -1,27 +1,32 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="f_quantiles.js" />
 	<snippets>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox id="df1" label="Degrees of freedom del numerador" default_precision="2" type="real" min="0" initial="1" />
-				<spinbox id="df2" label="Degrees of freedom del denominador" default_precision="2" type="real" min="0" initial="1" />
+				<spinbox id="df1" label="Numerator degrees of freedom" default_precision="2" type="real" min="0" initial="1" />
+				<spinbox id="df2" label="Denominator degrees of freedom" default_precision="2" type="real" min="0" initial="1" />
 			</frame>
 		</snippet>
-		<snippet id="parametersWizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir el número de grados de libertad del numerador y del denominador de la distribución F de Fisher. 	
+				<p>The Fisher-Snedecor probability distribution is a probability distribution that arises in the testing of whether two populations have the same variance. Mathematically this distributions describes the probability distribution of the variable that result of the quotient of two independent chi-square distributions with m and n degrees of freedom, each divided by its degrees of freedom.</p>
+				<p>The parameters that define this distribution are the degrees of freedom of the numerator and denominator, that are the sample size minus one of the samples drawn from both populations.</p>
+				<p>
+					<a href="http://aprendeconalf.es/statistics/manual/continuous_random_variables.html#Fisher-Snedecor’sFdistribution">More info</a>
+				</p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom of the numerator and denominator.</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	<dialog label="Cuantiles F de Fisher" >
+	<dialog label="Fisher-Snededor F quantiles">
 		<insert snippet="quantilesLayout"/>
 	</dialog>
-
-	<wizard label="Cuantiles F de Fisher" >
+	<wizard label="Fisher-Snededor F quantiles">
 		<insert snippet="quantilesWizard"/>
-	</wizard>	
+	</wizard>
 </document>
