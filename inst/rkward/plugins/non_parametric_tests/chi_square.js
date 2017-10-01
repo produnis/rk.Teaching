@@ -35,13 +35,13 @@ function printout () {
 	if (mcnemar){
 		echo ('rk.results (list(');
 		echo ('"Estad&iacute;stico Chi" = results$statistic');
-		echo (', "Grados de libertad" = results$parameter');
+		echo (', "Degrees of freedom" = results$parameter');
 		echo (', "p-valor" = results$p.value');
 		echo ('))\n');
 	} else {
 		echo ('rk.results (list(');
 		echo ('"Estad&iacute;stico Chi" = results$statistic');
-		echo (', "Grados de libertad" = results$parameter');
+		echo (', "Degrees of freedom" = results$parameter');
 		echo (', "p-valor" = results$p.value');
 		echo ('))\n');
 		if (fisher){

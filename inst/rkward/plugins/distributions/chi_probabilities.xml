@@ -6,7 +6,7 @@
 	<snippets>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox id="df" min="0" label="Grados de libertad" default_precision="2" type="real" initial="1" />
+				<spinbox id="df" min="0" label="Degrees of freedom" default_precision="2" type="real" initial="1" />
 			</frame>
 		</snippet>
 		<snippet id="parametersWizard">

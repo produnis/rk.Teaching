@@ -23,7 +23,7 @@ function getParameters () {
 }
 
 function doHeader () {
-	echo ('rk.header ("Funci&oacute;n de ' + label + ' F de Fisher F(' + df1 + ',' + df2 + ')", list ("Grados de libertad del numerador"= "' + df1 + '", "Grados de libertad del denominador" = "' + df2 + '"))\n');
+	echo ('rk.header ("Funci&oacute;n de ' + label + ' F de Fisher F(' + df1 + ',' + df2 + ')", list ("Degrees of freedom del numerador"= "' + df1 + '", "Degrees of freedom del denominador" = "' + df2 + '"))\n');
 }
 
 function doFunCall () {

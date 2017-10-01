@@ -11,7 +11,7 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Cuantiles F de Fisher F(' + df1 + ',' + df2 + ')", list ("Grados de libertad del numerador" = "' + df1 + '", "Grados de libertad del denominador" = "' + df2 + '", "Cola de acumulaci&oacute;n" = ');
+	echo ('rk.header ("Cuantiles F de Fisher F(' + df1 + ',' + df2 + ')", list ("Degrees of freedom del numerador" = "' + df1 + '", "Degrees of freedom del denominador" = "' + df2 + '", "Cola de acumulaci&oacute;n" = ');
 	if (tail=="lower.tail=TRUE" )
 		echo('"Izquierda (&le;)"));\n');
 	else

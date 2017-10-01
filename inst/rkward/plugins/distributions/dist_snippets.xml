@@ -69,11 +69,11 @@
 			<copy id="parameters"/>
 		</page>
 		<page id="pagePunction">
-			<text>Select 
-				<b>Probabilities</b> to compute the probability of every value, or 
-				<b>Cumulative probabilities</b> to compute the cumulative probability of every value. In this last case select the accumulation tail that you want: 
-				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 
-				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.
+			<text>Select 				
+				<b>Probabilities</b> to compute the probability of every value, or 				
+				<b>Cumulative probabilities</b> to compute the cumulative probability of every value. In this last case select the accumulation tail that you want: 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 				
+				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
 			<copy id="discreteFunction"/>
 		</page>
@@ -91,9 +91,9 @@
 			<copy id="parameters"/>
 		</page>
 		<page id="pageFunction">
-			<text>Select the accumulation tail that you want: 
-				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 
-				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.
+			<text>Select the accumulation tail that you want: 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 				
+				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
 			<copy id="continousFunction"/>
 		</page>
@@ -111,9 +111,9 @@
 			<copy id="parameters"/>
 		</page>
 		<page id="pageTail">
-			<text>select the accumulation tail that you want: 
-				<b>Left</b> if the cumulative probabilities correspond to values less than or equal to the quantile, or 
-				<b>Right</b> if the cumulative probabilities correspond to values greater than the quantile.
+			<text>Select the accumulation tail that you want: 				
+				<b>Left</b> if the cumulative probabilities correspond to values less than or equal to the quantile, or 				
+				<b>Right</b> if the cumulative probabilities correspond to values greater than the quantile.			
 			</text>
 			<copy id="tail"/>
 		</page>

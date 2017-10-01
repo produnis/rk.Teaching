@@ -6,8 +6,8 @@
 	<snippets>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox id="df1" min="0" label="Grados de libertad del numerador" default_precision="2" type="real" initial="1" />
-				<spinbox id="df2" min="0" label="Grados de libertad del denominador" default_precision="2" type="real" initial="1" />
+				<spinbox id="df1" min="0" label="Degrees of freedom del numerador" default_precision="2" type="real" initial="1" />
+				<spinbox id="df2" min="0" label="Degrees of freedom del denominador" default_precision="2" type="real" initial="1" />
 			</frame>
 		</snippet>
 		<snippet id="parametersWizard">

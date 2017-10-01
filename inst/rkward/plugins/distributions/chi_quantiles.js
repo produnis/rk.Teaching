@@ -10,7 +10,7 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Cuantiles Chi-cuadrado &chi;(' + df + ')", list ("Grados de libertad" = "' + df + '", "Cola de acumulaci&oacute;n" = ');
+	echo ('rk.header ("Cuantiles Chi-cuadrado &chi;(' + df + ')", list ("Degrees of freedom" = "' + df + '", "Cola de acumulaci&oacute;n" = ');
 	if (tail=="lower.tail=TRUE" )
 		echo('"Izquierda (&le;)"));\n');
 	else

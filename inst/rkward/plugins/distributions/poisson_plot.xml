@@ -4,7 +4,7 @@
 	<code file="poisson_plot.js" />
 	<help file="poisson_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 		<set id="plotoptions.default_pointtype" to="p"/>
 	</logic>
 	<snippets>

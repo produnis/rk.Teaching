@@ -11,7 +11,7 @@ function calculate () {
 }
 
 function printout () {
-	echo ('rk.header ("Probabilidad acumulada Chi-cuadrado &chi;(' + df + ')", list ("Grados de libertad" = "' + getString("df") + '", "Cola de acumulaci&oacute;n" = ');
+	echo ('rk.header ("Probabilidad acumulada Chi-cuadrado &chi;(' + df + ')", list ("Degrees of freedom" = "' + getString("df") + '", "Cola de acumulaci&oacute;n" = ');
 	if (tail=="lower.tail=TRUE" )
 		echo('"Izquierda (&lt;)"));\n');
 	else

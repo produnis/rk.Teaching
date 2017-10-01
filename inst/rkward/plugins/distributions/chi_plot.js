@@ -17,7 +17,7 @@ function getParameters () {
 }
 
 function doHeader () {
-	echo ('rk.header ("Funci&oacute;n de ' + label + ' Chi-cuadrado &#967;(' + df + ')", list ("Grados de libertad"= "' + df + '"))\n');
+	echo ('rk.header ("Funci&oacute;n de ' + label + ' Chi-cuadrado &#967;(' + df + ')", list ("Degrees of freedom"= "' + df + '"))\n');
 }
 
 function doFunCall () {

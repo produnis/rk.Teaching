@@ -18,7 +18,7 @@ function printout () {
 	echo ('parameters=list ("Frecuencias observadas" = rk.get.description(' + observed + '), "Probabilidades te&oacute;ricas" = rk.get.description(' + theoric + ')))\n');
 	echo ('rk.results (list(');
 	echo ('"Estad&iacute;stico Chi" = results$statistic');
-	echo (', "Grados de libertad" = results$parameter');
+	echo (', "Degrees of freedom" = results$parameter');
 	echo (', "p-valor" = results$p.value');
 	echo ('))\n');
 }

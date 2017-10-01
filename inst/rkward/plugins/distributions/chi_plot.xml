@@ -5,11 +5,11 @@
 	<code file="chi_plot.js" />
 	<help file="chi_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 	</logic>
 	
 	<snippets>
-		<snippet id="range_options">
+		<snippet id="rangeOptions">
 			<frame id="range" label="Rango" checkable="true" checked="false">
 				<spinbox default_precision="2" type="real" id="min" initial="0" label="Mínimo" />
 				<spinbox default_precision="2" type="real" id="max" initial="15" label="Máximo" />
@@ -17,7 +17,7 @@
 		</snippet>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox default_precision="2" type="integer" id="df" initial="1" label="Grados de libertad" />
+				<spinbox default_precision="2" type="integer" id="df" initial="1" label="Degrees of freedom" />
 			</frame>
 		</snippet>
 		<snippet id="parametersWizard">
@@ -29,10 +29,10 @@
 	</snippets>
 	
 	<dialog label="Gráfico de probabilidad Chi-cuadrado" >
-		<insert snippet="continous_layout"/>
+		<insert snippet="continousLayout"/>
 	</dialog>
 
 	<wizard label="Gráfico de probabilidad Chi-cuadrado">
-		<insert snippet="continous_wizard"/>
+		<insert snippet="continousWizard"/>
 	</wizard>
 </document>

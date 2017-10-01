@@ -5,11 +5,11 @@
 	<code file="f_plot.js" />
 	<help file="f_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 	</logic>
 	
 	<snippets>
-		<snippet id="range_options">
+		<snippet id="rangeOptions">
 			<frame id="range" label="Rango" checkable="true" checked="false">
 				<spinbox default_precision="2" type="real" id="min" initial="0" label="Mínimo" />
 				<spinbox default_precision="2" type="real" id="max" initial="10" label="Máximo" />
@@ -17,8 +17,8 @@
 		</snippet>
 		<snippet id="distOptions">
 			<frame id="parameters" label="Parameters">
-				<spinbox default_precision="2" type="integer" id="df1" initial="1" label="Grados de libertad del numerador" />
-				<spinbox default_precision="2" type="integer" id="df2" min="0.01" initial="1" label="Grados de libertad del denominador"/>
+				<spinbox default_precision="2" type="integer" id="df1" initial="1" label="Degrees of freedom del numerador" />
+				<spinbox default_precision="2" type="integer" id="df2" min="0.01" initial="1" label="Degrees of freedom del denominador"/>
 			</frame>
 		</snippet>
 		<snippet id="parametersWizard">
@@ -30,10 +30,10 @@
 	</snippets>
 	
 	<dialog label="Gráfico de probabilidad F de Fisher" >
-		<insert snippet="continous_layout"/>
+		<insert snippet="continousLayout"/>
 	</dialog>
 
 	<wizard label="Gráfico de probabilidad F de Fisher">
-		<insert snippet="continous_wizard"/>
+		<insert snippet="continousWizard"/>
 	</wizard>
 </document>
