@@ -15,7 +15,7 @@ function calculate () {
 
 function printout () {
 	echo ('rk.header ("Test de bondad de ajuste Chi-Cuadrado", ');
-	echo ('parameters=list ("Frecuencias observadas" = rk.get.description(' + observed + '), "Probabilidades te&oacute;ricas" = rk.get.description(' + theoric + ')))\n');
+	echo ('parameters=list ("Frecuencias observadas" = rk.get.description(' + observed + '), "Probabilityes te&oacute;ricas" = rk.get.description(' + theoric + ')))\n');
 	echo ('rk.results (list(');
 	echo ('"Estad&iacute;stico Chi" = results$statistic');
 	echo (', "Degrees of freedom" = results$parameter');

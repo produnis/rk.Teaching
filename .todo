@@ -15,7 +15,7 @@ Translation:
     ✔ Correlation @done(2017-08-21 13:30) @project(Translation / Regression)
     ✔ Predictions @done(2017-08-21 13:30) @project(Translation / Regression)
   Probability:
-    ☐ Gambling
+    ✔ Gambling @done (2017-10-2 18:23:47)
     ☐ Build probability space
     ☐ Repeat probability space
     ☐ Combine probability spaces
@@ -29,8 +29,8 @@ Translation:
     ✔ Uniform continuous @done (2017-10-1 01:03:34)
     ✔ Normal @done (2017-9-30 11:30:54)
     ✔ Student's t @done (2017-10-1 13:51:02)
-    ☐ Chi-square
-    ☐ Fisher's F
+    ✔ Chi-square @done (2017-10-1 19:21:56)
+    ✔ Fisher's F @done (2017-10-1 19:21:58)
   Parametric tests:
     ✔ T-test for the mean of one population @done(2017-08-21 20:36) @project(Translation / Parametric tests)
     ✔ T-test for comparing the means of two paired populations @done(2017-08-22 10:51) @project(Translation / Parametric tests)

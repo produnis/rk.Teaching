@@ -4,13 +4,13 @@
 	<code file="repeat_independent_probability_space.js" />
 	<help file="repeat_independent_probability_space.rkh" />
 
-	<dialog label="Espacio probabilístico de la repeteción de un experimento aleatorio">
+	<dialog label="Probability space de la repeteción de un experimento aleatorio">
 		<row id="row_vars">
 			<varselector id="selector" label="Seleccionar espacio probabilístico" />
 			<column>
-				<varslot id="dataframe" label="Espacio probabilístico" source="selector" classes="data.frame" required="true" />
+				<varslot id="dataframe" label="Probability space" source="selector" classes="data.frame" required="true" />
 				<spinbox id="nrep" label="Número de repeticiones" default_precision="2" type="integer" initial="1" min="1" max="30"/>
-				<saveobject id="save" label="Guardar conjunto de datos" initial="espacio.probabilistico.repetido" />
+				<saveobject id="save" label="Save the probability space" initial="espacio.probabilistico.repetido" />
 			</column>
 		</row>
 	</dialog>

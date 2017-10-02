@@ -3,27 +3,76 @@
 <document>
 	<code file="urn_draw.js" />
 	<help file="urn_draw.rkh" />
-
 	<logic>
 		<external id="variable"/>
-		<convert id="is_num" sources="objects.string" mode="equals" standard="num"/>
-		<connect client="num_objects.visible" governor="is_num"/>
-		<convert id="is_list" sources="objects.string" mode="equals" standard="list"/>
-		<connect client="list_objects.visible" governor="is_list"/>
+		<convert id="isNum" sources="objects.string" mode="equals" standard="num"/>
+		<connect client="numObjects.visible" governor="isNum"/>
+		<convert id="isList" sources="objects.string" mode="equals" standard="list"/>
+		<connect client="listObjects.visible" governor="isList"/>
 	</logic>
-
-	<dialog label="Extracción de una urna">
-		<radio id="objects" label="Objetos en la urna">
-			<option value="num" label="Número de objetos" />
-			<option value="list" label="Lista de objetos" />
-		</radio>
-		<spinbox id="num_objects" label="Número de objetos" type="integer" initial="2" min="1" max="1000" />
-		<input id="list_objects" label="Lista de objetos" size="small" required="true" />
-		<spinbox id="num_choices" label="Número de extracciones" type="integer" initial="1" min="1" max="30" />
-		<spinbox id="num_rep" label="Número de repeticiones" type="integer" initial="1" min="1" />
-		<checkbox id="replace" label="Con reemplazamiento" value="TRUE" value_unchecked="FALSE" />
-		<checkbox id="ordered" label="Con orden" value="TRUE" value_unchecked="FALSE" />
-		<checkbox id="freq" label="Distribución de frecuencias" />
-		<saveobject id="save" label="Guardar conjunto de datos" initial="extracciones.urna" />
+	<dialog label="Drawing of objects from an urn">
+		<column id="setObjects">
+			<radio id="objects" label="Objects in the urn">
+				<option value="num" label="Number of objects" />
+				<option value="list" label="List of objects" />
+			</radio>
+			<spinbox id="numObjects" label="Number of objects" type="integer" initial="2" min="1" max="1000" />
+			<input id="listObjects" label="List of objects" size="small" required="true" />
+		</column>
+		<spinbox id="numDraws" label="Number of draws" type="integer" initial="1" min="1" max="30" />
+		<spinbox id="numTimes" label="Number of times" type="integer" initial="1" min="1" />
+		<checkbox id="replace" label="With replacement" value="TRUE" value_unchecked="FALSE" />
+		<checkbox id="ordered" label="With order" value="TRUE" value_unchecked="FALSE" />
+		<checkbox id="freq" label="Frequency distribution" />
+		<saveobject id="save" label="Save data frame" initial="urn" />
 	</dialog>
+	<wizard label="Tossing coins">
+		<page>
+			<text>
+				<p>This procedure simulates the random experiment of drawing a number of objects from an urn.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Enter the numbero of objects or the list of objects.</p>
+			</text>
+			<copy id="setObjects" />
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of objects drawn from the urn.</p>
+			</text>
+			<copy id="numDraws" />
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of times to repeat the draw.</p>
+			</text>
+			<copy id="numTimes" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box if the draw is with replacement, that is, if after drawing an object the object is returned to the urn before the next draw.</p>
+			</text>
+			<copy id="replace" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box if the order of the draws matter.</p>
+			</text>
+			<copy id="ordered" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box to compute the frequency of every outcome.</p>
+			</text>
+			<copy id="freq" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the data set with the outcomes of the random experiment.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>

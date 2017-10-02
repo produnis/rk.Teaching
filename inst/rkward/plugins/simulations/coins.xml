@@ -11,6 +11,6 @@
 		<spinbox id="size" label="Número de lanzamientos" default_precision="2" type="integer" initial="1" min="1" />
 		<checkbox id="sum" label="Incluir suma" value="TRUE" unchecked_value="FALSE"/>
 		<checkbox id="mean" label="Incluir media" value="TRUE" unchecked_value="FALSE"/>
-		<saveobject id="save" label="Guardar conjunto de datos" initial="monedas" />
+		<saveobject id="save" label="Save the probability space" initial="monedas" />
 	</dialog>
 </document>

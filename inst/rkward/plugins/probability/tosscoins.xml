@@ -3,11 +3,41 @@
 <document>
 	<code file="tosscoins.js" />
 	<help file="tosscoins.rkh" />
-		
-	<dialog label="Lanzamiento de monedas" >
-		<spinbox id="ncoins" label="Número de monedas" default_precision="2" type="integer" initial="1" min="1" max="30"/>
-		<spinbox id="ntoss" label="Número de lanzamientos" type="integer" initial="1" min="1" />
-		<checkbox id="freq" label="Distribución de frecuencias" />
-		<saveobject id="save" label="Guardar conjunto de datos" initial="lanzamiento.monedas" />
+	<dialog label="Tossing coins">
+		<spinbox id="ncoins" label="Number of coins" default_precision="2" type="integer" initial="1" min="1" max="30"/>
+		<spinbox id="ntimes" label="Number of times" type="integer" initial="1" min="1" />
+		<checkbox id="freq" label="Frequency distribution" />
+		<saveobject id="save" label="Save data frame" initial="coins" />
 	</dialog>
+	<wizard label="Tossing coins">
+		<page>
+			<text>
+				<p>This procedure simulates the random experiment of tossing a number of coins a number of times.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of coins.</p>
+			</text>
+			<copy id="ncoins" />
+		</page>
+		<page>
+			<text>
+				<p>Enter the number times to toss the coins.</p>
+			</text>
+			<copy id="ntimes" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box to compute the frequency of every outcome.</p>
+			</text>
+			<copy id="freq" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the data set with the outcomes of the random experiment.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>

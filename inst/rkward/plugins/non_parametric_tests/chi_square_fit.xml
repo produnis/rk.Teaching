@@ -10,7 +10,7 @@
 			<varselector id="selector" label="Seleccionar variables" />
 			<column>
 				<varslot id="observed" label="Frecuencias observadas" source="selector" type="numeric" required="true" />
-				<varslot id="theoric" label="Probabilidades teóricas" source="selector" type="numeric" required="true" />
+				<varslot id="theoric" label="Probabilityes teóricas" source="selector" type="numeric" required="true" />
 			</column>
 		</row>
 	</dialog>

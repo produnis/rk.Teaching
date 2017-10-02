@@ -3,11 +3,34 @@
 <document>
 	<code file="coins_probability_space.js" />
 	<help file="coins_probability_space.rkh" />
-		
-	<dialog label="Espacio probabilístico del lanzamiento de monedas" >
-		<stretch/>
-		<spinbox id="ncoins" label="Número de monedas" default_precision="2" type="integer" initial="1" min="1" max="30"/>
-		<checkbox id="prob" label="Incluir probabilidades" checked="true" value="TRUE" uncheked_value="FALSE" />
-		<saveobject id="save" label="Guardar conjunto de datos" initial="espacio.probabilistico.monedas" />
+	<dialog label="Probability space of tossing coins">
+		<spinbox id="ncoins" label="Number of coins" default_precision="2" type="integer" initial="1" min="1" max="30"/>
+		<checkbox id="prob" label="Compute probabilities" checked="true" value="TRUE" uncheked_value="FALSE" />
+		<saveobject id="save" label="Save probability space" initial="probability.space.coins" />
 	</dialog>
+	<wizard label="Probability space of tossing coins">
+		<page>
+			<text>
+				<p>This procedure generates the probability space of the random experiment of tossing a number of coins.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of coins</p>
+			</text>
+			<copy id="ncoins" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box to compute the probability space, that is, the probabilities for each of the elements of the sample space. If not, you will get only the sample space.</p>
+			</text>
+			<copy id="prob" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the data set with the probability space.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>

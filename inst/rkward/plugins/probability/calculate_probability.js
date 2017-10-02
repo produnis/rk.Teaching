@@ -24,5 +24,5 @@ function printout () {
 	echo ('rk.results(list("Suceso" = \'' + event + '\'');
 	if (conditioned)
 		echo(', "Condici&oacute;n" = \'' + condition + '\'');
-	echo(', "Probabilidad" = results))\n');
+	echo(', "Probability" = results))\n');
 }

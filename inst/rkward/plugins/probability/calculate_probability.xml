@@ -9,13 +9,13 @@
 		<connect client="condition.visible" governor="conditioned_mode"/>
 	</logic>
 
-	<dialog label="Calcular probabilidad">
+	<dialog label="Compute probability">
 		<row id="row_vars">
 			<varselector id="selector" label="Seleccionar espacio probabilístico" />
 			<column>
-				<varslot id="probspace" label="Espacio probabilístico" source="selector" classes="data.frame" required="true" />
+				<varslot id="probspace" label="Probability space" source="selector" classes="data.frame" required="true" />
 				<input id="event" label="Suceso" required="true" size="small" />
-				<checkbox id="conditioned" label="Probabilidad condicionada" checked="false"  />
+				<checkbox id="conditioned" label="Probability condicionada" checked="false"  />
 				<input id="condition" label="Condición" required="true" size="small" />
 			</column>
 		</row>

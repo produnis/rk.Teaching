@@ -19,7 +19,7 @@ function doPrintout (full) {
 	var p = getValue("prob")
 	
 	if (full) {
-		echo ('rk.header ("Ley de los casos raros", parameters=list ("N&uacute;mero de repeticiones de la Binomial" = ' + n + ', "Probabilidad de &eacute;xito de la Binomial" = ' + p + ', "Media de la Poisson" = ' + n*p + '))\n');
+		echo ('rk.header ("Ley de los casos raros", parameters=list ("N&uacute;mero de repeticiones de la Binomial" = ' + n + ', "Probability de &eacute;xito de la Binomial" = ' + p + ', "Media de la Poisson" = ' + n*p + '))\n');
 		echo ('\n');
 		echo ('rk.graph.on ()\n');
 	}

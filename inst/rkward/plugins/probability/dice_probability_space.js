@@ -1,23 +1,31 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var ndice, prob, dataframe;
+var ndice,
+	prob,
+	dataframe;
 
-function preprocess(){
+function preprocess() {
 	echo('require(prob)\n');
 }
 
-
-function calculate () {
+function setGlobals() {
 	ndice = getString("ndice");
-	dataframe= getString("save");
+	dataframe = getString("save");
 	prob = getString("prob");
+}
+
+function calculate() {
+	setGlobals();
 	echo('results <- rolldie(' + ndice + ', makespace=' + prob + ')\n');
-	echo('for (i in 1:'+ ndice+ ')\n');
-	echo('\t names(results)[i]= paste("dado",i,sep="")\n');
-	echo ('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('for (i in 1:' + ndice + ')\n');
+	echo('\t names(results)[i]= paste0(' + i18n("dado") + ', i)\n');
+	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
 }
 
-function printout () {
-	echo('rk.header ("Espacio probabil&iacute;stico del lanzamiento de dados", parameters=list("N&uacute;mero de dados" = "' + ndice + '", "Conjunto de datos" = "' + dataframe + '"))\n');
+function printout() {
+	// Header
+	header = new Header(i18n("Probability space of rolling dice"));
+	header.add(i18n("Number of dice"), ndice);
+	header.add(i18n("Probability space"), dataframe);
+	header.print();
 }
-
