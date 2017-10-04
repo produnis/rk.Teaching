@@ -1,27 +1,35 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
-var source_dataframe, freq, target_dataframe;
+var sourceDataframe, 
+freq, 
+targetDataframe;
 
 function preprocess(){
 	echo('require(prob)\n');
 }
 
+function setGlobals() {
+	sourceDataframe = getString("dataframe");
+	targetDataframe= getString("save");
+	freq = getString("freq");
+}
 
 function calculate () {
-	source_dataframe = getString("dataframe");
-	target_dataframe= getString("save");
-	if (getBoolean("set_freq.state")) {
-		freq = getString("freq");
+	setGlobals();	
+	if (getBoolean("setFreq.state")) {
 		echo('freq <- ' + freq + '\n');
 		echo('' + freq + '<- NULL\n');
-		echo('results <- marginal(probspace(' +  source_dataframe + ', probs=freq/sum(freq)))\n');
+		echo('results <- marginal(probspace(' +  sourceDataframe + ', probs=freq/sum(freq)))\n');
 	} else {
-		echo('results <- empirical(' + source_dataframe + ')\n');
+		echo('results <- empirical(' + sourceDataframe + ')\n');
 	}
 	echo('names(results)[ncol(results)]="probs"\n');
-	echo ('assign("' + target_dataframe + '", results, .GlobalEnv)\n');
+	echo ('assign("' + targetDataframe + '", results, .GlobalEnv)\n');
 }
 
 
-function printout () {
-	echo('rk.header ("Construcci&oacute;n de espacio probabil&iacute;stico", parameters=list("Conjunto de datos" = "' + source_dataframe + '", "Espacio probabil&iacute;stico" = "' + target_dataframe + '"))\n');
+function printout () {// Header
+	header = new Header(i18n("Construction of a probability space"));
+	header.add(i18n("Data frame"), sourceDataframe);
+	header.add(i18n("Probability space"), targetDataframe);
+	header.print();
 }

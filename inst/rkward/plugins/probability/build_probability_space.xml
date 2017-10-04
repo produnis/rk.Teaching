@@ -3,23 +3,33 @@
 <document>
 	<code file="build_probability_space.js" />
 	<help file="build_probability_space.rkh" />
-
 	<logic>
 		<connect governor="current_object" client="dataframe.available" />
 		<connect governor="dataframe.available" client="selector.root" />
-		<convert id="freq_mode" mode="equals" sources="set_freq.state" standard="1" />
-		<connect client="freq.visible" governor="freq_mode" />
+		<convert id="freqMode" mode="equals" sources="setFreq.state" standard="1" />
+		<connect client="freq.visible" governor="freqMode" />
 	</logic>
-
-	<dialog label="Construcción de espacio probabilístico">
-		<row id="row_vars">
+	<dialog label="Construction of a probability space">
+		<row id="rowVars">
 			<varselector id="selector" label="Seleccionar conjunto de datos" />
 			<column>
-				<varslot id="dataframe" label="Conjunto de datos" source="selector" classes="data.frame" required="true" />
-				<checkbox id="set_freq" label="Definir frecuencias" value_unchecked="0" checked="false" />
-				<varslot id="freq" label="Frecuencias" source="selector" types="number" required="true" />
-				<saveobject id="save" label="Save the probability space" initial="espacio.probabilistico" />
+				<varslot id="dataframe" label="Data frame" source="selector" classes="data.frame" required="true" />
+				<checkbox id="setFreq" label="Define frequencies" value_unchecked="0" checked="false" />
+				<varslot id="freq" label="Frequencies" source="selector" types="number" required="true" />
+				<saveobject id="save" label="Save probability space" initial="probability.space" />
 			</column>
 		</row>
 	</dialog>
+	<wizard label="Construction of a probability space">
+		<page>
+			<text>
+				<p>This procedure creates a probability space using the frequencies of a sample.</p>
+			</text>
+		</page>
+		<page id="vars">
+			<text>
+				<p>Select the data frame that contains the sample. If the data frame contains the frequencies, check the box and select variable that contains the frequencies.</p>
+			</text>
+		</page>
+	</wizard>
 </document>
