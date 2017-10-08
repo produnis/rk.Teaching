@@ -15,9 +15,10 @@ function setGlobals() {
 
 function calculate () {
 	setGlobals();	
+	echo(sourceDataframe + '<-' + sourceDataframe + '[,colSums(is.na(' + sourceDataframe + '))<nrow(' + sourceDataframe + ')]\n');
 	if (getBoolean("setFreq.state")) {
 		echo('freq <- ' + freq + '\n');
-		echo('' + freq + '<- NULL\n');
+		echo(freq + '<- NULL\n');
 		echo('results <- marginal(probspace(' +  sourceDataframe + ', probs=freq/sum(freq)))\n');
 	} else {
 		echo('results <- empirical(' + sourceDataframe + ')\n');
