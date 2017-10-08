@@ -1,0 +1,39 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="join_independent_probability_spaces.js" />
+	<help file="join_independent_probability_spaces.rkh" />
+	<dialog label="Join independent probability spaces">
+		<row id="row_vars">
+			<varselector id="selector" label="Select probability spaces" />
+			<column>
+				<varslot id="spaces" label="Probability spaces" source="selector" multi="true" classes="data.frame" required="true" />
+				<saveobject id="save" label="Save probability space" initial="join.probability.space" />
+			</column>
+		</row>
+	</dialog>
+	<wizard label="Join independent probability spaces">
+		<page>
+			<text>
+				<p>This procedure creates the probability space corresponding to the join of the probability spaces of independent random experiments.</p>
+			</text>
+		</page>
+		<page id="vars">
+			<text>
+				<p>Select the data frames that contain the probability spaces of the random experiments. This probability spaces must containt a colum with name 															
+					<b>probs</b>.								
+				</p>
+			</text>
+			<row>
+				<copy id="selector" />
+				<copy id="spaces" />
+			</row>
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the probability space corresponding to the join.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
+</document>

@@ -18,7 +18,7 @@ function calculate() {
 	setGlobals();
 	echo('results <- rolldie(' + ndice + ', makespace=' + prob + ')\n');
 	echo('for (i in 1:' + ndice + ')\n');
-	echo('\t names(results)[i]= paste0(' + i18n("dado") + ', i)\n');
+	echo('\t names(results)[i]= paste0(' + i18n("dice") + ', i)\n');
 	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
 }
 

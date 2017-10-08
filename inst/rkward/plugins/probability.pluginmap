@@ -11,7 +11,7 @@
 		<component type="standard" id="urn_probability_space" file="urn_probability_space.xml" label="Probability space" />
 		<component type="standard" id="urn_draw" file="urn_draw.xml" label="Draw from an urn" />
 		<component type="standard" id="build_probability_space" file="build_probability_space.xml" label="Build probability space" />
-		<component type="standard" id="combine_independent_probability_spaces" file="combine_independent_probability_spaces.xml" label="Join independent probability spaces" />
+		<component type="standard" id="join_independent_probability_spaces" file="join_independent_probability_spaces.xml" label="Join independent probability spaces" />
 		<component type="standard" id="repeat_independent_probability_space" file="repeat_independent_probability_space.xml" label="Repeat probability space" />
 		<component type="standard" id="calculate_probability" file="calculate_probability.xml" label="Compute probability" />
 	</components>
@@ -37,7 +37,7 @@
 					</menu>
 				</menu> 
 				<entry component="build_probability_space" />
-				<entry component="combine_independent_probability_spaces" />  
+				<entry component="join_independent_probability_spaces" />  
 				<entry component="repeat_independent_probability_space" />  
 				<entry component="calculate_probability" />  
 			</menu>
