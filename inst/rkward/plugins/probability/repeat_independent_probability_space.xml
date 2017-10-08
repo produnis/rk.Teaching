@@ -3,15 +3,44 @@
 <document>
 	<code file="repeat_independent_probability_space.js" />
 	<help file="repeat_independent_probability_space.rkh" />
-
-	<dialog label="Probability space de la repeteción de un experimento aleatorio">
+	<dialog label="Repetition of probability space">
 		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar espacio probabilístico" />
+			<varselector id="selector" label="Select probability space" />
 			<column>
 				<varslot id="dataframe" label="Probability space" source="selector" classes="data.frame" required="true" />
-				<spinbox id="nrep" label="Número de repeticiones" default_precision="2" type="integer" initial="1" min="1" max="30"/>
-				<saveobject id="save" label="Save the probability space" initial="espacio.probabilistico.repetido" />
+				<spinbox id="nrep" label="Number of repetitions" default_precision="2" type="integer" initial="1" min="1" max="30"/>
+				<saveobject id="save" label="Save probability space" initial="probability.space.repetition" />
 			</column>
 		</row>
 	</dialog>
+	<wizard label="Repetition of a probability space">
+		<page>
+			<text>
+				<p>This procedure creates the probability space corresponding to the repetition of a random experiment with a given probability space.</p>
+			</text>
+		</page>
+		<page id="vars">
+			<text>
+				<p>Select the data frame that contains the probability space of the random experiment. This probability space must containt a colum with name 															
+					<b>probs</b>.								
+				</p>
+			</text>
+			<row>
+				<copy id="selector" />
+				<copy id="dataframe" />
+			</row>
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of repetition of the random experiment.</p>
+			</text>
+			<copy id="nrep" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the probability space corresponding to he repetition of the random experiment.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>
