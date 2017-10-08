@@ -28,7 +28,8 @@ function calculate () {
 }
 
 
-function printout () {// Header
+function printout () {
+	// Header
 	header = new Header(i18n("Construction of a probability space"));
 	header.add(i18n("Data frame"), sourceDataframe);
 	header.add(i18n("Probability space"), targetDataframe);

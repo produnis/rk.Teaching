@@ -13,7 +13,7 @@
 		<component type="standard" id="build_probability_space" file="build_probability_space.xml" label="Build probability space" />
 		<component type="standard" id="join_independent_probability_spaces" file="join_independent_probability_spaces.xml" label="Join independent probability spaces" />
 		<component type="standard" id="repeat_independent_probability_space" file="repeat_independent_probability_space.xml" label="Repeat probability space" />
-		<component type="standard" id="calculate_probability" file="calculate_probability.xml" label="Compute probability" />
+		<component type="standard" id="compute_probability" file="compute_probability.xml" label="Compute probability" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
@@ -39,7 +39,7 @@
 				<entry component="build_probability_space" />
 				<entry component="join_independent_probability_spaces" />  
 				<entry component="repeat_independent_probability_space" />  
-				<entry component="calculate_probability" />  
+				<entry component="compute_probability" />  
 			</menu>
 		</menu>
 	</hierarchy>
