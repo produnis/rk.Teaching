@@ -98,7 +98,7 @@
     <page>
       <text>
         <p>
-          This procedure does the test for detecting a significant difference between the proportions of two independent populations and estimating the difference with a confidence interval.
+          This procedure performs the test for detecting a significant difference between the proportions of two independent populations and estimating the difference with a confidence interval.
         </p>
         <p>
           The dependent variable must be numeric and the independent variable must be a factor.

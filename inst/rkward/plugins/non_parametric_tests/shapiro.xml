@@ -22,7 +22,7 @@
 	<wizard label="Shapiro-Wilks normality test wizard">
 		<page>
 			<text>
-				<p>This procedure does the Shapiro-Wilks test for detecting a significant departure from normality of a quantitative variable.</p>
+				<p>This procedure performs the Shapiro-Wilks test for detecting a significant departure from normality of a quantitative variable.</p>
 			</text>
 		</page>
 		<page>

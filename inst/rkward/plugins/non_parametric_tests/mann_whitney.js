@@ -11,6 +11,7 @@ var dataframe,
 	factorName,
 	population1,
 	population2,
+	grouped,
 	groups,
 	groupsName,
 	type,
@@ -23,13 +24,14 @@ function setGlobalVars() {
 	variable = getString("variable");
 	variableName = getString("variable.shortname");
 	dataframe = getDataframe(variable);
-	grouped = getBoolean("grouped");
-	groups = getList("groups");
 	factor = getString("factor");
 	factorName = getString("factor.shortname");
 	population1 = getString("population1");
 	population2 = getString("population2");
 	groupsName = getList("groups.shortname");
+	grouped = getBoolean("grouped");
+	groups = getList("groups");
+  type = getString("type");
 	getConfInt = getBoolean("frameConfInt.checked");
 	confLevel = getString("confLevel");
 	hypothesis = getString("hypothesis");
@@ -67,7 +69,7 @@ function calculate() {
 
 function printout() {
 	// Header
-	header = new Header(i18n("Mann Whitney U test for comparing the distribution of %1 according to %2", variableName, factorName));
+	header = new Header(i18n("Mann-Whitney U test for comparing the distribution of %1 according to %2", variableName, factorName));
 	header.add(i18n("Data frame"), dataframe);
 	header.add(i18n("Comparison of"), i18n("%1 according to %2", variableName, factorName));
 	header.add(i18n("Null hypothesis"), i18n("Scores %1 = Scores %2", population1, population2));
@@ -84,7 +86,7 @@ function printout() {
 	} else if (type == "exact") {
 		header.add(i18n("Type of test"), i18n("Exact"));
 	} else {
-		header.add(i18n("Type of test"), i18n("Normal approximation without continuity correction"));
+		header.add(i18n("Type of test"), i18n("Normal approximation with continuity correction"));
 	}
 	if (getConfInt) {
 		header.add(i18n("Confidence level of the confidence interval"), confLevel);

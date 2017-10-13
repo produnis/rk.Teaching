@@ -92,7 +92,7 @@
     <page>
       <text>
         <p>
-          This procedure does the ANOVA test for detecting a significant difference between the means of three or more populations, and the pairwise comparison of means.
+          This procedure performs the ANOVA test for detecting a significant difference between the means of three or more populations, and the pairwise comparison of means.
         </p>
       </text>
     </page>

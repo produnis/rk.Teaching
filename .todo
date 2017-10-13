@@ -51,7 +51,7 @@ Translation:
     ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
     ☐ Chi-square test
     ✔ Mann-Whitney test @done (2017-10-13 11:04:31)
-    ☐ Wilcoxon test
+    ✔ Wilcoxon test @done (2017-10-13 12:21:09)
     ☐ Kruskal-Wallis test
     ☐ Friedman test
     ☐ Add qq chart to normality tests. @low 

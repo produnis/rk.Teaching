@@ -44,7 +44,7 @@
   <wizard label="T-test for the mean of one population wizard">
     <page>
       <text>
-        <p>          This procedure does the T test for detecting a significant difference between the mean of one population and a given value, and estimating the mean with a confidence interval.        </p>
+        <p>          This procedure performs the T test for detecting a significant difference between the mean of one population and a given value, and estimating the mean with a confidence interval.        </p>
       </text>
     </page>
     <page>

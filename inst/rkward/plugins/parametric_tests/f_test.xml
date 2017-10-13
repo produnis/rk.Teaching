@@ -59,7 +59,7 @@
     <page>
       <text>
         <p>
-          This procedure does the Fisher's F test for detecting a significant difference between the variances of two independent populations and estimating the quotient of variances with a confidence interval.
+          This procedure performs the Fisher's F test for detecting a significant difference between the variances of two independent populations and estimating the quotient of variances with a confidence interval.
         </p>
         <p>
           The dependent variable must be numeric and the independent variable must be a factor.
