@@ -9,10 +9,10 @@
 	</usage>
 
 	<settings>
-		<caption id="tab_variables"/>
+		<caption id="tabVariables"/>
 		<setting id="variable">Una variable numérica o vector de la que se quiere comparar la varianza</setting>
 		<setting id="factor">Un factor con exactamente dos niveles que definen los grupos a comparar</setting>
-		<caption id="tab_settings"/>
+		<caption id="tabSettings"/>
 		<setting id="hypothesis">Elegir el tipo de hipótesis alternativa (bilateral, unilateral mayor o unilateral menor).</setting>
 		<setting id="confint">Activar esta casilla para obtener el intervalo de confianza del cociente de varianzas.</setting>
 		<setting id="conflevel">Nivel de confianza del intervalo.</setting>

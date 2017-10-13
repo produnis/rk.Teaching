@@ -43,7 +43,7 @@ rkt.recoding.dialog <- rk.XML.dialog(
       rkt.recoding.save,
       rkt.recoding.asfactor
     ),
-    id.name="row_vars"
+    id.name="rowVars"
   ),
   label="Variable recoding"
 )

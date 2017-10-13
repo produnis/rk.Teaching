@@ -51,7 +51,7 @@
 					<b>Tabulate by groups</b>
 					and select the factors to define the groups. If you select more than one factor you will get one frequency table for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 		<page id="page_frequency_options">
 			<text>

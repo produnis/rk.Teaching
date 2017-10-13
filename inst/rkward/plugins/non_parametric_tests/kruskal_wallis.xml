@@ -7,9 +7,9 @@
 	
 	<dialog label="Test de Kruskal-Wallis para la comparación de muestras independientes">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+			<tab id="tabVariables" label="Select variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables" />
 					<column>
 						<varslot id="variable" label="Comparar" source="selector" required="true" />
 						<varslot id="factor" label="Según" source="selector" types="factor" required="true" />
@@ -29,7 +29,7 @@
 			Seleccionar la variable a comparar. Debe ser una variable númerica o al menos ordinal.
 			Después, seleccionar el factor con los niveles a comparar. 
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 		<page>
 			<text>

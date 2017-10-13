@@ -6,8 +6,8 @@
 	<help file="friedman.rkh"/>
 	
 	<dialog label="Test de Friedman para la comparación de medidas repetidas">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar variables" />
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables" />
 			<column>
 				<varslot id="vars" label="Variables a comparar (medidas repetidas)" multi="true" source="selector" required="true" />
 			</column>
@@ -19,7 +19,7 @@
 			<text>
 			Seleccionar la variables con las medidas repetidas a comparar.
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 	</wizard>
 </document>

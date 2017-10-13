@@ -6,8 +6,8 @@
 	<help file="chi_square_fit.rkh"/>
 	
 	<dialog label="Test de bondad de ajuste Chi-cuadrado">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar variables" />
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables" />
 			<column>
 				<varslot id="observed" label="Frecuencias observadas" source="selector" type="numeric" required="true" />
 				<varslot id="theoric" label="Probabilityes teóricas" source="selector" type="numeric" required="true" />
@@ -20,7 +20,7 @@
 			<text>
 				Seleccionar las variables que contienen las frecuencias observadas y las probabilidades teóricas. 
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 	</wizard>
 </document>

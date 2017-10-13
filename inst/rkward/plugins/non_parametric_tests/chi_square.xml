@@ -11,16 +11,16 @@
 	
 	<dialog label="Test de independencia Chi-cuadrado">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+			<tab id="tabVariables" label="Select variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables" />
 					<column>
 						<varslot id="row" label="Variable dependiente" source="selector" required="true" />
 						<varslot id="col" label="Variable independiente" source="selector" required="true" />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_options" label="Opciones de contraste">
+			<tab id="tab_options" label="Test options">
 				<row>
 					<frame id="test" label="Tipo de contraste">
 						<checkbox id="fisher" label="Test exacto de fisher" value_unchecked="0" value="1" />
@@ -42,7 +42,7 @@
 			<text>
 			Seleccionar las variables dependiente e independiente. 
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 		<page>
 			<text>

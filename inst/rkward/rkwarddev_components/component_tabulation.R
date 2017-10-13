@@ -60,7 +60,7 @@ rkt.tabulation.dialog <- rk.XML.dialog(
             rkt.tabulation.groups,
             rkt.tabulation.filter
           ),
-          id.name="row_vars"
+          id.name="rowVars"
         )
       )  ,
       "Classes"=list(

@@ -4,7 +4,7 @@ rk.set.comp("Coeficiente de correlación intraclase")
 
 ## dialog section
   selector <- rk.XML.varselector(
-    label="Seleccionar variables",
+    label="Select variables",
     id.name="selector"
   )
 
@@ -31,7 +31,7 @@ rk.set.comp("Coeficiente de correlación intraclase")
         x,
         y
       ),
-      id.name="row_vars"
+      id.name="rowVars"
     ),
     label="Test de correlación intraclase"
   )

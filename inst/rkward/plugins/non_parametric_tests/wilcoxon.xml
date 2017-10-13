@@ -7,19 +7,19 @@
 	
 	<dialog label="Test de Wilcoxon para la comparación de dos muestras pareadas">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+			<tab id="tabVariables" label="Select variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables" />
 					<column>
 						<varslot id="x" label="Comparar" source="selector" required="true" />
 						<varslot id="y" label="con" source="selector" required="true" />
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_settings" label="Opciones de contraste">
+			<tab id="tabSettings" label="Test options">
 				<row>
 					<column id="hypotesis_col">
-						<radio id="hypothesis" label="Hipotesis alternativa">
+						<radio id="hypothesis" label="Alternative hypothesis">
 							<option value="two.sided" label="Bilateral" />
 							<option value="greater" label="Unilateral mayor" />
 							<option value="less" label="Unilateral menor" />
@@ -31,7 +31,7 @@
 						</radio>
 					</column>
 					<column>
-						<frame id="confint" label="Intervalo de confianza" checkable="true" checked="true" value="1">
+						<frame id="confint" label="Confidence interval" checkable="true" checked="true" value="1">
 							<spinbox id="conflevel" label="Nivel de confianza" type="real" min="0" max="0.99" initial="0.95" />
 						</frame>
 					</column>
@@ -47,7 +47,7 @@
 			Después, seleccionar el factor con los niveles a comparar. 
 			El factor debe tener exactamente dos niveles. 
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 		<page>
 			<text>

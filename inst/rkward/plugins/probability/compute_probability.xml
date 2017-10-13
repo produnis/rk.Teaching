@@ -8,7 +8,7 @@
 		<connect client="condition.visible" governor="conditionedMode"/>
 	</logic>
 	<dialog label="Compute probability">
-		<row id="row_vars">
+		<row id="rowVars">
 			<varselector id="selector" label="Select probability space" />
 			<column>
 				<varslot id="probSpace" label="Probability space" source="selector" classes="data.frame" required="true" />

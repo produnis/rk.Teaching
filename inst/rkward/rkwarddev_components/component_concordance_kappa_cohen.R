@@ -33,7 +33,7 @@ rk.set.comp("Cohen's Kappa")
         rkt.cohenkappa.varslot.x,
         rkt.cohenkappa.varslot.y
       ),
-      id.name="row_vars"
+      id.name="rowVars"
     ),
     label="Cohen's Kappa concordance test"
   )

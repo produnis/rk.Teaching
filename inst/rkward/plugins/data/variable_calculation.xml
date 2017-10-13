@@ -8,7 +8,7 @@
     </logic>
 
     <dialog label="Variable calculation">
-        <row id="row_vars">
+        <row id="rowVars">
             <varselector id="selector" label="Select data frame"/>
             <column>
                 <varslot id="dataframe" label="Data frame" source="selector" classes="data.frame" required="true"/>

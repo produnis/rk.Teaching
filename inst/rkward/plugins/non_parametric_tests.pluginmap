@@ -2,7 +2,7 @@
 <!DOCTYPE rkpluginmap>
 <document base_prefix="non_parametric_tests/" namespace="rkTeachingExtras">
 	<components>
-		<component type="standard" id="mann_whitney" file="mann_whitney.xml" label="Mann-Whitney U test for two independent popupalions" />
+		<component type="standard" id="mann_whitney" file="mann_whitney.xml" label="Mann-Whitney U test for two independent populations" />
 		<component type="standard" id="wilcoxon" file="wilcoxon.xml" label="Wilcoxon test for two paired populations" />
 		<component type="standard" id="friedman" file="friedman.xml" label="Friedman test for repeated measures" />
 		<component type="standard" id="kruskal_wallis" file="kruskal_wallis.xml" label="Kruskal-Wallis test for several independent populations" />

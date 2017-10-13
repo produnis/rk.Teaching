@@ -7,7 +7,7 @@
 		Select a variable to plot a histogram. For available options, see below.
 	</usage>
 	<settings>
-		<caption id="tab_variables"/>
+		<caption id="tabVariables"/>
 		<setting id="x">The variable to plot the histogram for</setting>
 		<caption id="tab_histoptions"/>
 		<setting id="histogram_opt">Options concerning the calculation and look of the histogram. Refer to <link href="rkward://component/histogram_options"/> for details.</setting>

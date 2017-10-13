@@ -57,7 +57,7 @@ rkt.datafiltering.dialog <- rk.XML.dialog(
       rkt.datafiltering.tabbook,
       rkt.datafiltering.save
     ),
-    id.name="row_vars"
+    id.name="rowVars"
   ),
   label="Data filtering"
 )

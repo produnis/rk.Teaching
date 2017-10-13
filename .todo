@@ -16,12 +16,12 @@ Translation:
     ✔ Predictions @done(2017-08-21 13:30) @project(Translation / Regression)
   Probability:
     ✔ Gambling @done (2017-10-2 18:23:47)
-    ☐ Build probability space
-    ☐ Repeat probability space
-    ☐ Combine probability spaces
-    ☐ Compute probability
+    ✔ Build probability space @done (2017-10-13 09:12:24)
+    ✔ Repeat probability space @done (2017-10-13 09:12:26)
+    ✔ Combine probability spaces @done (2017-10-13 09:12:28)
+    ✔ Compute prdobability @done (2017-10-13 09:12:33)
   Probability distributions:
-    ☐ Uniform discrete
+    ☐ Uniform discrete @low 
     ✔ Binomial @done (2017-9-18 00:38:00)
     ✔ Geometric @done (2017-9-19 12:51:11)
     ✔ Hypergeometric @done (2017-9-30 10:31:58)
@@ -50,7 +50,7 @@ Translation:
     ✔ Lillieford's test @done (2017-9-14 15:19:16)
     ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
     ☐ Chi-square test
-    ☐ Mann-Whitney test
+    ✔ Mann-Whitney test @done (2017-10-13 11:04:31)
     ☐ Wilcoxon test
     ☐ Kruskal-Wallis test
     ☐ Friedman test

@@ -10,8 +10,8 @@
 	
 	<dialog label="Estadística Descriptiva (cálculo detallado)" >
 		<tabbook>
-			<tab label="Seleccionar variables" >
-				<row id="row_vars">
+			<tab label="Select variables" >
+				<row id="rowVars">
 					<varselector id="selector" />
 					<column>
 						<varslot id="x" label="Variable" source="selector" classes="numeric integer" required="true" />
@@ -49,7 +49,7 @@
 				Seleccionar la variable numérica a describir.
 				Si no desea omitir los valores desconocidos, desmarque la opción correspondiente. 
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars" />
 		</page>
 		<page>
 			<text>

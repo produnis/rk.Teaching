@@ -9,7 +9,7 @@ Choose a matrix, vector or a factor to be plotted. Further options are available
 	</usage>
 
 	<settings>
-		<caption id="tab_variables"/>
+		<caption id="tabVariables"/>
 		<setting id="tabulate">If your data needs to be tabulated / aggregated before plotting, check this option. Refer to <link href="rkward://component/one_var_tabulation"/> for details on the dependent options.</setting>
 		<setting id="x">If your data is already suitable for plotting, directly, specify it here. Otherwise, leave this empty, and check the "Tabulate" option, above.</setting>
 

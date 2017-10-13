@@ -38,7 +38,7 @@ rkt.varcalc.dialog <- rk.XML.dialog(
       rkt.varcalc.expression,
       rkt.varcalc.saveobject.save
     ),
-    id.name="row_vars"
+    id.name="rowVars"
   ),
   label="Variable calculation"
 )

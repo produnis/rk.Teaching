@@ -14,8 +14,8 @@ var dataframe,
   groups,
   groupsName,
   getConfInt,
-  confint,
-  conflevel,
+  confInt,
+  confLevel,
   hypothesis;
 
 function setGlobalVars() {
@@ -29,7 +29,7 @@ function setGlobalVars() {
   population1 = getString("population1");
   population2 = getString("population2");
   groupsName = getList("groups.shortname");
-  getConfInt = getBoolean("frameConfInt.checked");
+  getConfInt = getBoolean("frameconfInt.checked");
   confLevel = getString("confLevel");
   hypothesis = getString("hypothesis");
 }

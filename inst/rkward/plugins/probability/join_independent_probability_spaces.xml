@@ -4,7 +4,7 @@
 	<code file="join_independent_probability_spaces.js" />
 	<help file="join_independent_probability_spaces.rkh" />
 	<dialog label="Join independent probability spaces">
-		<row id="row_vars">
+		<row id="rowVars">
 			<varselector id="selector" label="Select probability spaces" />
 			<column>
 				<varslot id="spaces" label="Probability spaces" source="selector" multi="true" classes="data.frame" required="true" />

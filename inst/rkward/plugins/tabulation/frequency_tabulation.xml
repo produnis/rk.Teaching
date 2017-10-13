@@ -13,7 +13,7 @@
 	<dialog label="Frequency tabulation">
 		<tabbook>
 			<tab label="Variables" id="tabVars">
-				<row id="row_vars">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variable"/>
 					<column>
 						<varslot id="variable" label="Variable to tabulate" source="selector" required="true"/>

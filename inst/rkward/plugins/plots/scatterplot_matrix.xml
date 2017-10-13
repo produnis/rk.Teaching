@@ -31,7 +31,7 @@
 				<p>Select the numeric variables to include in the scatter plots.</p>
 				<p>If you want differenciate the plots for the categories of one or several factors, check the box	<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars" />
 		</page>
 	</wizard>
 </document>

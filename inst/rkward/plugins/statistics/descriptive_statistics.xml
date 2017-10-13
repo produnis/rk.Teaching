@@ -14,7 +14,7 @@
 	<dialog label="Descriptive statistics" >
 		<tabbook>
 			<tab label="Variable(s)" >
-				<row id="row_vars">
+				<row id="rowVars">
 					<varselector id="selector" label="Select variable(s)"/>
 					<column>
 						<varslot id="variables" label="Variable(s)" source="selector" types="number" required="true" multi="true" />
@@ -128,7 +128,7 @@
                                 <p>Select the numeric varible to describe.</p>
 				<p>If you want to get the statistics for subsamples according to the categories of one or several factors, check the box <b>Statistics by groups</b> and select the factors to define the groups. If you select more than one factor you will get a statisic summary for every category combination of the factors.</p>
 			</text>
-			<copy id="row_vars" />
+			<copy id="rowVars" />
 		</page>
 		<page>
 			<text>

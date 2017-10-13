@@ -6,8 +6,8 @@
 	<help file="intraclass_correlation_coefficient.rkh"/>
 	
 	<dialog label="Test de correlación intraclase">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar variables" />
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables" />
 			<column>
 				<varslot id="x" label="Primera medida" source="selector" type="factor" required="true" />
 				<varslot id="y" label="Segunda medida" source="selector" type="factor" required="true" />
@@ -20,7 +20,7 @@
 			<text>
 				Seleccionar las variables con las medidas. 
 			</text>
-			<copy id="row_vars"/>
+			<copy id="rowVars"/>
 		</page>
 	</wizard>
 </document>

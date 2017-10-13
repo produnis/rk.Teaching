@@ -9,7 +9,7 @@ Chose numerical data to be plotted. Data can be organized in separate vectors, o
 	</usage>
 
 	<settings>
-		<caption id="tab_variables"/>
+		<caption id="tabVariables"/>
 		<setting id="data_mode">Select the format of your data. This can either be separate numerical vectors, or a single outcome variable split by one or more grouping variables.</setting>
 		<setting id="x">For separate variables mode: Select one or more numerical vectors.</setting>
 		<setting id="outcome">For single(grouped) variable mode: Select one numerical vectors as the outcome variable.</setting>

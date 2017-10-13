@@ -7,7 +7,7 @@
     <logic></logic>
 
     <dialog label="Variable recoding">
-        <row id="row_vars">
+        <row id="rowVars">
             <varselector id="selector" label="Select variable"/>
             <column>
                 <varslot id="variable" label="Variable to recode" source="selector" required="true"/>

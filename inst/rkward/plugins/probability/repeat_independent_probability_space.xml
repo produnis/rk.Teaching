@@ -4,7 +4,7 @@
 	<code file="repeat_independent_probability_space.js" />
 	<help file="repeat_independent_probability_space.rkh" />
 	<dialog label="Repetition of probability space">
-		<row id="row_vars">
+		<row id="rowVars">
 			<varselector id="selector" label="Select probability space" />
 			<column>
 				<varslot id="dataframe" label="Probability space" source="selector" classes="data.frame" required="true" />
