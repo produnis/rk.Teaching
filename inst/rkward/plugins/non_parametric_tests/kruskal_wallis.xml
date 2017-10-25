@@ -1,39 +1,60 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="kruskal_wallis.js"/>
 	<help file="kruskal_wallis.rkh"/>
-	
-	<dialog label="Test de Kruskal-Wallis para la comparación de muestras independientes">
+	<logic>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect governor="factor.available" client="levels.variable"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
+	</logic>
+	<dialog label="Kruskal-Wallis for comparing independent populations">
 		<tabbook>
-			<tab id="tabVariables" label="Select variables">
+			<tab id="tabVariables" label="Variables">
 				<row id="rowVars">
 					<varselector id="selector" label="Select variables" />
 					<column>
-						<varslot id="variable" label="Comparar" source="selector" required="true" />
-						<varslot id="factor" label="Según" source="selector" types="factor" required="true" />
+						<varslot id="variable" label="Compare" source="selector" required="true" />
+						<varslot id="factor" label="According to" source="selector" types="factor" required="true" />
+						<checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_pairwise" label="Comparación por pares" >
-				<checkbox id="pairwise" label="Comparación por pares" value_unchecked="0" value="1" />
+			<tab id="tabPairwise" label="Pairwise comparison">
+				<checkbox id="pairwise" label="Pairwise comparison" value_unchecked="0" value="1" />
 				<stretch/>
 			</tab>
 		</tabbook>
 	</dialog>
-	
-	<wizard label="Test de Kruskal-Wallis para la comparación muestras independientes">
+	<wizard label="Kruskal-Wallis for comparing independent populations">
 		<page>
 			<text>
-			Seleccionar la variable a comparar. Debe ser una variable númerica o al menos ordinal.
-			Después, seleccionar el factor con los niveles a comparar. 
+				<p>          This procedure performs the Kruskal-Wallis test for detecting a significant difference between the distributions of two or more independent populations.        </p>
+				<p>          The dependent variable must be numeric or ordinal and the independent variable must be a factor.        </p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>          Insert the variable for which to compare the distributions in the field 
+					<b>Compare</b>. 
+				</p>
+				<p>          After, insert the factor in the field 
+					<b>According to</b>. 
+				</p>
+				<p>If you want different tests for the categories of one or several factors, check the box 
+					<b>Test by groups</b> and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.
+				</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>
 		<page>
 			<text>
-			Si se desean realizar contrastes de comparación por pares, activar la opción correspondiente.  
+				<p>         Check the box to perform pairwise comparison tests. </p>
 			</text>
 			<copy id="pairwise"/>
 			<stretch/>
