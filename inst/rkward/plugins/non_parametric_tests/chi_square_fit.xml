@@ -5,7 +5,7 @@
 	<code file="chi_square_fit.js"/>
 	<help file="chi_square_fit.rkh"/>
 	
-	<dialog label="Test de bondad de ajuste Chi-cuadrado">
+	<dialog label="Test de bondad de ajuste Chi-square">
 		<row id="rowVars">
 			<varselector id="selector" label="Select variables" />
 			<column>
@@ -15,7 +15,7 @@
 		</row>
 	</dialog>
 	
-	<wizard label="Test de bondad de ajuste Chi-cuadrado">
+	<wizard label="Test de bondad de ajuste Chi-square">
 		<page>
 			<text>
 				Seleccionar las variables que contienen las frecuencias observadas y las probabilidades teóricas. 

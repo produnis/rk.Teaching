@@ -49,11 +49,12 @@ Translation:
   Non-parametric tests:
     ✔ Lillieford's test @done (2017-9-14 15:19:16)
     ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
-    ☐ Chi-square test
+    ✔ Chi-square test @done (2017-10-25 22:12:36)
+    ☐ McNemar test
     ✔ Mann-Whitney test @done (2017-10-13 11:04:31)
     ✔ Wilcoxon test @done (2017-10-13 12:21:09)
-    ☐ Kruskal-Wallis test
-    ☐ Friedman test
+    ✔ Kruskal-Wallis test @done (2017-10-25 11:20:11)
+    ✔ Friedman test @done (2017-10-25 11:20:13)
     ☐ Add qq chart to normality tests. @low 
   Concordance:
     ☐ Intraclass correlation coefficient

@@ -32,6 +32,9 @@
 		<page>
 			<text>
 				<p>Insert the variables to compare, corresponding to the repeated measures.</p>
+				<p>If you want different tests for the categories of one or several factors, check the box                    																				
+					<b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.        																
+				</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>

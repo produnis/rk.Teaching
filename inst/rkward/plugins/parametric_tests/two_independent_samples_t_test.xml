@@ -81,7 +81,7 @@
       <text>
         <p>Select the type of alternative hypothesis to test:</p>
         <ul>
-          <li>Check two-sided you have no assumption about what mean is greater.</li>
+          <li>Check two-sided if you have no assumption about what mean is greater.</li>
           <li>Check greater if you assume that the mean of the first population is greater than the mean of the second population.</li>
           <li>Check less if you assume that the mean of the first population is less than the mean of the second population.</li>
         </ul>
