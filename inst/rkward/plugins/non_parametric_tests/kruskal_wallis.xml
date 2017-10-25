@@ -10,7 +10,7 @@
 		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
 		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-	<dialog label="Kruskal-Wallis for comparing independent populations">
+	<dialog label="Kruskal-Wallis test for comparing independent populations">
 		<tabbook>
 			<tab id="tabVariables" label="Variables">
 				<row id="rowVars">
@@ -31,7 +31,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Kruskal-Wallis for comparing independent populations">
+	<wizard label="Kruskal-Wallis test for comparing independent populations">
 		<page>
 			<text>
 				<p>          This procedure performs the Kruskal-Wallis test for detecting a significant difference between the distributions of two or more independent populations.        </p>
