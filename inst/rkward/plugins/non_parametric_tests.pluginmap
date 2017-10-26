@@ -8,8 +8,9 @@
 		<component type="standard" id="kruskal_wallis" file="kruskal_wallis.xml" label="Kruskal-Wallis test for several independent populations" />
 		<component type="standard" id="lilliefors" file="lilliefors.xml" label="Lilliefors (Kolmogorov-Simirnov) test" />
 		<component type="standard" id="shapiro" file="shapiro.xml" label="Shapiro-Wilk test" />
-		<component type="standard" id="chi_square" file="chi_square.xml" label="Chi-square independence test" />
+		<component type="standard" id="chi_square" file="chi_square.xml" label="Chi-square test of independence" />
 		<component type="standard" id="chi_square_fit" file="chi_square_fit.xml" label="Chi-square goodness of fit" />
+		<component type="standard" id="mcnemar" file="mcnemar.xml" label="McNemar test of independence" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
@@ -23,6 +24,7 @@
 				<entry component="friedman"/>
 				<entry component="kruskal_wallis"/>
 				<entry component="chi_square"/>
+				<entry component="mcnemar"/>
 				<entry component="chi_square_fit"/>
 			</menu>
 		</menu>

@@ -59,7 +59,7 @@ function printout() {
 	// Header
 	header = new Header(i18n("Chi-square test of independence of %1 and %2", rowName, colName));
 	header.add(i18n("Data frame"), dataframe);
-	header.add(i18n("Paired variables"), rowName + ", " + colName);
+	header.add(i18n("Variables"), rowName + ", " + colName);
 	header.add(i18n("Null hypothesis"), i18n("There is no significant association between the variables."));
 	header.add(i18n("Alternative hypothesis"), i18n("There is a significant association between the variables."));
 	if (grouped) {
