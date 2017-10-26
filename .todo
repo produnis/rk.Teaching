@@ -50,7 +50,7 @@ Translation:
     ✔ Lillieford's test @done (2017-9-14 15:19:16)
     ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
     ✔ Chi-square test @done (2017-10-25 22:12:36)
-    ☐ Chi-square goodness of fit test
+    ✔ Chi-square goodness of fit test @done (2017-10-26 13:24:57)
     ✔ McNemar test @done (2017-10-26 12:51:59)
     ✔ Mann-Whitney test @done (2017-10-13 11:04:31)
     ✔ Wilcoxon test @done (2017-10-13 12:21:09)

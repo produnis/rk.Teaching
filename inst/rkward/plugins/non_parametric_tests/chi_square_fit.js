@@ -1,26 +1,39 @@
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
+
+include("../common/common_functions.js")
+
 // globals
-var observed, theoric;
+var observed,
+	observedName,
+	theoric,
+	theoricName;
 
-function preprocess () {
-
+function setGlobalVars() {
+	observed = getString("observed");
+	observedName = getString("observed.shortname");
+	theoric = getString("theoric");
+	theoricName = getString("theoric.shortname");
 }
 
-function calculate () {
-	observed = getValue("observed");
-	theoric = getValue("theoric");
-
-	// Código R
-	echo('results <- chisq.test(' + observed + ', p=' + theoric + ', rescale.p=TRUE)\n');
+function preprocess() {
+	setGlobalVars();
 }
 
-function printout () {
-	echo ('rk.header ("Test de bondad de ajuste Chi-Cuadrado", ');
-	echo ('parameters=list ("Frecuencias observadas" = rk.get.description(' + observed + '), "Probabilityes te&oacute;ricas" = rk.get.description(' + theoric + ')))\n');
-	echo ('rk.results (list(');
-	echo ('"Estad&iacute;stico Chi" = results$statistic');
-	echo (', "Degrees of freedom" = results$parameter');
-	echo (', "p-valor" = results$p.value');
-	echo ('))\n');
+function calculate() {
+	echo('result <- chisq.test(' + observed + ', p=' + theoric + ', rescale.p=TRUE)\n');
 }
 
- 
+function printout() {
+	header = new Header(i18n("Chi-square test of goodness of fit"));
+	header.add(i18n("Observed frequencies"), observedName);
+	header.add(i18n("Theoretical probabilities"), theoricName);
+	header.add(i18n("Null hypothesis"), i18n("There is no significant difference between the observed and the theorical distribution."));
+	header.add(i18n("Alternative hypothesis"), i18n("There is a significant difference between the observed and the theorical distribution."));
+	header.print();
+
+	echo('rk.results (list(');
+	echo(i18n("Chi statistic") + ' = result$statistic, ');
+	echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+	echo(i18n("p-value") + ' = result$p.value');
+	echo('))\n');
+}

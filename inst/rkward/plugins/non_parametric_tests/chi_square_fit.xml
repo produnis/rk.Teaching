@@ -1,24 +1,28 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="chi_square_fit.js"/>
 	<help file="chi_square_fit.rkh"/>
-	
-	<dialog label="Test de bondad de ajuste Chi-square">
+	<dialog label="Chi-square test of goodness of fit">
 		<row id="rowVars">
 			<varselector id="selector" label="Select variables" />
 			<column>
-				<varslot id="observed" label="Frecuencias observadas" source="selector" type="numeric" required="true" />
-				<varslot id="theoric" label="Probabilityes teóricas" source="selector" type="numeric" required="true" />
+				<varslot id="observed" label="Observed frequencies" source="selector" type="numeric" required="true" />
+				<varslot id="theoric" label="Theoretical probabilities" source="selector" type="numeric" required="true" />
+				<stretch/>
 			</column>
 		</row>
 	</dialog>
-	
-	<wizard label="Test de bondad de ajuste Chi-square">
+	<wizard label="Chi-square test of goodness of fit">
 		<page>
 			<text>
-				Seleccionar las variables que contienen las frecuencias observadas y las probabilidades teóricas. 
+				<p>This procedure performs the Chi-square test for checking if a population fits a theoretical distribution.</p>
+				<p>The variables must be numeric and contain the observed frequencies in the sample and the theoretical probabilities in the population.        </p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Insert the variables that contain the observed frequencies and the theoretical probabilities. </p>
 			</text>
 			<copy id="rowVars"/>
 		</page>
