@@ -1,28 +1,40 @@
-// globals
-var x, y;
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-function preprocess () {
+include("../common/common_functions.js")
+
+// globals
+var x,
+	xName,
+	y,
+	yName,
+	dataframe;
+
+function setGlobalVars() {
+	x = getString("x");
+	xName = getString("x.shortname");
+	y = getString("y");
+	yName = getString("y.shortname");
+	dataframe = getDataframe(x);
+}
+
+function preprocess() {
+	setGlobalVars();
 	echo('require(psych)\n');
 }
 
-function calculate () {
-	x= getValue ("x");
-	var data = x.split('[[')[0];
-	x = getValue("x.shortname");
-	y = getValue("y.shortname");
-
-	// Código R
-	echo('table <- xtabs(~' + x + '+' + y + ', data=' + data + ')\n');
+function calculate() {
+	echo('table <- xtabs(~' + xName + '+' + yName + ', data=' + dataframe + ')\n');
 	echo('results <- cohen.kappa(table)\n');
 }
 
-function printout () {
-	echo ('rk.header ("Test de concordancia Kappa de Cohen", ');
-	echo ('parameters=list ("Primera medida" = rk.get.description(' + getValue("x") + '), "Segunda medida" = rk.get.description(' + getValue("y") + ')))\n');
-	echo ('rk.results (list(');
-	echo ('"Kappa" = results$kappa');
-	echo (', "Kappa ponderado" = results$weighted.kappa');
-	echo ('))\n');
-}
+function printout() {
+	header = new Header(i18n("Cohen\'s kappa coefficient of %1 and %2", xName, yName));
+	header.add(i18n("Data frame"), dataframe);
+	header.add(i18n("Variables"), xName + ", " + yName);
+	header.print();
 
- 
+	echo('rk.results (list(');
+	echo(i18n("Kappa") + ' = results$kappa, ');
+	echo(i18n("Wieghted kappa") + ' = results$weighted.kappa');
+	echo('))\n');
+}

@@ -28,6 +28,7 @@ function calculate() {
 
 function printout() {
 	header = new Header(i18n("Intraclass correlation of %1 and %2", xName, yName));
+	header.add(i18n("Data frame"), dataframe);
 	header.add(i18n("Variables"), xName + ", " + yName);
 	header.print();
 

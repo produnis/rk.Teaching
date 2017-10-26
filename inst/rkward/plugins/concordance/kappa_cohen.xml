@@ -1,24 +1,27 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="kappa_cohen.js"/>
 	<help file="kappa_cohen.rkh"/>
-	
-	<dialog label="Test de concordancia Kappa de Cohen">
+	<dialog label="Cohen's kappa">
 		<row id="rowVars">
 			<varselector id="selector" label="Select variables" />
 			<column>
-				<varslot id="x" label="Primera medida" source="selector" type="factor" required="true" />
-				<varslot id="y" label="Segunda medida" source="selector" type="factor" required="true" />
+				<varslot id="x" label="First measurement" source="selector" types="factor" required="true" />
+				<varslot id="y" label="Second measurement" source="selector" types="factor" required="true" />
 			</column>
 		</row>
 	</dialog>
-	
 	<wizard label="Test de concordancia Kappa de Cohen">
 		<page>
 			<text>
-				Seleccionar las variables con las medidas. 
+				<p>This procedure computes the Cohen's kappa coefficient to see if there is agreement in two qualitative variables measuring the same thing.</p>
+				<p>The variables must be factors.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Select the variables with the measurements.</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>

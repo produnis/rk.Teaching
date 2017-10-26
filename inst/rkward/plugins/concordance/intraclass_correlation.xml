@@ -7,8 +7,8 @@
 		<row id="rowVars">
 			<varselector id="selector" label="Select variables" />
 			<column>
-				<varslot id="x" label="First measurement" source="selector" type="factor" required="true" />
-				<varslot id="y" label="Second measurement" source="selector" type="factor" required="true" />
+				<varslot id="x" label="First measurement" source="selector" types="numeric" required="true" />
+				<varslot id="y" label="Second measurement" source="selector" types="numeric" required="true" />
 			</column>
 		</row>
 	</dialog>

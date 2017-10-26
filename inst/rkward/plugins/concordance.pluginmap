@@ -3,7 +3,7 @@
 <document base_prefix="concordance/" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="intraclass_correlation" file="intraclass_correlation.xml" label="Intraclass correlation" />
-		<component type="standard" id="kappa_cohen" file="kappa_cohen.xml" label="Kappa de Cohen" />
+		<component type="standard" id="kappa_cohen" file="kappa_cohen.xml" label="Cohen's kappa" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
