@@ -58,7 +58,7 @@ Translation:
     ✔ Friedman test @done (2017-10-25 11:20:13)
     ☐ Add qq chart to normality tests. @low 
   Concordance:
-    ☐ Intraclass correlation coefficient
+    ✔ Intraclass correlation coefficient @done (2017-10-26 13:46:05)
     ☐ Cohen's kappa
 
 Optimization:
