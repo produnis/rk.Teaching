@@ -1,16 +1,14 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="simulations/" namespace="rkTeachingExtras">
+<document base_prefix="simulations/" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="samples" file="samples.xml" label="Generación de muestras aleatorias" />
-		<component type="standard" id="small_numbers_law" file="small_numbers_law.xml" label="Ley de los casos raros" />
-		<component type="standard" id="central_limit_theorem" file="central_limit_theorem.xml" label="Teorema central del límite" />
+		<component type="standard" id="rare_events_law" file="rare_events_law.xml" label="Law of rare events" />
+		<component type="standard" id="central_limit_theorem" file="central_limit_theorem.xml" label="Central limit theorem" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="simulation" label="Simulaciones">
-				<!-- <entry component="samples"/> -->
-				<entry component="small_numbers_law"/>
+			<menu id="simulation" label="Simulations">
+				<entry component="rare_events_law"/>
 				<!-- <entry component="central_limit_theorem"/> -->				
 			</menu>
 		</menu>

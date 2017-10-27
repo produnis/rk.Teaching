@@ -3,13 +3,13 @@
 <document>
 	<code file="frequency_tabulation.js"/>
 	<help file="frequency_tabulation.rkh"/>
-
 	<logic>
 		<convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
 		<connect client="groups.visible" governor="groupedMode"/>
 		<connect client="cells.variable" governor="variable.available"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
 	<dialog label="Frequency tabulation">
 		<tabbook>
 			<tab label="Variables" id="tabVars">
@@ -20,6 +20,7 @@
 						<checkbox id="grouped" label="Tabulate by groups" value_unchecked="0" checked="false"/>
 						<varslot id="groups" label="Grouping variable(s)" multi="true" types="factor" source="selector" required="true"/>
 						<include file="../common/filter.xml"/>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
@@ -30,8 +31,12 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Frequency tabulation">
+		<page>
+			<text>
+				<p>This procedure computes the sample frequency distribution of one variable.</p>
+			</text>
+		</page>
 		<page id="pageVars">
 			<text>
 				<p>Select the variable to tabulate.</p>
@@ -50,5 +55,4 @@
 		<include file="../common/filter_wizard.xml"/>
 		<embed id="cells" component="rkTeaching::cells"/>
 	</wizard>
-
 </document>

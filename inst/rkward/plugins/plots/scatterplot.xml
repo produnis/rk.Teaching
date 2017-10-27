@@ -1,10 +1,8 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="scatterplot.js"/>
 	<help file="scatterplot.rkh"/>
-
 	<logic>
 		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="groupedMode"/>
@@ -12,8 +10,9 @@
 		<connect client="position.enabled" governor="groupedMode"/>
 		<convert id="smoothCheck" mode="equals" sources="smooth.state" standard="1"/>
 		<connect client="spread.enabled" governor="smoothCheck"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
 	<dialog label="Scatter plot">
 		<tabbook>
 			<tab id="tabVariables" label="Variables">
@@ -25,6 +24,7 @@
 						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
 						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" multi="true" required="true"/>
 						<include file="../common/filter.xml"/>
+						<stretch/>
 						<preview id="preview"/>
 					</column>
 				</row>
@@ -43,7 +43,6 @@
 				<checkbox id="confidenceStrip" label="Plot confidence strip" checked="false"/>
 				<stretch/>
 			</tab>
-
 			<tab id="tabPointOptions" label="Point options">
 				<row>
 					<column>
@@ -64,36 +63,36 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Scatter plot wizard">
+	<page>
+			<text>
+				<p>This procedure plots a scatter plot of two variables.</p>
+				<p>The variables must be numeric.</p>
+			</text>
+		</page>
 		<page id="pageVariables">
 			<text>
 				<p>Select the variables to represent in the X and Y axiSeleccionar las variables a dibujar en los ejes X e Y.</p>
-				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box	<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.</p>
+				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box	
+					<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.
+				</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>
 		<page id="pageRegression">
-			<text>
-				If you want to plot a regression model check the corresponding box.
-			</text>
+			<text>				If you want to plot a regression model check the corresponding box.			</text>
 			<copy id="regressionFrame"/>
 			<stretch/>
 		</page>
 		<page>
-			<text>
-				Check the box to plot a confidence strip around the regression models.
-			</text>
+			<text>				Check the box to plot a confidence strip around the regression models.			</text>
 			<copy id="confidenceStrip"/>
 			<stretch/>
 		</page>
 		<page id="pagePointsPosition">
-			<text>
-				Check the box
-				<b>Mixed</b>
-				to plot the point clouds of different categories in the same chart or check the
-				<b>Separated</b>
-				box to plot every point cloud in its own chart.
+			<text>				Check the box				
+				<b>Mixed</b>				to plot the point clouds of different categories in the same chart or check the				
+				<b>Separated</b>				box to plot every point cloud in its own chart.			
 			</text>
 			<copy id="position"/>
 			<stretch/>
@@ -101,9 +100,7 @@
 		<page id="pagePoinsAspect">
 			<copy id="pointColor"/>
 			<copy id="pointSymbol"/>
-			<text>
-				Choose the point size.
-			</text>
+			<text>				Choose the point size.			</text>
 			<copy id="pointSize"/>
 			<stretch/>
 		</page>

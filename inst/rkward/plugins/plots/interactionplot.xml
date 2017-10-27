@@ -1,5 +1,4 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="interactionplot.js"/>
@@ -10,8 +9,9 @@
 		<set id="plotoptions.allow_type" to="false"/>
 		<set id="plotoptions.allow_asp" to="true"/>
 		<set id="plotoptions.allow_grid" to="true"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
 	<dialog label="Interaction plot">
 		<tabbook>
 			<tab id="tabVariables" label="Variables">
@@ -22,6 +22,7 @@
 						<varslot id="xGroups" label="x-axis groups" multi="false" types="factor" source="selector" required="true"/>
 						<varslot id="trace" label="trace groups" multi="false" types="factor" source="selector" required="true"/>
 						<include file="../common/filter.xml"/>
+						<stretch/>
 						<preview id="preview"/>
 					</column>
 				</row>
@@ -33,8 +34,10 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Interaction plot wizard">
+			<text>
+				<p>This procedure plots the means of a variable according to the groups defined by two categorical variables.</p>
+			</text>
 		<page id="pageVariables">
 			<text>
 				<p>Select the numeric response variable to plot the means.</p>
@@ -45,9 +48,7 @@
 			<stretch/>
 		</page>
 		<page id="pageOptions">
-			<text>
-				Check the box to plot lines joining the means of the same category.
-			</text>
+			<text>				Check the box to plot lines joining the means of the same category.			</text>
 			<copy id="lines"/>
 			<stretch/>
 		</page>

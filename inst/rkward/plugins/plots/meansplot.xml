@@ -1,10 +1,8 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
   <code file="meansplot.js"/>
   <help file="meansplot.rkh"/>
-
   <logic>
     <set id="plotoptions.allow_type" to="true"/>
     <set id="plotoptions.allow_ylim" to="true"/>
@@ -13,8 +11,9 @@
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
     <connect client="plotoptions.allow_legend" governor="groupedMode"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
   </logic>
-
   <dialog label="Means plot">
     <tabbook>
       <tab label="Variables" id="tabVariables">
@@ -25,6 +24,7 @@
             <checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
             <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
             <include file="../common/filter.xml"/>
+            <stretch/>
             <preview id="preview"/>
           </column>
         </row>
@@ -39,24 +39,25 @@
       </tab>
     </tabbook>
   </dialog>
-
   <wizard label="Means plot wizard">
+  		<text>
+				<p>This procedure plots the means and the confidence intervals of the means of several variables.</p>
+				<p>The variables must be numeric.</p>
+			</text>
     <page id="pageVariables">
       <text>
         <p>Select the numeric variables to plot the means.</p>
-        <p>If you want different means for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one mean for every category combination of the factors.</p>
+        <p>If you want different means for the categories of one or several factors, check the box 
+          <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one mean for every category combination of the factors.
+        </p>
       </text>
       <copy id="rowVars"/>
       <stretch/>
     </page>
     <page id="pageOptions">
-      <text>
-        Check the box to plot the confidence intervals for the means and enter the desired confidence level.
-      </text>
+      <text>        Check the box to plot the confidence intervals for the means and enter the desired confidence level.      </text>
       <copy id="frameConfInt"/>
-      <text>
-        Check the box to plot also the data values of the variable.
-      </text>
+      <text>        Check the box to plot also the data values of the variable.      </text>
       <copy id="points"/>
       <stretch/>
     </page>

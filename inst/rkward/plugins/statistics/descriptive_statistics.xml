@@ -1,23 +1,22 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="descriptive_statistics.js"/>
 	<help file="descriptive_statistics.rkh"/>
-	
 	<logic>
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
 		<connect client="grouping.enabled" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-	
-	<dialog label="Descriptive statistics" >
+	<dialog label="Descriptive statistics">
 		<tabbook>
-			<tab label="Variable(s)" >
+			<tab label="Variable(s)">
 				<row id="rowVars">
 					<varselector id="selector" label="Select variable(s)"/>
 					<column>
-						<varslot id="variables" label="Variable(s)" source="selector" types="number" required="true" multi="true" />
+						<varslot id="variables" label="Variable(s)" source="selector" types="numeric" required="true" multi="true" />
 						<checkbox id="grouped" label="Statistics by groups" checked="false" />
 						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" required="true" multi="true"/>
 						<frame id="filter_frame" label="Filter" checkable="true" checked="false" value_unckecked="0" value="1">
@@ -27,22 +26,22 @@
 					</column>
 				</row>
 			</tab>
-			<tab label="Basic statistics" >
-				<column id="col_statistics">
-					<frame label="General" >
+			<tab label="Basic statistics">
+				<column id="colStatistics">
+					<frame label="General">
 						<row>
 							<checkbox id="min" label="Minimum" checked="false" value="'min'," />
 							<checkbox id="max" label="Maximum" checked="false" value="'max'," />
 						</row>
 					</frame>
-					<frame label="Central tendency" >
+					<frame label="Central tendency">
 						<row>
 							<checkbox id="mean" label="Arithmetic mean" checked="false" value="'mean',"/>
 							<checkbox id="median" label="Median" checked="false" value="'median',"/>
 							<checkbox id="mode" label="Mode" checked="false" value="'Mode',"/>
 						</row>
 					</frame>
-					<frame label="Dispersion" >
+					<frame label="Dispersion">
 						<row>
 							<checkbox id="variance" label="Variance" checked="false" value="'variance',"/>
 							<checkbox id="unvariance" label="Corrected variance" checked="false" value="'unvariance',"/>
@@ -59,90 +58,44 @@
 							<checkbox id="iqrange" label="Interquartile range" checked="false" value="'iqrange',"/>
 						</row>
 					</frame>
-					<frame label="Shape" >
+					<frame label="Shape">
 						<row>
 							<checkbox id="skewness" label="Coefficient of skewness" checked="false" value="'skewness'," />
 							<checkbox id="kurtosis" label="Coefficient of kurtosis" checked="false" value="'kurtosis'," />
 						</row>
 					</frame>
-					<frame label="Quantiles" >
+					<frame label="Quantiles">
 						<column>
 							<checkbox id="quartile" label="Quartiles" value_unchecked="0" checked="false" value="1" />
-                                                        <text> Percentiles </text>
+							<text> Percentiles </text>
 							<input id="quantiles" label="Enter the relative frequencies separated by commas. e.g. 0.25,0.5,0.75 for the quartiles" />
 						</column>
 					</frame>
 				</column>
 			</tab>
-			<!-- 
-			<tab label="Estadísticos robustos" >
-				<column id="col_robust">
-					<frame label="Dispersión" >
-						<row>
-							<checkbox id="mad" label="Desviación absoluta a la mediana" checked="false" value="1" />
-							<spinbox id="constMad" label="Constante" type="real" initial="1.4628" />
-						</row>
-					</frame>
-					<frame label="Media robusta" >
-						<row>
-							<checkbox id="trim" label="Media recortada" checked="false" value="1" />
-							<spinbox id="pourcent" label="Porcentaje de valores recortados" min="0" initial="0.05" max="0.5" />
-						</row>
-					</frame>
-					<frame label="Estimador M" >
-						<row>
-							<checkbox id="huber" label="Estimador M de Huber (Requiere la librería MASS)" checked="false" value="1" />
-							<spinbox id="winsor" label="Winsorizar a 'k' desviaciones" min="0" initial="1.5" max="10" />
-						</row>
-						<row>
-							<column>
-								<checkbox id="customMu" label="Mu definido por el usuario" checked="false" value="1" />
-								<input size="small" id="mu" label="Introducir el valor de Mu" />
-							</column>
-							<column>
-								<checkbox id="customS" label="Valor s definido por el usuario" checked="false" value="1" />
-								<input id="s" label="S value" size="small" />
-							</column>
-						</row>
-						<row>
-							<column>
-								<spinbox id="tol" label="Tolerancia" type="real" intial="1e-6" max_precision="6" min="0" max="1" />
-							</column>
-							<column>
-								<radio id="initmu" label="Valor inicial" >
-									<option value="median" label="Mediana" />
-									<option value="mean" label="Media" />
-								</radio>
-							</column>
-						</row>
-					</frame>
-				</column>
-			</tab>
-			 -->
 		</tabbook>
 	</dialog>
-	
 	<wizard label="Descriptive statistics wizard">
-		<page id="pag_vars">
+		<page>
 			<text>
-                                <p>Select the numeric varible to describe.</p>
-				<p>If you want to get the statistics for subsamples according to the categories of one or several factors, check the box <b>Statistics by groups</b> and select the factors to define the groups. If you select more than one factor you will get a statisic summary for every category combination of the factors.</p>
+				<p>This procedure compute the basic descriptive statistics of one or several variables.</p>
+				<p>The variables must be numeric.</p>
+			</text>
+		</page>
+		<page id="pagVars">
+			<text>
+				<p>Select the numeric variable to describe.</p>
+				<p>If you want to get the statistics for subsamples according to the categories of one or several factors, check the box 															
+					<b>Statistics by groups</b> and select the factors to define the groups. If you select more than one factor you will get a statisic summary for every category combination of the factors.												
+				</p>
 			</text>
 			<copy id="rowVars" />
 		</page>
 		<page>
 			<text>
-				Check the boxes corresponding to the desired statistics.
+				<p>Check the boxes corresponding to the desired statistics.</p>
 			</text>
-			<copy id="col_statistics" />
+			<copy id="colStatistics" />
 		</page>
-		<!-- 
-		<page>
-			<text>
-				Select the robust statistics to calculate.
-			</text>
-			<copy id="col_robust" />
-		</page>
-		 -->
 	</wizard>
 </document>

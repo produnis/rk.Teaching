@@ -32,8 +32,8 @@
 			<column>
 				<insert snippet="discreteOptions"/>
 				<stretch/>
-				<preview id="preview" label="Preview"/>
 				<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<preview id="preview" label="Preview"/>
 			</column>
 		</row>
 	</snippet>
@@ -46,8 +46,8 @@
 			<column>
 				<insert snippet="continousOptions"/>
 				<stretch/>
-				<preview id="preview" label="Preview"/>
 				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<preview id="preview" label="Preview"/>
 			</column>
 		</row>
 	</snippet>
@@ -100,7 +100,7 @@
 	</snippet>
 	<snippet id="densityHelp">
 		<setting id="function">
-			<li> Density Function, or </li>				Seleccionar las opciones gráficas.															
+			<li> Density Function, or </li>				Seleccionar las opciones gráficas.																								
 			<li> Distribution Function </li>
 		</setting>
 	</snippet>

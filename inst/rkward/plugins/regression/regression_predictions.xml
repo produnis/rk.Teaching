@@ -1,10 +1,8 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="regression_predictions.js"/>
 	<help file="regression_predictions.rkh"/>
-
 	<dialog label="Regression predictions">
 		<row id="rowVars">
 			<varselector id="selector" label="Select the regression model"/>
@@ -12,17 +10,21 @@
 				<varslot id="model" label="Regression model" source="selector" classes="lm" required="true" />
 				<input id="values" label="Predictions for" size="small"/>
 				<frame id="useDataframe" label="Use a data set" checkable="true" checked="false" value_unckecked="0" value="1">
-					<varslot id="dataframe" label="Predictions for the data set" classes="data.frame"  source="selector" required="true" />
+					<varslot id="dataframe" label="Predictions for the data set" classes="data.frame" source="selector" required="true" />
 				</frame>
 				<checkbox id="intervals" label="Confidence intervals for the predictions" value="1"/>
 			</column>
 		</row>
 	</dialog>
-
 	<wizard label="Regression predictions wizard">
+		<page>
+			<text>
+				<p>This procedure compute predictions of a regression model.</p>
+			</text>
+		</page>
 		<page id="pageModel">
 			<text>
-				Select a regression model to make the predictions with.
+				<p>Select a regression model to make the predictions with.</p>
 			</text>
 			<copy id="selector" />
 			<copy id="model" />
@@ -34,14 +36,14 @@
 			</text>
 			<copy id="values" />
 			<copy id="useDataframe" />
-      <stretch />
+			<stretch />
 		</page>
 		<page id="pageIntervals">
 			<text>
-				Check the box if you want the 95% confidence intervals for the predictions.
+				<p>Check the box if you want the 95% confidence intervals for the predictions.</p>
 			</text>
 			<copy id="intervals" />
-      <stretch />
+			<stretch />
 		</page>
 	</wizard>
 </document>

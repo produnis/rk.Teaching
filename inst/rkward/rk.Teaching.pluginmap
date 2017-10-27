@@ -24,5 +24,4 @@
 	<require file="plugins/probability.pluginmap"/>
 	<require file="plugins/distributions.pluginmap"/>
 	<require file="plugins/simulations.pluginmap"/>
-	<!--	-->
 </document>

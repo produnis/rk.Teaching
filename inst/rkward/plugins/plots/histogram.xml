@@ -1,5 +1,4 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="histogram.js"/>
@@ -13,6 +12,8 @@
 		<connect client="density.enabled" governor="relativeNonCumulativeFreq"/>
 		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
 		<convert id="groupedNonCumulativeMode" mode="and" sources="groupedMode;cumulativeFreq.not"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 		<connect client="position.enabled" governor="groupedNonCumulativeMode"/>
 		<connect client="groups.visible" governor="groupedMode"/>
 		<connect client="polygon.enabled" governor="groupedMode.not"/>
@@ -20,7 +21,6 @@
 		<connect client="frameBarBorderColor.enabled" governor="groupedMode.not"/>
 		<connect client="plotOptions.allow_legend" governor="groupedMode"/>
 	</logic>
-
 	<dialog label="Histogram">
 		<tabbook>
 			<tab id="tabVariables" label="Variable(s)">
@@ -31,6 +31,7 @@
 						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
 						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
 						<include file="../common/filter.xml"/>
+						<stretch/>
 						<preview id="preview"/>
 					</column>
 				</row>
@@ -69,12 +70,17 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Histogram wizard">
+			<text>
+				<p>This procedure plots a histogram of a variable.</p>
+				<p>The variable must be numeric.</p>
+			</text>
 		<page id="pageVariables">
 			<text>
 				<p>Select the variable to plot the histogram.</p>
-				<p>If you want different histograms for the categories of one or several factors, check the box <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one histogram for every category combination of the factors.</p>
+				<p>If you want different histograms for the categories of one or several factors, check the box 
+					<b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one histogram for every category combination of the factors.
+				</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>
@@ -95,13 +101,9 @@
 		</page>
 		<embed id="cells" component="rkTeaching::cells"/>
 		<page id="pageColor">
-			<text>
-				Select the fill color for the bars.
-			</text>
+			<text>				Select the fill color for the bars.			</text>
 			<embed id="barFillColor" component="rkTeaching::color_chooser" label="Fill color"/>
-			<text>
-				Select the border color for the bars.
-			</text>
+			<text>				Select the border color for the bars.			</text>
 			<embed id="barBorderColor" component="rkTeaching::color_chooser" label="Border color"/>
 			<stretch/>
 		</page>

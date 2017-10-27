@@ -7,6 +7,8 @@
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
     <connect governor="factor.available" client="levels.variable"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
   </logic>
   <dialog label="T-tesf for comparing the means of two independent populations">
     <tabbook>
@@ -54,24 +56,24 @@
   <wizard label="T-tesf for comparing the means of two independent populations wizard">
     <page>
       <text>
-        <p>          This procedure performs the Student t-test for detecting a significant difference between the means of two independent populations and estimating the difference with a confidence interval.        </p>
-        <p>          The dependent variable must be numeric and the independent variable must be a factor.        </p>
+        <p>This procedure performs the Student t-test for detecting a significant difference between the means of two independent populations and estimating the difference with a confidence interval.</p>
+        <p>The dependent variable must be numeric and the independent variable must be a factor.</p>
       </text>
     </page>
     <page>
       <text>
-        <p>          Insert the numeric variable for which to compare the means in the field          
-          <b>Compare</b>.        
+        <p>Insert the numeric variable for which to compare the means in the field                                         
+          <b>Compare</b>.                                
         </p>
-        <p>          After, insert the factor in the field          
-          <b>According to</b>.        
+        <p>After, insert the factor in the field                                        
+          <b>According to</b>.                                                                
         </p>
-        <p>Next, select the category of the factor for the first population in the field          
-          <b>Compare population</b>          and the category for the second population in the field          
-          <b>With population</b>.
+        <p>Next, select the category of the factor for the first population in the field                                                                                
+          <b>Compare population</b> and the category for the second population in the field                                                                                
+          <b>With population</b>.                                                        
         </p>
-        <p>If you want different tests for the categories of one or several factors, check the box          
-          <b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.
+        <p>If you want different tests for the categories of one or several factors, check the box                                                                                
+          <b>Test by groups</b> and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.                                                        
         </p>
       </text>
       <copy id="rowVars"/>

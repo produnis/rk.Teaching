@@ -1,10 +1,8 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="boxplot.js"/>
 	<help file="boxplot.rkh"/>
-
 	<logic>
 		<set id="plotOptions.allow_type" to="true"/>
 		<set id="plotOptions.allow_ylim" to="true"/>
@@ -15,8 +13,9 @@
 		<connect client="frameBarFillColor.enabled" governor="groupedMode.not"/>
 		<connect client="frameBarBorderColor.enabled" governor="groupedMode.not"/>
 		<connect client="plotOptions.allow_legend" governor="groupedMode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
 	<dialog label="Box plot">
 		<tabbook>
 			<tab id="tabVariables" label="Variable(s)">
@@ -27,6 +26,7 @@
 						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
 						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
 						<include file="../common/filter.xml"/>
+						<stretch/>
 						<preview id="preview"/>
 					</column>
 				</row>
@@ -53,40 +53,45 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Box plot wizard">
+		<page>
+			<text>
+				<p>This procedure plots a box and whiskers chart for one or several variables.</p>
+				<p>The variables must be numeric.</p>
+			</text>
+		</page>
 		<page id="pageVariables">
 			<text>
 				<p>Select the variables to plot the box plot.</p>
-				<p>If you want different boxes for the categories of one or several factors, check the box
-					<b>Plot by groups</b>
-					and select the factors to define the groups. If you select more than one factor you will get one box for every category combination of the factors.</p>
+				<p>If you want different boxes for the categories of one or several factors, check the box																									
+					<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one box for every category combination of the factors.																
+				</p>
 			</text>
 			<copy id="rowVars"/>
 			<stretch/>
 		</page>
 		<page id="pageBoxOptions">
 			<text>
-				<p>Check the box
-					<b>Plot notches</b>
-					to plot the notches for the confidence interval for the median</p>
-				<p>Check the box
-					<b>Plot the mean(s)</b>
-					to plot the mean(s) on the box(es).</p>
-				<p>Check the box
-					<b>Plot the points</b>
-					to plot a point for every data in the sample.</p>
+				<p>Check the box 										
+					<b>Plot notches</b> to plot the notches for the confidence interval for the median																
+				</p>
+				<p>Check the box																									
+					<b>Plot the mean(s)</b>	to plot the mean(s) on the box(es).																
+				</p>
+				<p>Check the box																									
+					<b>Plot the points</b> to plot a point for every data in the sample.																
+				</p>
 			</text>
 			<copy id="colBoxOptions"/>
 			<stretch/>
 		</page>
 		<page id="page_color_options">
 			<text>
-				Select the fill color of the box.
+				<p>Select the fill color of the box.</p>
 			</text>
 			<embed id="boxFillColor" component="rkTeaching::color_chooser" label="Fill color"/>
 			<text>
-				Select the border color of the box.
+				<p>Select the border color of the box.</p>
 			</text>
 			<embed id="boxBorderColor" component="rkTeaching::color_chooser" label="Border color"/>
 			<stretch/>

@@ -2,12 +2,12 @@
 <document>
 	<code file="non_linear_regression.js"/>
 	<help file="non_linear_regression.rkh"/>
-
 	<logic>
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
 	<dialog label="Non-linear regression">
 		<tabbook>
 			<tab id="tabVars" label="Variables">
@@ -38,14 +38,19 @@
 			</tab>
 		</tabbook>
 	</dialog>
-
 	<wizard label="Non-linear regression model wizard">
+		<page>
+			<text>
+				<p>This procedure performs a non-linear regression analysis of a dependent variable with respect to an independent variable.</p>
+				<p>The variables must be numeric.</p>
+			</text>
+		</page>
 		<page id="pageVars">
 			<text>
 				<p>Select the dependent and independent variables.</p>
-				<p>If you want differenciate the regression models for the categories of one or several factors, check the box
-					<b>Regression by groups</b>
-					and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.</p>
+				<p>If you want different regression models for the categories of one or several factors, check the box										
+					<b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.				
+				</p>
 			</text>
 			<copy id="rowVars"/>
 		</page>
@@ -57,5 +62,4 @@
 			<stretch/>
 		</page>
 	</wizard>
-
 </document>

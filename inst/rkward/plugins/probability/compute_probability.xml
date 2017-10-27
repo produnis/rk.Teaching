@@ -13,7 +13,7 @@
 			<column>
 				<varslot id="probSpace" label="Probability space" source="selector" classes="data.frame" required="true" />
 				<input id="event" label="Event" required="true" size="small" />
-				<checkbox id="conditioned" label="Conditioned probability" checked="false" />
+				<checkbox id="conditioned" label="Conditional probability" checked="false" />
 				<input id="condition" label="Condition" required="true" size="small" />
 			</column>
 		</row>
@@ -26,8 +26,8 @@
 		</page>
 		<page id="vars">
 			<text>
-				<p>Select the data frame that contain the probability space of the random experiment. This probability spaces must containt a colum with name 																																			
-					<b>probs</b>.																								
+				<p>Select the data frame that contain the probability space of the random experiment. This probability spaces must containt a colum with name 																																								
+					<b>probs</b>.																												
 				</p>
 			</text>
 			<row>
@@ -37,9 +37,9 @@
 		</page>
 		<page>
 			<text>
-				<p>Enter the condition for the event. For example 										
-					<b>coin=="H"</b> or 										
-					<b>gender=="M" &amp; weight&gt;60</b>.									
+				<p>Enter the condition for the event. For example 															
+					<b>coin=="H"</b> or 															
+					<b>gender=="M" &amp; weight&gt;60</b>.													
 				</p>
 			</text>
 			<copy id="event" />

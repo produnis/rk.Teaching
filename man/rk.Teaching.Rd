@@ -4,57 +4,125 @@
 \alias{rk.Teaching-package}
 \title{rk.Teaching}
 \description{
-Un plugin de RKWard para la enseñanza de Estadística
+An RKWard plugin for teaching and learning Statistics.
+http://aprendeconalf.es/rkteaching
 }
 \details{
-Este paquete proporciona un nuevo menú \code{Teaching} a la
-interfaz gráfica RKWard de R. El nuevo menú incorpora
-procedimientos para la realización de análisis de
-estadísticos básicos. Los cuadros de diálogo están
-especialmente diseñados para realizar los procedimientos
-estadísticos de manera sencilla y facilitar así el
-aprendizaje de Estadística sin necesidad de utilizar R en
-línea de comandos.
+This package add a new menu \code{Teaching} to the RKWard GUI.
+The new menu add procedures to perform basic statistics analysis.
+The dialogs are designed to simplify the steps and options for the user focusing in the most important aspects of any procedure.
 
-Contiene procedimientos para: \itemize{ \item Manipulación
-de datos: \itemize{ \item Filtrado de datos \item Cálculo
-de variables \item Recodificación de variables \item
-Ponderación de datos \item Tipificación de variables }
-\item Distribuciones de frecuencias: \itemize{ \item Tablas
-de frecuencias \item Tablas de frecuencias bidimensionales
-} \item Gráficos: \itemize{ \item Diagrama de barras \item
-Histograma \item Diagrama de sectores \item Diagrama de
-cajas \item Diagrama de medias \item Diagrama de
-interacción \item Diagrama de dispersión \item Matriz de
-dispersión } \item Estadísticos descriptivos: \itemize{
-\item Estadísticos \item Cálculo detallado } \item
-Regresión: \itemize{ \item Regresión lineal \item Regresión
-no lineal \item Comparación de modelos de regresión \item
-Predicciones de regresión \item Correlación } \item Test
-paramétricos: \itemize{ \item Medias: \itemize{ \item Test
-T para una muestra \item Test T para dos muestras
-independientes \item Test T para dos muestras pareadas
-\item ANOVA \item Cálculo del tamaño muestral para la media
-\item Cálculo del tamaño muestral para el test T } \item
-Varianzas: \itemize{ \item Test de Fisher \item Test de
-Levene } \item Proporciones: \itemize{ \item Test para una
-proporción \item Test para dos proporciones \item Cálculo
-del tamaño muestral para una proporción } } \item Test no
-paramétricos \itemize{ \item Normalidad: \itemize{ \item
-Test de Lillieford (Komogorov-Smirnov) \item Test de
-Shapiro-Wilk } \item Test de la U de Mann-Whitney para dos
-muestras independientes \item Test de Wilcoxon para dos
-muestras pareadas \item Test de Kruskal-Wallis para varias
-muestras independientes \item Test de Friedman para medidas
-repetidas \item Test Chi-cuadrado de independencia \item
-Test Chi-cuadrado de bondad de ajuste } \item Concordancia:
-\itemize{ \item Coeficiente de correlación intraclase \item
-Kappa de Cohen } \item Distribuciones: \itemize{ \item
-Discretas: \itemize{ \item Binomial \item Poisson } \item
-Continuas: \itemize{ \item Uniforme \item Normal \item
-Chi-cuadrado \item T de student \item F de Fisher } } \item
-Simulaciones: \itemize{ \item Lanzamiento de monedas \item
-Lanzamiento de dados \item Ley de los casos raros \item
-Teorema central del límite }
+It contains procedures for: 
+\itemize{ 
+  \item Data manipulation: 
+  \itemize{ 
+    \item Data fitering 
+    \item Calculation of variables 
+    \item Recoding of variables 
+    \item Data weighting 
+    \item Standarization of variables
+  }
+  \item Frequency distribution:
+  \itemize{
+    \item Frequency tables 
+    \item Two-dimensional frequency tables
+  } 
+  \item Charts: 
+  \itemize{ 
+    \item Bars chart 
+    \item Histogram 
+    \item Piechart 
+    \item Box plot 
+    \item Means chart 
+    \item Interaction chart 
+    \item Scatter plot 
+    \item Scatter plot matrix 
+  } 
+  \item Descriptive statistics: 
+  \itemize{
+    \item Statistics 
+  } 
+  \item Regression: 
+  \itemize{ 
+    \item Linear regression 
+    \item Non-linear regression 
+    \item Model comparison 
+    \item Predictions 
+    \item Correlation 
+  } 
+  \item Parametric tests: 
+  \itemize{ 
+    \item Means: 
+    \itemize{ 
+      \item T-test for the mean of one population 
+      \item T-test for the means of two independent populations
+      \item T-test for the means of two paired populations
+      \item ANOVA test 
+      \item Sample size for estimating one mean
+      \item Sample size for the T-test
+    } 
+    \item Variances: 
+    \itemize{ 
+      \item Fisher's test 
+      \item Levene's test 
+    } 
+    \item Proportions: 
+    \itemize{ 
+      \item Test for one proportion
+      \item Test for two proportions 
+      \item Sample size for estimating one proportion
+    } 
+  } 
+  \item Non-parametric tests: 
+  \itemize{ 
+    \item Normality: 
+    \itemize{ 
+      \item Lillieford (Komogorov-Smirnov) test 
+      \item Shapiro-Wilk test 
+    } 
+    \item Mann-Whitney U test for two independent populations 
+    \item Wilcoxon test for two paired populations
+    \item Kruskal-Wallis test for several independent populations 
+    \item Friedman test for several paired populations 
+    \item Chi-square test of independence 
+    \item McNemar test of independence
+    \item Chi-square test of goodness of fit 
+  } 
+  \item Concordance:
+  \itemize{ 
+    \item Intraclass correlation coefficient 
+    \item Cohen's kappa 
+  } 
+  \item Probability:
+  \itemize{
+    \item Gambling
+    \item Build probability space
+    \item Repeat probability space
+    \item Join independent probability spaces
+    \item Compute probability
+  }
+  \item Distributions: 
+  \itemize{ 
+    \item Discrete: 
+    \itemize{ 
+      \item Binomial
+      \item Geometric
+      \item Hypergeometric
+      \item Poisson 
+    } 
+    \item Continuous: 
+    \itemize{ 
+      \item Uniform 
+      \item Normal 
+      \item Chi-square 
+      \item Student's t 
+      \item Fisher's F 
+    } 
+  } 
+  \item Simulations: 
+  \itemize{ 
+    \item Law of rare events
+    \item Central limit theorem
+  }
 }
-
+}
