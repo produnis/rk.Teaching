@@ -35,6 +35,6 @@ function printout() {
 
 	echo('rk.results (list(');
 	echo(i18n("Kappa") + ' = results$kappa, ');
-	echo(i18n("Wieghted kappa") + ' = results$weighted.kappa');
+	echo(i18n("Weighted kappa") + ' = results$weighted.kappa');
 	echo('))\n');
 }

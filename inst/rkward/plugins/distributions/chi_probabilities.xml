@@ -11,7 +11,7 @@
 		</snippet>
 		<snippet id="introductionWizard">
 			<text>
-				<p>The Chi-square probability distribution defines the probality distribution of the sum of the square of n indpendent standard normal variables.</p>
+				<p>The Chi-square probability distribution defines the probability distribution of the sum of the square of n independent standard normal variables.</p>
 				<p>The parameter n that describe this distribution is the degrees of freedom, that is the number of squared standard normal added.</p>
 			</text>
 		</snippet>
@@ -21,9 +21,9 @@
 		<include file="dist_snippets.xml"/>
 	</snippets>
 	<dialog label="Chi-square probability">
-		<insert snippet="probabilitiesContinousLayout"/>
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
 	<wizard label="Chi-square probability">
-		<insert snippet="probabilitiesContinousWizard"/>
+		<insert snippet="probabilitiesContinuousWizard"/>
 	</wizard>
 </document>

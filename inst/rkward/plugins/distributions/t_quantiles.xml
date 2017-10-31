@@ -22,7 +22,7 @@
 	<dialog label="Student's t quantiles">
 		<insert snippet="quantilesLayout"/>
 	</dialog>
-	<wizard label="Cuantiles T de student">
+	<wizard label="Student's t quantiles">
 		<insert snippet="Student's t quantiles"/>
 	</wizard>
 </document>

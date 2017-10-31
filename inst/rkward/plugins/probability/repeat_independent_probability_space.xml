@@ -21,7 +21,7 @@
 		</page>
 		<page id="vars">
 			<text>
-				<p>Select the data frame that contains the probability space of the random experiment. This probability space must containt a colum with name 															
+				<p>Select the data frame that contains the probability space of the random experiment. This probability space must contain a column with name 															
 					<b>probs</b>.								
 				</p>
 			</text>

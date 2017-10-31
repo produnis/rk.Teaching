@@ -23,7 +23,7 @@
 		</row>
 	</dialog>
 
-	<wizard label="Data weighting wizard">
+	<wizard label="Data weighting">
 		<page id="pageData">
 			<text>
 				Select the data frame to weight.

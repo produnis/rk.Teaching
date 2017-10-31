@@ -47,7 +47,7 @@
 							<checkbox id="unvariance" label="Corrected variance" checked="false" value="'unvariance',"/>
 						</row>
 						<row>
-							<checkbox id="stdev" label="Standar deviation" checked="false" value="'stdev',"/>
+							<checkbox id="stdev" label="Standard deviation" checked="false" value="'stdev',"/>
 							<checkbox id="sd" label="Corrected standard deviation" checked="false" value="'sd',"/>
 						</row>
 						<row>
@@ -75,7 +75,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Descriptive statistics wizard">
+	<wizard label="Descriptive statistics">
 		<page>
 			<text>
 				<p>This procedure compute the basic descriptive statistics of one or several variables.</p>
@@ -86,7 +86,7 @@
 			<text>
 				<p>Select the numeric variable to describe.</p>
 				<p>If you want to get the statistics for subsamples according to the categories of one or several factors, check the box 															
-					<b>Statistics by groups</b> and select the factors to define the groups. If you select more than one factor you will get a statisic summary for every category combination of the factors.												
+					<b>Statistics by groups</b> and select the factors to define the groups. If you select more than one factor you will get a statistic summary for every category combination of the factors.												
 				</p>
 			</text>
 			<copy id="rowVars" />

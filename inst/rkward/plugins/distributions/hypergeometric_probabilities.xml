@@ -15,7 +15,7 @@
 			</frame>
 		</snippet>
    <snippet id="introductionWizard">
-      <text>The hypergeometric probability distribution model describes the probability of getting k successes in n draws, <e>without replacement</e>, from a population of size N with K sucesses.</text>
+      <text>The hypergeometric probability distribution model describes the probability of getting k successes in n draws, <e>without replacement</e>, from a population of size N with K successes.</text>
     </snippet>
     <snippet id="parametersWizard">
       <text>Insert the population size (N), the number of successes in the population (K), and the number of draws (n).</text>

@@ -11,10 +11,10 @@
     <input id="error" label="Error &#177;" initial="0.1" required="true"/>
   </dialog>
 
-  <wizard label="Sample size computation to estimate a proportion in one population wizard">
+  <wizard label="Sample size computation to estimate a proportion in one population">
     <page>
       <text>
-        <p>This procedure computes the sample size reiquired to estimate a proportion in one population using a confidence interval with a given confidence level and error.</p>
+        <p>This procedure computes the sample size required to estimate a proportion in one population using a confidence interval with a given confidence level and error.</p>
       </text>
     </page>
     <page>

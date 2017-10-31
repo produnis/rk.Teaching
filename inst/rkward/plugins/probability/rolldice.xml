@@ -12,7 +12,7 @@
 	<wizard label="Rolling dice">
 		<page>
 			<text>
-				<p>This procedure simulates the random experiment of tossing a number of coins a number of times.</p>
+				<p>This procedure simulates the random experiment of rolling a number of dice a number of times.</p>
 			</text>
 		</page>
 		<page>
@@ -23,7 +23,7 @@
 		</page>
 		<page>
 			<text>
-				<p>Enter the number times to toss the coins</p>
+				<p>Enter the number times to roll the dice</p>
 			</text>
 			<copy id="ntimes" />
 		</page>

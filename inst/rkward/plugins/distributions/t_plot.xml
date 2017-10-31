@@ -30,9 +30,9 @@
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
 	<dialog label="Student's t probability plot">
-		<insert snippet="continousLayout"/>
+		<insert snippet="continuousLayout"/>
 	</dialog>
 	<wizard label="Student's t probability plot">
-		<insert snippet="continousWizard"/>
+		<insert snippet="continuousWizard"/>
 	</wizard>
 </document>

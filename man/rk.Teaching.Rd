@@ -5,7 +5,8 @@
 \title{rk.Teaching}
 \description{
 An RKWard plugin for teaching and learning Statistics.
-http://aprendeconalf.es/rkteaching
+
+\url{http://aprendeconalf.es/rkteaching/}
 }
 \details{
 This package add a new menu \code{Teaching} to the RKWard GUI.

@@ -15,8 +15,8 @@
 			</radio>
 		</row>
 	</snippet>
-	<snippet id="continousOptions">
-		<row id="continousFunction">
+	<snippet id="continuousOptions">
+		<row id="continuousFunction">
 			<radio id="function" label="Type of function">
 				<option value="d" label="Density function" />
 				<option value="p" label="Distribution function" />
@@ -37,21 +37,20 @@
 			</column>
 		</row>
 	</snippet>
-	<snippet id="continousLayout">
+	<snippet id="continuousLayout">
 		<row>
 			<column>
 				<insert snippet="distOptions"/>
 				<insert snippet="rangeOptions"/>
 			</column>
 			<column>
-				<insert snippet="continousOptions"/>
+				<insert snippet="continuousOptions"/>
 				<stretch/>
 				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
 				<preview id="preview" label="Preview"/>
 			</column>
 		</row>
 	</snippet>
-	<!--  for the wizards -->
 	<snippet id="discreteWizard">
 		<page id="pageIntroduction">
 			<insert snippet="introductionWizard"/>
@@ -69,7 +68,7 @@
 			<copy id="plotoptions"/>
 		</page>
 	</snippet>
-	<snippet id="continousWizard">
+	<snippet id="continuousWizard">
 		<page id="pageIntroduction">
 			<insert snippet="introductionWizard"/>
 		</page>
@@ -79,14 +78,14 @@
 		</page>
 		<page id="pageFunction">
 			<text>Select the type of function to plot.</text>
-			<copy id="continousFunction"/>
+			<copy id="continuousFunction"/>
 		</page>
 		<page id="pageRange">
 			<text>Select the minimum and the maximum value of the x-axis range to plot.</text>
 			<copy id="range"/>
 		</page>
 		<page id="graphicOptions">
-			<text>Set the grapic options.</text>
+			<text>Set the graphic options.</text>
 			<copy id="plotoptions"/>
 		</page>
 	</snippet>
@@ -100,7 +99,7 @@
 	</snippet>
 	<snippet id="densityHelp">
 		<setting id="function">
-			<li> Density Function, or </li>				Seleccionar las opciones gráficas.																								
+			<li> Density Function, or </li>
 			<li> Distribution Function </li>
 		</setting>
 	</snippet>

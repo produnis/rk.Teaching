@@ -63,7 +63,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Scatter plot wizard">
+	<wizard label="Scatter plot">
 	<page>
 			<text>
 				<p>This procedure plots a scatter plot of two variables.</p>
@@ -72,8 +72,8 @@
 		</page>
 		<page id="pageVariables">
 			<text>
-				<p>Select the variables to represent in the X and Y axiSeleccionar las variables a dibujar en los ejes X e Y.</p>
-				<p>If you want differenciate the point cloud for the categories of one or several factors, check the box	
+				<p>Select the variables to represent in the X and Y axes.</p>
+				<p>If you want a different points cloud for the categories of one or several factors, check the box	
 					<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.
 				</p>
 			</text>

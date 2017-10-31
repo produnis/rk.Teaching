@@ -46,7 +46,7 @@
 						</frame>
 						<checkbox id="polygon" label="Polygon" checked="false" value="1"/>
 						<radio id="position" label="Grouping options">
-							<option value="identity" label="Overlayed" checked="true"/>
+							<option value="identity" label="Overlaid" checked="true"/>
 							<option value="dodge" label="Juxtaposed"/>
 							<option value="stack" label="Stacked"/>
 							<option value="faceted" label="Separated"/>
@@ -70,7 +70,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Histogram wizard">
+	<wizard label="Histogram">
 			<text>
 				<p>This procedure plots a histogram of a variable.</p>
 				<p>The variable must be numeric.</p>
@@ -94,7 +94,7 @@
 			</text>
 			<copy id="polygon"/>
 			<text>
-				<p>In case of plotting several histograms by groups, select the layout for the bars: overlaped (over each other), justapoxed (next to each other), stacked (on top of each other) or separated (in separated hisograms).</p>
+				<p>In case of plotting several histograms by groups, select the layout for the bars: Overlaid (over each other), Juxtaposed (next to each other), Stacked (on top of each other) or Separated (in separated charts).</p>
 			</text>
 			<copy id="position"/>
 			<stretch/>

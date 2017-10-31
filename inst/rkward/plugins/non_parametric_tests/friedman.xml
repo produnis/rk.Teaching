@@ -25,7 +25,7 @@
 	<wizard label="Friedman test for comparing paired populations">
 		<page>
 			<text>
-				<p>This procedure performs the Friedman test for detecting a significant difference between the distributions of two or more paired populations, that is, several repeated measures on the same individuals.</p>
+				<p>This procedure performs the Friedman test for detecting a significant difference among the distributions of two or more paired populations, that is, several repeated measures on the same individuals.</p>
 				<p>The variables that contain the repeated measures must be numeric or ordinal.</p>
 			</text>
 		</page>

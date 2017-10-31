@@ -38,7 +38,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Correlation matrix wizard">
+	<wizard label="Correlation matrix">
 		<page>
 			<text>
 				<p>This procedure performs a correlation analysis of several variables.</p>

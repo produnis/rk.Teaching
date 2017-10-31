@@ -34,7 +34,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Interaction plot wizard">
+	<wizard label="Interaction plot">
 			<text>
 				<p>This procedure plots the means of a variable according to the groups defined by two categorical variables.</p>
 			</text>

@@ -24,7 +24,7 @@ function getParameters() {
 }
 
 function doHeader() {
-	header = new Header(i18n("Fisher-Snedecor F %1 function N(%2,%3)", label, df1, df2));
+	header = new Header(i18n("Fisher-Snedecor F %1 function F(%2,%3)", label, df1, df2));
 	header.add(i18n("Numerator degrees of freedom"), df1);
 	header.add(i18n("Denominator degrees of freedom"), df2);
 	header.print();

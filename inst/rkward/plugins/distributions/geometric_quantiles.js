@@ -17,7 +17,7 @@ function calculate() {
 
 function printout() {
 	// Header
-	header = new Header(i18n("Geometric quantiles B(%1)", prob));
+	header = new Header(i18n("Geometric quantiles Geom(%1)", prob));
 	header.add(i18n("Probability of success"), prob);
 	if (tail === "lower.tail=TRUE") {
 		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));

@@ -26,7 +26,7 @@
 		</page>
 		<page id="vars">
 			<text>
-				<p>Select the data frame that contain the probability space of the random experiment. This probability spaces must containt a colum with name 																																								
+				<p>Select the data frame that contain the probability space of the random experiment. This probability spaces must contain a column with name 																																								
 					<b>probs</b>.																												
 				</p>
 			</text>
@@ -46,7 +46,7 @@
 		</page>
 		<page>
 			<text>
-				<p>Check the box for computing a conditional probability and enter the condition for the condition event.</p>
+				<p>Check the box for computing a conditional probability and enter the event of the condition.</p>
 			</text>
 			<column>
 				<copy id="conditioned" />

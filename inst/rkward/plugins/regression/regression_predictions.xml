@@ -16,10 +16,10 @@
 			</column>
 		</row>
 	</dialog>
-	<wizard label="Regression predictions wizard">
+	<wizard label="Regression predictions">
 		<page>
 			<text>
-				<p>This procedure compute predictions of a regression model.</p>
+				<p>This procedure computes predictions of a regression model.</p>
 			</text>
 		</page>
 		<page id="pageModel">
@@ -31,7 +31,7 @@
 		</page>
 		<page id="pageInput">
 			<text>
-				<p>Enter the values of the independent variable for which to predict the dependent variable (you can insert more than one value separated by commas), or select a data set with the values of the independent variable s(the variable names in the data set must coincide with variable names in the model).</p>
+				<p>Enter the values of the independent variable for which to predict the dependent variable (you can insert more than one value separated by commas), or select a data set with the values of the independent variables (the variable names in the data set must coincide with variable names in the model).</p>
 				<p>For multiple regression use only the data set input.</p>
 			</text>
 			<copy id="values" />

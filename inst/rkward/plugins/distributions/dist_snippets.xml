@@ -24,13 +24,13 @@
 			</column>
 		</row>
 	</snippet>
-	<snippet id="probabilitiesContinousLayout">
+	<snippet id="probabilitiesContinuousLayout">
 		<row>
 			<column>
 				<input id="q" label="Values of the variable" required="true" />
 				<insert snippet="distOptions"/>
 			</column>
-			<column id="continousFunction">
+			<column id="continuousFunction">
 				<radio id="tail" label="Accumulation tail">
 					<option value="lower.tail=TRUE" label="Left (&lt;)" />
 					<option value="lower.tail=FALSE" label="Right (&gt;)" />
@@ -55,7 +55,7 @@
 			</column>
 		</row>
 	</snippet>
-	<!-- Snippets for wizard -->
+	<!-- Snippets for -->
 	<snippet id="probabilitiesDiscreteWizard">
 		<page id="pageIntroduction">
 			<insert snippet="introductionWizard"/>
@@ -68,17 +68,17 @@
 			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
 		</page>
-		<page id="pagePunction">
+		<page id="pageFunction">
 			<text>Select 				
 				<b>Probabilities</b> to compute the probability of every value, or 				
 				<b>Cumulative probabilities</b> to compute the cumulative probability of every value. In this last case select the accumulation tail that you want: 				
-				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particular value, or 				
 				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
 			<copy id="discreteFunction"/>
 		</page>
 	</snippet>
-	<snippet id="probabilitiesContinousWizard">
+	<snippet id="probabilitiesContinuousWizard">
 		<page id="pageIntroduction">
 			<insert snippet="introductionWizard"/>
 		</page>
@@ -92,10 +92,10 @@
 		</page>
 		<page id="pageFunction">
 			<text>Select the accumulation tail that you want: 				
-				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particualar value, or 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particular value, or 				
 				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
-			<copy id="continousFunction"/>
+			<copy id="continuousFunction"/>
 		</page>
 	</snippet>
 	<snippet id="quantilesWizard">

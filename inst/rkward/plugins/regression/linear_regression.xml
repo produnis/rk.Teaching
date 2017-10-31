@@ -22,7 +22,7 @@
 			</column>
 		</row>
 	</dialog>
-	<wizard label="Linear regression wizard">
+	<wizard label="Linear regression">
 		<page>
 			<text>
 				<p>This procedure performs a linear regression analysis of one dependent variable with respect to several independent variables.</p>

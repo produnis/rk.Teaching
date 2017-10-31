@@ -16,7 +16,7 @@
 			<option value="list" label="List of objects" />
 		</radio>
 		<spinbox id="numObjects" label="Number of objects" type="integer" initial="2" min="1" max="1000" />
-		<input id="listObjects" label="Lists of objects" size="small" required="true" />
+		<input id="listObjects" label="List of objects" size="small" required="true" />
 		</column>
 		<spinbox id="numDraws" label="Number of draws" type="integer" initial="1" min="1" max="30" />
 		<checkbox id="replace" label="With replacement" value="TRUE" value_unchecked="FALSE" />
@@ -32,7 +32,7 @@
 		</page>
 		<page>
 			<text>
-				<p>Enter the numbero of objects or the list of objects.</p>
+				<p>Enter the number of objects or the list of objects.</p>
 			</text>
 			<copy id="setObjects" />
 		</page>

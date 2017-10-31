@@ -40,12 +40,12 @@
             <varslot id="dataframe" label="Data set" source="selector" classes="data.frame" required="true"/>
             <radio id="design" label="Design">
               <option label="Between subjects" value="between" checked="true"/>
-              <option label="Within subjects (repeated mesures)" value="within"/>
+              <option label="Within subjects (repeated measures)" value="within"/>
               <option label="Mixed" value="mixed"/>
             </radio>
             <varslot id="variable" label="Dependent variable" source="selector" required="true" type="numeric"/>
             <varslot id="between" label="Between subjects factors" source="selector" multi="true" types="factor"/>
-            <varslot id="within" label="Whithin subjects factors" source="selector" multi="true" types="factor"/>
+            <varslot id="within" label="Within subjects factors" source="selector" multi="true" types="factor"/>
             <varslot id="caseId" label="Case/subject identifier" source="selector" multi="false" />
             <include file="../common/filter.xml"/>
             <saveobject id="save" label="Save results to workspace" checkable="true" initial="anova.results"/>
@@ -88,18 +88,18 @@
     </tabbook>
   </dialog>
 
-  <wizard label="Analysis of variance (ANOVA) wizard">
+  <wizard label="Analysis of variance (ANOVA)">
     <page>
       <text>
         <p>
-          This procedure performs the ANOVA test for detecting a significant difference between the means of three or more populations, and the pairwise comparison of means.
+          This procedure performs the ANOVA test for detecting a significant difference between the means of three or more independent populations, and the pairwise comparison of means.
         </p>
       </text>
     </page>
     <page id="dataframe">
       <text>
         <p>Select the data frame with the variables to test.</p>
-        <p>After, check the box corresponding to the type of design, the dependent variable, the independent factors between the subjects, the factors corresponding to repeated measures within the subject and the variable that identifies every suject or case.</p>
+        <p>After, check the box corresponding to the type of design, the dependent variable, the independent factors between the subjects, the factors corresponding to repeated measures within the subject and the variable that identifies every subject or case.</p>
       </text>
       <copy id="variables"/>
     </page>

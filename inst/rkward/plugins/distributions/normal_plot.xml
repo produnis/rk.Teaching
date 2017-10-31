@@ -26,14 +26,16 @@
 			</text>
 		</snippet>
 		<snippet id="parametersWizard">
-			<text>Insert the mean and the standard deviation of the population.				</text>
+			<text>
+				<p>Insert the mean and the standard deviation of the population.</p>
+			</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
 	<dialog label="Normal probability distribution plot">
-		<insert snippet="continousLayout"/>
+		<insert snippet="continuousLayout"/>
 	</dialog>
 	<wizard label="Normal probability distribution plot">
-		<insert snippet="continousWizard"/>
+		<insert snippet="continuousWizard"/>
 	</wizard>
 </document>

@@ -10,10 +10,13 @@
 			</frame>
 		</snippet>
 		<snippet id="introductionWizard">
-      <text>The Normal probability distribution model is the the most common continuous probability distribution model. It describes the probability of many natural variables due to the central limit theorem. The parameters that describe this distribution are the mean and the standard deviation of the population.</text>
-    </snippet>
+			<p>The Normal probability distribution model is the the most common continuous probability distribution model. It describes the probability of many natural variables due to the central limit theorem.</p>
+			<p>The parameters that describe this distribution are the mean and the standard deviation of the population.</p>
+		</snippet>
 		<snippet id="parametersWizard">
-			<text>Insert the mean and the standard deviation of the population.				</text>
+			<text>
+				<p>Insert the mean and the standard deviation of the population.</p>
+			</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>

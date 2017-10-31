@@ -43,7 +43,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Two-variables frequency tabulation wizard">
+	<wizard label="Two-variables frequency tabulation">
 		<page>
 			<text>
 				<p>This procedure computes the sample two-dimensional frequency distribution of sample the values of two variables.</p>

@@ -36,10 +36,10 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Regression model comparison wizard">
+	<wizard label="Regression model comparison">
 		<page>
 			<text>
-				<p>This procedure performs a comparison of regression models of one dependent variable with respect to several independent variables.</p>
+				<p>This procedure performs a comparison of regression models of one dependent variable with respect to one independent variable.</p>
 				<p>The variables must be numeric.</p>
 			</text>
 		</page>

@@ -46,7 +46,9 @@
 		</page>
 		<page id="pageGrouped">
 			<text>
-				<p>Check the box to tabulate the variable by groups. You must insert the grouping variables.</p>
+				<p>If you want different tabulations for the categories of one or several factors, check the box 																							
+					<b>Tabulate by groups</b> and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.																							
+				</p>
 			</text>
 			<copy id="selector"/>
 			<copy id="grouped"/>

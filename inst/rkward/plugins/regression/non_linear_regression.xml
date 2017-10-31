@@ -38,7 +38,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Non-linear regression model wizard">
+	<wizard label="Non-linear regression model">
 		<page>
 			<text>
 				<p>This procedure performs a non-linear regression analysis of a dependent variable with respect to an independent variable.</p>

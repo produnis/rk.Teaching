@@ -32,7 +32,7 @@
                     Insert the expression to compute the new variable.
                 </p>
                 <p>
-                    The expression can contains any variable of the Workspace and any operator of R. Do not put an equal sign at the begining.
+                    The expression can contains any variable of the Workspace and any operator of R. Do not put an equal sign at the beginning.
                 </p>
                 <p>
                     Examples: height*100, weight/height^2.
@@ -42,7 +42,7 @@
         </page>
         <page id="page_variable">
             <text>
-                Inser the name for the new variable and click the button Change to select the data frame where to save it. By default the new variable is saved in .GlobalEnv.
+                Insert the name for the new variable and click the button Change to select the data frame where to save it. By default the new variable is saved in .GlobalEnv.
             </text>
             <copy id="save"/>
         </page>

@@ -20,7 +20,7 @@ function calculate() {
 
 function printout() {
 	// Header
-	header = new Header(i18n("Chi-square cumulative probabilities T(%1)", df));
+	header = new Header(i18n("Chi-square cumulative probabilities &chi;(%1)", df));
 	header.add(i18n("Degrees of freedom"), df);
 	if (tail === "lower.tail=TRUE") {
 		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));

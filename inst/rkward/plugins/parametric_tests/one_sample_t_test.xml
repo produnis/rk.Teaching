@@ -41,7 +41,7 @@
       </tab>
     </tabbook>
   </dialog>
-  <wizard label="T-test for the mean of one population wizard">
+  <wizard label="T-test for the mean of one population">
     <page>
       <text>
         <p>          This procedure performs the T test for detecting a significant difference between the mean of one population and a given value, and estimating the mean with a confidence interval.        </p>
@@ -79,7 +79,7 @@
     </page>
     <page>
       <text>
-        <p>If you wants a confidence interval to estimate the mean of the populations check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
+        <p>If you wants a confidence interval to estimate the mean of the population check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
       </text>
       <copy id="frameConfInt"/>
       <stretch/>

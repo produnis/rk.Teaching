@@ -1,18 +1,11 @@
 <!DOCTYPE rkplugin>
 <document>
-<!--	<code file="color_chooser.php" /> -->
-<!-- WHAT IS THIS?
-     It's a very dirty hack to make the color chooser fast. This is needed, as the color chooser is often embedded many times into a single plugin. Starting a separate PHP process for each of those would be insane. So we need something different...
-     
-     This will eventually be replaced by a different (and clean!) scripting solution. For now: don't imitate this! -->
-<!-- 	<code printout="$$$argument$$$$$$color.string$$$$$$have_col.numeric$$$!!!!?!%3!=!0!:!!?!!=!!:!%1&quot;%2&quot;"/> -->
 	<code file="color_chooser.js" />
 	<help file="color_chooser.rkh" />
-	<logic>
-	</logic>
-	<dialog label="Choose color" >
+	<logic></logic>
+	<dialog label="Choose color">
 		<dropdown id="color" label="Color">
-			<option value="" label="defecto" checked="true" />
+			<option value="" label="default" checked="true" />
 			<option value="yellow" label="Yellow" />
 			<option value="yellow1" label="Yellow1" />
 			<option value="yellow2" label="Yellow2" />
@@ -84,11 +77,8 @@
 			<option value="darkviolet" label="Dark violet" />
 		</dropdown>
 	</dialog>
-	
-	<wizard label="Color chooser wizard">
-            <text>
-                Choose the color.
-            </text>
-            <copy id="color" />
+	<wizard label="Color chooser">
+		<text>                Choose the color.            </text>
+		<copy id="color" />
 	</wizard>
 </document>

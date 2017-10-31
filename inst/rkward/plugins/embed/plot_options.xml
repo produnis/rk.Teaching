@@ -158,7 +158,7 @@
 		</tabbook>
 	</dialog>
 
-	<wizard label="Graphic options wizard">
+	<wizard label="Graphic options">
 		<page id="pageTitle">
 			<text>
 				Enter the main title and the subtitle of the chart.
@@ -199,7 +199,7 @@
 			<text>
 				Select the background color.
 			</text>
-			<embed id="gridBackgroundColor" component="rkTeaching::color_chooser" label="Color de la cuadrícula"/>
+			<embed id="gridBackgroundColor" component="rkTeaching::color_chooser" label="Grid color"/>
 			<stretch/>
 		</page>
 		<page id="pageLeyend">

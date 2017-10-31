@@ -55,7 +55,7 @@
     </tabbook>
   </dialog>
 
-  <wizard label="Fisher's F test for comparing the variances of two independent populations wizard">
+  <wizard label="Fisher's F test for comparing the variances of two independent populations">
     <page>
       <text>
         <p>

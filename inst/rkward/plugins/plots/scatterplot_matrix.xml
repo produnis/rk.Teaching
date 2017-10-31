@@ -22,17 +22,17 @@
 			</column>
 		</row>
 	</dialog>
-	<wizard label="Scatter plot matrix wizard">
+	<wizard label="Scatter plot matrix">
 		<page>
 			<text>
-				<p>This procedure plots a scatter plot matrix with histograms in the diagonal for a set of variables</p>
+				<p>This procedure plots a scatter plot matrix with histograms in the diagonal for a set of variables.</p>
 				<p>The variables must be numeric.</p>
 			</text>
 		</page>
 		<page id="pagVars">
 			<text>
 				<p>Select the numeric variables to include in the scatter plots.</p>
-				<p>If you want differenciate the plots for the categories of one or several factors, check the box						
+				<p>If you want different plots for the categories of one or several factors, check the box						
 					<b>Plot by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one point cloud for every category combination of the factors.				
 				</p>
 			</text>

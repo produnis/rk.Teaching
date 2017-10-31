@@ -3,7 +3,6 @@
 <document base_prefix="simulations/" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="rare_events_law" file="rare_events_law.xml" label="Law of rare events" />
-		<component type="standard" id="central_limit_theorem" file="central_limit_theorem.xml" label="Central limit theorem" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">

@@ -17,7 +17,7 @@ function calculate() {
 
 function printout() {
 	// Header
-	header = new Header(i18n("Chi-square quantiles T(%1)", df));
+	header = new Header(i18n("Chi-square quantiles &chi;(%1)", df));
 	header.add(i18n("Degrees of freedom"), df);
 	if (tail === "lower.tail=TRUE") {
 		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));

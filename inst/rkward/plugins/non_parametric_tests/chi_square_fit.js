@@ -27,8 +27,8 @@ function printout() {
 	header = new Header(i18n("Chi-square test of goodness of fit"));
 	header.add(i18n("Observed frequencies"), observedName);
 	header.add(i18n("Theoretical probabilities"), theoricName);
-	header.add(i18n("Null hypothesis"), i18n("There is no significant difference between the observed and the theorical distribution."));
-	header.add(i18n("Alternative hypothesis"), i18n("There is a significant difference between the observed and the theorical distribution."));
+	header.add(i18n("Null hypothesis"), i18n("There is no significant difference between the observed and the theoretical distribution."));
+	header.add(i18n("Alternative hypothesis"), i18n("There is a significant difference between the observed and the theoretical distribution."));
 	header.print();
 
 	echo('rk.results (list(');

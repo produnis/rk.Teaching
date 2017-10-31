@@ -51,8 +51,8 @@ function printout() {
   header = new Header(i18n("Levene's test for comparing variances of %1 according to %2", variableName, factorName));
   header.add(i18n("Data frame"), dataframe);
   header.add(i18n("Comparison of"), i18n("%1 according to %2", variableName, factorName));
-  header.add(i18n("Null hypothesis"), i18n("The variances of all the populations are equal"));
-  header.add(i18n("Alternative hypothesis"), i18n("At least two populations have different variances"));
+  header.add(i18n("Null hypothesis"), i18n("The are no significant differences among the variances of the populations"));
+  header.add(i18n("Alternative hypothesis"), i18n("There are significant differences among the variances of at least two populations"));
   if (center == "median") {
     header.add(i18n("Variability with respect to"), i18n("Median"));
   } else {

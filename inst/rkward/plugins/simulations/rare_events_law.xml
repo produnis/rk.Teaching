@@ -2,10 +2,10 @@
 <!DOCTYPE rkplugin>
 <document>
 	<code file="rare_events_law.js" />
-	<help file="rare_events_law.xml" />
-	<dialog label="Ley de los casos raros">
+	<help file="rare_events_law.rkh" />
+	<dialog label="Rare events law">
 		<text>
-			<p>The rare events law states that a Binomial distribution B(n,p) tends to a Poisson distribution P(np) as increases and p decreases.</p>
+			<p>The rare events law states that a Binomial distribution B(n,p) tends to a Poisson distribution P(np) as n increases and p decreases.</p>
 			<p>Increase the number of trials or decrease the probability of success of the Binomial distribution to see how the graph of the Binomial distribution converges to the one of the Poisson distribution.</p>
 		</text>
 		<stretch/>

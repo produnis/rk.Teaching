@@ -21,9 +21,9 @@
 		<include file="dist_snippets.xml"/>
 	</snippets>
 	<dialog label="Student's t probabilities">
-		<insert snippet="probabilitiesContinousLayout"/>
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
 	<wizard label="Student's t probabilities">
-		<insert snippet="probabilitiesContinousWizard"/>
+		<insert snippet="probabilitiesContinuousWizard"/>
 	</wizard>
 </document>

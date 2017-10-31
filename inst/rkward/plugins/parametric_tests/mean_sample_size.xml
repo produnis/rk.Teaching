@@ -11,15 +11,15 @@
     <input id="error" label="Error &#177;" value="1" required="true"/>
   </dialog>
 
-  <wizard label="Sample size computation for estimating one mean wizard">
+  <wizard label="Sample size computation for estimating one mean">
     <page>
       <text>
-        <p>This procedure computes the sample size reiquired to estimate the mean of one population using a confidence interval with a given confidence level and error.</p>
+        <p>This procedure computes the sample size required to estimate the mean of one population using a confidence interval with a given confidence level and error.</p>
       </text>
     </page>
     <page>
       <text>
-        Enter the stadard deviation of the population or an estimate of it.
+        Enter the standard deviation of the population or an estimate of it.
       </text>
       <copy id="sd"/>
     </page>

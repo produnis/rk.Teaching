@@ -11,7 +11,7 @@
 			</frame>
 		</snippet>
 		<snippet id="introductionWizard">
-			<text>The Uniform continuous probability distribution model describes a probability distribution where intervals of the same legth in the range have the same probability (equiprobability). The parameters that describe this distribution are the minimum and the maximum of the variable range.</text>
+			<text>The Uniform continuous probability distribution model describes a probability distribution where intervals of the same length in the range have the same probability (equiprobability). The parameters that describe this distribution are the minimum and the maximum of the variable range.</text>
 		</snippet>
 		<snippet id="parametersWizard">
 			<text>Insert the minimum and the maximum value of the variable range.</text>
@@ -19,9 +19,9 @@
 		<include file="dist_snippets.xml"/>
 	</snippets>
 	<dialog label="Continuous uniform probabilities">
-		<insert snippet="probabilitiesContinousLayout"/>
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
 	<wizard label="Continuous uniform probabilities">
-		<insert snippet="probabilitiesContinousWizard"/>
+		<insert snippet="probabilitiesContinuousWizard"/>
 	</wizard>
 </document>

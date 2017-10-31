@@ -41,7 +41,7 @@
       </tab>
     </tabbook>
   </dialog>
-  <wizard label="T-test for comparing the means of two paired populations wizard">
+  <wizard label="T-test for comparing the means of two paired populations">
     <page>
       <text>
         <p>          This procedure performs the Student t-test for detecting a significant difference between the means of two paired populations and estimating the difference with a confidence interval.        </p>

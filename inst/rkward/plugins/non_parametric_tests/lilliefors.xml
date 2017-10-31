@@ -19,17 +19,18 @@
 			</column>
 		</row>
 	</dialog>
-	<wizard label="Lilliefors (Kolmogorov-Smirnov) normality test wizard">
+	<wizard label="Lilliefors (Kolmogorov-Smirnov) normality test">
 		<page>
 			<text>
 				<p>This procedure performs the Lilliefors test (a correction of the Kolmogorov-Smirnov test) for detecting a significant departure from normality of a quantitative variable.</p>
-				<p>This test has a low power for small samples (n<30). In such a case, use instead the Shapiro-Wilks test.</p>
+				<p>This test has a low power for small samples (n&lt;30). In such a case, use instead the Shapiro-Wilk's test.</p>
 			</text>
 		</page>
 		<page>
 			<text>
 				<p>Insert the numeric variable to test.</p>
-				<p>If you want different tests for the categories of one or several factors, check the box <b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.
+				<p>If you want different tests for the categories of one or several factors, check the box 																							
+					<b>Test by groups</b> and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.																							
 				</p>
 			</text>
 			<copy id="rowVars"/>

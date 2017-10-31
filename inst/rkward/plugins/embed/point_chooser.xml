@@ -1,12 +1,10 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="point_chooser.js" />
 	<help file="point_chooser.rkh" />
-	<logic>
-	</logic>
-	<dialog label="Point type" >
+	<logic></logic>
+	<dialog label="Point type">
 		<dropdown id="point" label="Point symbol">
 			<option value="" label="default" checked="true" />
 			<option value="0" label="Non-filled square" />
@@ -19,11 +17,10 @@
 			<option value="18" label="Filled diamond" />
 		</dropdown>
 	</dialog>
-	
-	<wizard label="Point type wizard">
-            <text>
-                Choose the point symbol. 
-            </text>
-            <copy id="point" />
+	<wizard label="Point type">
+		<text>
+			<p>Choose the point symbol.</p>
+		</text>
+		<copy id="point" />
 	</wizard>
 </document>

@@ -111,7 +111,7 @@ function printout() {
     echo('\t rk.header (' + i18n("Model goodness of fit") + ', level=4)\n');
     echo('\t rk.results (list(');
     echo('"R<sup>2</sup>" = result[[i]]$r.squared,');
-    echo(i18n("R<sup>2</sup> ajusted") + ' = result[[i]]$adj.r.squared,');
+    echo(i18n("R<sup>2</sup> adjusted") + ' = result[[i]]$adj.r.squared,');
     echo(i18n("F-statistic") + ' = result[[i]]$fstatistic[1],');
     echo(i18n("p-value") + ' = pf(result[[i]]$fstatistic[1],result[[i]]$fstatistic[2],result[[i]]$fstatistic[3],lower.tail=FALSE)))\n');
     echo('}\n');

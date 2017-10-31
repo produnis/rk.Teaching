@@ -20,17 +20,17 @@
       </column>
       <column>
         <input id="delta" label="Difference between the means" required="true"/>
-        <input id="sd" label="Stantdard deviation" value="1" required="true"/>
+        <input id="sd" label="Standard deviation" value="1" required="true"/>
         <spinbox id="sigLevel" label="Significance level" types="real" min="0.01" max="1" initial="0.05"/>
         <spinbox id="power" label="Power" type="real" min="0.00" max="0.99" initial="0.8"/>
       </column>
     </row>
   </dialog>
 
-  <wizard label="Sample size computation for the t-test wizard">
+  <wizard label="Sample size computation for the t-test">
     <page>
       <text>
-        <p>This procedure computes the sample size reiquired to perform a t-test for comparing means with a given effect size, significance level and power.</p>
+        <p>This procedure computes the sample size required to perform a t-test for comparing means with a given effect size, significance level and power.</p>
       </text>
     </page>
     <page>
@@ -53,13 +53,13 @@
     </page>
     <page>
       <text>
-        Enter the stadard deviation of the population or an estimate of it.
+        Enter the standard deviation of the population or an estimate of it.
       </text>
       <copy id="sd"/>
     </page>
     <page>
       <text>
-        Enter de significance level of the test.
+        Enter the significance level of the test.
       </text>
       <copy id="sigLevel"/>
     </page>

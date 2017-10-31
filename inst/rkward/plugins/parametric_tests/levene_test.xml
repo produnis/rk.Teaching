@@ -35,11 +35,11 @@
     </tabbook>
   </dialog>
 
-  <wizard label="Levene's test for comparing variances of independent population wizard">
+  <wizard label="Levene's test for comparing variances of independent populations">
     <page>
       <text>
         <p>
-          This procedure performs the Leven's test for detecting a significant difference between the variances of several independent populations.
+          This procedure performs the Levene's test for detecting significant differences among the variances of several independent populations.
         </p>
         <p>
           The dependent variable must be numeric and the independent variable must be a factor.

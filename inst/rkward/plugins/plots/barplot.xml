@@ -60,10 +60,10 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Bar chart wizard">
+	<wizard label="Bar chart">
 		<page>
 			<text>
-				<p>This procedure plots a bar chart of frequencies o a variable.</p>
+				<p>This procedure plots a bar chart of frequencies of a variable.</p>
 			</text>
 		</page>
 		<page id="pageVariables">
@@ -85,7 +85,7 @@
 			</text>
 			<copy id="polygon"/>
 			<text>
-				<p>In case of plotting several bar charts by groups, select the layout for the bars: justapoxed (next to each other), stacked (on top of each other) or separated (in separated hisograms).</p>
+				<p>In case of plotting several bar charts by groups, select the layout for the bars: Juxtapoxed (next to each other), Stacked (on top of each other) or Separated (in separated charts).</p>
 			</text>
 			<copy id="position"/>
 			<stretch/>

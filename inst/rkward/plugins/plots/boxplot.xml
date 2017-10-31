@@ -53,7 +53,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Box plot wizard">
+	<wizard label="Box plot">
 		<page>
 			<text>
 				<p>This procedure plots a box and whiskers chart for one or several variables.</p>

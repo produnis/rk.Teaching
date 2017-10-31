@@ -3,7 +3,7 @@
 <document>
 	<code file="kappa_cohen.js"/>
 	<help file="kappa_cohen.rkh"/>
-	<dialog label="Cohen's kappa">
+	<dialog label="Cohen's kappa concordance test">
 		<row id="rowVars">
 			<varselector id="selector" label="Select variables" />
 			<column>
@@ -12,7 +12,7 @@
 			</column>
 		</row>
 	</dialog>
-	<wizard label="Test de concordancia Kappa de Cohen">
+	<wizard label="Cohen's kappa concordance test">
 		<page>
 			<text>
 				<p>This procedure computes the Cohen's kappa coefficient to see if there is agreement in two qualitative variables measuring the same thing.</p>

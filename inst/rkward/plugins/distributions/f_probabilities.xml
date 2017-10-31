@@ -23,9 +23,9 @@
 		<include file="dist_snippets.xml"/>
 	</snippets>
 	<dialog label="Fisher-Snedecor F probabilities">
-		<insert snippet="probabilitiesContinousLayout"/>
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
 	<wizard label="Fisher-Snedecor F probabilities">
-		<insert snippet="probabilitiesContinousWizard"/>
+		<insert snippet="probabilitiesContinuousWizard"/>
 	</wizard>
 </document>

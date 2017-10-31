@@ -39,7 +39,7 @@
       </tab>
     </tabbook>
   </dialog>
-  <wizard label="Means plot wizard">
+  <wizard label="Means plot">
   		<text>
 				<p>This procedure plots the means and the confidence intervals of the means of several variables.</p>
 				<p>The variables must be numeric.</p>

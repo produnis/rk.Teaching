@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document namespace="rkTeaching">
+<document id="rkTeaching" po_id="rkTeaching" namespace="rkTeaching">
 	<about
 		name="rk.Teaching"
 		shortinfo="RKWard GUI that introduces some utilities for teaching Statistic."

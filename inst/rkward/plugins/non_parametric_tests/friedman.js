@@ -42,8 +42,8 @@ function printout() {
 	header = new Header(i18n("Friedman test for comparing the distribution of %1", variablesName.join(", ")));
 	header.add(i18n("Data frame"), dataframe);
 	header.add(i18n("Comparison of"), variablesName.join(", "));
-	header.add(i18n("Null hypothesis"), i18n("There is no significant difference between the populations"));
-	header.add(i18n("Alternative hypothesis"), i18n("There are significant difference between at least two populations"));
+	header.add(i18n("Null hypothesis"), i18n("There are no significant differences among the populations"));
+	header.add(i18n("Alternative hypothesis"), i18n("There are significant differences between at least two populations"));
 	if (grouped) {
 		header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
 	}
@@ -58,7 +58,7 @@ function printout() {
 		echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
 		echo('\trk.results (list(');
 		echo(i18n("Chi statistic") + ' = result[[i]][["statistic"]], ');
-		echo(i18n("p-vule") + ' = result[[i]][["p.value"]]');
+		echo(i18n("p-value") + ' = result[[i]][["p.value"]]');
 		echo('))\n');
 		echo('}\n');
 	} else {

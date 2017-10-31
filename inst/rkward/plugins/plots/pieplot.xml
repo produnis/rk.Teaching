@@ -27,7 +27,7 @@
 				</row>
 			</tab>
 			<tab id="tabPieOptions" label="Sector options">
-				<frame id="frameFreq" label="Frecuencias">
+				<frame id="frameFreq" label="Frequencies">
 					<checkbox id="relative" label="Relative frequency" checked="false"/>
 				</frame>
 				<stretch/>
@@ -35,7 +35,7 @@
 			</tab>
 		</tabbook>
 	</dialog>
-	<wizard label="Pie chart wizard">
+	<wizard label="Pie chart">
 		<text>
 			<p>This procedure plots a pie chart of frequencies of a variable.</p>
 		</text>

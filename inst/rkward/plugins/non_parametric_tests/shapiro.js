@@ -38,7 +38,7 @@ function calculate() {
 
 function printout() {
 	// Header
-	header = new Header(i18n("Shapiro-Wilks normality test of %1", variableName));
+	header = new Header(i18n("Shapiro-Wilk's normality test of %1", variableName));
 	header.add(i18n("Data frame"), dataframe);
 	header.add(i18n("Variable to test"), variableName);
 	if (grouped) {

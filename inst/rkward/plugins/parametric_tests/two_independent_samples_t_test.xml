@@ -10,7 +10,7 @@
     <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
     <connect client="condition.visible" governor="filterMode"/>
   </logic>
-  <dialog label="T-tesf for comparing the means of two independent populations">
+  <dialog label="T-test for comparing the means of two independent populations">
     <tabbook>
       <tab id="tabVariables" label="Variables">
         <row id="rowVars">
@@ -53,7 +53,7 @@
       </tab>
     </tabbook>
   </dialog>
-  <wizard label="T-tesf for comparing the means of two independent populations wizard">
+  <wizard label="T-test for comparing the means of two independent populations">
     <page>
       <text>
         <p>This procedure performs the Student t-test for detecting a significant difference between the means of two independent populations and estimating the difference with a confidence interval.</p>
