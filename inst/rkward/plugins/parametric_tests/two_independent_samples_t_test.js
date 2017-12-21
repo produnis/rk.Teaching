@@ -29,7 +29,7 @@ function setGlobalVars() {
   population1 = getString("population1");
   population2 = getString("population2");
   groupsName = getList("groups.shortname");
-  getConfInt = getBoolean("frameconfInt.checked");
+  getConfInt = getBoolean("frameConfInt.checked");
   confLevel = getString("confLevel");
   hypothesis = getString("hypothesis");
 }

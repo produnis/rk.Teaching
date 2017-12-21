@@ -85,6 +85,8 @@ Description: Basic utilities for teaching statistics.
     - Probability distributions
     - Discrete:
     - Binomial
+    - Geometric
+    - Hypergeometric
     - Poison
     - Continous:
     - Uniform 
@@ -93,8 +95,7 @@ Description: Basic utilities for teaching statistics.
     - Student T
     - Fisher F
     - Simulations:
-    - Small numbers law
-    - Central limit theorem
+    - Law of rare events
 License: GPL (>= 3)
 LazyLoad: yes
 LazyData: yes
