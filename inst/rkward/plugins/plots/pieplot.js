@@ -8,10 +8,9 @@ var dataframe,
     variableName,
     grouped,
     groups,
-    groupsname,
+    groupsName,
     relative,
     freq,
-    fill,
     facet,
     xLabel;
 
@@ -35,7 +34,9 @@ function calculate() {
     filter();
     // Set grouped mode
     if (grouped) {
-        facet = ' + facet_grid(.~' + groupsname + ')';
+        echo(dataframe + ' <- transform(' + dataframe + ', ' + groupsName.join(".") + '=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+        echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[["' + groupsName.join(".") + '"]]),]\n');
+        facet = ' + facet_grid(.~' + groupsName.join(".") + ')';
     } else {
         facet = '';
     }
@@ -76,7 +77,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=' + dataframe + ', aes(x=factor(1), fill=factor(' + variableName + '))) + geom_bar(width=1' + freq + ') +  coord_polar(theta="y") + xlab(' + quote(xLabel) + ') + ylab("") + theme( axis.ticks.y=element_blank(), axis.text.y=element_blank()) + scale_fill_hue("' + variableName + '")' + facet + '\n');
+    echo('p <- ggplot(data=' + dataframe + ', aes(x=factor(1), fill=factor(' + variableName + '))) + geom_bar(width=1' + freq + ') +  xlab(' + quote(xLabel) + ') + ylab("") + theme( axis.ticks.y=element_blank(), axis.text.y=element_blank()) + scale_fill_hue("' + variableName + '")' + facet + getString("plotOptions.code.calculate") + ' + coord_polar(theta="y")\n');
     // getString("plotOptions.code.calculate") + '\n');
     echo('print(p)\n');
     echo('})\n');

@@ -5,8 +5,8 @@ include("../common/filter.js")
 
 // globals
 var dataframe,
-    variable,
-    variableName,
+    variables,
+    variablesName,
     grouped,
     groups,
     groupsName,
@@ -14,15 +14,13 @@ var dataframe,
     means,
     points,
     x,
-    xlab,
-    ylab,
-    boxColor,
+    fill,
     borderColor;
 
 function setGlobalVars() {
-    variable = getList("variable");
-    dataframe = getDataframe(variable);
-    variableName = getList("variable.shortname");
+    variables = getList("variables");
+    dataframe = getDataframe(variables);
+    variablesName = getList("variables.shortname");
     grouped = getBoolean("grouped");
     groups = getList("groups");
     groupsName = getList("groups.shortname");
@@ -40,38 +38,37 @@ function calculate() {
     // Filter
     filter();
     // Data frame preparation
-    echo('df <- data.frame(y=c(' + variable.join() + '), x=factor(rep(c("' + variableName.join('","') + '"), each=nrow(' + dataframe + ')))');
+    echo('.df <- data.frame(y=c(' + variables.join() + '), x=factor(rep(c(' + variablesName.map(quote) + '), each=nrow(' + dataframe + ')))');
     if (grouped) {
-        echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variable.length + ')');
-    }
-    echo(')\n');
-    // Set axes labels
-    xlab = ', xlab=""';
-    ylab = ', ylab=""';
-    fill = '';
-    // Set box color
-    boxColor = getString("boxFillColor.code.printout");
-    if (boxColor != '') {
-        boxColor = ', fill=I(' + boxColor + ')';
+        echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variables.length + '))\n');
+        echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
+
     } else {
-        boxColor = ', fill=I("#FF9999")'; // Default box color
+        echo(')\n');
+    }
+    // Set box color
+    fill = getString("boxFillColor.code.printout");
+    if (fill != '') {
+        fill = 'I(' + fill + ')';
+    } else {
+        fill = 'I("#FF9999")'; // Default box color
     }
     // Set border color
-    borderColor = getString("boxborderColor.code.printout");
+    borderColor = getString("boxBorderColor.code.printout");
     if (borderColor != '') {
-        borderColor = ', colour=I(' + borderColor + ')';
+        borderColor = 'colour=I(' + borderColor + '), ';
     }
     // Set grouped mode
     facet = '';
     if (grouped) {
-        boxColor = ', fill=' + groupsName.join(".");
+        fill = groupsName.join('.');
         borderColor = '';
     }
     // Set notch
     if (notch) {
-        notch = ', notch=TRUE';
+        notch = 'notch=TRUE';
     } else {
-        notch = ', notch=FALSE';
+        notch = 'notch=FALSE';
     }
     // Set means
     if (means) {
@@ -100,9 +97,9 @@ function preview() {
 function doPrintout(full) {
     // Print header
     if (full) {
-        header = new Header(i18n("Box plot of %1", variableName.join(", ")));
+        header = new Header(i18n("Box plot of %1", variablesName.join(", ")));
         header.add(i18n("Data frame"), dataframe);
-        header.add(i18n("Variable"), variableName.join(", "));
+        header.add(i18n("Variable"), variablesName.join(", "));
         if (grouped) {
             header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
         }
@@ -115,8 +112,8 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p<-qplot(x, y, data=df, geom="boxplot"' + boxColor + borderColor + notch + xlab + ylab + getString("plotOptions.code.printout") + ')' + points + means + facet + getString("plotOptions.code.calculate") + '\n');
-    echo('print(p)\n');
+    echo('.boxplot <- ggplot(data=.df, aes(x=x, y=y, fill=' + fill + ')) + geom_boxplot(' + borderColor + notch + ')' + points + means + ' + xlab("") + ylab("")' + facet + getString("plotOptions.code.calculate") + '\n');
+    echo('print(.boxplot)\n');
     echo('})\n');
 
     if (full) {

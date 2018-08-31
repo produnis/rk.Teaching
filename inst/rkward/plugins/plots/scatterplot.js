@@ -23,8 +23,6 @@ var dataframe,
     regression,
     model,
     formula,
-    equation,
-    typemodel,
     linear,
     quadratic,
     cubic,
@@ -65,15 +63,12 @@ function preprocess() {
 function calculate() {
     // Filter
     filter();
-    // Set axes labels
-    xlab = ', xlab="' + xName + '"';
-    ylab = ', ylab="' + yName + '"';
     // Set point color
     pointColor = getString("pointColor.code.printout");
     if (pointColor != '') {
-        pointColor = '), colour=' + pointColor;
+        pointColor = 'colour=' + pointColor;
     } else {
-        pointColor = '), colour="#FF9999"'; // Default bar color
+        pointColor = 'colour="#FF9999"'; // Default bar color
     }
     // Set point symbol
     pointSymbol = getString("pointSymbol.code.printout");
@@ -87,14 +82,15 @@ function calculate() {
     smoothcolor = '';
     legend = '';
     if (grouped) {
-        echo(dataframe + ' <- transform(' + dataframe + ', groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+        echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+        echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
         if (getString("position") === 'faceted') {
-            facet = ' + facet_grid(.~groups)';
+            facet = ' + facet_grid(.~.groups)';
         } else {
-            pointColor = ', colour=groups';
-            pointSymbol = ', shape=groups)';
-            smoothcolor = ', colour=groups';
-            legend = ' +\n\t# Legend\n\tscale_colour_discrete(name=' + quote(groupsName.join('.')) + ') + scale_shape_discrete(name=' + quote(groupsName.join('.')) + ')';
+            pointColor = 'colour=.groups';
+            pointSymbol = ', shape=.groups)';
+            smoothcolor = ', colour=.groups';
+            legend = ' + scale_colour_discrete(name=' + quote(groupsName.join('.')) + ') + scale_shape_discrete(name=' + quote(groupsName.join('.')) + ')';
         }
     }
     // Set regression confidence strip
@@ -110,7 +106,7 @@ function calculate() {
     if (regression) {
         echo('df <- data.frame(x=' + x + ', y=' + y);
         if (grouped) {
-            echo(', groups=' + dataframe + '[["groups"]]');
+            echo(', .groups=' + dataframe + '[[".groups"]]');
         }
         echo(')\n');
         echo('df <- df[complete.cases(df),]\n');
@@ -118,7 +114,7 @@ function calculate() {
     }
     if (linear) {
         if (grouped) {
-            echo('df.linear <- ddply(df, "groups", function(df) predictions(lm(y~x, data=df), seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.linear <- ddply(df, ".groups", function(df) predictions(lm(y~x, data=df), seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
         } else {
             echo('df.linear <- predictions(lm(y~x, data=df), seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence")\n');
         }
@@ -130,7 +126,7 @@ function calculate() {
     }
     if (quadratic) {
         if (grouped) {
-            echo('df.quadratic <- ddply(df,"groups",function(df) predictions(lm(y~x+I(x^2),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.quadratic <- ddply(df,".groups",function(df) predictions(lm(y~x+I(x^2),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
         } else {
             echo('df.quadratic <- predictions(lm(y~x+I(x^2),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence")\n');
         }
@@ -142,7 +138,7 @@ function calculate() {
     }
     if (cubic) {
         if (grouped) {
-            echo('df.cubic <- ddply(df,"groups",function(df) predictions(lm(y~x+I(x^2)+I(x^3),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.cubic <- ddply(df,".groups",function(df) predictions(lm(y~x+I(x^2)+I(x^3),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
         } else {
             echo('df.cubic <- predictions(lm(y~x+I(x^2)+I(x^3),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence")\n');
         }
@@ -154,7 +150,7 @@ function calculate() {
     }
     if (potential) {
         if (grouped) {
-            echo('df.potential <- ddply(df,"groups",function(df) predictions(lm(log(y)~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.potential <- ddply(df,".groups",function(df) predictions(lm(log(y)~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
             echo('df.potential[,-2:-1]=exp(df.potential[,-2:-1])\n');
             echo('names(df.potential)[3]="pred.y"\n');
         } else {
@@ -170,7 +166,7 @@ function calculate() {
     }
     if (exponential) {
         if (grouped) {
-            echo('df.exponential <- ddply(df,"groups",function(df) predictions(lm(log(y)~x,data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.exponential <- ddply(df,".groups",function(df) predictions(lm(log(y)~x,data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
             echo('df.exponential[,-2:-1]=exp(df.exponential[,-2:-1])\n');
             echo('names(df.exponential)[3]="pred.y"\n');
         } else {
@@ -186,7 +182,7 @@ function calculate() {
     }
     if (logarithmic) {
         if (grouped) {
-            echo('df.logarithmic <- ddply(df,"groups",function(df) predictions(lm(y~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df.logarithmic <- ddply(df,".groups",function(df) predictions(lm(y~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence"))\n');
         } else {
             echo('df.logarithmic <- predictions(lm(y~log(x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100), interval="confidence")\n');
         }
@@ -198,7 +194,7 @@ function calculate() {
     }
     if (inverse) {
         if (grouped) {
-            echo('df.inverse <- ddply(df,"groups",function(df) predictions(lm(y~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence"))\n');
+            echo('df.inverse <- ddply(df,".groups",function(df) predictions(lm(y~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence"))\n');
         } else {
             echo('df.inverse <- predictions(lm(y~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence")\n');
         }
@@ -210,7 +206,7 @@ function calculate() {
     }
     if (sigmoid) {
         if (grouped) {
-            echo('df.sigmoidal <- ddply(df,"groups",function(df) predictions(lm(log(y)~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence"))\n');
+            echo('df.sigmoidal <- ddply(df,".groups",function(df) predictions(lm(log(y)~I(1/x),data=df),seq(min(df[["x"]]), max(df[["x"]]), length.out=100),interval="confidence"))\n');
             echo('df.sigmoidal[,-2:-1]=exp(df.sigmoidal[,-2:-1])\n');
             echo('names(df.sigmoidal)[3]="pred.y"\n');
         } else {
@@ -255,8 +251,8 @@ function doPrintout(full) {
         header.print();
         echo('rk.graph.on()\n');
     }
-    echo('p <- ggplot(NULL) +\n\t# Plot the points\n\tgeom_point(data = ' + dataframe + ', aes(x = ' + xName + ', y = ' + yName + pointColor + pointSymbol + pointSize + ')' + legend + smooth + facet + ' \n');
- echo('print(p)\n');
+    echo('p <- ggplot(data = ' + dataframe + ', aes(x =' + xName + ', y = ' + yName + ')) + geom_point(aes(' + pointColor + pointSymbol + pointSize + ')' + legend + smooth + facet + getString("plotOptions.code.calculate") + '\n');
+    echo('print(p)\n');
     if (full) {
         echo('rk.graph.off()\n');
     }

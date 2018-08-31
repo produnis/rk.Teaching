@@ -31,7 +31,8 @@ function calculate() {
   filter();
   // Set grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- transform(' + dataframe + ', ' + groupsName.join(".") + '=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[["' + groupsName.join(".") + '"]]),]\n');
     echo('densityAlpha <- function(data, mapping, ...) {ggplot(data = data, mapping=mapping) + geom_density(...)}\n');
   }
 }
@@ -64,7 +65,7 @@ function doPrintout(full) {
   // Plot
   echo('matrixplot <- ggpairs(' + dataframe + ', columns=c(' + variablesNames.map(quote) + ')');
   if (grouped) {
-    echo(', mapping=aes(colour=groups), diag = list(continuous = densityAlpha)');
+    echo(', mapping=aes(colour=' + groupsName.join(".") + '), diag = list(continuous = densityAlpha)');
   }
   echo(')\n');
   echo('print(matrixplot)');

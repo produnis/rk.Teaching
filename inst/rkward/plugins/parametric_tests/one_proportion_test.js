@@ -8,16 +8,16 @@ var dataframe,
   variable,
   variableName,
   category,
+  grouped,
   groups,
   groupsName,
-  manual,
+  manualFreq,
   freq,
   n,
   p,
   type,
-  test,
-  confint,
-  conflevel,
+  getConfInt,
+  confLevel,
   hypothesis;
 
 function setGlobalVars() {
@@ -65,6 +65,7 @@ function calculate() {
     // Set grouped mode
     if (grouped) {
       echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+      echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
       echo('result <- dlply(' + dataframe + ', ".groups", function(df){\n\tfreq <- table(df[[' +  quote(variableName) + ']])\n');
       if (type == "binomial") {
         echo('\tbinom.test(freq[[' + category + ']], sum(freq)' +  options + ')\n})\n');

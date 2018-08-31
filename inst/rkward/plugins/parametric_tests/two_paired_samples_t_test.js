@@ -48,6 +48,7 @@ function calculate() {
   // Grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
     echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(xName) + ']], df[[' + quote(yName) + ']]' + options + '))\n');
   } else {
     // Non-grouped mode

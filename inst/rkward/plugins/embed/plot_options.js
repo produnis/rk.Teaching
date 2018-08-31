@@ -1,9 +1,9 @@
 //author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-function prepareLabel (labelname) {
+function prepareLabel(labelname) {
 	var label = getString(labelname).split('\n');
 	label = label.join('\\n');
-	if (label!='') {
+	if (label != '') {
 		if (!getBoolean(labelname + '_expression')) {
 			label = quote(label);
 		}
@@ -11,24 +11,27 @@ function prepareLabel (labelname) {
 	return label;
 }
 
-function preprocess () {
-}
+function preprocess() {}
 
-function calculate () {
-	var ggplotOptions = '';
-	// Title
-	var main = prepareLabel('main');
-	if (main!=''){
-		main = ' + labs(title=' + main + ')';
+function calculate() {
+	// Title and subtitle
+	var title = prepareLabel('title');
+	if (title != '') {
+		title = ' + labs(title=' + title;
+		var subtitle = prepareLabel('subtitle');
+		if (subtitle != '') {
+			title += ', subtitle=' + subtitle;
+		}
+		title += ')';
 	}
 
-	// X axe
-	// X axi label
+	// X axis
+	// X axis label
 	var xLab = prepareLabel("xLab");
-	if (xLab!='') {
+	if (xLab != '') {
 		xLab = ' + xlab(' + xLab + ')';
 	}
-	// X range
+	// X range 
 	var xMinValue = getString("xMinValue");
 	var xMaxValue = getString("xMaxValue");
 	var xLim = '';
@@ -37,14 +40,20 @@ function calculate () {
 	}
 	// X ticks labels orientation
 	var xLabOrientation = getString("xLabOrientation");
-	if (xLabOrientation!=='') {
+	if (xLabOrientation !== '') {
 		xLabOrientation = ' + theme(axis.text.x=element_text(angle=' + xLabOrientation + ', vjust=0.5))';
 	}
 
-	// Y axe
-	// X axi label
+	// X logarithmic scale
+	var xLog = '';
+	if (getBoolean("xLog")) {
+		xLog = ' + scale_x_continuous(trans="log2")';
+	}
+
+	// Y axis
+	// X axis label
 	var yLab = prepareLabel("yLab");
-	if (yLab!='') {
+	if (yLab != '') {
 		yLab = ' + ylab(' + yLab + ')';
 	}
 	// Y range
@@ -55,12 +64,21 @@ function calculate () {
 		yLim = 'ylim=c(' + yMinValue + ',' + yMaxValue + ')';
 	}
 
-	var coord = ' + coord_cartesian(' + xLim + ',' + yLim + ')';
+	var coord = '';
+	if (xLim!="" | yLim!="") {
+		coord = ' + coord_cartesian(' + xLim + ',' + yLim + ')';
+	} 
 
 	// Y ticks labels orientation
 	var yLabOrientation = getString("yLabOrientation");
-	if (yLabOrientation!=='') {
+	if (yLabOrientation !== '') {
 		yLabOrientation = ' + theme(axis.text.y=element_text(angle=' + yLabOrientation + ', hjust=0.5))';
+	}
+
+	// X logarithmic scale
+	var yLog = '';
+	if (getBoolean("yLog")) {
+		yLog = ' + scale_y_continuous(trans="log2")';
 	}
 
 	// flip axis
@@ -93,42 +111,17 @@ function calculate () {
 		gridVerticalMinor = ' + theme(panel.grid.minor.y=element_blank())';
 	}
 	var gridBackgroundColor = getString("gridBackgroundColor.code.printout");
-	if (gridBackgroundColor!='') {
+	if (gridBackgroundColor != '') {
 		gridBackgroundColor = ' + theme(panel.background=element_rect(fill=' + gridBackgroundColor + '))';
 	}
 	var gridMajorLineColor = getString("gridMajorLineColor.code.printout");
-	if (gridMajorLineColor!='') {
+	if (gridMajorLineColor != '') {
 		gridMajorLineColor = ' + theme(panel.grid.major=element_line(colour=' + gridMajorLineColor + '))';
 	}
 	var gridMinorLineColor = getString("gridMinorLineColor.code.printout");
-	if (gridMinorLineColor!='') {
+	if (gridMinorLineColor != '') {
 		gridMinorLineColor = ' + theme(panel.grid.minor=element_line(colour=' + gridMinorLineColor + '))';
 	}
 
-	ggplotOptions =  main + xLab + yLab + coord + switchAxes + xLabOrientation + yLabOrientation + legend + gridHorizontalMajor + gridHorizontalMinor + gridVerticalMajor + gridVerticalMinor + gridMajorLineColor + gridMinorLineColor + gridBackgroundColor;
-	echo (ggplotOptions);
-}
-
-function printout () {
-	// main title
-	var main = prepareLabel('main');
-	if (main!=''){
-		main = ', main=' + main;
-	}
-
-	// X axi log transformation
-	var log='';
-	if (getBoolean("xLog")) {
-		log = ', log="x"';
-	}
-	// Y axi log transformation
-	if (getBoolean("ylog")) {
-		log = ', log="y"';
-		if (getBoolean("xLog")) {
-			log = ', log="xy"';
-		}
-	}
-	// make option string
-	options = main + log;
-	echo (options);
+	echo(title + xLab + yLab + xLog + yLog + coord + switchAxes + xLabOrientation + yLabOrientation + legend + gridHorizontalMajor + gridHorizontalMinor + gridVerticalMajor + gridVerticalMinor + gridMajorLineColor + gridMinorLineColor + gridBackgroundColor);
 }

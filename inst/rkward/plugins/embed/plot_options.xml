@@ -4,9 +4,10 @@
 	<help file="plot_options.rkh"/>
 
 	<logic>
-		<external id="default_main" default=""/>
-		<external id="default_xlab" default=""/>
-		<external id="default_ylab" default=""/>
+		<external id="default_title" default=""/>
+		<external id="default_subtitletitle" default=""/>
+		<external id="default_xLab" default=""/>
+		<external id="default_yLab" default=""/>
 
 		<external id="allow_legend" default="false"/>
 		<connect client="tabLegend.visible" governor="allow_legend"/>
@@ -43,14 +44,14 @@
 		<connect client="yMinValue.required" governor="ymin_required"/>
 		<connect client="yMaxValue.required" governor="ymax_required"/>
 
-		<convert id="xlabfilled" mode="notequals" sources="xlab.text" standard=""/>
-		<connect client="xLabExpression.enabled" governor="xlabfilled"/>
-		<convert id="ylabfilled" mode="notequals" sources="ylab.text" standard=""/>
-		<connect client="yLabExpression.enabled" governor="ylabfilled"/>
-		<convert id="mainfilled" mode="notequals" sources="main.text" standard=""/>
-		<connect client="mainExpression.enabled" governor="mainfilled"/>
-		<convert id="subfilled" mode="notequals" sources="sub.text" standard=""/>
-		<connect client="subExpression.enabled" governor="subfilled"/>
+		<convert id="xLabfilled" mode="notequals" sources="xLab.text" standard=""/>
+		<connect client="xLabExpression.enabled" governor="xLabfilled"/>
+		<convert id="yLabfilled" mode="notequals" sources="yLab.text" standard=""/>
+		<connect client="yLabExpression.enabled" governor="yLabfilled"/>
+		<convert id="titlefilled" mode="notequals" sources="title.text" standard=""/>
+		<connect client="titleExpression.enabled" governor="titlefilled"/>
+		<convert id="subtitlefilled" mode="notequals" sources="subtitle.text" standard=""/>
+		<connect client="subtitleExpression.enabled" governor="subtitlefilled"/>
 
 		<connect client="xLog.visible" governor="allow_log"/>
 		<connect client="yLog.visible" governor="allow_log"/>
@@ -61,12 +62,12 @@
 			<tab id="tabTitle" label="Titles">
 				<column id="colTitles">
 					<frame label="Main title">
-						<input id="main" label="Main title (on top). Leave empty for default title"/>
-						<checkbox id="mainExpression" label="R expression" checked="false"/>
+						<input id="title" label="Main title. Leave empty for default title"/>
+						<checkbox id="titleExpression" label="R expression" checked="false"/>
 					</frame>
 					<frame label="Subtitle">
-						<input id="sub" label="Sub-title (at bottom). Leave empty for default title"/>
-						<checkbox id="subExpression" label="R expression" checked="false"/>
+						<input id="subtitle" label="Sub-title. Leave empty for default title"/>
+						<checkbox id="subtitleExpression" label="R expression" checked="false"/>
 					</frame>
 					<stretch/>
 				</column>
@@ -76,7 +77,7 @@
 					<column id="colXAxis">
 						<frame id="xAxis" label="X-axis">
 							<frame label="Label">
-								<input id="xlab" label="Title"/>
+								<input id="xLab" label="Title"/>
 								<checkbox id="xLabExpression" label="R expression" checked="false"/>
 							</frame>
 							<frame id="xRange" label="Range">
@@ -97,7 +98,7 @@
 					<column id="colYAxis">
 						<frame id="yAxis" label="Y-axis">
 							<frame label="Label">
-								<input id="ylab" label="Title"/>
+								<input id="yLab" label="Title"/>
 								<checkbox id="yLabExpression" label="R expression" checked="false"/>
 							</frame>
 							<frame id="yRange" label="Range">
@@ -147,21 +148,13 @@
 				</dropdown>
 				<stretch/>
 			</tab>
-			<tab id="tabMargins" label="Margins">
-				<frame id="customMargins" label="Custom margins" checkable="true" checked="false">
-					<spinbox id="marginTop" type="real" initial="4" default_precision="1" min="0" label="Top"/>
-					<spinbox id="marginBottom" type="real" initial="5" default_precision="1" min="0" label="Bottom"/>
-					<spinbox id="marginLeft" type="real" initial="4" default_precision="1" min="0" label="Left"/>
-					<spinbox id="marginRight" type="real" initial="2" default_precision="1" min="0" label="Right"/>
-				</frame>
-			</tab>
 		</tabbook>
 	</dialog>
 
 	<wizard label="Graphic options">
 		<page id="pageTitle">
 			<text>
-				Enter the main title and the subtitle of the chart.
+				Enter the title and the subtitle of the chart.
 			</text>
 			<copy id="colTitles"/>
 		</page>

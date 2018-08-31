@@ -1,23 +1,23 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-include ("../common/common_functions.js")
-include ("../common/filter.js")
+include("../common/common_functions.js")
+include("../common/filter.js")
 
 var dataframe,
     variable,
-    variablename,
+    variableName,
     grouped,
     groups,
-    groupsnames,
+    groupsName,
     intervalsChecked;
 
 function setGlobalVars() {
     variable = getString("variable");
     dataframe = getDataframe(variable);
-    variablename = getString("variable.shortname");
+    variableName = getString("variable.shortname");
     grouped = getBoolean("grouped");
     groups = getList("groups");
-    groupsnames = getList("groups.shortname");
+    groupsName = getList("groups.shortname");
     intervalsChecked = getBoolean("intervalsFrame.checked");
 }
 
@@ -32,24 +32,24 @@ function calculate() {
     // Compute frequencies
     if (intervalsChecked) {
         // Intervals
-        echo('result <- frequencyTableIntervals(' + dataframe + ', ' + quote(variablename) + getString("cells.code.calculate"));
+        echo('result <- frequencyTableIntervals(' + dataframe + ', ' + quote(variableName) + getString("cells.code.calculate"));
     } else {
         // Non intervals
-        echo('result <- frequencyTable(' + dataframe + ', ' + quote(variablename));
+        echo('result <- frequencyTable(' + dataframe + ', ' + quote(variableName));
     }
     // Grouped mode
     if (grouped) {
-        echo(', groups=c(' + groupsnames.map(quote) + ')');
+        echo(', groups=c(' + groupsName.map(quote) + ')');
     }
     echo(')\n');
 }
 
 function printout() {
-    header = new Header(i18n("Frequency table of %1", variablename));
+    header = new Header(i18n("Frequency table of %1", variableName));
     header.add(i18n("Data frame"), dataframe);
-    header.add(i18n("Variable"), variablename);
-    if (grouped){
-        header.add(i18n("Grouping variable(s)"), groupsnames.join(", "));
+    header.add(i18n("Variable"), variableName);
+    if (grouped) {
+        header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
     }
     if (intervalsChecked) {
         header.add(i18n("Class intervals method"), getString("cells.code.printout"));
@@ -59,10 +59,10 @@ function printout() {
     }
     header.print();
 
-// Print result
+    // Print result
     if (grouped) {
         echo('for (i in 1:length(result)){\n');
-        echo('\t rk.header(paste("Group ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
+        echo('\t rk.header(paste(' + i18n("Group") + ', "' + groupsName.join('.') + ' = ", names(result)[i]),level=3)\n');
         echo('\t\t rk.results(result[[i]])\n');
         echo('}\n');
     } else {

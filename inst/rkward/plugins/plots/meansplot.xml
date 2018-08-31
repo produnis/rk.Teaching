@@ -4,13 +4,13 @@
   <code file="meansplot.js"/>
   <help file="meansplot.rkh"/>
   <logic>
-    <set id="plotoptions.allow_type" to="true"/>
-    <set id="plotoptions.allow_ylim" to="true"/>
-    <set id="plotoptions.allow_xlim" to="false"/>
-    <set id="plotoptions.allow_log" to="false"/>
+    <set id="plotOptions.allow_type" to="true"/>
+    <set id="plotOptions.allow_ylim" to="true"/>
+    <set id="plotOptions.allow_xlim" to="false"/>
+    <set id="plotOptions.allow_log" to="false"/>
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
-    <connect client="plotoptions.allow_legend" governor="groupedMode"/>
+    <connect client="plotOptions.allow_legend" governor="groupedMode"/>
     <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
     <connect client="condition.visible" governor="filterMode"/>
   </logic>
@@ -34,7 +34,7 @@
           <spinbox id="conflevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
         </frame>
         <checkbox id="points" label="Plot data" checked="false"/>
-        <embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphics options"/>
+        <embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphics options"/>
         <stretch/>
       </tab>
     </tabbook>
@@ -61,6 +61,6 @@
       <copy id="points"/>
       <stretch/>
     </page>
-    <embed id="plotoptions" component="rkTeaching::plot_options"/>
+    <embed id="plotOptions" component="rkTeaching::plot_options"/>
   </wizard>
 </document>

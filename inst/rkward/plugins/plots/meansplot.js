@@ -6,11 +6,9 @@ include("../common/filter.js")
 // globals
 var dataframe,
   variables,
-  variablesNames,
+  variablesName,
   groups,
   groupsName,
-  xlab,
-  ylab,
   getPoints,
   points,
   getConfInt,
@@ -21,7 +19,7 @@ var dataframe,
 
 function setGlobalVars() {
   variables = getList("variables");
-  variablesNames = getList("variables.shortname");
+  variablesName = getList("variables.shortname");
   dataframe = getDataframe(variables);
   grouped = getBoolean("grouped");
   groups = getList("groups");
@@ -39,14 +37,13 @@ function calculate() {
   // Filter
   filter();
   // Prepare data frame
-  echo('df <- data.frame(y=c(' + variables.join() + '), x=factor(rep(c(' + variablesNames.map(quote) + '), each=nrow(' + dataframe + ')))');
+  echo('.df <- data.frame(y=c(' + variables.join() + '), x=factor(rep(c(' + variablesName.map(quote) + '), each=nrow(' + dataframe + ')))');
   if (grouped) {
-    echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variables.length + ')');
+    echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variables.length + '))\n');
+    echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
+  } else {
+    echo(')\n');
   }
-  echo(')\n');
-  xlab = '+ xlab("")';
-  ylab = '+ ylab("")';
-  fill = '';
   // Set mean and interval color
   // Set grouped mode
   facet = '';
@@ -82,9 +79,9 @@ function preview() {
 function doPrintout(full) {
   // Print header
   if (full) {
-    header = new Header(i18n("Means plot of %1", variablesNames.join(", ")));
+    header = new Header(i18n("Means plot of %1", variablesName.join(", ")));
     header.add(i18n("Data frame"), dataframe);
-    header.add(i18n("Variables"), variablesNames.join(", "));
+    header.add(i18n("Variables"), variablesName.join(", "));
     if (grouped) {
       header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
     }
@@ -96,8 +93,8 @@ function doPrintout(full) {
     }
   // Plot
   echo('try ({\n');
-  echo('meansplot <- ggplot(data=df, aes(x=x,y=y' + meanColor + getString("plotoptions.code.printout") + ')) + stat_summary(fun.y="mean", size=3,  geom="point", position=position_dodge(width=0.25)' + intervalColor + ')' + points + confInt + xlab + ylab + facet + getString("plotoptions.code.calculate") + '\n');
-  echo('print(meansplot)\n');
+  echo('.meansplot <- ggplot(data=.df, aes(x=x,y=y' + meanColor + ')) + stat_summary(fun.y="mean", size=3,  geom="point", position=position_dodge(width=0.25)' + intervalColor + ')' + points + confInt + ' + xlab("") + ylab("")' + facet + getString("plotOptions.code.calculate") + '\n');
+  echo('print(.meansplot)\n');
   echo('})\n');
   if (full) {
     echo('rk.graph.off ()\n');

@@ -14,7 +14,6 @@ var dataframe,
   groups,
   groupsName,
   getConfInt,
-  confint,
   confLevel,
   hypothesis;
 
@@ -51,6 +50,7 @@ function calculate() {
   // Grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
     echo('result <- dlply(' + dataframe + ', ".groups", function(df) var.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + '],' + options + '))\n');
   } else {
     // Non-grouped mode

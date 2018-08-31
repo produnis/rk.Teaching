@@ -19,9 +19,7 @@
 						<varslot id="variables" label="Variable(s)" source="selector" types="numeric" required="true" multi="true" />
 						<checkbox id="grouped" label="Statistics by groups" checked="false" />
 						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" required="true" multi="true"/>
-						<frame id="filter_frame" label="Filter" checkable="true" checked="false" value_unckecked="0" value="1">
-							<input id="filter" label="Selection condition" />
-						</frame>
+						<include file="../common/filter.xml"/>
 						<checkbox id="narm" label="Omit missing values" value_unchecked="0" value="1" checked="true"/>
 					</column>
 				</row>

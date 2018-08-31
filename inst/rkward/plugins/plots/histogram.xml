@@ -8,8 +8,6 @@
 		<set id="plotOptions.allow_log" to="false"/>
 		<convert id="relativeFreq" mode="equals" sources="relative.state" standard="1"/>
 		<convert id="cumulativeFreq" mode="equals" sources="cumulative.state" standard="1"/>
-		<convert id="relativeNonCumulativeFreq" mode="and" sources="relativeFreq;cumulativeFreq.not"/>
-		<connect client="density.enabled" governor="relativeNonCumulativeFreq"/>
 		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
 		<convert id="groupedNonCumulativeMode" mode="and" sources="groupedMode;cumulativeFreq.not"/>
 		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
@@ -42,7 +40,6 @@
 						<frame id="frameFreq" label="Frequencies">
 							<checkbox id="relative" label="Relative frequency" checked="false" value="1"/>
 							<checkbox id="cumulative" label="Cumulative frequency" checked="false" value="1"/>
-							<checkbox id="density" label="Density" value="1" checked="false"/>
 						</frame>
 						<checkbox id="polygon" label="Polygon" checked="false" value="1"/>
 						<radio id="position" label="Grouping options">

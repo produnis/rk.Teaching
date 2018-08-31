@@ -5,16 +5,16 @@ include("../common/filter.js")
 
 var dataframe,
     variable,
-    variablename,
+    variableName,
     grouped,
     groups,
-    groupsname,
-    cells,
+    groupsName,
+    // cells,
     xlab,
     ylab,
     fill,
     position,
-		pos,
+	pos,
     barColor,
     borderColor,
     facet,
@@ -25,10 +25,10 @@ var dataframe,
 function setGlobalVars() {
     variable = getString("variable");
     dataframe = getDataframe(variable);
-    variablename = getString("variable.shortname");
+    variableName = getString("variable.shortname");
     grouped = getBoolean("grouped");
     groups = getList("groups");
-    groupsname = getList("groups.shortname");
+    groupsName = getList("groups.shortname");
     relative = getString("relative");
     cumulative = getBoolean("cumulative");
     position = getString("position");
@@ -46,7 +46,7 @@ function calculate() {
     // Filter
     filter();
     // Set axes labels
-    xlab = ' + xlab(' + quote(variablename) + ')';
+    xlab = ' + xlab(' + quote(variableName) + ')';
     ylab = ' + ylab(' + i18n("Absolute frequency") + ')';
     fill = '';
     // Set bar color
@@ -57,7 +57,7 @@ function calculate() {
         barColor = ', fill=I("#FF9999")';
     }
     // Set border color
-    borderColor = getString("barborderColor.code.printout");
+    borderColor = getString("barBorderColor.code.printout");
     if (borderColor != '') {
         borderColor = ', colour=I(' + borderColor + ')';
     } else {
@@ -67,9 +67,9 @@ function calculate() {
     pos = '';
     facet = '';
     if (grouped) {
-        fill = ', fill=' + groupsname.join('.');
+        fill = ', fill=' + groupsName.join('.');
         if (cumulative || position === 'faceted') {
-            facet = ' + facet_grid(' + groupsname.join('.') + '~.)';
+            facet = ' + facet_grid(' + groupsName.join('.') + '~.)';
         } else {
             pos = ', position=' + quote(position);
             if (position === 'identity') {
@@ -79,24 +79,23 @@ function calculate() {
         barColor = '';
     }
     // Interval breaks
-    cells = getString("cells.code.calculate");
-    echo('breaks <- ' + getString("cells.code.preprocess") + '\n');
+    // cells = getString("cells.code.calculate");
+    echo('.breaks <- ' + getString("cells.code.preprocess") + '\n');
     // Calculate frequencies
     if (grouped) {
-        echo('df <- ldply(frequencyTableIntervals(' + dataframe + ', ' + quote(variablename) + ', breaks=breaks, center=TRUE, width=TRUE, groups=c(' + groupsname.map(quote) + ')))\n');
-        if (groupsname.length > 1) {
-            echo('df <- transform(df,' + groupsname.join('.') + '=interaction(df[,c(' + groupsname.map(quote) + ')]))\n');
-        }
+        echo('.df <- ldply(frequencyTableIntervals(' + dataframe + ', ' + quote(variableName) + ', breaks=.breaks, center=TRUE, width=TRUE, groups=c(' + groupsName.map(quote) + ')))\n');
+        echo('.df <- transform(.df,' + groupsName.join('.') + '=interaction(.df[,c(' + groupsName.map(quote) + ')]))\n');
+        echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
     } else {
-        echo('df <- frequencyTableIntervals(' + dataframe + ', ' + quote(variablename) + ', breaks=breaks, center=TRUE, width=TRUE)\n');
+        echo('.df <- frequencyTableIntervals(' + dataframe + ', ' + quote(variableName) + ', breaks=.breaks, center=TRUE, width=TRUE)\n');
     }
     // Set frecuency type
     y = 'Abs.Freq.';
     if (getBoolean("relative")) {
         y = 'Rel.Freq.';
-        ylab = ' +  ylab(' + i18n("Relative frequency") + ')';
+        ylab = ' + ylab(' + i18n("Relative frequency") + ')';
         if (grouped && position === 'stack') {
-            echo('df <- transform(df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
+            echo('.df <- transform(.df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
         }
     }
     if (cumulative) {
@@ -107,19 +106,6 @@ function calculate() {
             ylab = ' + ylab(' + i18n("Cumulative relative frequency") + ')';
         }
     }
-    //	y = '';
-    //	if (getBoolean("relative")) {
-    //		y = ', y=..density..';
-    //		ylab = ', ylab="Frecuencia relativa"';
-    //	}
-    //	if (getBoolean("cumulative")) {
-    //		y = ', y=cumsum(..count..)';
-    //		ylab = ', ylab="Frecuencia acumulada"';
-    //		if (getBoolean("relative")){
-    //			y = ', y=cumsum(..density..)';
-    //			ylab = ', ylab="Frecuencia relativa acumulada"';
-    //		}
-    //	}
 }
 
 function printout() {
@@ -135,11 +121,11 @@ function preview() {
 function doPrintout(full) {
 	// Header
 	if (full) {
-        header = new Header(i18n("Histogram of %1", variablename));
+        header = new Header(i18n("Histogram of %1", variableName));
         header.add(i18n("Data frame"), dataframe);
-        header.add(i18n("Variable"), variablename);
+        header.add(i18n("Variable"), variableName);
         if (grouped) {
-            header.add(i18n("Grouping variable(s)"), groupsname.join(", "));
+            header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
         }
 				header.add(i18n("Class intervals method"), getString("cells.code.printout"));
         if (filtered) {
@@ -151,20 +137,16 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=df, aes(x=Center, y=' + y + ')' + getString("plotOptions.code.printout") + ') + geom_bar(aes(width=Width' + fill + '), stat="identity"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
-    // Density
-    if (getBoolean("density")) {
-        echo('p <- p + geom_line(aes(x=' + variablename + ', y = ..density..), data=' + dataframe + ', stat = "density")\n');
-    }
+    echo('p <- ggplot(data=.df, aes(x=Center, y=' + y + fill + ')) + geom_bar(width=diff(.breaks), stat="identity"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=.breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
     // Polygon
     if (polygon) {
         if (cumulative) {
             if (relative) {
-                echo('df <- data.frame(x=breaks, y=c(0,df[["Cum.Rel.Freq."]]))\n');
+                echo('.df <- data.frame(x=.breaks, y=c(0,.df[["Cum.Rel.Freq."]]))\n');
             } else {
-                echo('df <- data.frame(x=breaks, y=c(0,df[["Cum.Abs.Freq."]]))\n');
+                echo('.df <- data.frame(x=.breaks, y=c(0,.df[["Cum.Abs.Freq."]]))\n');
             }
-            echo('p <- p + geom_line(aes(x=x, y=y), data=df)\n');
+            echo('p <- p + geom_line(aes(x=x, y=y), data=.df)\n');
         } else {
             echo('p <- p + geom_line()\n');
         }

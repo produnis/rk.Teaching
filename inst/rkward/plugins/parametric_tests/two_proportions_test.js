@@ -12,16 +12,16 @@ var dataframe,
   factorName,
   population1,
   population2,
+  grouped,
   groups,
   groupsName,
-  manual,
+  manualFreq,
   freq1,
   n1,
   freq2,
   n2,
   type,
-  test,
-  confInt,
+  getConfInt,
   confLevel,
   hypothesis;
 
@@ -72,6 +72,7 @@ function calculate() {
     // Set grouped mode
     if (grouped) {
       echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+      echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
       echo('result <- dlply(' + dataframe + ', ".groups", function(df){\n\tfreq <- table(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']])\n');
       echo('\tprop.test(c(freq[[' + category + ',' + population1 + ']], freq[[' + category + ',' + population2 + ']]), c(sum(freq[,' + population1 + ']), sum(freq[,' + population2 + ']))' + options + ')\n})\n');
     } else {

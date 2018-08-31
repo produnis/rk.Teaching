@@ -1,68 +1,83 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var vars, varnames, data, statistics, groups, groupsnames, filter;
+include("../common/common_functions.js")
+include("../common/filter.js")
 
-function preprocess(){
+var dataframe,
+	variables,
+	variablesName,
+	grouped,
+	groups,
+	groupsName,
+	statistics,
+	narm;
+
+function setGlobalVars() {
+	variables = getList("variables");
+	dataframe = getDataframe(variables);
+	variablesName = getList("variables.shortname");
+	grouped = getBoolean("grouped");
+	groups = getList("groups");
+	groupsName = getList("groups.shortname");
+}
+
+function preprocess() {
+	setGlobalVars();
 	echo('require(rk.Teaching)\n');
 }
 
-function calculate () {
-	// Load variables
+function calculate() {
+	// Filter
+	filter();
+	// Remove NA
 	var narm = "na.rm=FALSE";
 	if (getBoolean("narm")) narm = "na.rm=TRUE";
-	vars = getList("variables");
-	varnames = getList("variables.shortname");
-	data = vars.join();
-	data = data.split('[[')[0];
-	// Filter
-	if (getBoolean("filter_frame.checked")){
-		filter = getString("filter");
-		echo (data + ' <- subset(' + data + ', subset=' + filter + ')\n');
-	}
-	
+	// Statistics
 	statistics = getString("min") + getString("max") + getString("mean") + getString("median") + getString("mode") + getString("variance") + getString("unvariance") + getString("stdev") + getString("sd") + getString("cv") + getString("range") + getString("iqrange") + getString("skewness") + getString("kurtosis");
-	if (getBoolean("quartile") || getString("quantiles")!=''){
+	if (getBoolean("quartile") || getString("quantiles") != '') {
 		statistics += "'quantiles',";
 	}
 	statistics = 'c(' + statistics.slice(0, -1) + ')';
 	var quantiles = 'c(';
-	if (getBoolean("quartile")){
+	if (getBoolean("quartile")) {
 		quantiles += '0.25, 0.5, 0.75 ';
-		if (getString("quantiles")!= '')
+		if (getString("quantiles") != '')
 			quantiles += ', ';
 	}
 	quantiles += getString("quantiles") + ')';
-	groups = '")]';
+	groups = ')]';
 	if (getBoolean("grouped")) {
-		groupsnames = getList("groups.shortname");
-		groups = '",' + groupsnames.map(quote) + ')], groups=c(' + groupsnames.map(quote) + ')';
+		groups = ',' + groupsName.map(quote) + ')], groups=c(' + groupsName.map(quote) + ')';
 	}
-	echo ('result <- descriptiveStats(' + data + '[c("' + varnames.join('","') + groups + ', statistics=' + statistics + ', quantiles= ' + quantiles + ')\n');
-	
+	echo('result <- descriptiveStats(' + dataframe + '[c(' + variablesName.map(quote) + groups + ', statistics=' + statistics + ', quantiles= ' + quantiles + ')\n');
+
 }
 
-function printout () {
-	echo ('rk.header ("Descriptive statistics of ' + varnames.join(', ') + '"');
-	echo (', parameters=list("Variables" = rk.get.description(' + vars + ', paste.sep=", ")');
-	if (getBoolean("filter_frame.checked")){
-		echo(", 'Filtro' = '" + getString("filter") + "'");
+function printout() {
+	header = new Header(i18n("Descriptive statistics of %1", variablesName.join(', ')));
+	header.add(i18n("Data frame"), dataframe);
+	header.add(i18n("Variable(s)"), variablesName.join(', '));
+	if (grouped) {
+		header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
 	}
+	if (getBoolean("narm")) {
+		header.add(i18n("Ommit missing values"), i18n("Yes"));
+	} else {
+		header.add(i18n("Ommit missing values"), i18n("No"));
+	}
+	if (filtered) {
+		header.addFromUI("condition");
+	}
+	header.print();
+
+	// Print result
 	if (getBoolean("grouped")) {
-		echo(', "Grouping variable(s)" = rk.get.description(' + getList("groups") + ',paste.sep=", ")');
-	}
-	echo (', "Omit missing values" = ');
-	if (getBoolean("narm")) echo ('"Si"');
-	else echo ('"No"');
-	echo ('))\n');
-	if (getBoolean("grouped")){
 		echo('for (i in 1:length(result)){\n');
-		echo('\t rk.header(paste("Group ' + groupsnames.join('.') + ' = ", names(result)[i]),level=3)\n');
+		echo('\t rk.header(paste(' + i18n("Group") + ', "' + groupsName.join('.') + ' = ", names(result)[i]),level=3)\n');
 		echo('\t\t rk.results(result[[i]])\n');
 		echo('}\n');
-	}
-	else {
-		echo('\t\t rk.results(result)\n');
+	} else {
+		echo('rk.results(result)\n');
 	}
 
 }
-

@@ -4,6 +4,7 @@
 	<code file="barplot.js"/>
 	<help file="barplot.rkh"/>
 	<logic>
+		<set id="plotOptions.allow_log" to="false"/>
 		<convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
 		<connect client="groups.visible" governor="groupedMode"/>
 		<connect client="polygon.enabled" governor="groupedMode.not"/>

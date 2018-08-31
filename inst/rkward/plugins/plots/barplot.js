@@ -46,8 +46,8 @@ function calculate() {
     // Filter
     filter();
     // Set axes labels
-    xlab = 'x="' + variableName + '"';
-    ylab = ', y=' + i18n("Absolute frequency");
+    xlab = ' + xlab(' + quote(variableName) + ')';
+    ylab = ' + ylab(' + i18n("Absolute frequency") + ')';
     fill = '';
     // Set bar color
     barColor = getString("barFillColor.code.printout")
@@ -75,28 +75,27 @@ function calculate() {
     }
     // Prepare data
     if (grouped) {
-        echo('df <- ldply(frequencyTable(' + dataframe + ', ' + quote(variableName) + ', groups=c(' + groupsName.map(quote) + ')))\n');
-        if (groupsName.length > 1) {
-            echo('df <- transform(df,' + groupsName.join('.') + '=interaction(df[,c(' + groupsName.map(quote) + ')]))\n');
-        }
+        echo('.df <- ldply(frequencyTable(' + dataframe + ', ' + quote(variableName) + ', groups=c(' + groupsName.map(quote) + ')))\n');
+        echo('.df <- transform(.df,' + groupsName.join('.') + '=interaction(.df[,c(' + groupsName.map(quote) + ')]))\n');
+        echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
     } else {
-        echo('df <- frequencyTable(' + dataframe + ', ' + quote(variableName) + ')\n');
+        echo('.df <- frequencyTable(' + dataframe + ', ' + quote(variableName) + ')\n');
     }
     // Set frequency type
     y = 'Abs.Freq.';
     if (relative) {
         y = 'Rel.Freq.';
-        ylab = ', y=' + i18n("Relative frequency");
+        ylab = ' + ylab(' + i18n("Relative frequency") + ')';
         if (grouped && position === 'stack') {
-            echo('df <- transform(df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
+            echo('.df <- transform(.df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
         }
     }
     if (cumulative) {
         y = 'Cum.Abs.Freq.';
-        ylab = ', y=' + i18n("Cumulative frequency");
+        ylab = ' + ylab(' + i18n("Cumulative frequency") + ')';
         if (relative) {
             y = 'Cum.Rel.Freq.';
-            ylab = ', y=' + i18n("Cumulative relative frequency");
+            ylab = ' + ylab(' + i18n("Cumulative relative frequency") + ')';
         }
     }
 }
@@ -128,7 +127,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=df, aes(x=' + variableName + ', y=' + y + ')) + geom_bar(stat="identity"' + fill + barColor + borderColor + pos + ') + labs(' + xlab + ylab + getString("plotOptions.code.printout") + ')' + facet + getString("plotOptions.code.calculate") + '\n');
+    echo('p <- ggplot(data=.df, aes(x=' + variableName + ', y=' + y + ')) + geom_bar(stat="identity"' + fill + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
     if (polygon) {
         if (cumulative) {
             echo('p <- p + geom_step(aes(group=1))\n');

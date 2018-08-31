@@ -19,7 +19,7 @@
 					<column>
 						<varslot id="variable" label="Variable" source="selector" required="true"/>
 						<checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
-						<varslot id="groups" label="Grouping variable(s)" source="selector" types="factor" required="true"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
 						<include file="../common/filter.xml"/>
 						<stretch/>
 						<preview id="preview"/>

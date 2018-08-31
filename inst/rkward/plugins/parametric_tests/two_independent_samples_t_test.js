@@ -14,7 +14,6 @@ var dataframe,
   groups,
   groupsName,
   getConfInt,
-  confInt,
   confLevel,
   hypothesis;
 
@@ -51,6 +50,7 @@ function calculate() {
   // Grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
     echo('resultvar <- dlply(' + dataframe + ', ".groups", function(df) var.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + '], conf.level=0.95))\n');
     echo('resultnovareq <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + ']' + options + ', var.equal=FALSE))\n');
     echo('resultvareq <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + ']' + options + ', var.equal=TRUE))\n');

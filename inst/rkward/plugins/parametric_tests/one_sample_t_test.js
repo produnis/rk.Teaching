@@ -7,6 +7,7 @@ include("../common/filter.js")
 var dataframe,
   variable,
   variableName,
+  grouped, 
   groups,
   groupsName,
   mean,
@@ -44,6 +45,7 @@ function calculate() {
   // Set grouped mode
   if (grouped) {
     echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
     echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']]' + options + '))\n');
   } else {
     echo('result <- t.test (' + variable + options + ')\n');
