@@ -18,11 +18,11 @@ function calculate() {
     var asfactor = getBoolean("asfactor.state");
     rules = rules.replace(/\n/gi, '; ').replace(/'/g, '"');
     comment("Applying the recoding rules");
-    echo(".GlobalEnv$" + save + " <- car::recode(" + variable + ", '" + rules + "'");
+    echo(".GlobalEnv$" + save + " <- Recode(" + variable + ", '" + rules + "'");
     if (asfactor) {
-        echo(", as.factor.result=TRUE");
+        echo(", as.factor=TRUE");
     } else {
-        echo(", as.factor.result=FALSE");
+        echo(", as.factor=FALSE");
     }
     echo(")\n");
 }
