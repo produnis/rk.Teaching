@@ -4,6 +4,7 @@
 	<components>
 		<component type="standard" id="barplot" file="barplot.xml" label="Bar chart" />
 		<component type="standard" id="histogram" file="histogram.xml" label="Histogram" />
+		<component type="standard" id="densityplot" file="densityplot.xml" label="Density chart" />
 		<component type="standard" id="pieplot" file="pieplot.xml" label="Pie chart" />
 		<component type="standard" id="boxplot" file="boxplot.xml" label="Box plot" />
 		<component type="standard" id="meansplot" file="meansplot.xml" label="Means plot" />		
@@ -16,6 +17,7 @@
 			<menu id="plots" label="Charts">
 				<entry component="barplot"/>
 				<entry component="histogram"/>
+				<entry component="densityplot"/>
 				<entry component="pieplot"/>
 				<entry component="boxplot"/>
 				<entry component="meansplot"/>
