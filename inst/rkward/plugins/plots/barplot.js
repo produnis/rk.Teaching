@@ -127,7 +127,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=.df, aes(x=' + variableName + ', y=' + y + ')) + geom_bar(stat="identity"' + fill + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
+    echo('p <- ggplot(data=.df, aes(x=' + variableName + ', y=' + y + ')) + geom_bar(stat="identity", orientation="x"' + fill + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
     if (polygon) {
         if (cumulative) {
             echo('p <- p + geom_step(aes(group=1))\n');

@@ -137,7 +137,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=.df, aes(x=Center, y=' + y + fill + ')) + geom_bar(width=diff(.breaks), stat="identity"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=.breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
+    echo('p <- ggplot(data=.df, aes(x=Center, y=' + y + fill + ')) + geom_bar(width=diff(.breaks), stat="identity", orientation="x"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=.breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
     // Polygon
     if (polygon) {
         if (cumulative) {
