@@ -1,4 +1,4 @@
 library(testthat)
-library(rk.Teaching)
+library(rkTeaching)
 
-test_check("rk.Teaching")
+test_check("rkTeaching")

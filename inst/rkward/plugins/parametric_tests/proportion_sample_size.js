@@ -13,7 +13,7 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('require(rk.Teaching)\n');
+  echo('require(rkTeaching)\n');
 }
 
 function calculate() {

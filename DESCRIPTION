@@ -1,5 +1,5 @@
 Encoding: UTF-8
-Package: rk.Teaching
+Package: rkTeaching
 Type: Package
 Title: A RKWard plugin with basic utilities for teaching Statistics
 Version: 1.4
@@ -19,7 +19,7 @@ Depends:
     Hmisc,
     prob,
     ez,
-    R (>= 3.2.0)
+    R (>= 3.5.0)
 Enhances: rkward
 Description: Basic utilities for teaching statistics.
     It contains procedures for:

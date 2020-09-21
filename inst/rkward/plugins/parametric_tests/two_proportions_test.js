@@ -153,7 +153,7 @@ function printout() {
     echo(i18n("p-value") + ' = result$p.value');
     if (getConfInt) {
       echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result$conf.int');
+      echo(', ' + i18n("Confidence interval for the<br/>difference between proportions") + ' = result$conf.int');
     }
     echo('))\n');
   }

@@ -37,7 +37,7 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo('require(rk.Teaching)\n');
+    echo('require(rkTeaching)\n');
     echo('require(plyr)\n');
     echo('require(ggplot2)\n');
 }
