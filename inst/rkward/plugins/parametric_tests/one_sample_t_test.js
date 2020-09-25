@@ -77,7 +77,7 @@ function printout() {
   header.print();
 
   // Grouped mode
-  if (grouped) {
+  if (getBoolean("grouped")){
     echo('for (i in 1:length(result)){\n');
     echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
     echo('\trk.results (list(');

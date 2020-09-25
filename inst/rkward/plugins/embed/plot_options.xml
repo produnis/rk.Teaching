@@ -61,12 +61,12 @@
 		<tabbook>
 			<tab id="tabTitle" label="Titles">
 				<column id="colTitles">
-					<frame label="Main title">
-						<input id="title" label="Main title. Leave empty for default title"/>
+					<frame>
+						<input id="title" label="Main title"/>
 						<checkbox id="titleExpression" label="R expression" checked="false"/>
 					</frame>
-					<frame label="Subtitle">
-						<input id="subtitle" label="Sub-title. Leave empty for default title"/>
+					<frame>
+						<input id="subtitle" label="Sub-title"/>
 						<checkbox id="subtitleExpression" label="R expression" checked="false"/>
 					</frame>
 					<stretch/>
@@ -138,14 +138,16 @@
 				<stretch/>
 			</tab>
 			<tab id="tabLegend" label="Legend">
-				<dropdown id="legend" label="Legend position">
-					<option value="" label="Default" checked="true"/>
-					<option value="none" label="None"/>
-					<option value="top" label="Top"/>
-					<option value="bottom" label="Bottom"/>
-					<option value="left" label="Left"/>
-					<option value="right" label="Right"/>
-				</dropdown>
+				<frame id="frameLegend">
+					<dropdown id="legend" label="Legend position">
+						<option value="" label="Default" checked="true"/>
+						<option value="none" label="None"/>
+						<option value="top" label="Top"/>
+						<option value="bottom" label="Bottom"/>
+						<option value="left" label="Left"/>
+						<option value="right" label="Right"/>
+					</dropdown>
+				</frame>
 				<stretch/>
 			</tab>
 		</tabbook>

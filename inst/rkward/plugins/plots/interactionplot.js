@@ -34,11 +34,11 @@ function calculate() {
   // Filter
   filter();
   // Means
-  points = ' + geom_point(stat="summary", fun.y=mean)';
+  points = ' + geom_point(stat="summary", fun=mean)';
   // Lines
   lines = '';
   if (getLines) {
-    lines = ' + geom_line(stat="summary", fun.y=mean, aes(group=' + traceGroupsName + '))';
+    lines = ' + geom_line(stat="summary", fun=mean, aes(group=' + traceGroupsName + '))';
   }
 }
 

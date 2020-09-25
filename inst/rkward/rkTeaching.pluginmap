@@ -4,10 +4,9 @@
 	<about
 		name="rkTeaching"
 		shortinfo="RKWard GUI that introduces some utilities for teaching Statistic."
-		longinfo="RKWard GUI that introduces some utilities for teaching Statistic. This plugin is specially designed for using in introductory courses of Statistic."
-		version="0.01"
-		releasedate="2013-06-01"
-		url="http://rkward.sf.net"
+		version="1.3.0"
+		releasedate="2020-09-01"
+		url="https://aprendeconalf.es/en/project/rkteaching/"
 		license="GPL (&gt;= 3)">
 		<author given="Alfredo" family="Sánchez Alberca" email="asalber@ceu.es" role="aut, cre"/>
 	</about>

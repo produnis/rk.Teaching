@@ -93,7 +93,7 @@ function doPrintout(full) {
     }
   // Plot
   echo('try ({\n');
-  echo('.meansplot <- ggplot(data=.df, aes(x=x,y=y' + meanColor + ')) + stat_summary(fun.y="mean", size=3,  geom="point", position=position_dodge(width=0.25)' + intervalColor + ')' + points + confInt + ' + xlab("") + ylab("")' + facet + getString("plotOptions.code.calculate") + '\n');
+  echo('.meansplot <- ggplot(data=.df, aes(x=x,y=y' + meanColor + ')) + stat_summary(fun="mean", size=3,  geom="point", position=position_dodge(width=0.25)' + intervalColor + ')' + points + confInt + ' + xlab("") + ylab("")' + facet + getString("plotOptions.code.calculate") + '\n');
   echo('print(.meansplot)\n');
   echo('})\n');
   if (full) {

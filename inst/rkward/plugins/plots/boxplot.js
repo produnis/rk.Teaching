@@ -72,7 +72,7 @@ function calculate() {
     }
     // Set means
     if (means) {
-        means = ' + stat_summary(fun.y=mean, colour="red", geom="point", position=position_dodge(width=0.75))';
+        means = ' + stat_summary(fun=mean, colour="red", geom="point", position=position_dodge(width=0.75))';
     } else {
         means = "";
     }
