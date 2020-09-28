@@ -3,14 +3,44 @@
 <document>
 	<code file="draw_card.js" />
 	<help file="draw_card.rkh" />
-
-	<dialog label="Extracción de naipes">
-		<radio id="deck" label="Tipo de baraja">
-			<option value="es" label="Española" checked="true" />
-			<option value="us" label="Americana" />
+	<dialog label="Drawing of cards">
+		<radio id="deck" label="Type of deck">
+			<option value="us" label="American" checked="true" />
+			<option value="es" label="Spanish" />
 		</radio>
-		<spinbox id="ncards" label="Número de cartas" type="integer" initial="1" min="1" />
-		<checkbox id="freq" label="Distribución de frecuencias" />
-		<saveobject id="save" label="Guardar conjunto de datos" initial="extraccion.naipes" />
+		<spinbox id="ncards" label="Number of cards" type="integer" initial="1" min="1" />
+		<checkbox id="freq" label="Frequency distribution" />
+		<saveobject id="save" label="Save the probability space" initial="cards" />
 	</dialog>
+	<wizard label="Drawing of cards">
+		<page>
+			<text>
+				<p>This procedure simulates the random experiment of drawing a number of cards from a deck.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Select the type of deck.</p>
+			</text>
+			<copy id="deck" />
+		</page>
+		<page>
+			<text>
+				<p>Enter the number of cards.</p>
+			</text>
+			<copy id="ncards" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box to compute the frequency of every outcome.</p>
+			</text>
+			<copy id="freq" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the data set with the outcomes of the random experiment.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>

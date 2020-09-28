@@ -1,27 +1,32 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="normal_probabilities.js" />
+	<help file="normal_probabilities.rkh" />
 	<snippets>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox id="mean" label="Media" default_precision="2" type="real" initial="0" />
-				<spinbox id="sd" label="Desviación típica" default_precision="2" type="real" min="0" initial="1" />
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox id="mean" label="Mean" default_precision="2" type="real" initial="0" />
+				<spinbox id="sd" label="Standard deviation" default_precision="2" type="real" min="0" initial="1" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir la media y la desviación típica de la distribución Normal.	
+				<p>The Normal probability distribution model is the the most common continuous probability distribution model. It describes the probability of many natural variables due to the central limit theorem.</p>
+				<p>The parameters that describe this distribution are the mean and the standard deviation of the population.</p>
+			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>
+				<p>Insert the mean and the standard deviation of the population.</p>
 			</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	<dialog label="Probabilidad acumulada Normal" >
-		<insert snippet="probabilities_continous_layout"/>
+	<dialog label="Normal probability">
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
-
-	<wizard label="Probabilidad acumulada Normal" >
-		<insert snippet="probabilities_continous_wizard"/>
-	</wizard>	
+	<wizard label="Normal probability">
+		<insert snippet="probabilitiesContinuousWizard"/>
+	</wizard>
 </document>

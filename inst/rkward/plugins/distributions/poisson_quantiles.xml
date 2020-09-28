@@ -1,26 +1,26 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="poisson_quantiles.js" />
+	<help file="poisson_quantiles.rkh" />
 	<snippets>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox id="lambda" label="Media" default_precision="2" type="real" min="0" initial="1" />
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox id="lambda" label="Mean" default_precision="2" type="real" min="0" initial="1" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
-			<text>
-				Introducir la media de la distribución de Poisson. 	
-			</text>
+		<snippet id="introductionWizard">
+			<text>The geometric probability distribution model describes the probability of having to repeat the same trial, with two possible outcomes (success/failure), k times until get the first success.</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the probability of success in each trial (p).</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	<dialog label="Cuantiles Poisson" >
-		<insert snippet="quantiles_layout"/>
+	<dialog label="Poisson quantiles">
+		<insert snippet="quantilesLayout"/>
 	</dialog>
-
-	<wizard label="Cuantiles Poisson" >
-		<insert snippet="quantiles_wizard"/>
-	</wizard>	
+	<wizard label="Poisson quantiles">
+		<insert snippet="quantilesWizard"/>
+	</wizard>
 </document>

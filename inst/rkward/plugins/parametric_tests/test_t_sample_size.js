@@ -1,30 +1,50 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 // globals
-var delta, sd, siglevel, power, type, h1;
+var delta,
+  sd,
+  sigLevel,
+  power,
+  type,
+  h1;
 
-function preprocess () {
+function setGlobalVars() {
+  delta = getString("delta");
+  sd = getString("sd");
+  sigLevel = getString("sigLevel");
+  power = getString("power");
+  type = getString("type");
+  h1 = getString("h1")
 }
 
-
-function calculate () {
-	delta = getString("delta");
-	sd = getString("sd");
-	siglevel = getString("siglevel");
-	power = getString("power");
-	type = getString("type");
-	h1 = getString("h1")
-	echo('result <- power.t.test(delta=' + delta + ', sd=' + sd + ', sig.level=' + siglevel + ', power=' + power + ', type="' + type + '", alternative="' + h1 + '")\n');
+function preprocess() {
+  setGlobalVars();
 }
 
-function printout () {
-	echo ('rk.header ("C&aacute;lculo del tama&ntilde;o muestral para el test T", parameter=list(');
-	if (type=="one.sample") echo ('"Tipo de prueba" = "Contraste para una muestra"');
-	else if (type=="two.sample") echo ('"Tipo de prueba" = "Contraste para dos muestras independientes"');
-	else echo ('"Tipo de prueba" = "Contraste para dos muestras pareadas"');
-	if (h1=="two.sided") echo (', "Hip&oacute;tesis alternativa" = "Bilateral"');
-	else echo (', "Hip&oacute;tesis alternativa" = "Unilateral"');
-	echo (', "Diferencia entre las medias" = "' + delta + '", "Desviaci&oacute;n t&iacute;pica" = "' + sd + '", "Nivel de significaci&oacute;n" ="' + siglevel + '", "Potencia" = "' + power + '"))\n');
+function calculate() {
+  echo('result <- power.t.test(delta=' + delta + ', sd=' + sd + ', sig.level=' + sigLevel + ', power=' + power + ', type="' + type + '", alternative="' + h1 + '")\n');
+}
 
-	echo ('rk.results (list("Tama&ntilde;o muestral necesario"= result$n))\n');
+function printout() {
+  // Header
+  header = new Header(i18n("Sample size computation for the t-test"));
+  if (type == "one.sample") {
+    header.add(i18n("Type of test"), "One population");
+  } else if (type == "two.sample") {
+    header.add(i18n("Type of test"), "Two independent populations");
+  } else {
+    header.add(i18n("Type of test"), "Two paired populations");
+  }
+  if (h1 == "two.sided") {
+    header.add(i18n("Alternative hypothesis"), "Two-sided");
+  } else {
+    header.add(i18n("Alternative hypothesis"), "Two-sided");
+  }
+  header.add(i18n("Difference between the means"), delta);
+  header.add(i18n("Standard deviation of the population"), sd);
+  header.add(i18n("Significance level"), sigLevel);
+  header.add(i18n("Power"), power);
+  header.print();
+  // // Sample size result
+  echo('rk.results (list(' + i18n("Sample size required") + ' = result$n))\n');
 }

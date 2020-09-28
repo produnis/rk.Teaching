@@ -1,0 +1,32 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="uniform_continuous_plot.js" />
+	<help file="uniform_continuous_plot.rkh" />
+	<logic>
+		<insert snippet="commonLogic"/>
+	</logic>
+	<snippets>
+		<snippet id="rangeOptions"></snippet>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="real" id="min" initial="0" label="Min" />
+				<spinbox default_precision="2" type="real" id="max" initial="1" label="Max"/>
+			</frame>
+			<stretch/>
+		</snippet>
+		<snippet id="introductionWizard">
+      <text>The Uniform continuous probability distribution model describes a probability distribution where intervals of the same length in the range have the same probability (equiprobability). The parameters that describe this distribution are the minimum and the maximum of the variable range.</text>
+    </snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the minimum and the maximum value of the variable range.</text>
+		</snippet>
+		<include file="plot_dist_common_snippets.xml"/>
+	</snippets>
+	<dialog label="Continuous uniform probability plot">
+		<insert snippet="continuousLayout"/>
+	</dialog>
+	<wizard label="Continuous uniform probability plot">
+		<insert snippet="continuousWizard"/>
+	</wizard>
+</document>

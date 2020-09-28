@@ -1,45 +1,45 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="probability/" namespace="rkTeaching">
+<document base_prefix="probability/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="coins_probability_space" file="coins_probability_space.xml" label="Espacio probabilístico" />
-		<component type="standard" id="tosscoins" file="tosscoins.xml" label="Lanzamiento de monedas" />
-		<component type="standard" id="dice_probability_space" file="dice_probability_space.xml" label="Espacio probabilístico" />
-		<component type="standard" id="rolldice" file="rolldice.xml" label="Lanzamiento de dados" />
-		<component type="standard" id="cards_probability_space" file="cards_probability_space.xml" label="Espacio probabilístico" />
-		<component type="standard" id="draw_card" file="draw_card.xml" label="Extracción de naipes" />
-		<component type="standard" id="urn_probability_space" file="urn_probability_space.xml" label="Espacio probabilístico" />
-		<component type="standard" id="urn_draw" file="urn_draw.xml" label="Extracción de urna" />
-		<component type="standard" id="build_probability_space" file="build_probability_space.xml" label="Construir espacio probabilístico" />
-		<component type="standard" id="combine_independent_probability_spaces" file="combine_independent_probability_spaces.xml" label="Combinación de espacios probabilísticos independientes" />
-		<component type="standard" id="repeat_independent_probability_space" file="repeat_independent_probability_space.xml" label="Repetición de espacio probabilístico" />
-		<component type="standard" id="calculate_probability" file="calculate_probability.xml" label="Calcular probabilidad" />
+		<component type="standard" id="coins_probability_space" file="coins_probability_space.xml" label="Probability space" />
+		<component type="standard" id="tosscoins" file="tosscoins.xml" label="Toss coins" />
+		<component type="standard" id="dice_probability_space" file="dice_probability_space.xml" label="Probability space" />
+		<component type="standard" id="rolldice" file="rolldice.xml" label="Roll dice" />
+		<component type="standard" id="cards_probability_space" file="cards_probability_space.xml" label="Probability space" />
+		<component type="standard" id="draw_card" file="draw_card.xml" label="Draw cards" />
+		<component type="standard" id="urn_probability_space" file="urn_probability_space.xml" label="Probability space" />
+		<component type="standard" id="urn_draw" file="urn_draw.xml" label="Draw from an urn" />
+		<component type="standard" id="build_probability_space" file="build_probability_space.xml" label="Build probability space" />
+		<component type="standard" id="join_independent_probability_spaces" file="join_independent_probability_spaces.xml" label="Join independent probability spaces" />
+		<component type="standard" id="repeat_independent_probability_space" file="repeat_independent_probability_space.xml" label="Repeat probability space" />
+		<component type="standard" id="compute_probability" file="compute_probability.xml" label="Compute probability" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="probability" label="Probabilidad">
-				<menu id="gambling" label="Juegos de azar">
-					<menu id="coins" label="Monedas">
+			<menu id="probability" label="Probability">
+				<menu id="gambling" label="Gambling">
+					<menu id="coins" label="Coins">
 						<entry component="coins_probability_space" />
 						<entry component="tosscoins" />
 					</menu>
-					<menu id="dice" label="Dados">
+					<menu id="dice" label="Dice">
 						<entry component="dice_probability_space" />
 						<entry component="rolldice" />
 					</menu>
-					<menu id="cards" label="Naipes">
+					<menu id="cards" label="Cards">
 						<entry component="cards_probability_space" />
 						<entry component="draw_card" />
 					</menu>
-					<menu id="urn" label="Urna">
+					<menu id="urn" label="Urn">
 						<entry component="urn_probability_space" />
 						<entry component="urn_draw" />
 					</menu>
 				</menu> 
 				<entry component="build_probability_space" />
-				<entry component="combine_independent_probability_spaces" />  
+				<entry component="join_independent_probability_spaces" />  
 				<entry component="repeat_independent_probability_space" />  
-				<entry component="calculate_probability" />  
+				<entry component="compute_probability" />  
 			</menu>
 		</menu>
 	</hierarchy>

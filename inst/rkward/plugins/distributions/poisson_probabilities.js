@@ -1,31 +1,46 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var q, fun, lambda, tail;
+var q,
+	fun,
+	lambda,
+	tail;
 
-function calculate () {
+function setGlobals() {
+	q = getString("q");
 	lambda = getString("lambda");
-	q = 'c(' + getString("q").replace (/[, ]+/g, ", ") + ')';
 	tail = getString("tail");
 	fun = getString("function");
-	echo ('result <- ' + fun + 'pois(' + q + ', lambda = ' + lambda);
-	if (fun == 'p'){
+}
+
+function calculate() {
+	setGlobals();
+	echo('result <- ' + fun + 'pois(c(' + q + '), lambda = ' + lambda);
+	if (fun === 'p') {
 		echo(', ' + tail);
 	}
 	echo(')\n');
 }
 
-function printout () {
-	var title = 'Probabilidades';
-	var label = '';
-	if (fun == 'p') {
-		title += ' acumuladas';
-		label += ' , "Cola de acumulaci&oacute;n" = ';
-		if (tail=="lower.tail=TRUE" )
-			label += '"Izquierda (&le;)"';
-		else
-			label += '"Derecha (>)"';
+function printout() {
+	// Header
+	if (fun === 'p') {
+		header = new Header(i18n("Poisson cumulative probabilities P(%1)", lambda));
+	} else {
+		header = new Header(i18n("Poisson probabilities P(%1)", lambda));
 	}
-	echo ('rk.header ("' + title + ' Poisson P(' + lambda + ')", list ("Media" = "' + lambda + '"' + label + '))\n');
-	echo ('rk.results (list("Valores" = ' + q + ', "' + title + '" = result))\n');
+	header.add(i18n("Mean"), lambda);
+	if (fun === 'p') {
+		if (tail === "lower.tail=TRUE") {
+			header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+		} else {
+			header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+		}
+	}
+	header.print();
+	// Results
+	if (fun === 'p') {
+		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
+	} else {
+		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Probability") + ' = result))\n');
+	}
 }
-

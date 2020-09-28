@@ -1,0 +1,32 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="geometric_plot.js" />
+	<help file="geometric_plot.rkh" />
+	<logic>
+		<insert snippet="commonLogic"/>
+		<set id="plotoptions.default_pointtype" to="p"/>
+	</logic>
+	<snippets>
+		<snippet id="rangeOptions"></snippet>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="real" id="prob" min="0" initial="0.5" label="Probability of success"/>
+			</frame>
+			<stretch />
+		</snippet>
+		<snippet id="introductionWizard">
+      <text>The geometric probability distribution model describes the probability of having to repeat the same trial, with two possible outcomes (success/failure), k times until get the first success.</text>
+    </snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the probability of success in each trial (p).</text>
+		</snippet>
+		<include file="plot_dist_common_snippets.xml"/>
+	</snippets>
+	<dialog label="Geometric probability distribution plot">
+		<insert snippet="discreteLayout"/>
+	</dialog>
+	<wizard label="Geometric probability distribution plot">
+		<insert snippet="discreteWizard"/>
+	</wizard>
+</document>

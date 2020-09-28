@@ -1,20 +1,28 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
-var source_dataframe, nrep, target_dataframe;
+var sourceDataframe, 
+nrep, 
+targetDataframe;
 
 function preprocess(){
-	echo('require(rk.Teaching)\n');
+	echo('require(rkTeaching)\n');
 }
 
+function setGlobals() {
+	sourceDataframe = getString("dataframe");
+	targetDataframe= getString("save");
+	nrep = getString("nrep");
+}
 
 function calculate () {
-	source_dataframe = getString("dataframe");
-	target_dataframe= getString("save");
-	nrep = getString("nrep");
-	echo('results <- repeat.probspace(' + source_dataframe + ',' + nrep + ')\n');
-	echo ('assign("' + target_dataframe + '", results, .GlobalEnv)\n');
+	setGlobals();	
+	echo('results <- repeat.probspace(' + sourceDataframe + ',' + nrep + ')\n');
+	echo ('assign("' + targetDataframe + '", results, .GlobalEnv)\n');
 }
 
 
-function printout () {
-	echo('rk.header ("Repetici&oacute;n de espacio probabil&iacute;stico", parameters=list("Espacio probabil&iacute;stico original" = "' + source_dataframe + '", "Espacio probabil&iacute;stico repetido" = "' + target_dataframe + '"))\n');
+function printout () {// Header
+	header = new Header(i18n("Repetition of a probability space"));
+	header.add(i18n("Source probability space"), sourceDataframe);
+	header.add(i18n("Generated probability space"), targetDataframe);
+	header.print();
 }

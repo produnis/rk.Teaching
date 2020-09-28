@@ -2,82 +2,64 @@
 <document>
 	<code file="non_linear_regression.js"/>
 	<help file="non_linear_regression.rkh"/>
-	
 	<logic>
-		<connect client="filter_embed.variable" governor="y.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-	
-	<dialog label="Ajuste de Modelo No Lineal">
+	<dialog label="Non-linear regression">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables"/>
+			<tab id="tabVars" label="Variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Variable dependiente" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Variable independiente" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Ajuste por grupos" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" multi="true" required="true"/>
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>						
-						<saveobject id="save" label="Guardar modelo" initial="regression.model" checkable="true"/>
+						<varslot id="y" label="Dependent variable" source="selector" types="numeric" required="true"/>
+						<varslot id="x" label="Independent variable(s)" types="numeric" source="selector" required="true"/>
+						<checkbox id="grouped" label="Regression by groups" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
+						<saveobject id="save" label="Save model" initial="regression.model" checkable="true"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_model" label="Modelo de regresión" >
-				<radio id="model" label="Modelo" >
-					<option value="linear" label="Lineal" />
-					<option value="cuadratic" label="Cuadrático" />
-					<option value="cubic" label="Cúbico" />
-					<option value="potential" label="Potencial" />
-					<option value="exponential" label="Exponencial" />
-					<option value="logarithmic" label="Logarítmico" />
-					<option value="inverse" label="Inverso" />
-					<option value="sigmoid" label="Sigmoidal" />
+			<tab id="tabModel" label="Regression models">
+				<radio id="model" label="Model">
+					<option value="linear" label="Linear"/>
+					<option value="quadratic" label="Quadratic"/>
+					<option value="cubic" label="Cubic"/>
+					<option value="potential" label="Potencial"/>
+					<option value="exponential" label="Exponential"/>
+					<option value="logarithmic" label="Logarithmic"/>
+					<option value="inverse" label="Inverse"/>
+					<option value="sigmoid" label="Sigmoidal"/>
 				</radio>
 				<stretch/>
 			</tab>
 		</tabbook>
 	</dialog>
-	
-	<wizard label="Ajuste de Modelo No Lineal">
-		<page id="page_y">
+	<wizard label="Non-linear regression model">
+		<page>
 			<text>
-				Selecionar la variable dependiente.
+				<p>This procedure performs a non-linear regression analysis of a dependent variable with respect to an independent variable.</p>
+				<p>The variables must be numeric.</p>
 			</text>
-			<varselector id="selector2" label="Seleccionar variable"/>
-			<varslot id="y" label="Variable dependiente" source="selector2" type="numeric" required="true" />
 		</page>
-		<page id="page_x">
+		<page id="pageVars">
 			<text>
-				Selecionar la variable independiente.
+				<p>Select the dependent and independent variables.</p>
+				<p>If you want different regression models for the categories of one or several factors, check the box										
+					<b>Regression by groups</b> and select the factors to define the groups. If you select more than one factor you will get one regression model for every category combination of the factors.				
+				</p>
 			</text>
-			<copy id="selector" />
-			<copy id="x" />
-		</page>	
-		<page id="page_filter">
+			<copy id="rowVars"/>
+		</page>
+		<page id="pageModel">
 			<text>
-				Activar la casilla si se desea un filtrado previo de los datos e introducir la condición de selección.
-
-				Puede usarse cualquier operador relacional o lógico de R.
-
-				Ejemplos: sexo=="mujer", edad>20, sexo=="mujer" | edad>0.
-
+				<p>Select the type of model to fit.</p>
 			</text>
-			<copy id="filter_frame" />
-		</page>	
-		<page id="page_model">
-			<text>
-				Seleccionar el tipo de modelo.
-			</text>
-			<copy id="model" />
-		</page>	
-		<page id="page_save">
-			<text id="txt_var">
-				Si se desea guardar el modelo, activar la casilla e introducir un nombre para el modelo.  
-			</text>
-			<copy id="save" />
+			<copy id="model"/>
+			<stretch/>
 		</page>
 	</wizard>
-	
 </document>

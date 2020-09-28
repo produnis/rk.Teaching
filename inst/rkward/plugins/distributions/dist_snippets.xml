@@ -1,124 +1,121 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <document>
-	<snippet id="discrete_logic">
+	<snippet id="discreteLogic">
 		<convert id="dodist" mode="equals" sources="function.string" standard="p" />
 		<connect client="tail.enabled" governor="dodist" />
 	</snippet>
-	
-	<snippet id="probabilities_discrete_layout">
+	<snippet id="probabilitiesDiscreteLayout">
 		<row>
 			<column>
-				<input id="q" label="Valores de la variable" required="true" />
-				<insert snippet="dist_options"/>
+				<input id="q" label="Values of the variable" required="true" />
+				<insert snippet="distOptions"/>
 				<stretch/>
 			</column>
-			<column id="discrete_function">
-				<radio id="function" label="Calcular" >
-					<option value="d" label="Probabilidades" />
-					<option value="p" label="Probabilidades acumuladas" />
-				</radio>	
-				<radio id="tail" label="Cola de acumulación" >
-					<option value="lower.tail=TRUE" label="Izquierda (&#8804;)" />
-					<option value="lower.tail=FALSE" label="Derecha (&gt;)" />
+			<column id="discreteFunction">
+				<radio id="function" label="Compute">
+					<option value="d" label="Probabilities" />
+					<option value="p" label="Cumulative probabilities" />
+				</radio>
+				<radio id="tail" label="Accumulation tail">
+					<option value="lower.tail=TRUE" label="Left (&#8804;)" />
+					<option value="lower.tail=FALSE" label="Right (&gt;)" />
 				</radio>
 				<stretch/>
 			</column>
 		</row>
 	</snippet>
-	
-	<snippet id="probabilities_continous_layout">
+	<snippet id="probabilitiesContinuousLayout">
 		<row>
 			<column>
-				<input id="q" label="Valores de la variable" required="true" />
-				<insert snippet="dist_options"/>
+				<input id="q" label="Values of the variable" required="true" />
+				<insert snippet="distOptions"/>
 			</column>
-			<column id="continous_function">
-				<radio id="tail" label="Cola de acumulación" >
-					<option value="lower.tail=TRUE" label="Izquierda (&lt;)" />
-					<option value="lower.tail=FALSE" label="Derecha (&gt;)" />
+			<column id="continuousFunction">
+				<radio id="tail" label="Accumulation tail">
+					<option value="lower.tail=TRUE" label="Left (&lt;)" />
+					<option value="lower.tail=FALSE" label="Right (&gt;)" />
 				</radio>
 				<stretch/>
-				<checkbox id="plot" label="Mostrar gráfico" value="1" value_unchecked="0" />
+				<checkbox id="plot" label="Plot area" value="1" value_unchecked="0" />
 			</column>
 		</row>
 	</snippet>
-	
-	<snippet id="quantiles_layout">
+	<snippet id="quantilesLayout">
 		<row>
 			<column>
-				<input id="p" label="Probabilidades acumuladas" required="true" initial="0.95" />
-				<insert snippet="dist_options"/>
+				<input id="p" label="Cumulative probabilities" required="true" initial="0.95" />
+				<insert snippet="distOptions"/>
 			</column>
 			<column>
-				<radio id="tail" label="Cola de acumulación" >
-					<option value="lower.tail=TRUE" label="Izquierda (&#8804;)" />
-					<option value="lower.tail=FALSE" label="Derecha (&gt;)" />
+				<radio id="tail" label="Accumulation tail">
+					<option value="lower.tail=TRUE" label="Left (&#8804;)" />
+					<option value="lower.tail=FALSE" label="Right (&gt;)" />
 				</radio>
 				<stretch/>
 			</column>
 		</row>
 	</snippet>
-	
-	<!-- Snippets for wizard -->
-	
-	<snippet id="probabilities_discrete_wizard">
-		<page id="page_values">
-			<text>
-				Introducir los valores de la variable separados por comas.
-			</text>
+	<!-- Snippets for -->
+	<snippet id="probabilitiesDiscreteWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
+		<page id="pageValues">
+			<text>Enter the values of the variable separated by commas.</text>
 			<copy id="q"/>
 		</page>
-		<page id="page_parameters">
-			<insert snippet="parameters_wizard"/>
+		<page id="pageParameters">
+			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
-		</page>	
-		<page id="page_function">
-			<text>
-				Seleccionar si se desea la probabilidad de cada valor o la probabilidad acumulada hasta cada valor, y en este último caso si se desea la probabilidad acumulada por debajo de cada valor (menor o igual) o por encima del él (mayor).
+		</page>
+		<page id="pageFunction">
+			<text>Select 				
+				<b>Probabilities</b> to compute the probability of every value, or 				
+				<b>Cumulative probabilities</b> to compute the cumulative probability of every value. In this last case select the accumulation tail that you want: 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particular value, or 				
+				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
-			<copy id="discrete_function"/>
-		</page>	
+			<copy id="discreteFunction"/>
+		</page>
 	</snippet>
-	
-	<snippet id="probabilities_continous_wizard">
-		<page id="page_values">
-			<text>
-				Introducir los valores de la variable separados por comas.
-			</text>
+	<snippet id="probabilitiesContinuousWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
+		<page id="pageValues">
+			<text>Enter the values of the variable separated by commas.</text>
 			<copy id="q"/>
 		</page>
-		<page id="page_parameters">
-			<insert snippet="parameters_wizard"/>
+		<page id="pageParameters">
+			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
-		</page>	
-		<page id="page_function">
-			<text>
-				Seleccionar si se desea la probabilidad acumulada por debajo de cada valor (menor) o por encima del él (mayor).
+		</page>
+		<page id="pageFunction">
+			<text>Select the accumulation tail that you want: 				
+				<b>Left</b> for accumulating the probabilities of the values less than or equal to a particular value, or 				
+				<b>Right</b> for accumulating the probabilities of the values greater than a particular value.			
 			</text>
-			<copy id="continous_function"/>
-		</page>	
+			<copy id="continuousFunction"/>
+		</page>
 	</snippet>
-	
-	
-	<snippet id="quantiles_wizard">
-		<page id="page_probalilites">
-			<text>
-				Introducir las probabilidaddes acumuladas correspondientes a los cuantiles separadas por comas.
-			</text>
+	<snippet id="quantilesWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
+		<page id="pageProbalilites">
+			<text>Enter the cumulative probabilities corresponding to the quantiles that you want.</text>
 			<copy id="p"/>
 		</page>
-		<page id="page_parameters">
-			<insert snippet="parameters_wizard"/>
+		<page id="pageParameters">
+			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
-		</page>	
-		<page id="page_tail">
-			<text>
-				Seleccionar si se desean probabilidades acumuladas por debajo del cuantil (menor o igual) o probabilidades acumuladas por encima del cuantil (mayor).
+		</page>
+		<page id="pageTail">
+			<text>Select the accumulation tail that you want: 				
+				<b>Left</b> if the cumulative probabilities correspond to values less than or equal to the quantile, or 				
+				<b>Right</b> if the cumulative probabilities correspond to values greater than the quantile.			
 			</text>
 			<copy id="tail"/>
-		</page>	
+		</page>
 	</snippet>
-	
 </document>
-

@@ -1,25 +1,42 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="friedman.js"/>
 	<help file="friedman.rkh"/>
-	
-	<dialog label="Test de Friedman para la comparación de medidas repetidas">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar variables" />
+	<logic>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect governor="factor.available" client="levels.variable"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
+	</logic>
+	<dialog label="Friedman test for comparing paired populations">
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables" />
 			<column>
-				<varslot id="vars" label="Variables a comparar (medidas repetidas)" multi="true" source="selector" required="true" />
+				<varslot id="variables" label="Variables to compare (repeated measures)" multi="true" source="selector" required="true" />
+				<checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
+				<varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
+				<include file="../common/filter.xml"/>
+				<stretch/>
 			</column>
 		</row>
 	</dialog>
-	
-	<wizard label="Test de Friedman para la comparación de medidas repetidas">
+	<wizard label="Friedman test for comparing paired populations">
 		<page>
 			<text>
-			Seleccionar la variables con las medidas repetidas a comparar.
+				<p>This procedure performs the Friedman test for detecting a significant difference among the distributions of two or more paired populations, that is, several repeated measures on the same individuals.</p>
+				<p>The variables that contain the repeated measures must be numeric or ordinal.</p>
 			</text>
-			<copy id="row_vars"/>
+		</page>
+		<page>
+			<text>
+				<p>Insert the variables to compare, corresponding to the repeated measures.</p>
+				<p>If you want different tests for the categories of one or several factors, check the box                    																																																		
+					<b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.        																																								
+				</p>
+			</text>
+			<copy id="rowVars"/>
 		</page>
 	</wizard>
 </document>

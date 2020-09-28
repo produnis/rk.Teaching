@@ -1,27 +1,27 @@
 Encoding: UTF-8
-Package: rk.Teaching
+Package: rkTeaching
 Type: Package
-Title: A RKWard plugin with basic utilities for teaching statistics
-Version: 1.0
-Date: 2013-10-01
+Title: A RKWard plugin with basic utilities for teaching Statistics
+Version: 1.3.0
+Date: 2019-09-01
 Author: Alfredo Sánchez Alberca <asalber@ceu.es>
 Maintainer: Alfredo Sánchez Alberca <asalber@ceu.es>
+Enhances: rkward
+URL: https://aprendeconalf.es/en/project/rkteaching/
 Depends:
     stats,
     utils,
     graphics,
     grDevices,
-    rkward (>= 0.6.1),
     ggplot2,
     plyr,
     R2HTML,
     car,
     e1071,
     Hmisc,
-    ez,
     prob,
-    R (>= 3.0.0)
-Enhances: rkward
+    ez,
+    R (>= 3.5.0)
 Description: Basic utilities for teaching statistics.
     It contains procedures for:
     - Data manipulation:
@@ -85,6 +85,8 @@ Description: Basic utilities for teaching statistics.
     - Probability distributions
     - Discrete:
     - Binomial
+    - Geometric
+    - Hypergeometric
     - Poison
     - Continous:
     - Uniform 
@@ -93,8 +95,7 @@ Description: Basic utilities for teaching statistics.
     - Student T
     - Fisher F
     - Simulations:
-    - Small numbers law
-    - Central limit theorem
+    - Law of rare events
 License: GPL (>= 3)
 LazyLoad: yes
 LazyData: yes

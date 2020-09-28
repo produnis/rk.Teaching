@@ -1,0 +1,29 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="intraclass_correlation.js"/>
+	<help file="intraclass_correlation.rkh"/>
+	<dialog label="Intraclass correlation">
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables" />
+			<column>
+				<varslot id="x" label="First measurement" source="selector" types="numeric" required="true" />
+				<varslot id="y" label="Second measurement" source="selector" types="numeric" required="true" />
+			</column>
+		</row>
+	</dialog>
+	<wizard label="Intraclass correlation">
+		<page>
+			<text>
+				<p>This procedure computes the Intraclass Correlation coefficient to see if there is agreement in two quantitative variables measuring the same thing.</p>
+				<p>The variables must be numeric.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Select the variables with the measurements.</p>
+			</text>
+			<copy id="rowVars"/>
+		</page>
+	</wizard>
+</document>

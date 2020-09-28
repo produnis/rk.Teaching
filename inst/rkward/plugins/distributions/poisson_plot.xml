@@ -1,35 +1,31 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="poisson_plot.js" />
 	<help file="poisson_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 		<set id="plotoptions.default_pointtype" to="p"/>
 	</logic>
-	
 	<snippets>
-		<snippet id="range_options">
-		</snippet>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox default_precision="2" type="real" id="lambda" min="0" initial="1" label="Media" />
+		<snippet id="rangeOptions"></snippet>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="real" id="lambda" min="0" initial="1" label="Mean" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
-			<text>
-				Introducir la media de la distribución de Poisson.	
-			</text>
+		<snippet id="introductionWizard">
+      <text>The Poisson probability distribution model describes the probability of a given number of events occurring in a fixed interval of time or space assuming that these events occur with constant rate and independently of time. The parameter that describes this distribution is the average number of events in the interval considered.</text>
+    </snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the average number of events in the interval (lambda).</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad Poisson" >
-		<insert snippet="discrete_layout"/>
+	<dialog label="Poisson probability distribution plot">
+		<insert snippet="discreteLayout"/>
 	</dialog>
-	
-	<wizard label="Gráfico de probabilidad Poisson">
-		<insert snippet="discrete_wizard"/>
+	<wizard label="Poisson probability distribution plot">
+		<insert snippet="discreteWizard"/>
 	</wizard>
 </document>

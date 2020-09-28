@@ -1,26 +1,29 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="t_probabilities.js" />
+	<help file="t_probabilities.rkh" />
 	<snippets>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox id="df" min="0" label="Grados de libertad" default_precision="2" type="real" initial="1" />
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox id="df" min="0" label="Degrees of freedom" default_precision="2" type="real" initial="1" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir los grados de libertad de la distribución T de student.	
+				<p>The Student's t probability distribution is a probability distribution that arises when estimating the mean of a normally distributed population when the sample size is small and the standard deviation of the population is unknown.</p>
+				<p>The parameter that describe this distribution is the degrees of freedom, that correspond to the sample size used to estimate the mean minus one.</p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom (the sample size minus one).</text>
 		</snippet>
 		<include file="dist_snippets.xml"/>
 	</snippets>
-	<dialog label="Probabilidad acumulada T de student" >
-		<insert snippet="probabilities_continous_layout"/>
+	<dialog label="Student's t probabilities">
+		<insert snippet="probabilitiesContinuousLayout"/>
 	</dialog>
-
-	<wizard label="Probabilidad acumulada T de student" >
-		<insert snippet="probabilities_continous_wizard"/>
-	</wizard>	
+	<wizard label="Student's t probabilities">
+		<insert snippet="probabilitiesContinuousWizard"/>
+	</wizard>
 </document>

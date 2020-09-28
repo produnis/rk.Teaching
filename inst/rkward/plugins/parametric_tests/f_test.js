@@ -1,59 +1,115 @@
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
+
+include("../common/common_functions.js")
+include("../common/filter.js")
+
 // globals
-var data, variable, factor, factorname, defsamples, sample1, sample2, confint, conflevel, hypothesis;
+var dataframe,
+  variable,
+  variableName,
+  factor,
+  factorName,
+  population1,
+  population2,
+  groups,
+  groupsName,
+  getConfInt,
+  confLevel,
+  hypothesis;
 
-function preprocess () {
-
+function setGlobalVars() {
+  variable = getString("variable");
+  variableName = getString("variable.shortname");
+  dataframe = getDataframe(variable);
+  factor = getString("factor");
+  factorName = getString("factor.shortname");
+  population1 = getString("population1");
+  population2 = getString("population2");
+  grouped = getBoolean("grouped");
+  groups = getList("groups");
+  groupsName = getList("groups.shortname");
+  getConfInt = getBoolean("frameConfInt.checked");
+  confLevel = getString("confLevel");
+  hypothesis = getString("hypothesis");
 }
 
-function calculate () {
-	// Filter
-	echo(getString("filter_embed.code.calculate"));
-	// Load variables
-	variable = getString("variable");
-	factor = getString("factor");
-	defsamples = getBoolean("samples_frame.checked");
-	if (defsamples){
-		sample1 = getString("sample1");
-		sample2 = getString("sample2");
-		data = factor.split('[[')[0];
-		factorname = getString("factor.shortname");
-		echo (data + ' <- subset(' + data + ', subset=' + factorname + '=="' + sample1 + '" | ' + factorname + '=="' + sample2 + '")\n');
-		echo (factor + ' <- factor(' + factor + ')\n');
-	}
-	confint = getBoolean("confint_frame.checked");
-	conflevel = getString("conflevel");
-	hypothesis = getString("hypothesis");
-	var options = ", alternative=\"" + hypothesis + "\"";
-	if (confint) options += ", conf.level=" + conflevel;
-	echo('result <- var.test (' + variable + ' ~ ' + factor + options + ')\n');
+function preprocess() {
+  setGlobalVars();
+  echo('require(plyr)\n');
 }
 
-function printout () {
-	echo ('rk.header ("Test F de comparaci&oacute;n de varianzas de ' + getString("variable.shortname") + ' seg&uacute;n ' + getString("factor.shortname") + '", ');
-	echo ('parameters=list ("Comparaci&oacute;n de" = rk.get.description(' + variable + '), "Seg&uacute;n" = rk.get.description(' + factor + ')' + getString("filter_embed.code.printout") + ', "Hip&oacute;tesis nula" = paste("varianza", levels(' + factor + ')[1], " = varianza ", levels(' + factor + ')[2])');
-	if (hypothesis=="two.sided"){
-		echo(', "Hip&oacute;tesis alternativa" = paste("varianza", levels(' + factor + ')[1], " &ne; varianza ", levels(' + factor + ')[2])');
-	}
-	else if (hypothesis=="greater") {
-		echo(', "Hip&oacute;tesis alternativa" = paste("varianza", levels(' + factor + ')[1], " &gt; varianza ", levels(' + factor + ')[2])');
-	}
-    else {
-    	echo(', "Hip&oacute;tesis alternativa" = paste("varianza", levels(' + factor + ')[1], " &lt; varianza ", levels(' + factor + ')[2])');
-    }	if (confint) {
-		echo (', "Nivel de confianza del intervalo" = "' + conflevel + '"');
-	}
-	echo('))\n');
-	echo ('rk.results (list(');
-	echo ('"Variable" = rk.get.short.name(' + variable + '), ');
-	echo ('"Niveles del factor" = levels(' + factor + '), ');
-	echo ('"Grados de libertad" = result$parameter, ');
-	echo ('"Estad&iacute;stico F" = result$statistic, ');
-	echo ('"p-valor" = result$p.value');
-	if (confint) {
-		echo (', "Nivel de confianza %" = (100 * attr(result$conf.int, "conf.level"))');
-		echo (', "Intervalo de confianza para el cociente de varianzas" = result$conf.int');
-	}
-	echo ('))\n');
+function calculate() {
+  // Filter
+  filter();
+  // Test settings
+  var options = ", alternative=\"" + hypothesis + "\"";
+  // Confidence interval
+  if (getConfInt) {
+    options += ", conf.level=" + confLevel;
+  }
+  // Grouped mode
+  if (grouped) {
+    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
+    echo('result <- dlply(' + dataframe + ', ".groups", function(df) var.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + '],' + options + '))\n');
+  } else {
+    // Non-grouped mode
+    echo('result <- var.test (' + variable + '[' + factor + '==' + population1 + '], ' + variable + '[' + factor + '==' + population2 + ']' + options + ')\n');
+  }
 }
 
-
+function printout() {
+  // Header
+  header = new Header(i18n("F test for comparing variances of %1 according to %2", variableName, factorName));
+  header.add(i18n("Data frame"), dataframe);
+  header.add(i18n("Comparison of"), i18n("%1 according to %2", variableName, factorName));
+  header.add(i18n("Null hypothesis"), i18n("Variance %1 = Variance %2", population1, population2));
+  if (hypothesis == "two.sided") {
+    header.add(i18n("Alternative hypothesis"), i18n("Variance %1 &ne; Variance %2", population1, population2));
+  } else if (hypothesis == "greater") {
+    header.add(i18n("Alternative hypothesis"), i18n("Variance %1 &gt; Variance %2", population1, population2));
+  } else {
+    header.add(i18n("Alternative hypothesis"), i18n("Variance %1 &lt; Variance %2", population1, population2));
+  }
+  if (getConfInt) {
+    header.add(i18n("Confidence level of the confidence interval"), confLevel);
+  }
+  if (grouped) {
+    header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
+  }
+  if (filtered) {
+    header.addFromUI("condition");
+  }
+  header.print();
+  // Grouped mode
+  if (grouped) {
+    echo('for (i in 1:length(result)){\n');
+    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('rk.results(list(');
+    echo(i18n("Variable") + ' = "' + variableName + '", ');
+    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
+    echo(i18n("Estimated variance quotient") + ' = result[[i]]$estimate, ');
+    echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+    echo(i18n("F statistic") + ' = result[[i]]$statistic, ');
+    echo(i18n("p-value") + ' = result[[i]]$p.value');
+    if (getConfInt) {
+      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
+      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = result[[i]]$conf.int');
+    }
+    echo('))}\n');
+  } else {
+    // Non-grouped mode
+    echo('rk.results(list(');
+    echo(i18n("Variable") + ' = "' + variableName + '", ');
+    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
+    echo(i18n("Estimated variance quotient") + ' = result$estimate, ');
+    echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+    echo(i18n("F statistic") + ' = result$statistic, ');
+    echo(i18n("p-value") + ' = result$p.value');
+    if (getConfInt) {
+      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
+      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = result$conf.int');
+    }
+    echo('))\n');
+  }
+}

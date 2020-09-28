@@ -2,70 +2,72 @@
 
 <!DOCTYPE rkplugin>
 <document>
-	<code file="test_t_sample_size.js"/>
-	<help file="test_t_sample_size.rkh"/>
-	
-	<dialog label="Cálculo del tamaño muestral el test T">
-		<row>
-			<column id="col_type">
-				<radio id="type" label="Tipo de test">
-					<option value="one.sample" label="Una muestra" />
-					<option value="two.sample" label="Dos muestras independientes" />
-					<option value="paired" label="Dos muestras pareadas" />
-				</radio>
-				<radio id="h1" label="Hipótesis alternativa">
-					<option value="two.sided" label="Bilateral" />
-					<option value="one.sided" label="Unilateral" />
-				</radio>
-			</column>
-			<column>
-				<input id="delta" label="Diferencia entre las medias" required="true" />
-				<input id="sd" label="Desviación típica" value="1" required="true" />
-				<spinbox id="siglevel" label="Nivel de significación" type="real" min="0.01" max="1" initial="0.05" />
-				<spinbox id="power" label="Potencia" type="real" min="0.00" max="0.99" initial="0.8" />
-			</column>
-		</row>
-	</dialog>
-	
-	<wizard label="Cálculo del tamaño muestral para el test T">
-		<page>
-			<text>
-				Introducir el tipo de contraste.
-			</text>
-			<copy id="type"/>
-		</page>
-		<page>
-			<text>
-				Introducir el tipo de hipótesis alternativa.
-			</text>
-			<copy id="h1"/>
-		</page>
-		<page>
-			<text>
-				Introducir la diferencia entre las medias a detectar. 
-				En el caso de una muestra introducir el valor de la media según la hipótesis nula.
-			</text>
-			<copy id="delta"/>
-		</page>
-	
-		<page>
-			<text>
-				Introducir la desviación típica de la población o una estimación suya.
-			</text>
-			<copy id="sd"/>
-		</page>
-		<page>
-			<text>
-				Introducir el nivel de significación para el contraste.
-				A medida que se aumente el nivel de significación del contraste aumentará la potencia.
-			</text>
-			<copy id="siglevel"/>
-		</page>
-		<page>
-			<text>
-				Introducir la potencia deseada para el contraste. 
-			</text>
-			<copy id="power"/>
-		</page>		
-	</wizard>
+  <code file="test_t_sample_size.js"/>
+  <help file="test_t_sample_size.rkh"/>
+
+  <dialog label="Sample size computation for the t-test">
+    <row>
+      <column id="colType">
+        <radio id="type" label="Type of test">
+          <option value="one.sample" label="One population"/>
+          <option value="two.sample" label="Two independent populations"/>
+          <option value="paired" label="Two paired populations"/>
+        </radio>
+        <radio id="h1" label="Alternative hypothesis">
+          <option value="two.sided" label="Two-sided"/>
+          <option value="one.sided" label="One-sided"/>
+        </radio>
+      </column>
+      <column>
+        <input id="delta" label="Difference between the means" required="true"/>
+        <input id="sd" label="Standard deviation" value="1" required="true"/>
+        <spinbox id="sigLevel" label="Significance level" types="real" min="0.01" max="1" initial="0.05"/>
+        <spinbox id="power" label="Power" type="real" min="0.00" max="0.99" initial="0.8"/>
+      </column>
+    </row>
+  </dialog>
+
+  <wizard label="Sample size computation for the t-test">
+    <page>
+      <text>
+        <p>This procedure computes the sample size required to perform a t-test for comparing means with a given effect size, significance level and power.</p>
+      </text>
+    </page>
+    <page>
+      <text>
+        Check the box corresponding to the type of test.
+      </text>
+      <copy id="type"/>
+    </page>
+    <page>
+      <text>
+        Check the box corresponding to the type of alternative hypothesis.
+      </text>
+      <copy id="h1"/>
+    </page>
+    <page>
+      <text>
+        Enter the difference to detect between the means. In case of only one population enter the value of the mean in the null hypothesis.
+      </text>
+      <copy id="delta"/>
+    </page>
+    <page>
+      <text>
+        Enter the standard deviation of the population or an estimate of it.
+      </text>
+      <copy id="sd"/>
+    </page>
+    <page>
+      <text>
+        Enter the significance level of the test.
+      </text>
+      <copy id="sigLevel"/>
+    </page>
+    <page>
+      <text>
+        Enter the power of the test.
+      </text>
+      <copy id="power"/>
+    </page>
+  </wizard>
 </document>

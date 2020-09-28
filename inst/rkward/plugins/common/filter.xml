@@ -1,0 +1,5 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<column>
+	<checkbox id="filter" label="Filter" value_unchecked="0" checked="false"/>
+	<input id="condition" label="Selection condition"/>
+</column>

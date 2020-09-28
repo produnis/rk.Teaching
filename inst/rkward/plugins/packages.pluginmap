@@ -1,8 +1,8 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="packages/" namespace="rkTeaching" id="packagespluginmap">
+<document base_prefix="packages/" po_id="rkTeaching" id="packagespluginmap" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="install_local_package" file="install_local_package.xml" label="Instalar paquete local" />
+		<component type="standard" id="install_local_package" file="install_local_package.xml" label="Install local package" />
 	</components>
 	
 	<hierarchy>

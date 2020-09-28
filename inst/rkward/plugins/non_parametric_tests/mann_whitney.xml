@@ -1,79 +1,123 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="mann_whitney.js"/>
 	<help file="mann_whitney.rkh"/>
-	
-	<dialog label="Test U de Mann Whitney para la comparación de dos muestras independientes">
+	<logic>
+		<convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect governor="factor.available" client="levels.variable"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
+	</logic>
+	<dialog label="Mann-Whitney U test for comparing two independent populations">
 		<tabbook>
-			<tab id="tab_variables" label="Seleccionar variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables" />
+			<tab id="tabVariables" label="Variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables" />
 					<column>
-						<varslot id="variable" label="Comparar" source="selector" required="true" />
-						<varslot id="factor" label="Según" source="selector" types="factor" required="true" />
+						<varslot id="variable" label="Compare" source="selector" required="true" />
+						<varslot id="factor" label="According to" source="selector" types="factor" required="true" />
+						<frame id="framePopulations" label="Populations to compare">
+							<row>
+								<column>
+									<embed id="levels" component="rkward::level_select"/>
+								</column>
+								<column>
+									<valueslot id="population1" label="Compare population" source="levels.selector"/>
+									<valueslot id="population2" label="With population" source="levels.selector"/>
+								</column>
+							</row>
+						</frame>
+						<checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
-			<tab id="tab_settings" label="Opciones de contraste">
+			<tab id="tabOptions" label="Test options">
 				<row>
-					<column id="hypotesis_col">
-						<radio id="hypothesis" label="Hipotesis alternativa">
-							<option value="two.sided" label="Bilateral" />
-							<option value="greater" label="Unilateral mayor" />
-							<option value="less" label="Unilateral menor" />
+					<column>
+						<radio id="hypothesis" label="Alternative hypothesis">
+							<option value="two.sided" label="Two-sided (&#8800;)"/>
+							<option value="greater" label="Greater (&gt;)"/>
+							<option value="less" label="Less (&lt;)"/>
 						</radio>
-						<radio id="type" label="Tipo de prueba">
-							<option value="correction" label="Aproximación normal con correción por continuidad" />
-							<option value="non_correction" label="Aproximación normal sin corrección por continuidad" />
-							<option value="exact" label="p-valor exacto" />
+						<radio id="type" label="Type of test">
+							<option value="correction" label="Normal approximation with continuity correction" />
+							<option value="non_correction" label="Normal approximation without continuity correction" />
+							<option value="exact" label="Exact p-value" />
 						</radio>
+						<stretch/>
 					</column>
 					<column>
-						<frame id="confint" label="Intervalo de confianza" checkable="true" checked="true" value="1">
-							<spinbox id="conflevel" label="Nivel de confianza" type="real" min="0" max="0.99" initial="0.95" />
+						<frame id="frameConfInt" label="Confidence interval for the difference of ranks" checkable="true" checked="true" value="1">
+							<spinbox id="confLevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
 						</frame>
+						<stretch/>
 					</column>
 				</row>
 			</tab>
 		</tabbook>
 	</dialog>
-	
-	<wizard label="Test U de Mann Whitney para la comparación de dos muestras independientes">
+	<wizard label="Mann-Whitney U test for comparing two independent populations">
 		<page>
 			<text>
-			Seleccionar la variable a comparar. Debe ser una variable númerica o al menos ordinal.
-			Después, seleccionar el factor con los niveles a comparar. 
-			El factor debe tener exactamente dos niveles. 
+				<p>          This procedure performs the Mann-Whitney U test for detecting a significant difference between the distributions or the medians of two independent populations.        </p>
+				<p>          The dependent variable must be numeric or ordinal and the independent variable must be a factor.        </p>
 			</text>
-			<copy id="row_vars"/>
 		</page>
 		<page>
 			<text>
-				Seleccionar el tipo de hipótesis alternativa a contrastar y especificar qué media se presume que es mayor:
-				- Seleccionar bilateral, si la teoría no presupone qué media es mayor. 
-				- Seleccionar unilateral mayor si se presupone que la media de la primera categoría es mayor que la media de la segunda.
-				- Seleccionar unilateral menor si se presupone que la media de la primera categoría es menor que la media de la segunda.
-				El orden de las categorías es el establecido en la definición de las variables.
-				La selección de una hipótesis alternativa unilateral suele aumentar la potencia del contraste. 
+				<p>          Insert the variable for which to compare the distributions in the field                    															
+					<b>Compare</b>.                												
+				</p>
+				<p>          After, insert the factor in the field                    															
+					<b>According to</b>.                												
+				</p>
+				<p>Next, select the category of the factor for the first population in the field                    															
+					<b>Compare population</b>          and the category for the second population in the field                    															
+					<b>With population</b>.        												
+				</p>
+				<p>If you want different tests for the categories of one or several factors, check the box                    															
+					<b>Test by groups</b>          and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.        												
+				</p>
+			</text>
+			<copy id="rowVars"/>
+			<stretch/>
+		</page>
+		<page>
+			<text>
+				<p>Select the type of alternative hypothesis to test:</p>
+				<ul>
+					<li>Check two-sided if you have no assumption about what scores are greater.</li>
+					<li>Check greater if you assume that the scores of the first population are greater than the mean of the second population.</li>
+					<li>Check less if you assume that the scores of the first population are less than the mean of the second population.</li>
+				</ul>
+				<p>The one-sided hypothesis tends to increase the power of the test.</p>
 			</text>
 			<copy id="hypothesis"/>
 			<stretch/>
 		</page>
 		<page>
-			<text>
-			Seleccionar la fórma de calcular el p-valor
-			</text>
-			<copy id="type"/>
-		</page>
+      <text>
+        <p>Select the type of test:</p>
+        <ul>
+          <li>Check normal approximation with continuity correction for big sample sizes and continuous variables.</li>
+          <li>Check normal approximation without continuity correction for big sample sizes and discrete variables.</li>
+          <li>Check exact p-value for small sample sizes.
+          </li>
+        </ul>
+      </text>
+      <copy id="type"/>
+      <stretch/>
+    </page>
 		<page>
 			<text>
-			Si se desea obtener un intervalo de confianza para estimar la diferencia de medias entre las dos poblaciones, 
-			seleccionar la opción correspondiente e indicar el nivel de confianza del intervalo (un 95% de confianza se corresponde con un 5% de significación).
-			A medida que se aumente el nivel de confianza del intervalo se perderá precisión en la estimación.   
+				<p>If you wants a confidence interval to estimate the difference between the pseudomedians of ranks of the populations check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
 			</text>
-			<copy id="confint_frame"/>
+			<copy id="frameconfInt"/>
 			<stretch/>
 		</page>
 	</wizard>

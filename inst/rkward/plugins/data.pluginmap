@@ -1,22 +1,22 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="data/" namespace="rkTeaching" id="datapluginmap">
+<document base_prefix="data/" po_id="rkTeaching" namespace="rkTeaching" id="datapluginmap">
 	<components>
-		<component type="standard" id="filter" file="filter.xml" label="Filtrar datos" />
-		<component type="standard" id="variable_calculation" file="variable_calculation.xml" label="Calcular variable" />
-		<component type="standard" id="recode" file="recode.xml" label="Recodificar variable" />
-		<component type="standard" id="weight" file="weight.xml" label="Ponderar datos" />
-		<component type="standard" id="zscore" file="zscore.xml" label="Tipificar variables" />
+		<component id="data_filtering" type="standard" file="data_filtering.xml" label="Data filtering"/>
+		<component id="variable_calculation" type="standard" file="variable_calculation.xml" label="Variable calculation"/>
+		<component id="variable_recoding" type="standard" file="variable_recoding.xml" label="Variable recoding"/>
+		<component id="data_weighting" type="standard" file="data_weighting.xml" label="Data weighting"/>
+		<component id="standardization" type="standard" file="standardization.xml" label="Standardization"/>
 	</components>
-	
+
 	<hierarchy>
 		<menu id="teaching" label="Teaching">
-			<menu id="datamenu" label="Datos">
-				<entry component="filter"/>
+			<menu id="datamenu" label="Data">
+				<entry component="data_filtering"/>
 				<entry component="variable_calculation"/>
-				<entry component="recode"/>
-				<entry component="weight"/>
-				<entry component="zscore"/>
+				<entry component="variable_recoding"/>
+				<entry component="data_weighting"/>
+				<entry component="standardization"/>
 			</menu>
 		</menu>
 	</hierarchy>

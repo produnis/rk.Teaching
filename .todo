@@ -1,0 +1,83 @@
+To do file for rkTeaching project
+
+Translation:
+  Data:
+    ✔ Standarization @done(2017-08-21 19:11) @project(Translation / Data)
+  Frequency distribution:
+  Charts:
+    ✔ Scatter plot matrix @done(2017-08-21 13:30) @project(Translation / Charts)
+    ✔ Means plot @done(2017-08-21 18:32) @project(Translation / Charts)
+    ✔ Interaction plot @done(2017-08-21 19:10) @project(Translation / Charts)
+  Desriptive statistics:
+  Regression:
+    ✔ Non-linear regression @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Model comparison @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Correlation @done(2017-08-21 13:30) @project(Translation / Regression)
+    ✔ Predictions @done(2017-08-21 13:30) @project(Translation / Regression)
+  Probability:
+    ✔ Gambling @done (2017-10-2 18:23:47)
+    ✔ Build probability space @done (2017-10-13 09:12:24)
+    ✔ Repeat probability space @done (2017-10-13 09:12:26)
+    ✔ Combine probability spaces @done (2017-10-13 09:12:28)
+    ✔ Compute prdobability @done (2017-10-13 09:12:33)
+  Probability distributions:
+    ☐ Uniform discrete @low 
+    ✔ Binomial @done (2017-9-18 00:38:00)
+    ✔ Geometric @done (2017-9-19 12:51:11)
+    ✔ Hypergeometric @done (2017-9-30 10:31:58)
+    ✔ Poisson @done (2017-9-30 10:31:59)
+    ✔ Uniform continuous @done (2017-10-1 01:03:34)
+    ✔ Normal @done (2017-9-30 11:30:54)
+    ✔ Student's t @done (2017-10-1 13:51:02)
+    ✔ Chi-square @done (2017-10-1 19:21:56)
+    ✔ Fisher's F @done (2017-10-1 19:21:58)
+  Parametric tests:
+    ✔ T-test for the mean of one population @done(2017-08-21 20:36) @project(Translation / Parametric tests)
+    ✔ T-test for comparing the means of two paired populations @done(2017-08-22 10:51) @project(Translation / Parametric tests)
+    ✔ T-test for comparing the means of two independent populations @done(2017-08-22 13:46) @project(Translation / Parametric tests)
+    ✔ Sample size to estimate one mean @done(2017-08-30 20:04) @project(Translation / Parametric tests)
+    ✔ Sample size for the t-test @done(2017-08-30 21:55) @project(Translation / Parametric tests)
+    ✔ ANOVA @done(2017-08-30 19:32) @project(Translation / Parametric tests)
+    ✔ Fisher's F test @done(2017-08-22 17:48) @project(Translation / Parametric tests)
+    ✔ Levene's test @done(2017-08-23 19:10) @project(Translation / Parametric tests)
+    ✔ Test for one proportion @done(2017-08-23 21:59) @project(Translation / Parametric tests)
+    ✔ Test for comparing two proportions @done(2017-08-29 16:00) @project(Translation / Parametric tests)
+    ✔ Sample size to estimate a proportion @done(2017-08-30 22:10) @project(Translation / Parametric tests)
+    ☐ Sample size for one proportion test @low 
+    ☐ Sample size for two proportions test @low 
+    ☐ Sample size for the ANOVA test @low 
+  Non-parametric tests:
+    ✔ Lillieford's test @done (2017-9-14 15:19:16)
+    ✔ Shapiro-Wilks test @done (2017-9-15 13:26:08)
+    ✔ Chi-square test @done (2017-10-25 22:12:36)
+    ✔ Chi-square goodness of fit test @done (2017-10-26 13:24:57)
+    ✔ McNemar test @done (2017-10-26 12:51:59)
+    ✔ Mann-Whitney test @done (2017-10-13 11:04:31)
+    ✔ Wilcoxon test @done (2017-10-13 12:21:09)
+    ✔ Kruskal-Wallis test @done (2017-10-25 11:20:11)
+    ✔ Friedman test @done (2017-10-25 11:20:13)
+    ☐ Add qq chart to normality tests. @low 
+  Concordance:
+    ✔ Intraclass correlation coefficient @done (2017-10-26 13:46:05)
+    ✔ Cohen's kappa @done (2017-10-26 13:57:51)
+
+Optimization:
+  ☐ Use dplyr to compute basic statistics.
+  ☐ Change grouping option in dialogs (look at the one sample t test).
+  ☐ Review plots preview (look at interaction plot as example).
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+  ✔ Linear regression @done(2017-06-12 13:25) @project(Translation / Regression)
+  ✔ Data filtering @done(2017-02-02 18:51) @project(Translation / Data)
+  ✔ Variable calculation @done(2017-02-03 18:51) @project(Translation / Data)
+  ✔ Variable recodification @done(2017-02-06 18:51) @project(Translation / Data)
+  ✔ Data weighting @done(2017-02-07 18:51) @project(Translation / Data)
+  ✔ Frequency table @done(2017-02-9 18:54) @project(Translation / Frequency distribution)
+  ✔ Two-dimensional frequency table @done(2017-02-13 18:54) @project(Translation / Frequency distribution)
+  ✔ Bar chart  @done(2017-03-01 18:55) @project(Translation / Charts)
+  ✔ Histogram @done(2017-03-06 18:55) @project(Translation / Charts)
+  ✔ Pie chart @done(2017-03-08 18:55) @project(Translation / Charts)
+  ✔ Box plot @done(2017-03-10 18:55) @project(Translation / Charts)
+  ✔ Scatter plot @done(2017-03-20 18:55) @project(Translation / Charts)
+  ✔ Basic statistics @done(2017-03-12 18:56) @project(Translation / Desriptive statistics)

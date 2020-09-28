@@ -1,0 +1,60 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="frequency_tabulation.js"/>
+	<help file="frequency_tabulation.rkh"/>
+	<logic>
+		<convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
+		<connect client="groups.visible" governor="groupedMode"/>
+		<connect client="cells.variable" governor="variable.available"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
+	</logic>
+	<dialog label="Frequency tabulation">
+		<tabbook>
+			<tab label="Variables" id="tabVars">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variable"/>
+					<column>
+						<varslot id="variable" label="Variable to tabulate" source="selector" required="true"/>
+						<checkbox id="grouped" label="Tabulate by groups" value_unchecked="0" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" multi="true" types="factor" source="selector" required="true"/>
+						<include file="../common/filter.xml"/>
+						<stretch/>
+					</column>
+				</row>
+			</tab>
+			<tab label="Classes" id="tabCells">
+				<frame id="intervalsFrame" label="Group into class intervals" checkable="true" checked="false">
+					<embed id="cells" component="rkTeaching::cells"/>
+				</frame>
+			</tab>
+		</tabbook>
+	</dialog>
+	<wizard label="Frequency tabulation">
+		<page>
+			<text>
+				<p>This procedure computes the sample frequency distribution of one variable.</p>
+			</text>
+		</page>
+		<page id="pageVars">
+			<text>
+				<p>Select the variable to tabulate.</p>
+			</text>
+			<varselector id="selector2" label="Select data frame"/>
+			<varslot id="variable" label="Variable to tabulate" source="selector2" required="true"/>
+		</page>
+		<page id="pageGrouped">
+			<text>
+				<p>If you want different tabulations for the categories of one or several factors, check the box 																							
+					<b>Tabulate by groups</b> and select the factors to define the groups. If you select more than one factor you will get one test for every category combination of the factors.																							
+				</p>
+			</text>
+			<copy id="selector"/>
+			<copy id="grouped"/>
+			<copy id="groups"/>
+		</page>
+		<include file="../common/filter_wizard.xml"/>
+		<embed id="cells" component="rkTeaching::cells"/>
+	</wizard>
+</document>

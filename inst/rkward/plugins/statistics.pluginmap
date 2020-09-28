@@ -1,15 +1,13 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="statistics/" namespace="rkTeaching">
+<document base_prefix="statistics/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="descriptive_statistics" file="descriptive_statistics.xml" label="Estadísticos" />
-		<component type="standard" id="statistics_calculation" file="statistics_calculation.xml" label="Cálculo detallado" />
+		<component type="standard" id="descriptive_statistics" file="descriptive_statistics.xml" label="Statistics" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="sample_statistics" label="Estadística descriptiva">
+			<menu id="sample_statistics" label="Descriptive statistics">
 				<entry component="descriptive_statistics"/>
-				<entry component="statistics_calculation"/>
 			</menu>
 		</menu>
 	</hierarchy>

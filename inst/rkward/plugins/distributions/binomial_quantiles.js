@@ -1,21 +1,33 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var p, fun, size, prob, tail;
+var p,
+	size,
+	prob,
+	tail;
 
-function calculate () {
+function setGlobals() {
+	p = getString("p");
 	size = getString("size");
 	prob = getString("prob");
-	p = 'c(' + getString("p").replace (/[, ]+/g, ", ") + ')';
 	tail = getString("tail");
-	echo ('result <- (qbinom(p = ' + p + ', size = ' + size + ', prob = ' + prob + ', ' + tail + '))\n');
 }
 
-function printout () {
-	echo ('rk.header ("Cuantiles Binomial B(' + size + ',' + prob + ')", list ("N&ordm; de repeticiones" = "' + size + '", "Probabilidad de &eacute;xito" = "' + prob + '", "Cola de acumulaci&oacute;n" = ');
-	if (tail=="lower.tail=TRUE" )
-		echo('"Izquierda (&le;)"));\n');
-	else
-		echo('"Derecha (&gt;)"));\n');
-	echo ('rk.results (list("Probabilidades acumuladas" = ' + p + ', "Cuantiles" = result))\n');
+function calculate() {
+	setGlobals();
+	echo('result <- (qbinom(p = c(' + p + '), size = ' + size + ', prob = ' + prob + ', ' + tail + '))\n');
 }
 
+function printout() {
+	// Header
+	header = new Header(i18n("Binomial quantiles B(%1,%2)", size, prob));
+	header.add(i18n("Number of trials"), size);
+	header.add(i18n("Probability of success"), prob);
+	if (tail === "lower.tail=TRUE") {
+		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+	} else {
+		header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+	}
+	header.print();
+	// Result
+	echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
+}

@@ -1,20 +1,21 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="non_parametric_tests/" namespace="rkTeachingExtras">
+<document base_prefix="non_parametric_tests/" po_id="rkTeaching" namespace="rkTeachingExtras">
 	<components>
-		<component type="standard" id="mann_whitney" file="mann_whitney.xml" label="Test U de Mann-Whitney para dos muestras independientes " />
-		<component type="standard" id="wilcoxon" file="wilcoxon.xml" label="Test de Wilcoxon para dos muestras pareadas" />
-		<component type="standard" id="friedman" file="friedman.xml" label="Test de Friedman para medidas repeditas" />
-		<component type="standard" id="kruskal_wallis" file="kruskal_wallis.xml" label="Test de Kruskal-Wallis para varias muestras independientes" />
-		<component type="standard" id="lilliefors" file="lilliefors.xml" label="Test de Lilliefors (Kolmogorov-Simirnov)" />
-		<component type="standard" id="shapiro" file="shapiro.xml" label="Test de Shapiro-Wilk" />
-		<component type="standard" id="chi_square" file="chi_square.xml" label="Test Chi-Cuadrado de independencia" />
-		<component type="standard" id="chi_square_fit" file="chi_square_fit.xml" label="Test Chi-Cuadrado de bondad de ajuste" />
+		<component type="standard" id="mann_whitney" file="mann_whitney.xml" label="Mann-Whitney U test for two independent populations" />
+		<component type="standard" id="wilcoxon" file="wilcoxon.xml" label="Wilcoxon test for two paired populations" />
+		<component type="standard" id="friedman" file="friedman.xml" label="Friedman test for repeated measures" />
+		<component type="standard" id="kruskal_wallis" file="kruskal_wallis.xml" label="Kruskal-Wallis test for several independent populations" />
+		<component type="standard" id="lilliefors" file="lilliefors.xml" label="Lilliefors (Kolmogorov-Simirnov) test" />
+		<component type="standard" id="shapiro" file="shapiro.xml" label="Shapiro-Wilk test" />
+		<component type="standard" id="chi_square" file="chi_square.xml" label="Chi-square test of independence" />
+		<component type="standard" id="chi_square_fit" file="chi_square_fit.xml" label="Chi-square goodness of fit" />
+		<component type="standard" id="mcnemar" file="mcnemar.xml" label="McNemar test of independence" />
 	</components>
 	<hierarchy>
 		<menu id="teaching">
-			<menu id="non_parametric_tests" label="Tests no paramétricos">
-				<menu id="normality" label="Normalidad">
+			<menu id="non_parametric_tests" label="Non-parametric tests">
+				<menu id="normality" label="Normality">
 					<entry component="lilliefors"/>
 					<entry component="shapiro"/>
 				</menu>
@@ -22,8 +23,9 @@
 				<entry component="wilcoxon"/>
 				<entry component="friedman"/>
 				<entry component="kruskal_wallis"/>
-				<entry component="chi_square"/>	
-				<entry component="chi_square_fit"/>				
+				<entry component="chi_square"/>
+				<entry component="mcnemar"/>
+				<entry component="chi_square_fit"/>
 			</menu>
 		</menu>
 	</hierarchy>

@@ -1,0 +1,91 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+  <code file="densityplot.js"/>
+  <help file="densityplot.rkh"/>
+  <logic>
+    <set id="plotOptions.allow_log" to="false"/>
+    <convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
+    <connect client="groups.visible" governor="groupedMode"/>
+    <connect client="position.enabled" governor="groupedMode"/>
+    <connect client="frameFillColor.enabled" governor="groupedMode.not"/>
+    <connect client="frameBorderColor.enabled" governor="groupedMode.not"/>
+    <connect client="plotOptions.allow_legend" governor="groupedMode"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
+  </logic>
+  <dialog label="Density chart">
+    <tabbook>
+      <tab id="tabVariables" label="Variable(s)">
+        <row id="rowVars">
+          <varselector id="selector" label="Select variable(s)"/>
+          <column>
+            <varslot id="variable" label="Variable" source="selector" required="true"/>
+            <checkbox id="grouped" label="Plot by groups" value_unchecked="0" checked="false"/>
+            <varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+            <include file="../common/filter.xml"/>
+            <stretch/>
+            <preview id="preview"/>
+          </column>
+        </row>
+      </tab>
+      <tab id="tabDensityOptions" label="Density options">
+        <row>
+          <column>
+            <radio id="position" label="Grouping options">
+              <option value="identity" label="Overlaid" checked="true"/>
+              <option value="stack" label="Stacked"/>
+              <option value="faceted" label="Separated"/>
+            </radio>
+            <stretch/>
+          </column>
+          <column>
+            <frame id="frameFillColor" label="Fill color">
+              <embed id="fillColor" component="rkTeaching::color_chooser" label="Fill color"/>
+            </frame>
+            <frame id="frameBorderColor" label="Border color">
+              <embed id="borderColor" component="rkTeaching::color_chooser" label="Border color"/>
+            </frame>
+            <embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+            <stretch/>
+          </column>
+        </row>
+      </tab>
+    </tabbook>
+  </dialog>
+  <wizard label="Density chart">
+    <page>
+      <text>
+        <p>This procedure plots a density chart of frequencies of a variable.</p>
+      </text>
+    </page>
+    <page id="pageVariables">
+      <text>
+        <p>Select the variable to plot the density chart.</p>
+        <p>If you want different density charts for the categories of one or several factors, check the box 																				
+          <b>Plot by groups</b> and select the factors to define the groups. If you select more than one factor you will get one density chart for every category combination of the factors.																
+        </p>
+      </text>
+      <copy id="rowVars"/>
+    </page>
+    <page id="pageDensityOptions">
+      <text>
+        <p>In case of plotting several density charts by groups, select the layout for the bars: Overlaid (over each other), Stacked (on top of each other) or Separated (in separated charts).</p>
+      </text>
+      <copy id="position"/>
+      <stretch/>
+    </page>
+    <page id="pageColor">
+      <text>
+        <p>Select the fill color for the density area.</p>
+      </text>
+      <embed id="fillColor" component="rkTeaching::color_chooser" label="Fill color"/>
+      <text>
+        <p>Select the border color for the density curve.</p>
+      </text>
+      <embed id="borderColor" component="rkTeaching::color_chooser" label="Border color"/>
+      <stretch/>
+    </page>
+    <embed id="plotOptions" component="rkTeaching::plot_options"/>
+  </wizard>
+</document>

@@ -1,133 +1,114 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
-	<snippet id="common_logic">
+	<snippet id="commonLogic">
 		<convert id="dodist" mode="equals" sources="function.string" standard="p" />
 		<connect client="lower.enabled" governor="dodist" />
 		<set id="plotoptions.allow_log" to="false"/>
 		<set id="plotoptions.allow_grid" to="true"/>
 	</snippet>
-	
-
-	<snippet id="discrete_options">
-		<row id="discrete_function">
-			<radio id="function" label="Tipo de función" >
-				<option value="d" label="Función de probabilidad" />
-				<option value="p" label="Función de distribución" />
+	<snippet id="discreteOptions">
+		<row id="discreteFunction">
+			<radio id="function" label="Type of function">
+				<option value="d" label="Probability function" />
+				<option value="p" label="Distribution function" />
 			</radio>
 		</row>
 	</snippet>
-	
-	<snippet id="continous_options">
-		<row id="continous_function">
-			<radio id="function" label="Tipo de función" >
-				<option value="d" label="Función de densidad" />
-				<option value="p" label="Función de distribución" />
+	<snippet id="continuousOptions">
+		<row id="continuousFunction">
+			<radio id="function" label="Type of function">
+				<option value="d" label="Density function" />
+				<option value="p" label="Distribution function" />
 			</radio>
 		</row>
 	</snippet>
-	
-	<snippet id="discrete_layout">
+	<snippet id="discreteLayout">
 		<row>
 			<column>
-				<insert snippet="dist_options"/>
-				<insert snippet="range_options"/>
+				<insert snippet="distOptions"/>
+				<insert snippet="rangeOptions"/>
 			</column>
 			<column>
-				<insert snippet="discrete_options"/>
+				<insert snippet="discreteOptions"/>
 				<stretch/>
-				<preview id="preview" label="Previsualizar"/>
-				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos"/>
+				<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<preview id="preview" label="Preview"/>
 			</column>
 		</row>
 	</snippet>
-	
-	<snippet id="continous_layout">
+	<snippet id="continuousLayout">
 		<row>
 			<column>
-				<insert snippet="dist_options"/>
-				<insert snippet="range_options"/>
+				<insert snippet="distOptions"/>
+				<insert snippet="rangeOptions"/>
 			</column>
 			<column>
-				<insert snippet="continous_options"/>
+				<insert snippet="continuousOptions"/>
 				<stretch/>
-				<preview id="preview" label="Previsualizar"/>
-				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Opciones generales de gráficos"/>
+				<embed id="plotoptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
+				<preview id="preview" label="Preview"/>
 			</column>
 		</row>
 	</snippet>
-	
-	<!--  for the wizards -->
-	
-	<snippet id="discrete_wizard">
-		<page id="page_parameters">
-			<insert snippet="parameters_wizard"/>
+	<snippet id="discreteWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
+		<page id="pageParameters">
+			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
-		</page>	
-	
-		<page id="page_function">
-			<text>
-				Seleccionar el tipo de función a dibujar. 
-			</text>
-			<copy id="discrete_function"/>
-		</page>	
-		<page id="opciones_graficas">
-			<text>
-				Seleccionar las opciones gráficas.
-			</text>
+		</page>
+		<page id="pageFunction">
+			<text>Select the type of function to plot.</text>
+			<copy id="discreteFunction"/>
+		</page>
+		<page id="graphicOptions">
+			<text>Set the graphic options.</text>
 			<copy id="plotoptions"/>
-		</page>	
+		</page>
 	</snippet>
-	
-	<snippet id="continous_wizard">
-		<page id="page_parameters">
-			<insert snippet="parameters_wizard"/>
+	<snippet id="continuousWizard">
+		<page id="pageIntroduction">
+			<insert snippet="introductionWizard"/>
+		</page>
+		<page id="pageParameters">
+			<insert snippet="parametersWizard"/>
 			<copy id="parameters"/>
-		</page>		
-		<page id="page_function">
-			<text>
-				Seleccionar el tipo de función a dibujar. 
-			</text>
-			<copy id="continous_function"/>
-		</page>	
-		<page id="page_range">
-			<text>
-				Seleccionar el mínimo y el máximo del rango de valores a representar en el eje x.  
-			</text>
+		</page>
+		<page id="pageFunction">
+			<text>Select the type of function to plot.</text>
+			<copy id="continuousFunction"/>
+		</page>
+		<page id="pageRange">
+			<text>Select the minimum and the maximum value of the x-axis range to plot.</text>
 			<copy id="range"/>
-		</page>	
-		<page id="opciones_graficas">
-			<text>
-				Seleccionar las opciones gráficas.
-			</text>
+		</page>
+		<page id="graphicOptions">
+			<text>Set the graphic options.</text>
 			<copy id="plotoptions"/>
-		</page>	
+		</page>
 	</snippet>
-	
-	
 	<!-- for the .rkh pages -->
-	<snippet id="common_options_help">
+	<snippet id="commonOptionsHelp">
 		<setting id="preview">Check this box for previewing the function plot. A new graphics window will pop up and it will be dynamically updated based on the choice of parameters. It may take a while for the window to show up. Sometimes, only an empty graphics device may get displayed, in which case, close the device (dev.off() or may be even graphics.off()), uncheck the box, wait for a while and try again. If it still persists, use only the "Submit" button to view the exported plot in the Output window.</setting>
 		<setting id="plotoptions">Various plotting parameter settings for the plot. See the help page of "Plot Options" for more details.</setting>
 	</snippet>
-	<snippet id="general_usage_help">
-		<usage>
-			Choose appropriate values for the various parameters of the distribution and select the type of function. The "Submit" button will export the plot to the "Output" window. To dynamically visualise the plot check the "Preview" box.
-		</usage>
+	<snippet id="generalUsageHelp">
+		<usage>Choose appropriate values for the various parameters of the distribution and select the type of function. The "Submit" button will export the plot to the "Output" window. To dynamically visualise the plot check the "Preview" box.		</usage>
 	</snippet>
-	<snippet id="density_help">
+	<snippet id="densityHelp">
 		<setting id="function">
 			<li> Density Function, or </li>
 			<li> Distribution Function </li>
 		</setting>
 	</snippet>
-	<snippet id="cont_range_help">
+	<snippet id="contRangeHelp">
 		<setting id="n">Number of observations (points) for constructing the plot (n).</setting>
 		<setting id="min">Smallest value at which the function is to be plotted.</setting>
 		<setting id="max">Largest value at which the function is to be plotted. So, the function will be evaluated at 'n' equally spaced points between the lower quantile and the upper quantile (inclusive of end points).</setting>
 	</snippet>
-	<snippet id="discont_range_help">
+	<snippet id="discontRangeHelp">
 		<setting id="min">Smallest value at which the function is to be plotted.</setting>
 		<setting id="max">Largest value at which the function is to be plotted. Since this is a discrete distribution the function will be evaluated at all the integers between the lower quantile and the upper quantile (inclusive of the end points).</setting>
 	</snippet>

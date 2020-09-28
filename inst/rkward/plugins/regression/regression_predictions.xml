@@ -1,47 +1,49 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="regression_predictions.js"/>
 	<help file="regression_predictions.rkh"/>
-		
-	<dialog label="Predicciones de un Modelo de Regresión">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar modelo"/>
+	<dialog label="Regression predictions">
+		<row id="rowVars">
+			<varselector id="selector" label="Select the regression model"/>
 			<column>
-				<varslot id="model" label="Modelo de regresión" source="selector" classes="lm" required="true" />
-				<input id="values" label="Predicciones para" size="small"/>
-				<frame id="use_dataframe" label="Usar conjunto de datos" checkable="true" checked="false" value_unckecked="0" value="1">
-					<varslot id="dataframe" label="Predicciones para el conjunto de datos" classes="data.frame"  source="selector" required="true" />
+				<varslot id="model" label="Regression model" source="selector" classes="lm" required="true" />
+				<input id="values" label="Predictions for" size="small"/>
+				<frame id="useDataframe" label="Use a data set" checkable="true" checked="false" value_unckecked="0" value="1">
+					<varslot id="dataframe" label="Predictions for the data set" classes="data.frame" source="selector" required="true" />
 				</frame>
-				<checkbox id="intervals" label="Intervalos de confianza para las predicciones" value="1"/>
+				<checkbox id="intervals" label="Confidence intervals for the predictions" value="1"/>
 			</column>
 		</row>
 	</dialog>
-	
-	<wizard label="Predicciones de un Modelo de Regresión">
-		<page id="page_model">
-			<text id="txt_var">
-				Seleccionar el modelo de regresión con el que se desean hacer las predicciones.
+	<wizard label="Regression predictions">
+		<page>
+			<text>
+				<p>This procedure computes predictions of a regression model.</p>
+			</text>
+		</page>
+		<page id="pageModel">
+			<text>
+				<p>Select a regression model to make the predictions with.</p>
 			</text>
 			<copy id="selector" />
 			<copy id="model" />
 		</page>
-		<page id="page_input">
-			<text id="txt_var">
-				Introducir los valores de la variable independiente para los que se desean las predicciones del modelo separadas por comas
-				o bien seleccionar un conjunto de datos con esos valores (en tal caso, los nombres de las variables
-				en el conjunto de datos deben coincidir con los nombres de las variables independientes en el modelo)
+		<page id="pageInput">
+			<text>
+				<p>Enter the values of the independent variable for which to predict the dependent variable (you can insert more than one value separated by commas), or select a data set with the values of the independent variables (the variable names in the data set must coincide with variable names in the model).</p>
+				<p>For multiple regression use only the data set input.</p>
 			</text>
 			<copy id="values" />
-			<copy id="use_dataframe" />
+			<copy id="useDataframe" />
+			<stretch />
 		</page>
-		<page id="page_intervals">
-			<text id="txt_var">
-				Activar la casilla si se desean los intervalos del 95% de confianza para las predicciones.
+		<page id="pageIntervals">
+			<text>
+				<p>Check the box if you want the 95% confidence intervals for the predictions.</p>
 			</text>
 			<copy id="intervals" />
+			<stretch />
 		</page>
 	</wizard>
-	
 </document>

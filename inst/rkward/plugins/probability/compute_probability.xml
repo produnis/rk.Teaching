@@ -1,0 +1,57 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="compute_probability.js" />
+	<help file="compute_probability.rkh" />
+	<logic>
+		<convert id="conditionedMode" mode="equals" sources="conditioned.state" standard="1"/>
+		<connect client="condition.visible" governor="conditionedMode"/>
+	</logic>
+	<dialog label="Compute probability">
+		<row id="rowVars">
+			<varselector id="selector" label="Select probability space" />
+			<column>
+				<varslot id="probSpace" label="Probability space" source="selector" classes="data.frame" required="true" />
+				<input id="event" label="Event" required="true" size="small" />
+				<checkbox id="conditioned" label="Conditional probability" checked="false" />
+				<input id="condition" label="Condition" required="true" size="small" />
+			</column>
+		</row>
+	</dialog>
+	<wizard label="Compute probability">
+		<page>
+			<text>
+				<p>This procedure computes the probability of an event or the conditional probability of an event given another event in a probability space of a random experiment.</p>
+			</text>
+		</page>
+		<page id="vars">
+			<text>
+				<p>Select the data frame that contain the probability space of the random experiment. This probability spaces must contain a column with name 																																								
+					<b>probs</b>.																												
+				</p>
+			</text>
+			<row>
+				<copy id="selector" />
+				<copy id="probSpace" />
+			</row>
+		</page>
+		<page>
+			<text>
+				<p>Enter the condition for the event. For example 															
+					<b>coin=="H"</b> or 															
+					<b>gender=="M" &amp; weight&gt;60</b>.													
+				</p>
+			</text>
+			<copy id="event" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box for computing a conditional probability and enter the event of the condition.</p>
+			</text>
+			<column>
+				<copy id="conditioned" />
+				<copy id="condition" />
+			</column>
+		</page>
+	</wizard>
+</document>

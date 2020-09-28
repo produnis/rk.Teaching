@@ -1,168 +1,203 @@
+// author: Alfredo Sánchez Alberca (asalber@ceu.es)
+
+include("../common/common_functions.js")
+include("../common/filter.js")
+
 // globals
-var design, dep, data, within, between, caseid, sumsq, dep_name, within_name, between_name, caseid_name, sumsq_type;
+var dataframe,
+  design,
+  variable,
+  variableName,
+  within,
+  withinName,
+  between,
+  betweenName,
+  caseId,
+  caseIdName,
+  observed,
+  observedName,
+  showSumSq,
+  sumSqType,
+  heterocedasticity,
+  pairwiseMeans,
+  pairwisePlot;
 
-function preprocess () {
-	echo('require(ez)\n');
-	echo('require(nlme)\n');
-	echo('require(multcomp)\n');
+function setGlobalVars() {
+  variable = getString("variable");
+  variableName = getString("variable.shortname");
+  dataframe = getDataframe(variable);
+  design = getString("design");
+  within = getList("within");
+  withinName = getList("within.shortname");
+  between = getList("between");
+  betweenName = getList("between.shortname");
+  caseId = getString("caseId");
+  caseIdName = getString("caseId.shortname");
+  observed = getList("observed");
+  observedName = getList("observed.shortname");
+  showSumSq = getBoolean("showSumSq");
+  sumSqType = getString("sumSqType");
+  heterocedasticity = getString("heterocedasticity");
+  pairwiseMeans = getBoolean("pairwiseMeans");
+  pairwisePlot = getBoolean("pairwisePlot");
 }
 
-function calculate () {
-	// Filter
-	echo(getString("filter_embed.code.calculate"));
-	// Load variables
-	data = getString("dataframe");
-	design = getString("design");
-	dep = getString("dep");
-	dep_name = getString("dep.shortname");
-	caseid = getString("caseid");
-	caseid_name = getValue("caseid.shortname");
-	within = getList("within");
-	within_name = getList("within.shortname").join(", ");
-	n_within = within.lenght;
-	between = getList("between");
-	between_name = getList("between.shortname").join(", ");
-	sumsq_type = getString("sumsqtype");
-	var heterocedasticity = getString("heterocedasticity");
-	sumsq = getBoolean("sumsq");
-	//var vrslObsrvdvrShortname = getValue("vrsl_Obsrvdvr.shortname").split("\n").join(", ");
-	if(sumsq_type == 3) {
-	echo('# Establecer contrastes para sumas de cuadrados de tipo III\n');
-	echo('options(contrasts=c("contr.sum","contr.poly"))\n');
-	}
-	if(caseid == '' & design == 'between') {
-		echo('# ezANOVA requiere una variable con el identificador de usuario\n');
-		echo(data + ' <- cbind(' + data + ', subjectid=factor(1:nrow(' + data + ')))\n');
-	}
-	echo('anova.results <- ezANOVA(data=' + data + '[!is.na(' + data + '$' + dep_name + '),], dv=.(' + dep_name +')');
-	if(caseid) {
-		echo(', wid=' + caseid_name);
-	} else if(design == 'between') {
-		echo(', wid=.(subjectid)');
-	}
-	if(within != '' & design !='between'){
-		echo(', within=.(' + within_name + ')');
-	}
-	if(between != '' & design !='within'){
-		echo(', between=.(' + between_name + ')');
-	}
-	if(sumsq_type != 2) {
-		echo(', type=' + sumsq_type);
-	}
-	if(heterocedasticity != "false") {
-		echo(', white.adjust="' + heterocedasticity + '"');
-	}
-	if(sumsq) {
-		echo(', detailed=TRUE');
-	} 
-	echo(', return_aov=TRUE)\n');
-	if (getString("pairwise")){
-		if (design=='between'){
-			echo('pairs <- TukeyHSD(anova.results[["aov"]])\n');
-		}
-		if (design=='within'){
-			echo('pairs <- glht(lme(' + dep_name + '~' + within_name + ', data = ' + data + '[!is.na('  + data + '$' + dep_name + '),], random = ~1|' + caseid_name + '), linfct = mcp(' + within_name + '= "Tukey"))\n');
-		}
-		if (design=='mixed'){
-			echo('pairs <- glht(lme(' + dep_name + '~' + between_name + '*' + within_name + ', data = ' + data + '[!is.na('  + data + '$' + dep_name + '),], random = ~1|' + caseid_name + '), linfct = mcp(' + between_name + '= "Tukey", ' + within_name + '= "Tukey"))\n');
-		}
-	}
+function preprocess() {
+  setGlobalVars();
+  echo('require(ez)\n');
+  echo('require(nlme)\n');
+  echo('require(multcomp)\n');
 }
 
-function printout () {
-	//Título y parámetros
-	echo('rk.header("ANOVA de ' + dep_name + '", ');
-	echo('parameters=list ("Variable dependiente"= rk.get.description(' + dep + ')');
-	if(between != "" & design !="within"){
-		echo(', "Factores entre individuos" = rk.get.description(' + between + ', paste.sep=", ")');
-	}
-	if(within != "" & design !="between"){
-		echo(', "Factores dentro de los individuos" = rk.get.description(' + within + ', paste.sep=", ")');
-	}
-	echo(getString("filter_embed.code.printout")); 
-	echo(', "Sumas de cuadrados" = "Tipo ' + sumsq_type + '"))\n');
-	// Resultado ANOVA
-	echo('rk.results(list(');
-	echo('"Fuente de variaci&oacute;n" = anova.results[["ANOVA"]][["Effect"]]');
-	echo(', "Gl num" = anova.results[["ANOVA"]][["DFn"]]');
-	echo(', "Gl den" = anova.results[["ANOVA"]][["DFd"]]');
-	if(sumsq){
-		echo(', "Suma cuadrados num" = anova.results[["ANOVA"]][["SSn"]]');
-		echo(', "Suma cuadrados den" = anova.results[["ANOVA"]][["SSd"]]');
-	}
-	echo(', "Estad&iacute;stico F" = anova.results[["ANOVA"]][["F"]]');
-	echo(', "p-valor" = anova.results[["ANOVA"]][["p"]]');
-	echo('))\n');
-	// Resultado test de esfericidad e Mauchly (para medidas repetidas)
-	echo("if(\"Mauchly's Test for Sphericity\" %in% names(anova.results)){\n");
-	echo('\trk.header("Test de esfericidad de Mauchly", level=3)\n');
-	echo('\trk.results(list(');
-	echo("\"Fuente de variaci&oacute;n\" = anova.results[[\"Mauchly's Test for Sphericity\"]][[\"Effect\"]]");
-	echo(", \"Estad&iacute;stico W\" = anova.results[[\"Mauchly's Test for Sphericity\"]][[\"W\"]]");
-	echo(", \"p-valor\" = anova.results[[\"Mauchly's Test for Sphericity\"]][[\"p\"]]");
-	echo('))\n}\n');	
-	// Resultado correcciones de esfericidad
-	echo('if("Sphericity Corrections" %in% names(anova.results)){\n');
-	echo('\trk.header("Correcci&oacute;n de esfericidad", level=3)\n');
-	echo('\trk.results(list(');
-	echo('"Fuente de variaci&oacute;n" = anova.results[["Sphericity Corrections"]][["Effect"]]');
-	echo(', "Epsilon Greenhouse-Geisser" = anova.results[["Sphericity Corrections"]][["GGe"]]');
-	echo(', "p-valor corregido G-G" = anova.results[["Sphericity Corrections"]][["p[GG]"]]');
-	echo(', "Epsilon Huynh-Feldt" = anova.results[["Sphericity Corrections"]][["HFe"]]');
-	echo(', "p-valor corregido H-F" = anova.results[["Sphericity Corrections"]][["p[HF]"]]');
-	echo('))\n}\n');	
-	// Resultado test de homogeneidad de varianzas de Levene
-	echo("if(\"Levene's Test for Homogeneity of Variance\" %in% names(anova.results)){\n");
-	echo('\trk.header("Test de homogeneidad de varianzas de Levene", level=3)\n');
-	echo('\trk.results(list(');
-	echo("\"Gl num\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"DFn\"]]");
-	echo(", \"Gl den\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"DFd\"]]");
-	echo(", \"Suma cuadrados num\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"SSn\"]]");
-	echo(", \"Suma cuadrados den\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"SSd\"]]");
-	echo(", \"Esta&iacute;stico F\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"SSn\"]]");
-	echo(", \"p-valor\" = anova.results[[\"Levene's Test for Homogeneity of Variance\"]][[\"p\"]]");
-	echo('))\n}\n');
-	// Resultado comparación por pares
-	if (getBoolean("pairwise")){
-		echo('rk.header("Compaparaci&oacute;n por pares",level=3)\n');
-		if (design=='between'){
-			echo('for(i in 1:length(pairs)){\n');
-			echo('\t rk.header(paste("Intervalos de confianza para la diferencia de medias seg&uacute;n", names(pairs)[i]),level=4)\n');
-			echo('rk.results(list(');
-			echo('"Pares" = rownames(pairs[[i]])');
-			echo(', "Diferencia de medias" = pairs[[i]][,1]');
-			echo(', "L&iacute;mite inferior" = pairs[[i]][,2]');
-			echo(', "L&iacute;mite superior" = pairs[[i]][,3]');
-			echo(', "p-valor" = pairs[[i]][,4]');
-			echo('))\n');
-			echo('}\n');
-		}
-		else {
-			echo('rk.header("Contrastes de comparaci&oacute;n de medias (Tukey)",level=4)\n');
-			echo('rk.results(list(');
-			echo('"Pares" = names(summary(pairs)$test$coefficients)');
-			echo(', "Estimaci&oacute;n" = summary(pairs)$test$coefficients');
-			echo(', "Error Est&aacute;ndar" = summary(pairs)$test$sigma');
-			echo(', "Estad&iacute;stico t" = summary(pairs)$test$tstat');
-			echo(', "p-valor" = summary(pairs)$test$pvalues');
-			echo('))\n');
-			echo('rk.header("Intervalos de confianza para la diferencia de medias",level=4)\n');
-			echo('rk.results(list(');
-			echo('"Pares" = rownames(confint(pairs)$confint)');
-			echo(', "Estimaci&oacute;n" = confint(pairs)$confint[,1]');
-			echo(', "L&iacute;mite inferior" = confint(pairs)$confint[,2]');
-			echo(', "L&iacute;mite superior" = confint(pairs)$confint[,3]');
-			echo('))\n');
-		}
-	}
-	if (getBoolean("pairwise_plot")){
-		echo ('rk.graph.on()\n');
-		echo('par(las=1,mar=c(4,8,6,0))\n');
-		echo('plot(pairs)\n');
-		//echo('title(main="Intervalos de confianza del 95%\n para la diferencia de medias")\n');
-		//echo('plot(pairs,main="Intervalos de confianza del 95%\n para la diferencia de medias", xlab="Diferencia de ' + dep_name + '")\n');
-		echo ('rk.graph.off()\n');
-	}
+function calculate() {
+  // Filter
+  filter();
+  // ANOVA settings
+  if (sumSqType == 3) {
+    echo('# Set type III of sum of squares\n');
+    echo('options(contrasts=c("contr.sum","contr.poly"))\n');
+  }
+  if (caseId == '' & design == 'between') {
+    echo('# ezANOVA requires a case identifier variable\n');
+    echo(dataframe + ' <- cbind(' + dataframe + ', subjectid=factor(1:nrow(' + dataframe + ')))\n');
+  }
+  echo('anova.results <- ezANOVA(data=' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], dv=.(' + variableName + ')');
+  if (caseId) {
+    echo(', wid=' + caseIdName);
+  } else if (design == 'between') {
+    echo(', wid=subjectid');
+  }
+  if (within != '' & design != 'between') {
+    echo(', within=.(' + withinName.join(", ") + ')');
+  }
+  if (between != '' & design != 'within') {
+    echo(', between=.(' + betweenName.join(", ") + ')');
+  }
+  if (observed != '') {
+    echo(', observed=.(' + observedName.join(", ") + ')');
+  }
+  if (sumSqType != 2) {
+    echo(', type=' + sumSqType);
+  }
+  if (heterocedasticity != "false") {
+    echo(', white.adjust=' + quote(heterocedasticity));
+  }
+  if (showSumSq) {
+    echo(', detailed=TRUE');
+  }
+  echo(', return_aov=TRUE)\n');
+  // Pairwise means coparison
+  if (pairwiseMeans | pairwisePlot) {
+    if (design == 'between') {
+      echo('pairs <- TukeyHSD(anova.results[["aov"]])\n');
+    }
+    if (design == 'within') {
+      echo('pairs <- glht(lme(' + variableName + '~' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + withinName.join("=\"Tukey\",") + '= "Tukey"))\n');
+    }
+    if (design == 'mixed') {
+      echo('pairs <- glht(lme(' + variableName + '~' + betweenName.join("*") + '*' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + betweenName.join("=\"Tukey\",") + '= "Tukey", ' + withinName.join("=\"Tukey\",") + '= "Tukey"))\n');
+    }
+  }
 }
 
-
+function printout() {
+  // Header
+  header = new Header(i18n("ANOVA of %1", variableName));
+  header.add(i18n("Data frame"), dataframe);
+  header.add(i18n("Dependent variable"), variableName);
+  if (between != '' & design != "within") {
+    header.add(i18n("Between subjects factors"), betweenName.join(", "));
+  }
+  if (within != '' & design != "between") {
+    header.add(i18n("Within subjects factors"), withinName.join(", "));
+  }
+  if (observed != '') {
+    header.add(i18n("Observed (non-manipulated) factors"), observedName.join(", "));
+  }
+  header.add(i18n("Sums of squares"), 'Type' + sumSqType);
+  if (filtered) {
+    header.addFromUI("condition");
+  }
+  header.print();
+  // ANOVA results
+  echo('rk.results(list(');
+  echo(i18n("Source of variation") + ' = anova.results[["ANOVA"]][["Effect"]], ');
+  echo(i18n("Degrees of freedom <br/> numerator") + ' = anova.results[["ANOVA"]][["DFn"]], ');
+  echo(i18n("Degrees of freedom <br/> denominator") + ' = anova.results[["ANOVA"]][["DFd"]], ');
+  if (showSumSq) {
+    echo(i18n("Sum of squares <br/> numerator") + ' = anova.results[["ANOVA"]][["SSn"]], ');
+    echo(i18n("Sum of squares <br/> denominator") + ' = anova.results[["ANOVA"]][["SSd"]], ');
+  }
+  echo(i18n("F statistic") + ' = anova.results[["ANOVA"]][["F"]], ');
+  echo(i18n("p-value") + ' = anova.results[["ANOVA"]][["p"]]');
+  echo('))\n');
+  // Mauchly's sphericity test (for repeated measures)
+  echo("if(\"Mauchly\'s Test for Sphericity\" %in% names(anova.results)){\n");
+  echo('\trk.header(' + i18n("Mauchly\'s test for sphericity") + ', level=3)\n');
+  echo('\trk.results(list(');
+  echo(i18n("Source of variation") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["Effect"]], ');
+  echo(i18n("W statistic") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["W"]], ');
+  echo(i18n("p-value") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["p"]]');
+  echo('))\n}\n');
+  // Sphericity correction
+  echo('if("Sphericity Corrections" %in% names(anova.results)){\n');
+  echo('\trk.header(' + i18n("Sphericity correction") + ', level=3)\n');
+  echo('\trk.results(list(');
+  echo(i18n("Source of variation") + ' = anova.results[["Sphericity Corrections"]][["Effect"]], ');
+  echo(i18n("Epsilon Greenhouse-Geisser") + ' = anova.results[["Sphericity Corrections"]][["GGe"]], ');
+  echo(i18n("G-G corrected p-value") + ' = anova.results[["Sphericity Corrections"]][["p[GG]"]], ');
+  echo(i18n("Epsilon Huynh-Feldt") + ' = anova.results[["Sphericity Corrections"]][["HFe"]], ');
+  echo(i18n("H-F corrected p-value") + ' = anova.results[["Sphericity Corrections"]][["p[HF]"]]');
+  echo('))\n}\n');
+  // Levene's test for homogeneity of variance
+  echo('if("Levene\'s Test for Homogeneity of Variance" %in% names(anova.results)){\n');
+  echo('\trk.header("Levene\'s test for comparing variances", level=3)\n');
+  echo('\trk.results(list(');
+  echo(i18n("Degrees of freedom <br/> numerator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFn"]], ');
+  echo(i18n("Degrees of freedom <br/> denominator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFd"]], ');
+  echo(i18n("Sum of squares <br/> numerator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSn"]], ');
+  echo(i18n("Sum of squares <br/> denominator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSd"]], ');
+  echo(i18n("F statistics") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["F"]], ');
+  echo(i18n("p-value") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["p"]]');
+  echo('))\n}\n');
+  // Pairwise means comparison
+  if (pairwiseMeans) {
+    echo('rk.header(' + i18n("Pairwise comparison of means") + ', level=3)\n');
+    if (design == 'between') {
+      echo('for(i in 1:length(pairs)){\n');
+      echo('\trk.header(paste(' + i18n("Confidence intervals for the difference of means according to") + ', names(pairs)[i]),level=4)\n');
+      echo('rk.results(list(');
+      echo(i18n("Pairs") + ' = rownames(pairs[[i]]), ');
+      echo(i18n("Difference of means") + ' = pairs[[i]][,1], ');
+      echo(i18n("Lower limit") + ' = pairs[[i]][,2], ');
+      echo(i18n("Upper limit") + ' = pairs[[i]][,3], ');
+      echo(i18n("p-value") + ' = pairs[[i]][,4]');
+      echo('))\n');
+      echo('}\n');
+    } else {
+      echo('rk.header(' + i18n("Tukey\'s test for pairwise comparison of means") + ', level=4)\n');
+      echo('rk.results(list(');
+      echo(i18n("Pairs") + ' = names(summary(pairs)$test$coefficients), ');
+      echo(i18n("Estimate") + ' = summary(pairs)$test$coefficients, ');
+      echo(i18n("Standard error") + ' = summary(pairs)$test$sigma, ');
+      echo(i18n("t statistic") + ' = summary(pairs)$test$tstat, ');
+      echo(i18n("p-value") + ' = summary(pairs)$test$pvalues');
+      echo('))\n');
+      echo('rk.header(' + i18n("Confidence intervals for the difference of means") + ', level=4)\n');
+      echo('rk.results(list(');
+      echo(i18n("Pairs") + ' = rownames(confint(pairs)$confint), ');
+      echo(i18n("Estimate") + ' = confint(pairs)$confint[,1], ');
+      echo(i18n("Lower limit") + ' = confint(pairs)$confint[,2], ');
+      echo(i18n("Upper limit") + ' = confint(pairs)$confint[,3]');
+      echo('))\n');
+    }
+  }
+  // Pairwise means plot
+  if (pairwisePlot) {
+    echo('rk.header(' + i18n("Pairwise comparison of means plot") + ', level=4)\n');
+    echo('rk.graph.on()\n');
+    echo('par(mar=c(4,10,4,2))\n');
+    echo('plot(pairs)\n');
+    echo('rk.graph.off()\n');
+  }
+}

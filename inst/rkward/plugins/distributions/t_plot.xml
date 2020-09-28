@@ -1,38 +1,38 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
-
 <!DOCTYPE rkplugin>
 <document>
 	<code file="t_plot.js" />
 	<help file="t_plot.rkh" />
 	<logic>
-		<insert snippet="common_logic"/>
+		<insert snippet="commonLogic"/>
 	</logic>
-	
 	<snippets>
-		<snippet id="range_options">
-			<frame id="range" label="Rango" checkable="true" checked="false">
-				<spinbox default_precision="2" type="real" id="min" initial="-3.29" label="Mínimo" />
-				<spinbox default_precision="2" type="real" id="max" initial="3.29" label="Máximo" />
+		<snippet id="rangeOptions">
+			<frame id="range" label="Range" checkable="true" checked="false">
+				<spinbox default_precision="2" type="real" id="min" initial="-3.29" label="Min" />
+				<spinbox default_precision="2" type="real" id="max" initial="3.29" label="Max" />
 			</frame>
 		</snippet>
-		<snippet id="dist_options">
-			<frame id="parameters" label="Parámetros">
-				<spinbox default_precision="2" type="integer" id="df" initial="1" label="Grados de libertad" />
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="integer" id="df" initial="1" label="Degrees of freedom" />
 			</frame>
 		</snippet>
-		<snippet id="parameters_wizard">
+		<snippet id="introductionWizard">
 			<text>
-				Introducir los grados de libertad de la distribución T de student.	
+				<p>The Student's t probability distribution is a probability distribution that arises when estimating the mean of a normally distributed population when the sample size is small and the standard deviation of the population is unknown.</p>
+				<p>The parameter that describe this distribution is the degrees of freedom, that correspond to the sample size used to estimate the mean minus one.</p>
 			</text>
+		</snippet>
+		<snippet id="parametersWizard">
+			<text>Insert the degrees of freedom (the sample size minus one).</text>
 		</snippet>
 		<include file="plot_dist_common_snippets.xml"/>
 	</snippets>
-	
-	<dialog label="Gráfico de probabilidad T de student" >
-		<insert snippet="continous_layout"/>
+	<dialog label="Student's t probability plot">
+		<insert snippet="continuousLayout"/>
 	</dialog>
-
-	<wizard label="Gráfico de probabilidad Chi-cuadrado">
-		<insert snippet="continous_wizard"/>
+	<wizard label="Student's t probability plot">
+		<insert snippet="continuousWizard"/>
 	</wizard>
 </document>

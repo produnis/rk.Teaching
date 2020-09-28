@@ -1,11 +1,10 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="embed/" namespace="rkTeaching">
+<document base_prefix="embed/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
-		<component type="standard" id="filter_embed" file="filter_embed.xml" label="Filtro" />
-		<component type="standard" id="cells" file="cells.xml" label="Clases" />
-		<component type="standard" id="color_chooser" file="color_chooser.xml" label="Selector de color" />
-		<component type="standard" id="point_chooser" file="point_chooser.xml" label="Selector de tipo de punto" />
-		<component type="standard" id="plot_options" file="plot_options.xml" label="Opciones gráficas" />
+		<component type="standard" id="cells" file="cells.xml" label="Classes" />
+		<component type="standard" id="color_chooser" file="color_chooser.xml" label="Color selector" />
+		<component type="standard" id="point_chooser" file="point_chooser.xml" label="Point type selector" />
+		<component type="standard" id="plot_options" file="plot_options.xml" label="Graphic options" />
 	</components>
 </document>

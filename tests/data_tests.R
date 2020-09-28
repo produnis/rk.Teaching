@@ -1,13 +1,13 @@
 suite <- new ("RKTestSuite", id="data_tests",
 	# list here libraries which are needed by all (or at least most) tests
 	# in this suite
-	libraries = c ("rk.Teaching"),
+	libraries = c ("rkTeaching"),
 	# initCalls are run *before* any tests. Use this to set up the environment
 	initCalls = list (
 		function () {
 			# prepare some different files for loading
-			library ("rk.Teaching")
-			assign("notas.curso", rk.Teaching::notas.curso, pos=globalenv())
+			library ("rkTeaching")
+			assign("notas.curso", rkTeaching::notas.curso, pos=globalenv())
 		}
 	## the tests
 	), tests = list (

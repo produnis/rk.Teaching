@@ -1,86 +1,101 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
-// 
+
+include("../common/common_functions.js")
+include("../common/filter.js")
 
 // globals
-var variables, variablesnames, method, missing;
+var dataframe,
+  variables,
+  variablesNames,
+  grouped,
+  groups,
+  groupsName,
+  method,
+  missing,
+  pvalue;
+
+function setGlobalVars() {
+  variables = getList("variables");
+  variablesNames = getList("variables.shortname");
+  dataframe = getDataframe(variables);
+  grouped = getBoolean("grouped");
+  groups = getList("groups");
+  groupsName = getList("groups.shortname");
+  method = getString("method");
+  missing = getString("missing");
+  pvalue = getBoolean("p");
+}
 
 function preprocess() {
+  setGlobalVars();
+  echo('require(rkTeaching)\n');
+  echo('require(plyr)\n');
 }
 
-function calculate () {
-	variables = getList("variables");
-	variablesnames = getList("variables.shortname")
-	data = variables.join();
-	data = data.split('[[')[0];
-	method = getString("method");
-	missing = getString ("missing");
-	// Filter
-	if (getBoolean("filter_frame.checked")){
-		filter = getString("filter");
-		echo (data + ' <- subset(' + data + ', subset=' + filter + ')\n');
-	}
-
-	echo ('# building data frame\n');
-	echo ('data.list <- rk.list (' + variables.join(",") + ')\n');
-	echo ('# Non-numeric variables will be treated as ordered data and transformed into numeric ranks\n');
-	echo ('transformed.vars <- list()\n');
-	echo ('for (i in names(data.list)) {\n');
-	echo ('	if(!is.numeric(data.list[[i]])){\n');
-	echo ('		before.vars <- as.character(unique(data.list[[i]]))\n');
-	echo ('		data.list[[i]] <- xtfrm(data.list[[i]])\n');
-	echo ('		after.vars <- unique(data.list[[i]])\n');
-	echo ('		names(after.vars) <- before.vars\n');
-	echo ('		# Keep track of all transformations\n');
-	echo ('		transformed.vars[[i]] <- data.frame(rank=sort(after.vars))\n');
-	echo ('	} else {}\n');
-	echo ('}\n');
-	echo ('# Finally combine the actual data\n');
-	echo ('data <- as.data.frame (data.list, check.names=FALSE)\n');
-	echo ('colnames(data) <- c("' + variablesnames.join('","') + '")\n');
-	echo ('\n');
-	echo ('# calculate correlation matrix\n');
-	echo ('result <- cor (data, use="' + missing + '", method="' + method + '")\n');
-	if (getBoolean("p")) {
-		echo ('# calculate matrix of probabilities\n');
-		echo ('result.p <- matrix (nrow = length (data), ncol = length (data), dimnames=list (names (data), names (data)))\n');
-		if (missing="complete.obs") {
-			echo ('# as we need to do pairwise comparisons for technical reasons,\n');
-			echo ('# we need to exclude incomplete cases first to match the use="complete.obs" parameter in cor()\n');
-			echo ('data <- data[complete.cases (data),]\n');
-		} else {}
-		echo ('for (i in 1:length (data)) {\n');
-		echo ('	for (j in i:length (data)) {\n');
-		echo ('		if (i != j) {\n');
-		echo ('			t <- cor.test (data[[i]], data[[j]], method="' + method + '")\n');
-		echo ('			result.p[i, j] <- format.pval(t$p.value)\n');
-		echo ('			result.p[j, i] <- sum (complete.cases (data[[i]], data[[j]]))\n');
-		echo ('		}\n');
-		echo ('	}\n');
-		echo ('}\n');
-	}
-}
-
-function printout () {
-	echo ('rk.header ("Matriz de Correlaci&oacute;n de ' + getList("variables.shortname").join(', ') + '", parameters=list ("Variables" = rk.get.description(' + variables + ', paste.sep=", "), "M&eacute;todo" = "' + method + '"');
-	if (missing="pairwise.complete.obs"){
-		echo(', "Exclusi&oacute;n de casos con valores omitidos" = "Por pares"');
+function calculate() {
+  // Filter
+  filter();
+  // Grouped mode
+  if (grouped) {
+    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
+		// Correlation Matrix
+    echo('result <- dlply(' + dataframe + ', ".groups", function(df) correlationMatrix(df[c("' + variablesNames.join("\", \"") + '")],  use="' + missing + '", method="' + method + '"))\n');
 	} else {
-		echo(', "Exclusi&oacute;n de casos con valores omitidos" = "En todas las variables"');
-	}
-	echo('))\n');
-	echo ('rk.header ("Coeficientes de correlaci&oacute;n", level=3)\n');
-	echo ('rk.results (data.frame (round(result,4), check.names=FALSE), titles=c ("Coeficientes", colnames(data)))\n');
-	if (getBoolean("p")) {	
-		echo ('rk.header ("p-valor y tama&ntilde;o de la muestra", level=3)\n');
-		echo ('rk.results (data.frame (result.p, check.names=FALSE), titles=c ("n \\\\ p", names (data)))\n');
-	}
-	echo ('if(length(transformed.vars) > 0){\n');
-	echo ('	rk.header("Variables tratadas como rangos num&eacute;ricos", level=3)\n');
-	echo ('	for (i in names(transformed.vars)) {\n');
-	echo ('		rk.print(paste("Variable:", i))\n');
-	echo ('		rk.results(transformed.vars[[i]], titles=c("Valor original", "Rango asignado"))\n');
-	echo ('	}\n');
-	echo ('}\n');
+    // Correlation Matrix
+    echo('result <- correlationMatrix(' + dataframe + '[c("' + variablesNames.join("\", \"") + '")], use=' + quote(missing) + ', method=' + quote(method) + ')\n');
+  }
 }
 
+  function printout() {
+    // Header
+    header = new Header(i18n("Correlation matrix of %1", variablesNames.join(", ")));
+    header.add(i18n("Data frame"), dataframe);
+    header.add(i18n("Variables"), variablesNames.join(", "));
+    header.add(i18n("Method"), method);
+    if (missing == "pairwise.complete.obs") {
+      header.add(i18n("Omitting missing values"), i18n("Pairwise"));
+    } else {
+      header.add(i18n("Omitting missing values"), i18n("In all the variables"));
+    }
+    if (grouped) {
+      header.add(i18n("Grouping variable(s)"), groupsName.join(", "));
+    }
+    if (filtered) {
+      header.addFromUI("condition");
+    }
+    header.print();
 
+    //Grouped mode
+    if (grouped) {
+      echo('for (i in 1:length(result)){\n');
+      echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+      echo('\trk.header (' + i18n("Correlation coefficient") + ', level=3)\n');
+      echo('\trk.results (as.data.frame(round(result[[i]]$cor,4)), titles=c(' + i18n("Coefficients") + ', colnames(result[[i]]$cor)))\n');
+      if (pvalue) {
+        echo('\trk.header (' + i18n("p-value and sample size") + ', level=3)\n');
+        echo('\trk.results (as.data.frame(round(result[[i]]$p,4)), titles=c ("n \\\\ p", colnames(result[[i]]$p)))\n');
+      }
+      echo('\tif(length(result[[i]]$transformed) > 0){\n');
+      echo('\t\trk.header(' + i18n("Variables treated as ranks") + ', level=3)\n');
+      echo('\t\tfor (j in names(result[[i]]$transformed)) {\n');
+      echo('\t\t\trk.print(paste(' + i18n("Variable:") + ', j))\n');
+      echo('\t\t\trk.results(result[[i]]$transformed[[j]], titles=c(' + i18n("Real value") + ',' + i18n("Rank assigned") + '))\n');
+      echo('\t\t}\n');
+      echo('\t}\n');
+      echo('}\n');
+    } else {
+      echo('rk.header (' + i18n("Correlation coefficient") + ', level=3)\n');
+      echo('rk.results (as.data.frame(round(result$cor,4)), titles=c(' + i18n("Coefficients") + ', colnames(result$cor)))\n');
+      if (pvalue) {
+        echo('rk.header (' + i18n("p-value and sample size") + ', level=3)\n');
+        echo('rk.results (as.data.frame(round(result$p,4)), titles=c ("n \\\\ p", colnames(result$p)))\n');
+      }
+      echo('if(length(result$transformed) > 0){\n');
+      echo('	rk.header(' + i18n("Variables treated as ranks") + ', level=3)\n');
+      echo('	for (i in names(result$transformed)) {\n');
+      echo('		rk.print(paste(' + i18n("Variable:") + ', i))\n');
+      echo('		rk.results(result$transformed[[i]], titles=c(' + i18n("Real value") + ',' + i18n("Rank assigned") + '))\n');
+      echo('	}\n');
+      echo('}\n');
+    }
+  }

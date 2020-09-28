@@ -1,0 +1,31 @@
+<!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="hypergeometric_probabilities.js" />
+	<help file="hypergeometric_probabilities.rkh" />
+	<logic>
+		<insert snippet="discreteLogic"/>
+	</logic>
+	<snippets>
+		<snippet id="distOptions">
+			<frame id="parameters" label="Parameters">
+				<spinbox default_precision="2" type="integer" id="populationSize" min="1" initial="1" label="Population size"/>
+				<spinbox default_precision="2" type="integer" id="successes" min="1" initial="1" label="Number of successes in the population" />
+				<spinbox default_precision="2" type="integer" id="sampleSize" min="1" initial="1" label="Number of draws (sample size)" />
+			</frame>
+		</snippet>
+   <snippet id="introductionWizard">
+      <text>The hypergeometric probability distribution model describes the probability of getting k successes in n draws, <e>without replacement</e>, from a population of size N with K successes.</text>
+    </snippet>
+    <snippet id="parametersWizard">
+      <text>Insert the population size (N), the number of successes in the population (K), and the number of draws (n).</text>
+    </snippet>
+ 	<include file="dist_snippets.xml"/>
+	</snippets>
+	<dialog label="Hypergeometric probability">
+		<insert snippet="probabilitiesDiscreteLayout"/>
+	</dialog>
+	<wizard label="Hypergeometric probability">
+		<insert snippet="probabilitiesDiscreteWizard"/>
+	</wizard>
+</document>

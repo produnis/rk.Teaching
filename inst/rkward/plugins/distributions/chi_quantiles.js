@@ -1,19 +1,30 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var p, df, tail, max;
+var p,
+	df,
+	tail;
 
-function calculate () {
+function setGlobals() {
+	p = getString("p");
 	df = getString("df");
-	p = 'c(' + getString("p").replace (/[, ]+/g, ", ") + ')';
 	tail = getString("tail");
-	echo ('result <- (qchisq(p = ' + p + ', df = ' + df + ', ' + tail + '))\n');
 }
 
-function printout () {
-	echo ('rk.header ("Cuantiles Chi-cuadrado &chi;(' + df + ')", list ("Grados de libertad" = "' + df + '", "Cola de acumulaci&oacute;n" = ');
-	if (tail=="lower.tail=TRUE" )
-		echo('"Izquierda (&le;)"));\n');
-	else
-		echo('"Derecha (&gt;)"));\n');
-	echo ('rk.results (list("Probabilidades acumuladas" = ' + p + ', "Cuantiles" = result))\n');
+function calculate() {
+	setGlobals();
+	echo('result <- (qchisq(p = c(' + p + '), df = ' + df + ', ' + tail + '))\n');
+}
+
+function printout() {
+	// Header
+	header = new Header(i18n("Chi-square quantiles &chi;(%1)", df));
+	header.add(i18n("Degrees of freedom"), df);
+	if (tail === "lower.tail=TRUE") {
+		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+	} else {
+		header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+	}
+	header.print();
+	// Result
+	echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
 }

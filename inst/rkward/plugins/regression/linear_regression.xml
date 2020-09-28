@@ -2,67 +2,41 @@
 <document>
 	<code file="linear_regression.js"/>
 	<help file="linear_regression.rkh"/>
-	
 	<logic>
-		<connect client="filter_embed.variable" governor="y.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-	
-	
-	<dialog label="Ajuste de Modelo Lineal">
-		<row id="row_vars">
-			<varselector id="selector" label="Seleccionar variables"/>
+	<dialog label="Linear regression">
+		<row id="rowVars">
+			<varselector id="selector" label="Select variables"/>
 			<column>
-				<varslot id="y" label="Variable dependiente" source="selector" types="number" required="true" />
-				<varslot id="x" label="Variable(s) independiente(s)" types="number" source="selector" required="true" multi="true" />
-				<checkbox id="grouped" label="Ajuste por grupos" checked="false" />
-				<varslot id="groups" label="Variable de agrupación:" types="factor" source="selector" multi="true" required="true"/>
-				<embed id="filter_embed" component="rkTeaching::filter_embed"/>
-				<checkbox id="intercept" label="Incluir término constante" checked="true"/>
-				<saveobject id="save" label="Guardar modelo" initial="regression.model" checkable="true"/>
+				<varslot id="y" label="Dependent variable" source="selector" types="numeric" required="true"/>
+				<varslot id="x" label="Independent variable(s)" types="numeric" source="selector" required="true" multi="true"/>
+				<checkbox id="grouped" label="Regression by groups" checked="false"/>
+				<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+				<checkbox id="intercept" label="Include intercept" checked="true"/>
+				<include file="../common/filter.xml"/>
+				<saveobject id="save" label="Save model" initial="regression.model" checkable="true"/>
 			</column>
 		</row>
 	</dialog>
-	
-	<wizard label="Ajuste de Modelo Lineal">
-		<page id="page_y">
+	<wizard label="Linear regression">
+		<page>
 			<text>
-				Selecionar la variable dependiente.
+				<p>This procedure performs a linear regression analysis of one dependent variable with respect to several independent variables.</p>
+				<p>The variables must be numeric.</p>
 			</text>
-			<varselector id="selector2" label="Seleccionar variable"/>
-			<varslot id="y" label="Variable dependiente" source="selector2" type="numeric" required="true" />
 		</page>
-		<page id="page_x">
+		<page id="pageVars">
 			<text>
-				Selecionar una o más variables independientes.
+				<p>Select the dependent and independent variables.</p>
+				<p>If you want different regression lines for the categories of one or several factors, check the box										
+					<b>Regression by groups</b>	and select the factors to define the groups. If you select more than one factor you will get one regression line for every category combination of the factors.				
+				</p>
 			</text>
-			<copy id="selector" />
-			<copy id="x" />
-		</page>	
-		<page id="page_filter">
-			<text>
-				Activar la casilla si se desea un filtrado previo de los datos e introducir la condición de selección.
-
-				Puede usarse cualquier operador relacional o lógico de R.
-
-				Ejemplos: sexo=="mujer", edad>20, sexo=="mujer" | edad>0.
-
-			</text>
-			<copy id="filter_frame" />
-		</page>	
-		<page id="page_intercept">
-			<text>
-				Activar la casilla si se desea que el modelo tenga término independiente.
-			</text>
-			<copy id="intercept" />
-		</page>	
-		<page id="page_save">
-			<text id="txt_var">
-				Si se desea guardar el modelo, activar la casilla e introducir un nombre para el modelo.  
-			</text>
-			<copy id="save" />
+			<copy id="rowVars"/>
 		</page>
 	</wizard>
-	
 </document>

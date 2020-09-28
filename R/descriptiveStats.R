@@ -19,7 +19,7 @@ descriptiveStats <- function (data, groups=NULL, statistics = c("min", "max", "m
 	if (length(stats)==1){
 		stats <- stats[[1]]
 	}
-	names <- c(c("Min", "Max", "Media", "Mediana", "Moda", "Varianza", "Cuasivarianza", "Desv.T&iacute;pica", "Cuasidesv.T&iacute;pica", "Coef.Variaci&oacute;n", "Rango", "Rango.Intercuart&iacute;lico", "Coef.Asimetr&iacute;a", "Coef.Apuntamiento")
+	names <- c(c("Min", "Max", "Mean", "Median", "Mode", "Variance", "Corrected variance", "Std.Deviation", "Corrected Std.Deviation", "Coef.Variation", "Range", "IQR", "Coef.Skewness", "Coef.Kurtosis")
 					[c("min", "max", "mean", "median", "Mode", "variance", "unvariance", "stdev", "sd", "cv", "ran", "iqrange", "skewness", "kurtosis") %in% statistics])
 	nmissing <- function(x) sum(is.na(x))
 	nnomissing <- function(x) sum(!is.na(x))
@@ -34,7 +34,7 @@ descriptiveStats <- function (data, groups=NULL, statistics = c("min", "max", "m
 			names <- c(names, quantnames)
 		}
 		table <- rbind(table,colwise(each(nmissing,nnomissing))(df))
-		names <- c(names, "Perdidos", "V&aacute;lidos")
+		names <- c(names, "Missing", "Valid")
 		rownames(table) <- names
 		table <- as.data.frame(t(table))
 		table <- round(table,decimals)

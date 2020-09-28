@@ -3,13 +3,37 @@
 <document>
 	<code file="cards_probability_space.js" />
 	<help file="cards_probability_space.rkh" />
-
-	<dialog label="Espacio probabilístico de la extracción de naipes">
-		<radio id="deck" label="Tipo de baraja">
-			<option value="es" label="Española" checked="true" />
-			<option value="us" label="Americana" />
+	<dialog label="Probability space of drawing a card">
+		<radio id="deck" label="Type of deck">
+			<option value="us" label="American" checked="true" />
+			<option value="es" label="Spanish"/>
 		</radio>
-		<checkbox id="prob" label="Incluir probabilidades" checked="true" value="TRUE" uncheked_value="FALSE" />
-		<saveobject id="save" label="Guardar conjunto de datos" initial="espacio.probabilistico.cartas" />
+		<checkbox id="prob" label="Compute probabilities" checked="true" value="TRUE" uncheked_value="FALSE" />
+		<saveobject id="save" label="Save probability space" initial="probability.space.cards" />
 	</dialog>
+	<wizard label="Probability space of drawing a card">
+		<page>
+			<text>
+				<p>This procedure generates the probability space of drawing a card from a deck of cards.</p>
+			</text>
+		</page>
+		<page>
+			<text>
+				<p>Select the type of deck.</p>
+			</text>
+			<copy id="deck" />
+		</page>
+		<page>
+			<text>
+				<p>Check the box to compute the probability space, that is, the probabilities for each of the elements of the sample space. If not, you will get only the sample space.</p>
+			</text>
+			<copy id="prob" />
+		</page>
+		<page>
+			<text>
+				<p>Give a name to the data set with the probability space.</p>
+			</text>
+			<copy id="save" />
+		</page>
+	</wizard>
 </document>

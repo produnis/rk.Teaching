@@ -2,75 +2,60 @@
 <document>
 	<code file="regression_comparison.js"/>
 	<help file="regression_comparison.rkh"/>
-	
 	<logic>
-		<connect client="filter_embed.variable" governor="y.available" />
 		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
 		<connect client="groups.visible" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
 	</logic>
-
-	<dialog label="Comparación de Modelos de Regresión">
+	<dialog label="Regression model comparison">
 		<tabbook>
-			<tab id="variables_tab" label="Variables">
-				<row id="row_vars">
-					<varselector id="selector" label="Seleccionar variables"/>
+			<tab id="tabVars" label="Variables">
+				<row id="rowVars">
+					<varselector id="selector" label="Select variables"/>
 					<column>
-						<varslot id="y" label="Variable dependiente" type="numeric" source="selector" required="true" />
-						<varslot id="x" label="Variable independiente" type="numeric" source="selector" required="true" />
-						<checkbox id="grouped" label="Ajuste por grupos" checked="false" />
-						<varslot id="groups" label="Variable de agrupación:" source="selector" multi="true" required="true"/>
-						<embed id="filter_embed" component="rkTeaching::filter_embed"/>	
-						<stretch/>					
+						<varslot id="y" label="Dependent variable" source="selector" types="numeric" required="true"/>
+						<varslot id="x" label="Independent variable(s)" types="numeric" source="selector" required="true"/>
+						<checkbox id="grouped" label="Regression by groups" checked="false"/>
+						<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+						<include file="../common/filter.xml"/>
 					</column>
 				</row>
 			</tab>
-			<tab id="model_tab" label="Modelos de regresión">		
-				<frame id="model" label="Modelo" >
-					<checkbox id="linear" label="Lineal" value="'linear'," checked="true"/>
-					<checkbox id="cuadratic" label="Cuadrático" value="'cuadratic',"/>
-					<checkbox id="cubic" label="Cúbico" value="'cubic',"/>
-					<checkbox id="potential" label="Potencial" value="'potential',"/>
-					<checkbox id="exponential" label="Exponencial" value="'exponential',"/>
-					<checkbox id="logarithmic" label="Logarítmico" value="'logarithmic',"/>
-					<checkbox id="inverse" label="Inverso" value="'inverse',"/>
+			<tab id="tabModel" label="Regression models">
+				<frame id="model" label="Model">
+					<checkbox id="linear" label="Linear" value="'linear'," checked="true"/>
+					<checkbox id="quadratic" label="Quadratic" value="'quadratic',"/>
+					<checkbox id="cubic" label="Cubic" value="'cubic',"/>
+					<checkbox id="potential" label="Potential" value="'potential',"/>
+					<checkbox id="exponential" label="Exponential" value="'exponential',"/>
+					<checkbox id="logarithmic" label="Logarithmic" value="'logarithmic',"/>
+					<checkbox id="inverse" label="Inverse" value="'inverse',"/>
 					<checkbox id="sigmoid" label="Sigmoidal" value="'sigmoid',"/>
 				</frame>
 			</tab>
 		</tabbook>
 	</dialog>
-	
-	<wizard label="Comparación de Modelos de Regresión">
-		<page id="page_y">
+	<wizard label="Regression model comparison">
+		<page>
 			<text>
-				Selecionar la variable dependiente.
+				<p>This procedure performs a comparison of regression models of one dependent variable with respect to one independent variable.</p>
+				<p>The variables must be numeric.</p>
 			</text>
-			<varselector id="selector2" label="Seleccionar variable"/>
-			<varslot id="y" label="Variable dependiente" source="selector2" type="numeric" required="true" />
 		</page>
-		<page id="page_x">
+		<page id="pageVars">
 			<text>
-				Selecionar la variables independiente.
+				<p>Select the dependent and independent variables.</p>
+				<p>If you want different regression models for the categories of one or several factors, check the box					
+					<b>Regression by groups</b>					and select the factors to define the groups. If you select more than one factor you will get one comparison for every category combination of the factors.
+				</p>
 			</text>
-			<copy id="selector" />
-			<copy id="x" />
-		</page>	
-		<page id="page_filter">
-			<text>
-				Activar la casilla si se desea un filtrado previo de los datos e introducir la condición de selección.
-
-				Puede usarse cualquier operador relacional o lógico de R.
-
-				Ejemplos: sexo=="mujer", edad>20, sexo=="mujer" | edad>0.
-
-			</text>
-			<copy id="filter_frame" />
-		</page>	
-		<page id="page_model">
-			<text>
-				Seleccionar los tipos de modelos a comparar.
-			</text>
-			<copy id="model" />
-		</page>		
+			<copy id="rowVars"/>
+		</page>
+		<page id="pageModel">
+			<text>				Check the boxes of the models to compare.			</text>
+			<copy id="model"/>
+			<stretch/>
+		</page>
 	</wizard>
-	
 </document>
