@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="parametric_tests/" namespace="rkTeaching">
+<document base_prefix="parametric_tests/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="one_sample_t_test" file="one_sample_t_test.xml" label="t-test for the mean of one population" />
 		<component type="standard" id="two_independent_samples_t_test" file="two_independent_samples_t_test.xml" label="t-test for comparing the means of two independent populations" />

@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="statistics/" namespace="rkTeaching">
+<document base_prefix="statistics/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="descriptive_statistics" file="descriptive_statistics.xml" label="Statistics" />
 	</components>

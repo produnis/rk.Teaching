@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="concordance/" namespace="rkTeaching">
+<document base_prefix="concordance/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="intraclass_correlation" file="intraclass_correlation.xml" label="Intraclass correlation" />
 		<component type="standard" id="kappa_cohen" file="kappa_cohen.xml" label="Cohen's kappa" />

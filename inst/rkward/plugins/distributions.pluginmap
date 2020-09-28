@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="distributions/" namespace="rkTeaching">
+<document base_prefix="distributions/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="binomial_probabilities" file="binomial_probabilities.xml" label="Probabilities" />
 		<component type="standard" id="binomial_quantiles" file="binomial_quantiles.xml" label="Quantiles" />

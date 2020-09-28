@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="regression/" namespace="rkTeaching">
+<document base_prefix="regression/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="linear_regression" file="linear_regression.xml" label="Linear regression" />
 		<component type="standard" id="non_linear_regression" file="non_linear_regression.xml" label="Non-linear regression" />

@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="tabulation/" namespace="rkTeaching">
+<document base_prefix="tabulation/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component id="FrequencyTabulation" label="Frequency table" file="frequency_tabulation.xml" type="standard"/>
 		<component id="FrequencyTabulation2Varibles" label="Two-dimensional frequency table" file="frequency_tabulation_2_variables.xml" type="standard"/>

@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="plots/" namespace="rkTeaching">
+<document base_prefix="plots/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="barplot" file="barplot.xml" label="Bar chart" />
 		<component type="standard" id="histogram" file="histogram.xml" label="Histogram" />

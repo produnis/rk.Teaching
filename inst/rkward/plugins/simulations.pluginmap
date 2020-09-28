@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="simulations/" namespace="rkTeaching">
+<document base_prefix="simulations/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="rare_events_law" file="rare_events_law.xml" label="Law of rare events" />
 	</components>

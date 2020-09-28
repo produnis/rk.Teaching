@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="probability/" namespace="rkTeaching">
+<document base_prefix="probability/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="coins_probability_space" file="coins_probability_space.xml" label="Probability space" />
 		<component type="standard" id="tosscoins" file="tosscoins.xml" label="Toss coins" />

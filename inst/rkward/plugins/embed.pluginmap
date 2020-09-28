@@ -1,6 +1,6 @@
 <!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkpluginmap>
-<document base_prefix="embed/" namespace="rkTeaching">
+<document base_prefix="embed/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
 		<component type="standard" id="cells" file="cells.xml" label="Classes" />
 		<component type="standard" id="color_chooser" file="color_chooser.xml" label="Color selector" />
