@@ -3,7 +3,7 @@ var spaces,
 	save;
 
 function preprocess() {
-	echo('require(rkTeaching)\n');
+	echo('library(rkTeaching)\n');
 }
 
 function setGlobals() {

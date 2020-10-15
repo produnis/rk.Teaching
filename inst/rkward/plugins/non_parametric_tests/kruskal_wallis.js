@@ -27,8 +27,8 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('require(plyr)\n')
-	echo('require(rkTeaching)\n');
+	echo('library(plyr)\n')
+	echo('library(rkTeaching)\n');
 }
 
 function calculate() {

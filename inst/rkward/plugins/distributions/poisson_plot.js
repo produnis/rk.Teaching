@@ -28,6 +28,7 @@ function doHeader() {
 }
 
 function doFunCall() {
-	echo('ylim <- max(' + fun + '(seq(' + min + ',' + max + '), lambda=' + lambda + '))\n');
-	echo('p <- qplot(c(' + min + ',' + max + '), geom="blank") + stat_function(fun=' + fun + ', colour="#FF5555", n=' + n + ', geom="point", size=I(3), args=list(lambda=' + lambda + ')) + ylim(0,ylim)');
+	echo('x <- ' + min + ':' + max + '\n');
+	echo('df = data.frame(x, y=' + fun + '(x, lambda = ' + lambda + '))\n');
+	echo('p <- ggplot(df, aes(x, y)) + geom_point(colour="#FF5555") + ggtitle("Probability distribution Poisson(' + lambda + ')")');
 }

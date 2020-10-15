@@ -6,7 +6,7 @@ freq,
 dataframe;
 
 function preprocess(){
-	echo('require(prob)\n');
+	echo('library(prob)\n');
 }
 
 function setGlobals() {

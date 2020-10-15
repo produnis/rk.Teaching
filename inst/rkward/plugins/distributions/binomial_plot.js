@@ -9,7 +9,7 @@ include('plot_dist_common.js');
 function getParameters() {
 	size = getString("size");
 	prob = getString("prob");
-	setDistParameters()
+	setDistParameters();
 	if (density) {
 		fun = "dbinom";
 	} else {
@@ -28,6 +28,7 @@ function doHeader() {
 }
 
 function doFunCall() {
-	echo('ylim <- max(' + fun + '(seq(' + min + ',' + max + '), size=' + size + ', prob=' + prob + '))\n');
-	echo('p <- qplot(c(' + min + ',' + max + '), geom="blank") + stat_function(fun=' + fun + ', colour="#FF5555", n=' + n + ', geom="point", size=I(3), args=list(size=' + size + ', prob=' + prob + ')) + ylim(0,ylim)');
+	echo('x <- ' + min + ':' + max + '\n');
+	echo('df = data.frame(x, y=' + fun + '(x, size = ' + size + ', prob = ' + prob + '))\n');
+	echo('p <- ggplot(df, aes(x, y)) + geom_point(colour="#FF5555") + ggtitle("Probability distribution Binomial(' + size + ', ' + prob + ')")');
 }

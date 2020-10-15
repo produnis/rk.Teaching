@@ -4,7 +4,7 @@ nrep,
 targetDataframe;
 
 function preprocess(){
-	echo('require(rkTeaching)\n');
+	echo('library(rkTeaching)\n');
 }
 
 function setGlobals() {

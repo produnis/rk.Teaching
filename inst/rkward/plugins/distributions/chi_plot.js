@@ -24,5 +24,7 @@ function doHeader () {
 }
 
 function doFunCall() {
-	echo('p <- qplot(c(' + min + ',' + max + '), geom="blank") + stat_function(fun=' + fun + ', colour="#FF5555", args=list(df=' + df + '))');
+	echo('x <- seq(' + min + ', ' + max + ', 0.01)\n');
+	echo('df = data.frame(x, y=' + fun + '(x, df = ' + df + '))\n');
+	echo('p <- ggplot(df, aes(x, y)) + geom_line(colour="#FF5555") + ggtitle(' + i18n("Probability distribution Chi-square(%1)", df) + ')');
 }

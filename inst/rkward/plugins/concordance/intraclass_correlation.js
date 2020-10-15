@@ -19,7 +19,7 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('require(psych)\n');
+	echo('library(psych)\n');
 }
 
 function calculate() {

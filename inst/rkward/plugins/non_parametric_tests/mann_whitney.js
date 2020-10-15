@@ -39,7 +39,7 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('require(plyr)\n');
+	echo('library(plyr)\n');
 }
 
 function calculate() {

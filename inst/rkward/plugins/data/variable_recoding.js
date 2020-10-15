@@ -11,7 +11,7 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo("require(car)\n");
+    echo("library(car)\n");
 }
 
 function calculate() {

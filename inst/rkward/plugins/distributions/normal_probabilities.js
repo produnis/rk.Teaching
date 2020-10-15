@@ -16,7 +16,7 @@ function setGlobals() {
 
 function preprocess() {
 	setGlobals();
-	echo('require(ggplot2)\n');
+	echo('library(ggplot2)\n');
 }
 
 function calculate() {

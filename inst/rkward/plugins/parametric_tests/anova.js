@@ -44,9 +44,9 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('require(ez)\n');
-  echo('require(nlme)\n');
-  echo('require(multcomp)\n');
+  echo('library(ez)\n');
+  echo('library(nlme)\n');
+  echo('library(multcomp)\n');
 }
 
 function calculate() {

@@ -11,7 +11,7 @@ function getParameters() {
 	df2 = getString("df2");
 	min = 0;
 	if (parseFloat(df2) < 5) {
-		max = 10
+		max = 15
 	} else {
 		max = parseFloat(df2) / (parseFloat(df2) - 2) + 4 * Math.sqrt(2 * Math.pow(parseFloat(df2), 2) * (parseFloat(df1) + parseFloat(df2) - 2) / (parseFloat(df1) * Math.pow((parseFloat(df2) - 2), 2) * (parseFloat(df2) - 4)));
 	}
@@ -31,5 +31,7 @@ function doHeader() {
 }
 
 function doFunCall() {
-	echo('p <- qplot(c(' + min + ',' + max + '), geom="blank") + stat_function(fun=' + fun + ', colour="#FF5555", n=201, args=list(df1=' + df1 + ', df2=' + df2 + '))');
+	echo('x <- seq(' + min + ', ' + max + ', 0.01)\n');
+	echo('df = data.frame(x, y=' + fun + '(x, df1 = ' + df1 + ', df2 = ' + df2 + '))\n');
+	echo('p <- ggplot(df, aes(x, y)) + geom_line(colour="#FF5555") + ggtitle(' + i18n("Probability distribution Fisher-Snedecor F(%1, %2)", df1, df2) + ')');
 }

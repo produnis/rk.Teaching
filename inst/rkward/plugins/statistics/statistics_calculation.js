@@ -4,7 +4,7 @@
 var vars;
 
 function preprocess(){
-	echo('require(rkTeaching)\n');
+	echo('library(rkTeaching)\n');
 }
 
 function calculate () {

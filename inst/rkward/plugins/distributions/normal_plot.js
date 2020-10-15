@@ -27,5 +27,7 @@ function doHeader() {
 }
 
 function doFunCall() {
-	echo('p <- qplot(c(' + min + ',' + max + '), geom="blank") + stat_function(fun=' + fun + ', colour="#FF5555", args=list(mean=' + mean + ', sd=' + sd + '))');
+	echo('x <- seq(' + min + ', ' + max + ', 0.01)\n');
+	echo('df = data.frame(x, y=' + fun + '(x, mean = ' + mean + ', sd = ' + sd + '))\n');
+	echo('p <- ggplot(df, aes(x, y)) + geom_line(colour="#FF5555") + ggtitle(' + i18n("Probability distribution Normal(%1, %2)", mean, sd) + ')');
 }

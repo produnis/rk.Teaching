@@ -21,8 +21,8 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('require(nortest)\n');
-	echo('require(plyr)\n');
+	echo('library(nortest)\n');
+	echo('library(plyr)\n');
 }
 
 function calculate() {

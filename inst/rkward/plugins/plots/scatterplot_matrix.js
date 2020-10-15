@@ -22,8 +22,8 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('require(ggplot2)\n');
-  echo('require(GGally)\n');
+  echo('library(ggplot2)\n');
+  echo('library(GGally)\n');
 }
 
 function calculate() {
