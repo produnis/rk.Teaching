@@ -3,6 +3,7 @@
 var q,
 	df,
 	tail,
+	min,
 	max;
 
 function setGlobals() {
@@ -10,6 +11,7 @@ function setGlobals() {
 	df = getString("df");
 	tail = getString("tail");
 	plot = getBoolean("plot");
+	min = 0;
 	max = parseFloat(df) + 4 * Math.sqrt(2 * parseFloat(df));
 }
 
@@ -33,14 +35,15 @@ function printout() {
 	// Plot
 	if (getBoolean("plot")) {
 		if (tail == "lower.tail=TRUE") {
-			echo('x <- seq(0,' + q + '[1], length.out= 100)\n');
+			echo('x <- seq(0,' + q + '[1], 0.01)\n');
 		} else {
-			echo('x <- seq(' + q + '[1],' + max + ', length.out= 100)\n');
+			echo('x <- seq(' + q + '[1],' + max + ', 0.01)\n');
 		}
 		echo('y <- dchisq(x,' + df + ')\n');
+		echo('df <- data.frame(x, y)\n');
 		echo('rk.graph.on()\n');
 		echo('try ({\n');
-		echo('p <- qplot(x=c(0, ' + max + '), geom="blank") + geom_area(aes(x=c(x[1],x,x[100]), c(0,y,0)), fill=I("#FF9999"), alpha=0.5) + stat_function(fun=dchisq, colour="#FF5555", args=list(df=' + df + ')) + xlab(expression(italic("X"))) + ylab(expression(paste(' + i18n("Density") + ', " ", italic(f(x))))) + scale_x_continuous(breaks=c(' + q + '[1]))');
+		echo('p <- ggplot(df, aes(x, y)) + geom_area(fill=I("#FF9999"), alpha=0.5) + stat_function(fun=dchisq, colour="#FF5555", args=list(df=' + df + ')) + xlab(expression(italic("X"))) + ylab(expression(paste(' + i18n("Density") + '," ", italic(f(x))))) + scale_x_continuous(breaks=c(' + q + '[1]), limits=c(' + min + ', ' + max + '))');
 		if (tail == "lower.tail=TRUE") {
 			echo(' + labs(title=paste("P(X<",' + q + '[1], ")=", round(result[1],4)))\n');
 		} else {
