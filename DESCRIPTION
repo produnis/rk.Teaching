@@ -3,7 +3,7 @@ Package: rk.Teaching
 Type: Package
 Title: A RKWard plugin with basic utilities for teaching Statistics
 Version: 1.4
-Date: 2016-01-01
+Date: 2021-01-01
 Author: Alfredo Sánchez Alberca <asalber@ceu.es>
 Maintainer: Alfredo Sánchez Alberca <asalber@ceu.es>
 Depends:
@@ -19,7 +19,8 @@ Depends:
     Hmisc,
     prob,
     ez,
-    R (>= 3.2.0)
+    multcomp,
+    R (>= 3.5.0)
 Enhances: rkward
 Description: Basic utilities for teaching statistics.
     It contains procedures for:

@@ -11,7 +11,7 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo("require(rk.Teaching)\n");
+    echo("library(rk.Teaching)\n");
 }
 
 function calculate() {
