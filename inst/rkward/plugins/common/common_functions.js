@@ -1,8 +1,8 @@
-// Functions that get de data frame name from variables in the form dataframe[["variable"]]
+// Function that get the data frame name from variables in the form dataframe[["variable"]]
 function getDataframe(vars) {
     if (Array.isArray(vars)) {
-        return vars.join().split('[[')[0];
+        return vars.join().toString().split('[[')[0];
     } else {
-        return vars.split('[[')[0];
+        return vars.toString().split('[[')[0];
     }
 }

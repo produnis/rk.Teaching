@@ -19,7 +19,6 @@ Depends:
     car,
     e1071,
     Hmisc,
-    prob,
     ez,
     multcomp,
     R (>= 3.5.0)

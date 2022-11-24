@@ -1,0 +1,195 @@
+/* Fonts */
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-Hair.eot');
+  src: local('Fira Sans Hair'), url('eot/FiraSans-Hair.eot') format('embedded-opentype'), url('woff/FiraSans-Hair.woff') format('woff'), url('ttf/FiraSans-Hair.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-HairItalic.eot');
+  src: local('Fira Sans Hair Italic'), url('eot/FiraSans-HairItalic.eot') format('embedded-opentype'), url('woff/FiraSans-HairItalic.woff') format('woff'), url('ttf/FiraSans-HairItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-UltraLight.eot');
+  src: local('Fira Sans UltraLight'), url('eot/FiraSans-UltraLight.eot') format('embedded-opentype'), url('woff/FiraSans-UltraLight.woff') format('woff'), url('ttf/FiraSans-UltraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-UltraLightItalic.eot');
+  src: local('Fira Sans UltraLight Italic'), url('eot/FiraSans-UltraLightItalic.eot') format('embedded-opentype'), url('woff/FiraSans-UltraLightItalic.woff') format('woff'), url('ttf/FiraSans-UltraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-Light.eot');
+  src: local('Fira Sans Light'), url('eot/FiraSans-Light.eot') format('embedded-opentype'), url('woff/FiraSans-Light.woff') format('woff'), url('ttf/FiraSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('eot/FiraSans-LightItalic.eot');
+  src: local('Fira Sans Light Italic'), url('eot/FiraSans-LightItalic.eot') format('embedded-opentype'), url('woff/FiraSans-LightItalic.woff') format('woff'), url('ttf/FiraSans-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+body {
+  font-family: "Fira Sans", helvetica, sans-serif;
+  font-weight: 300;
+}
+
+pre.code {
+  margin-left: 2em;
+}
+
+pre.code:before {
+  display: block;
+  content: "> ";
+  width: 2em;
+  color: black;
+  float: left;
+  margin-left: -2em;
+}
+
+pre.output_normal {
+  clear: both;
+  /* make sure never to float around the "> " marker */
+}
+
+pre.output_warning {
+  clear: both;
+  /* make sure never to float around the "> " marker */
+  background-color: #ffdddd;
+}
+
+table {
+  text-align: right;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table th {
+  text-align: center;
+  font-weight: normal;
+  padding: 8px;
+  background: #b9c9fe;
+  border: 1px solid #fff;
+  color: #555;
+}
+
+table td {
+  padding: 2px;
+  padding-right: 8px;
+  background: #ddddff;
+  border: 1px solid #fff;
+  color: #555;
+}
+
+table tr:hover td {
+  background: #d0dafd;
+  color: #339;
+}
+
+A:link {
+  text-decoration: none
+}
+
+A:visited {
+  text-decoration: none
+}
+
+A:active {
+  text-decoration: none
+}
+
+A:hover {
+  color: red;
+}
+
+h1, h2, h3, h4 {
+  margin-bottom: -10px;
+}
+
+h1 A:hover {
+  color: #55E;
+}
+
+h2 A:hover, h3 A:hover, h4 A:hover {
+  color: #000;
+}
+
+h1 {
+  font-size: 22px;
+  color: #55E;
+  margin-bottom: 0px;
+}
+
+h2 {
+  font-family: verdana, helvetica, sans-serif;
+  font-size: 18px;
+  color: #55E;
+}
+
+ul {
+  list-style: square;
+  color: #555;
+  margin-bottom: -5px;
+}
+
+
+/* TOC menu */
+
+.RKTOC {
+  background-color: #eeeeff;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 25%;
+  padding: 7px;
+  display: none;
+  overflow: auto;
+}
+
+.RKTOChidden {
+  display: inline;
+  height: 1em;
+  overflow: hidden;
+}
+
+.toggleTOC:link, .toggleTOC:visited {
+  color: blue;
+  font-weight: bold;
+}
+
+.right {
+  position: absolute;
+  right: 7px;
+  text-align: right;
+}
+
+.center {
+  position: absolute;
+  right: 25%;
+  left: 25%;
+  top: 7px;
+  text-align: center;
+}
+
+
+/* end TOC menu */
