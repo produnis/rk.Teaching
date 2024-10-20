@@ -56,9 +56,7 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo('library(rkTeaching)\n');
-    echo('library(plyr)\n');
-    echo('library(ggplot2)\n');
+    echo('library(tidyverse)\n');
 }
 
 function calculate() {

@@ -33,26 +33,31 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Test settings
-  var options = ', alternative="' + hypothesis + '", paired=TRUE';
+  var options = ', alternative = "' + hypothesis + '", paired = TRUE';
   // Confidence interval
   if (getConfInt) {
-    options += ", conf.level=" + confLevel;
+    options += ", conf.level = " + confLevel;
   }
   // Grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-    echo('result <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(xName) + ']], df[[' + quote(yName) + ']]' + options + '))\n');
+    echo('result <- ' + dataframe + ' |>\n');
+    echo('\tgroup_by(' + groupsName + ') |>\n');
+    echo('\tsummarise(test = tidy(t.test(' + xName + ', ' + yName + options + '))) |>\n');
+    echo('\tunnest(test)\n');
+    echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
   } else {
     // Non-grouped mode
-    echo('result <- t.test (' + x + ', ' + y + options + ')\n');
+    echo('result <- tidy(t.test (' + x + ', ' + y + options + '))\n');
   }
 }
 
@@ -83,30 +88,38 @@ function printout() {
   // Grouped mode
   if (grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results (list(');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
     echo(i18n("Variable") + ' = "' + xName + ' - ' + yName + '", ');
-    echo(i18n("Estimated mean difference") + ' = result[[i]]$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+    echo(i18n("Mean of difference") + ' = result[[i]]$estimate, ');
+    echo(i18n("DF") + ' = result[[i]]$parameter, ');
     echo(i18n("t statistic") + ' = result[[i]]$statistic, ');
     echo(i18n("p-value") + ' = result[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the mean of difference") + ' = result[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>mean of difference") + ' = paste0("(", round(result[[i]]$conf.low, 6), " , ", round(result[[i]]$conf.high, 6), ")")');
     }
-    echo('))}\n');
+    echo(') |>\n');
+    echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n'); 
+    echo('}\n');
   } else {
     // Non-grouped mode
-    echo('rk.results (list(');
+    echo('rk.print.literal(tibble(');
     echo(i18n("Variable") + ' = "' + xName + ' - ' + yName + '", ');
-    echo(i18n("Estimated mean difference") + ' = result$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+    echo(i18n("Mean of difference") + ' = result$estimate, ');
+    echo(i18n("DF") + ' = result$parameter, ');
     echo(i18n("t statistic") + ' = result$statistic, ');
     echo(i18n("p-value") + ' = result$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the mean of difference") + ' = result$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>mean of difference") + ' = paste0("(", round(result$conf.low, 6), " , ", round(result$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
   }
 }

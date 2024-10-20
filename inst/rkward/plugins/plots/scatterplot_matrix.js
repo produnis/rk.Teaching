@@ -22,19 +22,25 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(ggplot2)\n');
+  echo('library(tidyverse)\n');
   echo('library(GGally)\n');
 }
 
 function calculate() {
   // Filter
   filter();
+  echo('plot <- ' + dataframe + ' |>\n');
   // Set grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', ' + groupsName.join(".") + '=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[["' + groupsName.join(".") + '"]]),]\n');
-    echo('densityAlpha <- function(data, mapping, ...) {ggplot(data = data, mapping=mapping) + geom_density(...)}\n');
+    echo('\tmutate(' + groupsName.join(".") + ' = interaction(' + groupsName.join(",") + ')) |>\n');
   }
+  // Set plot
+  echo('\tggpairs(columns = c(' + variablesNames.map(quote) + ')');
+  if (grouped) {
+    echo(', mapping = aes(colour = ' + groupsName.join(".") + ', alpha = 0.3)');
+  }
+  echo(')\n');
+
 }
 
 function printout() {
@@ -63,12 +69,9 @@ function doPrintout(full) {
     echo('rk.graph.on()\n');
   }
   // Plot
-  echo('matrixplot <- ggpairs(' + dataframe + ', columns=c(' + variablesNames.map(quote) + ')');
-  if (grouped) {
-    echo(', mapping=aes(colour=' + groupsName.join(".") + '), diag = list(continuous = densityAlpha)');
-  }
-  echo(')\n');
-  echo('print(matrixplot)');
+  echo('try ({\n');
+  echo('\tprint(plot)\n');
+  echo('})\n');
   if (full) {
     echo('\n');
     echo('rk.graph.off()\n');

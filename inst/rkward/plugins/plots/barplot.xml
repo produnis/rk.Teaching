@@ -7,7 +7,6 @@
 		<set id="plotOptions.allow_log" to="false"/>
 		<convert id="groupedMode" sources="grouped.state" mode="equals" standard="1"/>
 		<connect client="groups.visible" governor="groupedMode"/>
-		<connect client="polygon.enabled" governor="groupedMode.not"/>
 		<connect client="frameBarFillColor.enabled" governor="groupedMode.not"/>
 		<connect client="frameBarBorderColor.enabled" governor="groupedMode.not"/>
 		<convert id="cumulative_mode" sources="cumulative.state" mode="equals" standard="1"/>
@@ -39,7 +38,6 @@
 							<checkbox id="relative" label="Relative frequency" checked="false"/>
 							<checkbox id="cumulative" label="Cumulative frequency" checked="false"/>
 						</frame>
-						<checkbox id="polygon" label="Polygon" checked="false"/>
 						<radio id="position" label="Grouping options">
 							<option value="dodge" label="Juxtaposed" checked="true"/>
 							<option value="stack" label="Stacked"/>
@@ -81,10 +79,6 @@
 				<p>Select the type of frequency to plot.</p>
 			</text>
 			<copy id="frameFreq"/>
-			<text>
-				<p>Check the box if you want to plot the polygon on the bar chart.</p>
-			</text>
-			<copy id="polygon"/>
 			<text>
 				<p>In case of plotting several bar charts by groups, select the layout for the bars: Juxtapoxed (next to each other), Stacked (on top of each other) or Separated (in separated charts).</p>
 			</text>

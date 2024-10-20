@@ -1,13 +1,11 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var deck, 
-ncards, 
-freq,
-dataframe;
+var ncards, 
+	freq,
+	dataframe;
 
 function preprocess(){
-	echo('library(prob)\n');
-	echo('library(rkTeaching)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -18,13 +16,13 @@ function setGlobals() {
 
 function calculate () {
 	setGlobals();	
-	echo('s <- cards(type="' + deck + '", makespace=TRUE)\n');
-	echo('results <- sim(s, ntrials=' + ncards + ')\n');
+	echo('s <- cards(makespace = TRUE)\n');
+	echo('result <- sim(s, ntrials = ' + ncards + ')\n');
 	if (freq) {
-		echo('results <- empirical(results)\n');
-		echo('names(results)[ncol(results)]=' + i18n("frequency") + '\n');
+		echo('result <- empirical(result)\n');
+		echo('names(result)[ncol(result)] = ' + i18n("frequency") + '\n');
 	}
-	echo ('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo ('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

@@ -18,16 +18,19 @@ function calculate() {
 }
 
 function printout() {
-// Header
-header = new Header(i18n("Continuous uniform quantiles U(%1,%2)", min, max));
-header.add(i18n("Minimum"), min);
-header.add(i18n("Maximum"), max);
-if (tail === "lower.tail=TRUE") {
-	header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
-} else {
-	header.add(i18n("Accumulation tail"), i18n("Right (>)"));
-}
-header.print();
-// Result
-echo('rk.results (list(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result))\n');
+	// Header
+	header = new Header(i18n("Continuous uniform quantiles U(%1,%2)", min, max));
+	header.add(i18n("Minimum"), min);
+	header.add(i18n("Maximum"), max);
+	if (tail === "lower.tail=TRUE") {
+		header.add(i18n("Accumulation tail"), i18n("Left (&le;)"));
+	} else {
+		header.add(i18n("Accumulation tail"), i18n("Right (>)"));
+	}
+	header.print();
+	// Result
+	echo('rk.print.literal(tibble(' + i18n("Cumulative prob") + ' = c(' + p + '), ' + i18n("Quantile") + ' = result) |>\n');
+	echo('\tkable("html", align = "c", escape = F) |>\n');
+	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+	echo(')\n'); 
 }

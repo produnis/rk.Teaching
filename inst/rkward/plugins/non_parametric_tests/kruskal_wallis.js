@@ -27,8 +27,10 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('library(plyr)\n')
-	echo('library(rkTeaching)\n');
+	echo('library(tidyverse)\n');
+	echo('library(broom)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 }
 
 function calculate() {
@@ -36,18 +38,23 @@ function calculate() {
 	filter();
 	// Grouped mode
 	if (grouped) {
-		echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-		echo('result <- dlply(' + dataframe + ', ".groups", function(df) kruskal.test(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']]))\n');
+		echo('result <- ' + dataframe + ' |>\n');
+		echo('\tgroup_by(' + groupsName + ') |>\n');
+		echo('\tsummarise(test = tidy(kruskal.test(' + variableName + ' ~ ' + factorName + '))) |>\n');
+		echo('\tunnest(test)\n');
+		echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
 		if (pairwise) {
-			echo('pairs <- dlply(' + dataframe + ', ".groups", function(df) kruskalMultipleComparison(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']]))\n');
+			echo('result.pairwise <- ' + dataframe + ' |>\n');
+			echo('\tgroup_by(' + groupsName + ') |>\n');
+			echo('\treframe(test = tidy(pairwise.wilcox.test(' + variableName + ', ' + factorName + ', p.adjust.method = "BH"))) |>\n');
+			echo('\tunnest(test)\n');
+			echo('result.pairwise <- split(result.pairwise, list(result.pairwise$' + groupsName.join(",result.pairwise$") + '), drop = TRUE)\n');	
 		}
 	} else {
 		// Non-grouped mode
-		echo('result <- kruskal.test(' + variable + ', ' + factor + ')\n');
+		echo('result <- tidy(kruskal.test(' + variable + ' ~ ' + factor + '))\n');
 		if (pairwise) {
-			echo('pairs <- kruskalMultipleComparison(' + variable + ', ' + factor + ')\n');
-			echo('pairs[["dif.com"]][["difference"]] <- replace(pairs[["dif.com"]][["difference"]],pairs[["dif.com"]][["difference"]]==TRUE,' + i18n("YES") + ')\n');
-			echo('pairs[["dif.com"]][["difference"]] <- replace(pairs[["dif.com"]][["difference"]],pairs[["dif.com"]][["difference"]]==FALSE,' + i18n("NO") + ')\n');
+			echo('result.pairwise <- tidy(pairwise.wilcox.test(' + variable + ', ' + factor + ',  p.adjust.method = "BH"))\n');
 		}
 	}
 }
@@ -71,37 +78,46 @@ function printout() {
 	if (grouped) {
 		echo('for (i in 1:length(result)){\n');
 		echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-		echo('\trk.results (list(');
+		echo('\trk.print.literal(\n');
+    	echo('\ttibble(');
 		echo(i18n("Variable") + ' = ' + quote(variableName) + ', ');
 		echo(i18n("Populations defined by") + ' = ' + quote(factorName) + ', ');
-		echo(i18n("Chi statistic") + ' = result$statistic, ');
-		echo(i18n("p-value") + ' = result[[i]]$p.value))\n');
+		echo(i18n("Chi statistic") + ' = result[[i]]$statistic, ');
+		echo(i18n("p-value") + ' = result[[i]]$p.value) |>\n');
+		echo('\t\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+		echo('\t)\n');
 		if (pairwise) {
 			echo('\trk.header(' + i18n("Pairwise comparison") + ', level=3)\n');
-			echo('\trk.results(list(');
-			echo(i18n("Pairs") + ' = rownames(pairs[[i]][["dif.com"]]), ');
-			echo(i18n("Observed difference") + ' = pairs[[i]][["dif.com"]][["obs.dif"]], ');
-			echo(i18n("Critical difference") + ' = pairs[[i]][["dif.com"]][["critical.dif"]], ');
-			echo(i18n("Significant difference") + ' = pairs[[i]][["dif.com"]][["difference"]]');
-			echo('))\n');
+			echo('\trk.print.literal(\n');
+    		echo('\ttibble(');
+			echo(i18n("Population 1") + ' = result.pairwise[[i]]$group1, ');
+			echo(i18n("Population 2") + ' = result.pairwise[[i]]$group2, ');
+			echo(i18n("p-value") + ' = result.pairwise[[i]]$p.value) |>\n');
+			echo('\tkable("html", align = "c", escape = F) |>\n');
+    		echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+			echo('\t)\n');
 		}
 		echo('}\n');
 	} else {
 		// Non-grouped mode
-		echo('rk.results (list(');
+		echo('rk.print.literal(tibble(');
 		echo(i18n("Variable") + ' = ' + quote(variableName) + ', ');
 		echo(i18n("Populations defined by") + ' = ' + quote(factorName) + ', ');
 		echo(i18n("Chi statistic") + ' = result$statistic, ');
-		echo(i18n("p-value") + ' = result$p.value');
-		echo('))\n');
+		echo(i18n("p-value") + ' = result$p.value) |>\n');
+    	echo('\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    	echo(')\n');
 		if (pairwise) {
 			echo('rk.header(' + i18n("Pairwise comparison") + ', level=3)\n');
-			echo('rk.results(list(');
-			echo(i18n("Pairs") + ' = rownames(pairs[["dif.com"]]), ');
-			echo(i18n("Observed difference") + ' = pairs[["dif.com"]][["obs.dif"]], ');
-			echo(i18n("Critical difference") + ' = pairs[["dif.com"]][["critical.dif"]], ');
-			echo(i18n("Significant difference") + ' = pairs[["dif.com"]][["difference"]]');
-			echo('))\n');
+			echo('rk.print.literal(tibble(');
+			echo(i18n("Population 1") + ' = result.pairwise$group1, ');
+			echo(i18n("Population 2") + ' = result.pairwise$group2, ');
+			echo(i18n("p-value") + ' = result.pairwise$p.value) |>\n');
+			echo('\tkable("html", align = "c", escape = F) |>\n');
+    		echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    		echo(')\n')
 		}
 	}
 }

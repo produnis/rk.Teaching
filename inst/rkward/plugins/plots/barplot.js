@@ -37,67 +37,66 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo('library(rkTeaching)\n');
-    echo('library(plyr)\n');
-    echo('library(ggplot2)\n');
+    echo('library(tidyverse)\n');
 }
 
 function calculate() {
     // Filter
     filter();
+    y = '';
     // Set axes labels
-    xlab = ' + xlab(' + quote(variableName) + ')';
-    ylab = ' + ylab(' + i18n("Absolute frequency") + ')';
+    xlab = ' +\n\txlab(' + quote(variableName) + ')';
+    ylab = ' +\n\tylab(' + i18n("Absolute frequency") + ')';
     fill = '';
     // Set bar color
     barColor = getString("barFillColor.code.printout")
     if (barColor !== '') {
-        barColor = ', fill=I(' + barColor + ')';
+        barColor = 'fill = I(' + barColor + ')';
     } else {
-        barColor = ', fill=I("#FF9999")'; // Defauklt bar color
+        barColor = 'fill = I("#FF9999")'; // Default bar color
     }
     // Set border color
     borderColor = getString("barBorderColor.code.printout");
     if (borderColor !== '') {
-        borderColor = ', colour=I(' + borderColor + ')';
+        borderColor = ', colour = I(' + borderColor + ')';
     }
     // Set grouped mode
     pos = '';
     facet = '';
     if (grouped) {
-        fill = ', aes(fill=' + groupsName.join('.') + ')';
-        if (cumulative || position === 'faceted') {
-            facet = ' + facet_grid(' + groupsName.join('.') + '~.)';
+        if (groupsName.length == 1) {
+            fill = ', fill = ' + groupsName;
         } else {
-            pos = ', position=' + quote(position);
+            fill = ', fill = interaction(' + groupsName.join(', ') + ')';
+        }
+        if (cumulative || position === 'faceted') {
+            if (groupsName.length == 1) {
+                facet = ' +\n\tfacet_grid(' + groupsName + ' ~ .)';
+            } else {
+                facet = ' +\n\tfacet_grid(interaction(' + groupsName.join(', ') + ') ~ .)';
+            }
+        } else {
+            pos = 'position = ' + quote(position);
         }
         barColor = '';
     }
-    // Prepare data
-    if (grouped) {
-        echo('.df <- ldply(frequencyTable(' + dataframe + ', ' + quote(variableName) + ', groups=c(' + groupsName.map(quote) + ')))\n');
-        echo('.df <- transform(.df,' + groupsName.join('.') + '=interaction(.df[,c(' + groupsName.map(quote) + ')]))\n');
-        echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
-    } else {
-        echo('.df <- frequencyTable(' + dataframe + ', ' + quote(variableName) + ')\n');
-    }
     // Set frequency type
-    y = 'Abs.Freq.';
     if (relative) {
-        y = 'Rel.Freq.';
-        ylab = ' + ylab(' + i18n("Relative frequency") + ')';
-        if (grouped && position === 'stack') {
-            echo('.df <- transform(.df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
-        }
+        y = 'aes(y = after_stat(count/sum(count))), ';
+        ylab = ' +\n\tylab(' + i18n("Relative frequency") + ')';
     }
     if (cumulative) {
-        y = 'Cum.Abs.Freq.';
-        ylab = ' + ylab(' + i18n("Cumulative frequency") + ')';
+        y = 'aes(y = after_stat(cumsum(count))), ';
+        ylab = ' +\n\tylab(' + i18n("Cumulative frequency") + ')';
         if (relative) {
-            y = 'Cum.Rel.Freq.';
-            ylab = ' + ylab(' + i18n("Cumulative relative frequency") + ')';
+            y = 'aes(y = after_stat(cumsum(count)/sum(count))), ';
+            ylab = ' +\n\tylab(' + i18n("Cumulative relative frequency") + ')';
         }
     }
+    // Plot
+    echo('plot <- ' + dataframe + ' |>\n');
+    echo('\tggplot(aes(x = ' + variableName + fill + ')) +\n');
+    echo('\tgeom_bar(' + y + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
 }
 
 function printout() {
@@ -127,15 +126,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=.df, aes(x=' + variableName + ', y=' + y + ')) + geom_bar(stat="identity", orientation="x"' + fill + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
-    if (polygon) {
-        if (cumulative) {
-            echo('p <- p + geom_step(aes(group=1))\n');
-        } else {
-            echo('p <- p + geom_line(aes(group=1))\n');
-        }
-    }
-    echo('print(p)\n');
+    echo('\tprint(plot)\n');
     echo('})\n');
 
     if (full) {

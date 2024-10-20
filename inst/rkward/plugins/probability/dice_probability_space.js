@@ -5,7 +5,7 @@ var ndice,
 	dataframe;
 
 function preprocess() {
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -16,10 +16,8 @@ function setGlobals() {
 
 function calculate() {
 	setGlobals();
-	echo('results <- rolldie(' + ndice + ', makespace=' + prob + ')\n');
-	echo('for (i in 1:' + ndice + ')\n');
-	echo('\t names(results)[i]= paste0(' + i18n("dice") + ', i)\n');
-	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('result <- rolldie(' + ndice + ', makespace=' + prob + ')\n');
+	echo('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

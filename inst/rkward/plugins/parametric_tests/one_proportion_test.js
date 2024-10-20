@@ -40,14 +40,17 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Test settings
-  var options = ', alternative="' + hypothesis + '", p=' + p;
+  var options = ', alternative = "' + hypothesis + '", p = ' + p;
   if (getConfInt) {
-    options += ", conf.level=" + confLevel;
+    options += ", conf.level = " + confLevel;
   }
   // Manual frequency
   if (manualFreq) {
@@ -64,25 +67,29 @@ function calculate() {
     filter();
     // Set grouped mode
     if (grouped) {
-      echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-      echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-      echo('result <- dlply(' + dataframe + ', ".groups", function(df){\n\tfreq <- table(df[[' +  quote(variableName) + ']])\n');
+      echo('result <- ' + dataframe + ' |>\n');
+      echo('\tgroup_by(' + groupsName.join(", ") + ') |>\n');
+      echo('\tcount(' + variableName + ', name = "freq") |>\n');
+      echo('\tmutate(n = sum(freq)) |>\n');
+      echo('\tfilter(' + variableName + ' == ' + category + ') |>\n');
       if (type == "binomial") {
-        echo('\tbinom.test(freq[[' + category + ']], sum(freq)' +  options + ')\n})\n');
+        echo('\tmutate(test = tidy(binom.test(freq, n' + options + '))) |>\n');
       } else if (type == "normal_correction") {
-        echo('\tprop.test(freq[[' + category + ']], sum(freq)' +  options + ')\n})\n');
+        echo('\tmutate(test = tidy(prop.test(freq, n' + options + '))) |>\n');
       } else {
-        echo('\tprop.test(freq[[' + category + ']], sum(freq)' +  options + ', correct=FALSE)\n})\n');
+        echo('\tmutate(test = tidy(prop.test(freq, n' + options + ', correct = FALSE))) |>\n');
       }
+      echo('\tunnest(test)\n');
+      echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
     } else {
       echo('freq <- table(' + variable + ')\n');
-      echo('result <-');
+      echo('result <- ');
       if (type == "binomial") {
-        echo('binom.test(freq[[' + category + ']], sum(freq)' +  options + ')\n');
+        echo('tidy(binom.test(freq[[' + category + ']], sum(freq)' +  options + '))\n');
       } else if (type == "normal_correction") {
-        echo('prop.test(freq[[' + category + ']], sum(freq)' +  options + ')\n');
+        echo('tidy(prop.test(freq[[' + category + ']], sum(freq)' +  options + '))\n');
       } else {
-        echo('prop.test(freq[[' + category + ']], sum(freq)' +  options + ', correct=FALSE)\n');
+        echo('tidy(prop.test(freq[[' + category + ']], sum(freq)' +  options + ', correct = FALSE))\n');
       }
     }
   }
@@ -134,32 +141,41 @@ function printout() {
   // Grouped mode
   if (!manualFreq & grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results (list(');
-    echo(i18n("Estimated proportion") + ' = result[[i]]$estimate, ');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
+    echo(i18n("Proportion") + ' = result[[i]]$estimate, ');
     if (type != "binomial") {
-      echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+      echo(i18n("DF") + ' = result[[i]]$parameter, ');
       echo(i18n("Chi statistic") + ' = result[[i]]$statistic, ');
     }
     echo(i18n("p-value") + ' = result[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval") + ' = paste0("(", round(result[[i]]$conf.low, 6), " , ", round(result[[i]]$conf.high, 6), ")")');
     }
-    echo('))}\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n'); 
+    echo('}\n');
   } else {
     // Non-grouped mode
-    echo('rk.results (list(');
-    echo(i18n("Estimated proportion") + ' = result$estimate, ');
+    echo('rk.print.literal(\n');
+    echo('tibble(');
+    echo(i18n("Proportion") + ' = result$estimate, ');
     if (type != "binomial") {
-      echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+      echo(i18n("DF") + ' = result$parameter, ');
       echo(i18n("Chi statistic") + ' = result$statistic, ');
     }
     echo(i18n("p-value") + ' = result$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval") + ' = paste0("(", round(result$conf.low, 6), " , ", round(result$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
   }
 }

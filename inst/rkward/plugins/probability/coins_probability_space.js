@@ -4,9 +4,8 @@ var ncoins,
 	prob,
 	dataframe;
 
-
 function preprocess() {
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -17,12 +16,12 @@ function setGlobals() {
 
 function calculate() {
 	setGlobals();
-	echo('results <- tosscoin(' + ncoins + ', makespace=' + prob + ')\n');
+	echo('result <- tosscoin(' + ncoins + ', makespace=' + prob + ')\n');
 	echo('for (i in 1:' + ncoins + ') {\n');
 	echo('\t names(results)[i]= paste0(' + i18n("coin") + ', i)\n');
-	echo('\t levels(results[[i]])=c(' + i18n("H", "Head of a coin") + ',' + i18n("T", "Tail of a coin") + ')\n');
+	echo('\t levels(results[[i]])=c(' + i18nc("Head of a coin", "H") + ',' + i18nc("Tail of a coin", "T") + ')\n');
 	echo('}\n');
-	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

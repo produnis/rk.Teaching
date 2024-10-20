@@ -9,15 +9,6 @@
 		<external id="default_xLab" default=""/>
 		<external id="default_yLab" default=""/>
 
-		<external id="allow_legend" default="false"/>
-		<connect client="tabLegend.visible" governor="allow_legend"/>
-
-		<external id="allow_grid" default="true"/>
-		<connect client="tabGrid.visible" governor="allow_grid"/>
-
-		<external id="allow_axes" default="true"/>
-		<connect client="tabAxes.visible" governor="allow_axes"/>
-
 		<external id="allow_log" default="true"/>
 		<external id="allow_xlim" default="true"/>
 		<external id="allow_ylim" default="true"/>
@@ -29,7 +20,7 @@
 		<convert id="have_scale" mode="or" sources="xMinValue.visible;xMaxValue.visible;yMinValue.visible;yMaxValue.visible"/>
 		<connect client="scale.visible" governor="have_scale"/>
 
-		<!-- If we do not have an xvar specified, it is not possible to specify one xlimit but not the other -->
+		<!-- If we do not have an xvar specified, it is possible to specify one xlimit but not the other -->
 		<convert id="xmin_specified" mode="notequals" sources="xMinValue.text" standard=""/>
 		<convert id="xmax_specified" mode="notequals" sources="xMaxValue.text" standard=""/>
 		<convert id="xmin_required" mode="and" sources="xmax_specified"/>
@@ -118,6 +109,7 @@
 					</column>
 				</row>
 				<checkbox id="switchAxes" label="Switch axes" checked="false"/>
+				<stretch/>
 			</tab>
 			<tab id="tabGrid" label="Grid">
 				<row id="rowGrid">

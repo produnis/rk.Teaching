@@ -3,12 +3,21 @@
 <document>
 	<code file="intraclass_correlation.js"/>
 	<help file="intraclass_correlation.rkh"/>
+	<logic>
+		<convert id="grouped_mode" mode="equals" sources="grouped.state" standard="1"/>
+		<connect client="groups.visible" governor="grouped_mode"/>
+		<convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+		<connect client="condition.visible" governor="filterMode"/>
+	</logic>
 	<dialog label="Intraclass correlation">
 		<row id="rowVars">
-			<varselector id="selector" label="Select variables" />
+			<varselector id="selector" label="Select variables"/>
 			<column>
-				<varslot id="x" label="First measurement" source="selector" types="numeric" required="true" />
-				<varslot id="y" label="Second measurement" source="selector" types="numeric" required="true" />
+				<varslot id="variables" label="Variable(s)" type="numeric" min_vars="2" multi="true" source="selector" required="true"/>
+				<checkbox id="grouped" label="Correlation by groups" checked="false"/>
+				<varslot id="groups" label="Grouping variable(s)" types="factor" source="selector" multi="true" required="true"/>
+				<include file="../common/filter.xml"/>
+				<stretch/>
 			</column>
 		</row>
 	</dialog>

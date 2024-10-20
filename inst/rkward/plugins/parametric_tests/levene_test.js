@@ -27,23 +27,28 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
   echo('library(car)\n');
-  echo('library(plyr)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Test settings
-  var options = ', center=' + center;
+  var options = ', center = ' + center;
   // Grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-    echo('result <- dlply(' + dataframe + ', ".groups", function(df) leveneTest(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']]' + options + '))\n');
+    echo('result <- ' + dataframe + ' |>\n');
+    echo('\tnest_by(' + groupsName + ') |>\n');
+    echo('\tmutate(test = map(data, ~ tidy(leveneTest(' + variableName + ' ~ ' + factorName + ', data = .' + options + ')))) |>\n');
+    echo('\tunnest(test)\n');
+    echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
   } else {
     // Non-grouped mode
-    echo('result <- leveneTest(' + variable + ', ' + factor + options + ')\n');
+    echo('result <- tidy(leveneTest(' + variableName + ' ~ ' + factorName + ', data = ' + dataframe + options + '))\n');
   }
 }
 
@@ -69,22 +74,29 @@ function printout() {
   // Grouped mode
   if (grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results(list(');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('rk.print.literal(tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations defined by") + ' = "' + factorName + '", ');
-    echo(i18n("Degrees of freedom") + ' = result[[i]]$Df, ');
-    echo(i18n("F statistic") + ' = result[[i]][["F value"]][1], ');
-    echo(i18n("p-value") + ' = result[[i]][["Pr(>F)"]][1]');
-    echo('))}\n');
+    echo(i18n("Populations") + ' = "' + factorName + '", ');
+    echo(i18n("DF") + ' = result[[i]]$df, ');
+    echo(i18n("Residual DF") + ' = result[[i]]$df.residual, ');
+    echo(i18n("F statistic") + ' = result[[i]]$statistic, ');
+    echo(i18n("p-value") + ' = result[[i]]$p.value');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n');     echo('}\n');
   } else {
     // Non-grouped mode
-    echo('rk.results(list(');
+    echo('rk.print.literal(tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations defined by") + ' = "' + factorName + '", ');
-    echo(i18n("Degrees of freedom") + ' = result$Df, ');
-    echo(i18n("F statistic") + ' = result[["F value"]][1], ');
-    echo(i18n("p-value") + ' = result[["Pr(>F)"]][1]');
-    echo('))\n');
-  }
+    echo(i18n("Populations") + ' = "' + factorName + '", ');
+    echo(i18n("DF") + ' = result$df, ');
+    echo(i18n("Residual DF") + ' = result$df.residual, ');
+    echo(i18n("F statistic") + ' = result$statistic, ');
+    echo(i18n("p-value") + ' = result$p.value');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n');   }
 }

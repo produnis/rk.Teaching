@@ -14,7 +14,6 @@
 		<connect client="condition.visible" governor="filterMode"/>
 		<connect client="position.enabled" governor="groupedNonCumulativeMode"/>
 		<connect client="groups.visible" governor="groupedMode"/>
-		<connect client="polygon.enabled" governor="groupedMode.not"/>
 		<connect client="frameBarFillColor.enabled" governor="groupedMode.not"/>
 		<connect client="frameBarBorderColor.enabled" governor="groupedMode.not"/>
 		<connect client="plotOptions.allow_legend" governor="groupedMode"/>
@@ -41,7 +40,6 @@
 							<checkbox id="relative" label="Relative frequency" checked="false" value="1"/>
 							<checkbox id="cumulative" label="Cumulative frequency" checked="false" value="1"/>
 						</frame>
-						<checkbox id="polygon" label="Polygon" checked="false" value="1"/>
 						<radio id="position" label="Grouping options">
 							<option value="identity" label="Overlaid" checked="true"/>
 							<option value="dodge" label="Juxtaposed"/>
@@ -86,10 +84,6 @@
 				<p>Select the type of frequency to plot.</p>
 			</text>
 			<copy id="frameFreq"/>
-			<text>
-				<p>Check the box if you want to plot the polygon on the histogram.</p>
-			</text>
-			<copy id="polygon"/>
 			<text>
 				<p>In case of plotting several histograms by groups, select the layout for the bars: Overlaid (over each other), Juxtaposed (next to each other), Stacked (on top of each other) or Separated (in separated charts).</p>
 			</text>

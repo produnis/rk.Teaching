@@ -35,7 +35,10 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
@@ -49,12 +52,17 @@ function calculate() {
   }
   // Grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-    echo('result <- dlply(' + dataframe + ', ".groups", function(df) var.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + '],' + options + '))\n');
+    echo('result <- ' + dataframe + ' |>\n');
+    echo('\tfilter(' + factorName + ' %in% c(' + population1 + ', ' + population2 + ')) |>\n');
+    echo('\tnest_by(' + groupsName + ') |>\n');
+    echo('\tmutate(test = map(data, ~ tidy(var.test(' + variableName + ' ~ ' + factorName + ', data = .' + options + ')))) |>\n');
+    echo('\tunnest(test)\n');
+    echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
   } else {
     // Non-grouped mode
-    echo('result <- var.test (' + variable + '[' + factor + '==' + population1 + '], ' + variable + '[' + factor + '==' + population2 + ']' + options + ')\n');
+    echo('df <- ' + dataframe + ' |>\n');
+    echo('\tfilter(' + factorName + ' %in% c(' + population1 + ', ' + population2 + '))\n');
+    echo('result <- tidy(var.test (' + variableName + ' ~ ' + factorName + ', data = df, conf.level = 0.95))\n');
   }
 }
 
@@ -84,32 +92,38 @@ function printout() {
   // Grouped mode
   if (grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results(list(');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('\trk.print.literal(tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated variance quotient") + ' = result[[i]]$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+    echo(i18n("Quotient of variances") + ' = result[[i]]$estimate, ');
+    echo(i18n("Num DF") + ' = result[[i]]$num.df, ');
+    echo(i18n("Den DF") + ' = result[[i]]$den.df, ');
     echo(i18n("F statistic") + ' = result[[i]]$statistic, ');
     echo(i18n("p-value") + ' = result[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = result[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>quotient of variances") + ' = paste0("(", round(result[[i]]$conf.low, 6), " , ", round(result[[i]]$conf.high, 6), ")")');
     }
-    echo('))}\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE))\n');
+    echo('}\n'); 
   } else {
     // Non-grouped mode
-    echo('rk.results(list(');
+    echo('rk.print.literal(tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated variance quotient") + ' = result$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+    echo(i18n("Quotient of variances") + ' = result$estimate, ');
+    echo(i18n("Num DF") + ' = result$num.df, ');
+    echo(i18n("Den DF") + ' = result$den.df, ');
     echo(i18n("F statistic") + ' = result$statistic, ');
     echo(i18n("p-value") + ' = result$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = result$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>quotient of variances") + ' = paste0("(", round(result$conf.low, 6), " , ", round(result$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
   }
 }

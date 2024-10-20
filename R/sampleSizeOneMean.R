@@ -15,6 +15,3 @@ sampleSizeOneMean <- function(mean=NULL, sd=1, sig.level=0.05, error=0.1, error.
 	METHOD <- "Sample size for one normal mean estimation"
 	structure(list(n = n, mean=mean, sig.level = sig.level, error = error, method = METHOD), class = "power.htest")
 }
-
-
-

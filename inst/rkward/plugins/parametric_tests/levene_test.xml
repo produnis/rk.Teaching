@@ -8,6 +8,8 @@
   <logic>
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
   </logic>
 
   <dialog label="Levene's test for comparing variances of independent populations">

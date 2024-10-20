@@ -35,30 +35,42 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Test settings
-  var options = ", alternative=\"" + hypothesis + "\"";
+  var options = ", alternative = \"" + hypothesis + "\"";
   // Confidence interval
   if (getConfInt) {
-    options += ", conf.level=" + confLevel;
+    options += ", conf.level = " + confLevel;
   }
   // Grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-    echo('resultvar <- dlply(' + dataframe + ', ".groups", function(df) var.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + '], conf.level=0.95))\n');
-    echo('resultnovareq <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + ']' + options + ', var.equal=FALSE))\n');
-    echo('resultvareq <- dlply(' + dataframe + ', ".groups", function(df) t.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + ']' + options + ', var.equal=TRUE))\n');
+    echo('result <- ' + dataframe + ' |>\n');
+    echo('\tfilter(' + factorName + ' %in% c(' + population1 + ', ' + population2 + ')) |>\n');
+    echo('\tnest_by(' + groupsName + ') |>\n');
+    echo('\tmutate(testvar = map(data, ~ tidy(var.test(' + variableName + ' ~ ' + factorName + ', data = .' + options + ')))) |>\n');
+    echo('\tmutate(testnovareq = map(data, ~ tidy(t.test(' + variableName + ' ~ ' + factorName + ', data = .' + options + ', var.equal = FALSE)))) |>\n');
+    echo('\tmutate(testvareq = map(data, ~ tidy(t.test(' + variableName + ' ~ ' + factorName + ', data = .' + options + ', var.equal = TRUE))))\n');
+    echo('resultvar <- result |> unnest(testvar)\n');
+    echo('resultnovareq <- result |> unnest(testnovareq)\n');
+    echo('resultvareq <- result |> unnest(testvareq)\n');
+    echo('resultvar <- split(resultvar, list(resultvar$' + groupsName.join(",resultvar$") + '), drop = TRUE)\n');
+    echo('resultnovareq <- split(resultnovareq, list(resultnovareq$' + groupsName.join(",resultnovareq$") + '), drop = TRUE)\n');
+    echo('resultvareq <- split(resultvareq, list(resultvareq$' + groupsName.join(",resultvareq$") + '), drop = TRUE)\n');
   } else {
     // Non-grouped mode
-    echo('resultvar <- var.test (' + variable + '[' + factor + '==' + population1 + '], ' + variable + '[' + factor + '==' + population2 + '], conf.level=0.95)\n');
-    echo('resultnovareq <- t.test (' + variable + '[' + factor + '==' + population1 + '], ' + variable + '[' + factor + '==' + population2 + ']' + options + ', var.equal=FALSE)\n');
-    echo('resultvareq <- t.test (' + variable + '[' + factor + '==' + population1 + '], ' + variable + '[' + factor + '==' + population2 + ']' + options + ', var.equal=TRUE)\n');
+    echo('df <- ' + dataframe + ' |>\n');
+    echo('\tfilter(' + factorName + ' %in% c(' + population1 + ', ' + population2 + '))\n');
+    echo('resultvar <- tidy(var.test (' + variableName + ' ~ ' + factorName + ', data = df, conf.level = 0.95))\n');
+    echo('resultnovareq <- tidy(t.test (' + variableName + ' ~ ' + factorName + ', data = df' + options + ', var.equal = FALSE))\n');
+    echo('resultvareq <- tidy(t.test (' + variableName + ' ~ ' + factorName + ', data = df' + options + ', var.equal = TRUE))\n');
   }
 }
 
@@ -88,92 +100,122 @@ function printout() {
   // Grouped mode
   if (grouped) {
     echo('for (i in 1:length(resultvar)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(resultvar)[i]), level=3)\n');
+    // Grouped mode
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(resultvar)[i]), level=3)\n');
     // F test for comparison of variances
-    echo('\t rk.header(' + i18n("F-test for comparing variances") + ', level=4)\n');
-    echo('rk.results(list(');
+    echo('\trk.header(' + i18n("F-test for comparing variances") + ', level=4)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated variance quotient") + ' = resultvar[[i]]$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultvar[[i]]$parameter, ');
+    echo(i18n("Quotient of variances") + ' = resultvar[[i]]$estimate, ');
+    echo(i18n("Num DF") + ' = resultvar[[i]]$parameter[1], ');
+    echo(i18n("Den DF") + ' = resultvar[[i]]$parameter[2], ');
     echo(i18n("F statistic") + ' = resultvar[[i]]$statistic, ');
     echo(i18n("p-value") + ' = resultvar[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultvar[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = resultvar[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>quotient of variances") + ' = paste0("(", round(resultvar[[i]]$conf.low, 6), " , ", round(resultvar[[i]]$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n');
     // T-test for comparison of means
-    // Non equal variances
-    echo('rk.header ("T-test assuming non-equal variances",level=4)\n');
-    echo('rk.results(list(');
+    //  Non equal variances
+    echo('\trk.header(' + i18n("T-test assuming non-equal variances") + ',level=4)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated means") + ' = resultnovareq[[i]]$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultnovareq[[i]]$parameter, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population1.slice(1) + ' = resultnovareq[[i]]$estimate1, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population2.slice(1) + ' = resultnovareq[[i]]$estimate2, ');
+    echo(i18n("Difference between means") + ' = resultnovareq[[i]]$estimate, ');
+    echo(i18n("DF") + ' = resultnovareq[[i]]$parameter, ');
     echo(i18n("t statistic") + ' = resultnovareq[[i]]$statistic, ');
     echo(i18n("p-value") + ' = resultnovareq[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultnovareq[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the difference of means") + ' = resultnovareq[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between means") + ' = paste0("(", round(resultnovareq[[i]]$conf.low, 6), " , ", round(resultnovareq[[i]]$conf.high, 6), ")")');
     }
-    echo('))\n');
-    echo('rk.header ("T-test assuming equal variances",level=4)\n');
-    echo('rk.results(list(');
+    echo(') |>\n');
+    echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n'); 
+    echo('\trk.header(' + i18n("T-test assuming equal variances") + ',level=4)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated means") + ' = resultvareq[[i]]$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultvareq[[i]]$parameter, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population1.slice(1) + ' = resultvareq[[i]]$estimate1, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population2.slice(1) + ' = resultvareq[[i]]$estimate2, ');
+    echo(i18n("Difference between means") + ' = resultvareq[[i]]$estimate, ');
+    echo(i18n("DF") + ' = resultvareq[[i]]$parameter, ');
     echo(i18n("t statistic") + ' = resultvareq[[i]]$statistic, ');
     echo(i18n("p-value") + ' = resultvareq[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultvareq[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the difference of means") + ' = resultvareq[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between means") + ' = paste0("(", round(resultvareq[[i]]$conf.low, 6), " , ", round(resultvareq[[i]]$conf.high, 6), ")")');
     }
-    echo('))}\n');
+    echo(') |>\n');
+    echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n'); 
+    echo('}\n');
   } else {
     // Non-grouped mode
     // F test for comparison of variances
     echo('rk.header(' + i18n("F-test for comparing variances") + ', level=4)\n');
-    echo('rk.results(list(');
+    echo('rk.print.literal(\n');
+    echo('tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated variance quotient") + ' = resultvar$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultvar$parameter, ');
+    echo(i18n("Quotient of variances") + ' = resultvar$estimate, ');
+    echo(i18n("Num DF") + ' = resultvar$parameter[1], ');
+    echo(i18n("Den DF") + ' = resultvar$parameter[2], ');
     echo(i18n("F statistic") + ' = resultvar$statistic, ');
     echo(i18n("p-value") + ' = resultvar$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultvar$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the quotient of variances") + ' = resultvar$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>quotient of variances") + ' = paste0("(", round(resultvar$conf.low, 6), " , ", round(resultvar$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n');
     // T-test for comparison of means
     //  Non equal variances
-    echo('rk.header ("T-test assuming non-equal variances",level=4)\n');
-    echo('rk.results(list(');
+    echo('rk.header(' + i18n("T-test assuming non-equal variances") + ',level=4)\n');
+    echo('rk.print.literal(\n');
+    echo('tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated means") + ' = resultnovareq$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultnovareq$parameter, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population1.slice(1) + ' = resultnovareq$estimate1, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population2.slice(1) + ' = resultnovareq$estimate2, ');
+    echo(i18n("Difference between means") + ' = resultnovareq$estimate, ');
+    echo(i18n("DF") + ' = resultnovareq$parameter, ');
     echo(i18n("t statistic") + ' = resultnovareq$statistic, ');
     echo(i18n("p-value") + ' = resultnovareq$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultnovareq$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the difference of means") + ' = resultnovareq$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between means") + ' = paste0("(", round(resultnovareq$conf.low, 6), " , ", round(resultnovareq$conf.high, 6), ")")');
     }
-    echo('))\n');
-    echo('rk.header ("T-test assuming equal variances",level=4)\n');
-    echo('rk.results(list(');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
+    echo('rk.header(' + i18n("T-test assuming equal variances") + ',level=4)\n');
+    echo('rk.print.literal(\n');
+    echo('tibble(');
     echo(i18n("Variable") + ' = "' + variableName + '", ');
-    echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
-    echo(i18n("Estimated means") + ' = resultvareq$estimate, ');
-    echo(i18n("Degrees of freedom") + ' = resultvareq$parameter, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population1.slice(1) + ' = resultvareq$estimate1, ');
+    echo(i18n("Mean").slice(0,-1) + ' ' + population2.slice(1) + ' = resultvareq$estimate2, ');
+    echo(i18n("Difference between means") + ' = resultvareq$estimate, ');
+    echo(i18n("DF") + ' = resultvareq$parameter, ');
     echo(i18n("t statistic") + ' = resultvareq$statistic, ');
     echo(i18n("p-value") + ' = resultvareq$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(resultvareq$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for<br/>the difference of means") + ' = resultvareq$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between means") + ' = paste0("(", round(resultvareq$conf.low, 6), " , ", round(resultvareq$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
   }
 }

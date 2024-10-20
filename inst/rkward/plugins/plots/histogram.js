@@ -9,7 +9,7 @@ var dataframe,
     grouped,
     groups,
     groupsName,
-    // cells,
+    y,
     xlab,
     ylab,
     fill,
@@ -20,7 +20,7 @@ var dataframe,
     facet,
     relative,
     cumulative,
-    polygon;
+    breaks;
 
 function setGlobalVars() {
     variable = getString("variable");
@@ -29,7 +29,7 @@ function setGlobalVars() {
     grouped = getBoolean("grouped");
     groups = getList("groups");
     groupsName = getList("groups.shortname");
-    relative = getString("relative");
+    relative = getBoolean("relative");
     cumulative = getBoolean("cumulative");
     position = getString("position");
     polygon = getBoolean("polygon");
@@ -37,41 +37,47 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo('library(rkTeaching)\n');
-    echo('library(plyr)\n');
-    echo('library(ggplot2)\n');
+    echo('library(tidyverse)\n');
 }
 
 function calculate() {
     // Filter
     filter();
     // Set axes labels
-    xlab = ' + xlab(' + quote(variableName) + ')';
-    ylab = ' + ylab(' + i18n("Absolute frequency") + ')';
+    xlab = ' +\n\txlab(' + quote(variableName) + ')';
+    ylab = ' +\n\tylab(' + i18n("Absolute frequency") + ')';
     fill = '';
     // Set bar color
     barColor = getString("barFillColor.code.printout")
     if (barColor != '') {
-        barColor = ', fill=I(' + barColor + ')';
+        barColor = ', fill = I(' + barColor + ')';
     } else {
-        barColor = ', fill=I("#FF9999")';
+        barColor = ', fill = I("#FF9999")';
     }
     // Set border color
     borderColor = getString("barBorderColor.code.printout");
     if (borderColor != '') {
-        borderColor = ', colour=I(' + borderColor + ')';
+        borderColor = ', colour = I(' + borderColor + ')';
     } else {
-        borderColor = ', colour=I("white")';
+        borderColor = ', colour = I("white")';
     }
     // Set grouped mode
     pos = '';
     facet = '';
     if (grouped) {
-        fill = ', fill=' + groupsName.join('.');
-        if (cumulative || position === 'faceted') {
-            facet = ' + facet_grid(' + groupsName.join('.') + '~.)';
+        if (groupsName.length == 1) {
+            fill = ', fill = ' + groupsName;
         } else {
-            pos = ', position=' + quote(position);
+            fill = ', fill = interaction(' + groupsName.join(', ') + ')';
+        }
+        if (cumulative || position === 'faceted') {
+            if (groupsName.length == 1) {
+                facet = ' +\n\tfacet_grid(' + groupsName + ' ~ .)';
+            } else {
+                facet = ' +\n\tfacet_grid(interaction(' + groupsName.join(', ') + ') ~ .)';
+            }
+        } else {
+            pos = ', position = ' + quote(position);
             if (position === 'identity') {
                 pos += ', alpha=.5';
             }
@@ -79,33 +85,28 @@ function calculate() {
         barColor = '';
     }
     // Interval breaks
-    // cells = getString("cells.code.calculate");
-    echo('.breaks <- ' + getString("cells.code.preprocess") + '\n');
-    // Calculate frequencies
-    if (grouped) {
-        echo('.df <- ldply(frequencyTableIntervals(' + dataframe + ', ' + quote(variableName) + ', breaks=.breaks, center=TRUE, width=TRUE, groups=c(' + groupsName.map(quote) + ')))\n');
-        echo('.df <- transform(.df,' + groupsName.join('.') + '=interaction(.df[,c(' + groupsName.map(quote) + ')]))\n');
-        echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
-    } else {
-        echo('.df <- frequencyTableIntervals(' + dataframe + ', ' + quote(variableName) + ', breaks=.breaks, center=TRUE, width=TRUE)\n');
-    }
+    echo('breaks <- ' + getString("cells.code.preprocess") + '\n');
     // Set frecuency type
-    y = 'Abs.Freq.';
-    if (getBoolean("relative")) {
-        y = 'Rel.Freq.';
-        ylab = ' + ylab(' + i18n("Relative frequency") + ')';
-        if (grouped && position === 'stack') {
-            echo('.df <- transform(.df,Rel.Freq.=Abs.Freq./sum(Abs.Freq.))\n');
-        }
+    y = '';
+    if (relative) {
+        y = 'aes(y = after_stat(count/sum(count))), ';
+        ylab = ' +\n\tylab(' + i18n("Relative frequency") + ')';
     }
     if (cumulative) {
-        y = 'Cum.Abs.Freq.';
-        ylab = ' + ylab(' + i18n("Cumulative frequency") + ')';
+        y = 'aes(y = after_stat(cumsum(count))), ';
+        ylab = ' +\n\tylab(' + i18n("Cumulative frequency") + ')';
         if (relative) {
-            y = 'Cum.Rel.Freq.';
-            ylab = ' + ylab(' + i18n("Cumulative relative frequency") + ')';
+            y = 'aes(y = after_stat(cumsum(count)/sum(count))), ';
+            ylab = ' +\n\tylab(' + i18n("Cumulative relative frequency") + ')';
         }
     }
+     // Plot
+     echo('plot <- ' + dataframe + ' |>\n');
+     echo('\tggplot(aes(x = ' + variableName + fill + ')) +\n');
+     echo('\tgeom_histogram(' + y + 'breaks = breaks' + barColor + borderColor + pos + ')' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
+    //  echo('p <- ggplot(data=.df, aes(x=Center, y=' + y + fill + ')) + geom_bar(width=diff(.breaks), stat="identity", orientation="x"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=.breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
+
+  
 }
 
 function printout() {
@@ -137,21 +138,7 @@ function doPrintout(full) {
     }
     // Plot
     echo('try ({\n');
-    echo('p <- ggplot(data=.df, aes(x=Center, y=' + y + fill + ')) + geom_bar(width=diff(.breaks), stat="identity", orientation="x"' + barColor + borderColor + pos + ')' + ' + scale_x_continuous(breaks=.breaks)' + xlab + ylab + facet + getString("plotOptions.code.calculate") + '\n');
-    // Polygon
-    if (polygon) {
-        if (cumulative) {
-            if (relative) {
-                echo('.df <- data.frame(x=.breaks, y=c(0,.df[["Cum.Rel.Freq."]]))\n');
-            } else {
-                echo('.df <- data.frame(x=.breaks, y=c(0,.df[["Cum.Abs.Freq."]]))\n');
-            }
-            echo('p <- p + geom_line(aes(x=x, y=y), data=.df)\n');
-        } else {
-            echo('p <- p + geom_line()\n');
-        }
-    }
-    echo('print(p)\n');
+    echo('\tprint(plot)\n');
     echo('})\n');
     if (full) {
         echo('rk.graph.off ()\n');

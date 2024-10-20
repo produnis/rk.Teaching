@@ -39,7 +39,10 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('library(plyr)\n');
+	echo('library(tidyverse)\n');
+	echo('library(broom)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 }
 
 function calculate() {
@@ -59,11 +62,14 @@ function calculate() {
 	}
 	// Grouped mode
 	if (grouped) {
-		echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-		echo('result <- dlply(' + dataframe + ', ".groups", function(df) wilcox.test(df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population1 + '], df[[' + quote(variableName) + ']][df[[' + quote(factorName) + ']]==' + population2 + ']' + options + '))\n');
+		echo('result <- ' + dataframe + ' |>\n');
+		echo('\tgroup_by(' + groupsName + ') |>\n');
+		echo('\tsummarise(test = tidy(wilcox.test(' + variableName + ' ~ ' + factorName + options + '))) |>\n');
+		echo('\tunnest(test)\n');
+		echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
 	} else {
 		// Non-grouped mode
-		echo('result <- wilcox.test(' + variable + ' ~ ' + factor + options + ')\n');
+		echo('result <- tidy(wilcox.test(' + variable + ' ~ ' + factor + options + '))\n');
 	}
 }
 
@@ -103,27 +109,36 @@ function printout() {
 	if (grouped) {
 		echo('for (i in 1:length(result)){\n');
 		echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-		echo('rk.results (list(');
-		echo(i18n("Variable") + ' = "' + variableName + '", ');
-		echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
+		echo('\trk.print.literal(\n');
+    	echo('\ttibble(');
+		echo(i18n("Population 1") + ' = ' + population1 + ', ');
+		echo(i18n("Population 2") + ' = ' + population2 + ', ');		
 		echo(i18n("U statistic") + ' = result[[i]]$statistic, ');
 		echo(i18n("p-value") + ' = result[[i]]$p.value');
 		if (getConfInt) {
-			echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
-			echo(', ' + i18n("Confidence interval for<br/>the difference of ranks") + ' = result[[i]]$conf.int');
+			echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+			echo(', ' + i18n("Confidence interval<br>mean of difference") + ' = paste0("(", round(result[[i]]$conf.low, 6), " , ", round(result[[i]]$conf.high, 6), ")")');
 		}
-		echo('))}\n');
+		echo(') |>\n');
+		echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+		echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+		echo('\t)\n'); 
+		echo('}\n');
 	} else {
 		// Non-grouped mode
-		echo('rk.results (list(');
+		echo('rk.print.literal(tibble(');
 		echo(i18n("Variable") + ' = "' + variableName + '", ');
-		echo(i18n("Populations") + ' = c(' + population1 + ', ' + population2 + '), ');
+		echo(i18n("Population 1") + ' = ' + population1 + ', ');
+		echo(i18n("Population 2") + ' = ' + population2 + ', ');	
 		echo(i18n("U statistic") + ' = result$statistic, ');
 		echo(i18n("p-value") + ' = result$p.value');
 		if (getConfInt) {
-			echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-			echo(', ' + i18n("Confidence interval for<br/>the difference of ranks") + ' = result$conf.int');
-		}
-		echo('))\n');
+			echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+			echo(', ' + i18n("Confidence interval<br>difference of medians") + ' = paste0("(", round(result$conf.low, 6), " , ", round(result$conf.high, 6), ")")');
+		  }
+		echo(') |>\n');
+    	echo('\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    	echo(')\n');
 	}
 }

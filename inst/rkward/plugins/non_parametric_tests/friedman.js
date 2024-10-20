@@ -21,7 +21,10 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
-	echo('library(plyr)\n');
+	echo('library(tidyverse)\n');
+	echo('library(broom)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 }
 
 function calculate() {
@@ -29,11 +32,20 @@ function calculate() {
 	filter();
 	// Grouped mode
 	if (grouped) {
-		echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-		echo('result <- dlply(' + dataframe + ', ".groups", function(df) friedman.test(as.matrix(df[c("' + variablesName.join("\", \"") + '")])))\n');
+		echo('result <- ' + dataframe + ' |>\n');
+		echo('\tmutate(id = row_number()) |>\n');
+		echo('\tpivot_longer(c(' + variablesName.join(", ") + '), names_to = "repetitions", values_to = "values") |>\n');
+		echo('\tgroup_by(' + groupsName + ') |>\n');
+		echo('\tsummarise(test = tidy(friedman.test(values ~ repetitions | id))) |>\n');
+		echo('\tunnest(test)\n');
+		echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
 	} else {
 		// Non-grouped mode
-		echo('result <- friedman.test(as.matrix(' + dataframe + '[c("' + variablesName.join("\", \"") + '")]))\n');
+		echo('result <- ' + dataframe + ' |>\n');
+		echo('\tmutate(id = row_number()) |>\n');
+		echo('\tpivot_longer(c(' + variablesName.join(", ") + '), names_to = "repetitions", values_to = "values") |>\n');
+		echo('\tsummarise(test = tidy(friedman.test(values ~ repetitions | id))) |>\n');
+		echo('\tunnest(test)\n');
 	}
 }
 
@@ -56,16 +68,20 @@ function printout() {
 	if (grouped) {
 		echo('for (i in 1:length(result)){\n');
 		echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-		echo('\trk.results (list(');
-		echo(i18n("Chi statistic") + ' = result[[i]][["statistic"]], ');
-		echo(i18n("p-value") + ' = result[[i]][["p.value"]]');
-		echo('))\n');
+    	echo('\trk.print.literal(tibble(');
+		echo(i18n("Chi statistic") + ' = result[[i]]$statistic, ');
+		echo(i18n("p-value") + ' = result[[i]]$p.value) |>\n');
+		echo('\t\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+		echo('\t)\n');
 		echo('}\n');
 	} else {
 		// Non-grouped mode
-		echo('rk.results(list(');
-		echo(i18n("Chi statistic") + ' = result[["statistic"]], ');
-		echo(i18n("p-vule") + ' = result[["p.value"]]');
-		echo('))\n');
+		echo('rk.print.literal(tibble(');
+		echo(i18n("Chi statistic") + ' = result$statistic, ');
+		echo(i18n("p-value") + ' = result$p.value) |>\n');
+		echo('\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+		echo(')\n');
 	}
 }

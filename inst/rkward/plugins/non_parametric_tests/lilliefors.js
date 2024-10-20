@@ -21,8 +21,11 @@ function setGlobalVars() {
 
 function preprocess() {
 	setGlobalVars();
+	echo('library(tidyverse)\n');
+	echo('library(broom)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 	echo('library(nortest)\n');
-	echo('library(plyr)\n');
 }
 
 function calculate() {
@@ -30,10 +33,13 @@ function calculate() {
 	filter();
 	// Set grouped mode
 	if (grouped) {
-		echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-		echo('result <- dlply(' + dataframe + ', ".groups", function(df) lillie.test(df[["' + variableName + '"]]))\n');
+		echo('result <- ' + dataframe + ' |>\n');
+		echo('\tgroup_by(' + groupsName + ') |>\n');
+		echo('\tsummarise(test = tidy(lillie.test(' + variableName + '))) |>\n');
+		echo('\tunnest(test)\n');
+		echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
 	} else {
-		echo('result <- lillie.test(' + variable + ')\n');
+		echo('result <- tidy(lillie.test(' + variableName + '))\n');
 	}
 }
 
@@ -54,15 +60,23 @@ function printout() {
 	if (grouped) {
 		echo('for (i in 1:length(result)){\n');
 		echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-		echo('\trk.results (list(');
-		echo(i18n("D statistic") + ' = result[[i]][[1]],');
-		echo(i18n("p-value") + ' = result[[i]][[2]]))\n');
+		echo('\trk.print.literal(\n');
+		echo('\t\ttibble(');
+		echo(i18n("Statistic") + ' = result[[i]]$statistic,');
+		echo(i18n("p-value") + ' = result[[i]]$p.value) |>\n');
+		echo('\t\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    	echo('\t)\n'); 
 		echo('}\n');
 	}
 	// Non grouped mode
 	else {
-		echo('rk.results (list(');
-		echo(i18n("D statistic") + ' = result[[1]],');
-		echo(i18n("p-value") + ' = result[[2]]))\n');
+		echo('rk.print.literal(\n');
+		echo('\ttibble(');
+		echo(i18n("Statistic") + ' = result$statistic, ');
+		echo(i18n("p-value") + ' = result$p.value) |>\n');
+		echo('\tkable("html", align = "c", escape = F) |>\n');
+    	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    	echo(')\n'); 
 	}
 }

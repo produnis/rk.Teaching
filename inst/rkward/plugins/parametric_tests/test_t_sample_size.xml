@@ -19,8 +19,7 @@
         </radio>
       </column>
       <column>
-        <input id="delta" label="Difference between the means" required="true"/>
-        <input id="sd" label="Standard deviation" value="1" required="true"/>
+        <input id="effect" label="Effect size" required="true"/>
         <spinbox id="sigLevel" label="Significance level" types="real" min="0.01" max="1" initial="0.05"/>
         <spinbox id="power" label="Power" type="real" min="0.00" max="0.99" initial="0.8"/>
       </column>
@@ -47,15 +46,9 @@
     </page>
     <page>
       <text>
-        Enter the difference to detect between the means. In case of only one population enter the value of the mean in the null hypothesis.
+        Enter the difference to detect between the means divided by the standard deviation. In case of only one population enter the value of the mean in the null hypothesis divided by the standard deviation.
       </text>
-      <copy id="delta"/>
-    </page>
-    <page>
-      <text>
-        Enter the standard deviation of the population or an estimate of it.
-      </text>
-      <copy id="sd"/>
+      <copy id="effect"/>
     </page>
     <page>
       <text>

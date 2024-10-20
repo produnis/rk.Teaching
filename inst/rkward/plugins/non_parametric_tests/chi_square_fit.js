@@ -20,7 +20,7 @@ function preprocess() {
 }
 
 function calculate() {
-	echo('result <- chisq.test(' + observed + ', p=' + theoric + ', rescale.p=TRUE)\n');
+	echo('result <- tidy(chisq.test(' + observed + ', p = ' + theoric + ', rescale.p = TRUE))\n');
 }
 
 function printout() {
@@ -31,9 +31,11 @@ function printout() {
 	header.add(i18n("Alternative hypothesis"), i18n("There is a significant difference between the observed and the theoretical distribution."));
 	header.print();
 
-	echo('rk.results (list(');
+	echo('rk.print.literal(tibble(');
 	echo(i18n("Chi statistic") + ' = result$statistic, ');
 	echo(i18n("Degrees of freedom") + ' = result$parameter, ');
-	echo(i18n("p-value") + ' = result$p.value');
-	echo('))\n');
+	echo(i18n("p-value") + ' = result$p.value) |>\n');
+	echo('\\tkable("html", align = "c", escape = F) |>\n');
+	echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+	echo(')\n');
 }

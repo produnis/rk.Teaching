@@ -1,12 +1,12 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 var ncoins, 
-ntimes, 
-freq,
-dataframe;
+	ntimes, 
+	freq,
+	dataframe;
 
 function preprocess(){
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -18,17 +18,17 @@ function setGlobals() {
 
 function calculate () {
 	setGlobals();	
-	echo('s <- tosscoin(' + ncoins + ', makespace=TRUE)\n');
-	echo('results <- sim(s, ntrials=' + ntimes + ')\n');
+	echo('s <- tosscoin(' + ncoins + ', makespace = TRUE)\n');
+	echo('result <- sim(s, ntrials = ' + ntimes + ')\n');
 	if (freq) {
-		echo('results <- empirical(results)\n');
-		echo('names(results)[ncol(results)]=' + i18n("frequency") + '\n');
+		echo('result <- empirical(result)\n');
+		echo('names(result)[ncol(result)]=' + i18n("frequency") + '\n');
 	}
 	echo('for (i in 1:'+ ncoins+ ') {\n');
-	echo('\t names(results)[i]= paste0(' + i18n("coin") + ', i)\n');
-	echo('\t levels(results[[i]])=c(' + i18n("H", "Head of a coin") + ',' + i18n("T", "Tail of a coin") + ')\n');
+	echo('\t names(result)[i] = paste0(' + i18n("coin") + ', i)\n');
+	echo('\t levels(result[[i]]) = c(' + i18nc("Head of a coin", "H") + ',' + i18nc("Tail of a coin", "T") + ')\n');
 	echo('}\n');
-	echo ('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo ('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

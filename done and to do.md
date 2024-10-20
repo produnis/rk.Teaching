@@ -1,5 +1,8 @@
 # DONE
 
+## Version 1.4
+- Rewrite the code of most of the procedures using tidyverse.
+
 ## Version 1.0
 - I18n of the plugin.
 
@@ -38,6 +41,5 @@
 
 - [] Include normality test of Anderson-Darling
 - [] Include Bartlett's test for homocedasticity on normal distributions.
-- [X] Review post-hoc analysis in Kruskal-Wallis test.
 - [] Include assistant helper to choose the correct test or procedure.
-- [] Use dplyr for frequency tabulation of one variable.
+- [] Include sample size calculation for main tests.

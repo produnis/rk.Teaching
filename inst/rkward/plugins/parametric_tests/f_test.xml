@@ -9,6 +9,8 @@
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
     <connect governor="factor.available" client="levels.variable"/>
+    <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
+    <connect client="condition.visible" governor="filterMode"/>
   </logic>
 
   <dialog label="Fisher's F test for comparing the variances of two independent populations">

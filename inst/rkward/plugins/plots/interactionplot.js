@@ -27,19 +27,21 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(ggplot2)\n');
+  echo('library(tidyverse)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Means
-  points = ' + geom_point(stat="summary", fun=mean)';
+  points = ' +\n\tgeom_point(stat = "summary", fun = mean)';
   // Lines
   lines = '';
   if (getLines) {
-    lines = ' + geom_line(stat="summary", fun=mean, aes(group=' + traceGroupsName + '))';
+    lines = ' +\n\tgeom_line(stat = "summary", fun = mean, aes(group = ' + traceGroupsName + '))';
   }
+  echo('plot <- ' + dataframe + ' |>\n');
+  echo('\tggplot(aes(x = ' + xGroupsName + ', y = ' + variableName + ', colour = ' + traceGroupsName + '))' + points + lines + getString("plotoptions.code.calculate") + '\n');
 }
 
 function preview() {
@@ -64,8 +66,7 @@ function printout(isPreview) {
   }
   // Plot
   echo('try ({\n');
-  echo('interactionPlot <- ggplot(data=' + dataframe + ', aes(x=' + xGroupsName + ', y=' + variableName + ', colour=' + traceGroupsName + '))' + points + lines + getString("plotoptions.code.calculate") + '\n');
-  echo('print(interactionPlot)\n');
+  echo('\tprint(plot)\n');
   echo('})\n');
   if (!isPreview) {
     echo('rk.graph.off ()\n');

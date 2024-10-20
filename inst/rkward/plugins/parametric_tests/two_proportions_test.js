@@ -50,34 +50,42 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Test settings
-  var options = ', alternative="' + hypothesis + '"';
+  var options = ', alternative = "' + hypothesis + '"';
   if (getConfInt) {
-    options += ', conf.level=' + confLevel;
+    options += ', conf.level = ' + confLevel;
   }
   if (type == "normal") {
-    options += ', correct=FALSE';
+    options += ', correct = FALSE';
   }
   // Manual frequency
   if (manualFreq) {
-    echo('result <- prop.test(c(' + freq1 + ',' + freq2 + '),c(' + n1 + ',' + n2 + ')' + options + ')\n');
+    echo('result <- tidy(prop.test(c(' + freq1 + ',' + freq2 + '), c(' + n1 + ',' + n2 + ')' + options + '))\n');
   } else {
     // Non-manual frequency
     // Filter
     filter();
     // Set grouped mode
     if (grouped) {
-      echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-      echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-      echo('result <- dlply(' + dataframe + ', ".groups", function(df){\n\tfreq <- table(df[[' + quote(variableName) + ']], df[[' + quote(factorName) + ']])\n');
-      echo('\tprop.test(c(freq[[' + category + ',' + population1 + ']], freq[[' + category + ',' + population2 + ']]), c(sum(freq[,' + population1 + ']), sum(freq[,' + population2 + ']))' + options + ')\n})\n');
+      echo('result <- ' + dataframe + ' |>\n');
+      echo('\tgroup_by(' + groupsName.join(", ") + ', ' + factorName + ') |>\n');
+      echo('\tcount(' + variableName + ', name = "freq") |>\n');
+      echo('\tmutate(n = sum(freq)) |>\n');
+      echo('\tfilter(' + variableName + ' == ' + category + ') |>\n');
+      echo('\tpivot_wider(names_from = ' + factorName + ', values_from = c(freq, n)) |>\n');
+      echo('\tmutate(test = tidy(prop.test(c(`freq_' + population1.slice(1, -1) + '`, `freq_' + population2.slice(1,-1) + '`), c(`n_' + population1.slice(1,-1) + '`, `n_' + population2.slice(1,-1) + '`)' + options + '))) |>\n');
+      echo('\tunnest(test)\n');
+      echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
     } else {
-      echo('freq <- table(' + variable + ',' + factor + ')\n');
-      echo('result <- prop.test(c(freq[[' + category + ',' + population1 + ']], freq[[' + category + ',' + population2 + ']]), c(sum(freq[,' + population1 + ']), sum(freq[,' + population2 + ']))' + options + ')\n');
+      echo('freq <- table(' + variable + ', ' + factor + ')\n');
+      echo('result <- tidy(prop.test(c(freq[[' + category + ', ' + population1 + ']], freq[[' + category + ', ' + population2 + ']]), c(sum(freq[,' + population1 + ']), sum(freq[,' + population2 + ']))' + options + '))\n');
     }
   }
 }
@@ -126,35 +134,44 @@ function printout() {
   // Grouped mode
   if (!manualFreq & grouped) {
     echo('for (i in 1:length(result)){\n');
-    echo('\t rk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-    echo('rk.results (list(');
-    echo(i18n("Estimated proportion") + ' = result[[i]]$estimate[1], ');
-    echo(i18n("Estimated proportion") + ' = result[[i]]$estimate[2], ');
-    echo(i18n("Degrees of freedom") + ' = result[[i]]$parameter, ');
+    echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
+    echo('\trk.print.literal(\n');
+    echo('\ttibble(');
+    echo(i18n("Proportion in %1", population1) + ' = result[[i]]$estimate1, ');
+    echo(i18n("Proportion in %1", population2) + ' = result[[i]]$estimate2, ');
+    echo(i18n("DF") + ' = result[[i]]$parameter, ');
     echo(i18n("Chi statistic") + ' = result[[i]]$statistic, ');
     echo(i18n("p-value") + ' = result[[i]]$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result[[i]]$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval<br/>for the proportion") + ' = result[[i]]$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between proportions") + ' = paste0("(", round(result[[i]]$conf.low, 6), " , ", round(result[[i]]$conf.high, 6), ")")');
     }
-    echo('))}\n');
+    echo(') |>\n');
+    echo('\t\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\t\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo('\t)\n'); 
+    echo('}\n');
   } else {
     // Non-grouped mode
-    echo('rk.results (list(');
+    echo('rk.print.literal(\n');
+    echo('tibble(');
     if (manualFreq) {
-      echo(i18n("Estimated proportion 1") + ' = result$estimate[1], ');
-      echo(i18n("Estimated proportion 2") + ' = result$estimate[2], ');
+      echo(i18n("Proportion 1") + ' = result$estimate1, ');
+      echo(i18n("Proportion 2") + ' = result$estimate2, ');
     } else {
-      echo(i18n("Estimated proportion in %1", population1) + ' = result$estimate[1], ');
-      echo(i18n("Estimated proportion in %1", population2) + ' = result$estimate[2], ');
+      echo(i18n("Proportion in %1", population1) + ' = result$estimate1, ');
+      echo(i18n("Proportion in %1", population2) + ' = result$estimate2, ');
     }
-    echo(i18n("Degrees of freedom") + ' = result$parameter, ');
+    echo(i18n("DF") + ' = result$parameter, ');
     echo(i18n("Chi statistic") + ' = result$statistic, ');
     echo(i18n("p-value") + ' = result$p.value');
     if (getConfInt) {
-      echo(', ' + i18n("% Confidence level") + ' = (100 * attr(result$conf.int, "conf.level"))');
-      echo(', ' + i18n("Confidence interval for the<br/>difference between proportions") + ' = result$conf.int');
+      echo(', ' + i18n("Confidence(%)") + ' = ' + 100 * confLevel);
+      echo(', ' + i18n("Confidence interval<br>difference between proportions") + ' = paste0("(", round(result$conf.low, 6), " , ", round(result$conf.high, 6), ")")');
     }
-    echo('))\n');
+    echo(') |>\n');
+    echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
   }
 }

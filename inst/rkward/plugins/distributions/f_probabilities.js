@@ -25,7 +25,8 @@ function setGlobals() {
 
 function calculate() {
 	setGlobals();
-	echo ('result <- (pf(q = c(' + q + '), df1 = ' + df1 + ', df2 = ' + df2 + ', ' + tail + '))\n');
+	echo ('prob <- (pf(q = c(' + q + '), df1 = ' + df1 + ', df2 = ' + df2 + ', ' + tail + '))\n');
+	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }
 
 function printout () {
@@ -40,8 +41,11 @@ function printout () {
 		}
 		header.print();
 		// Results
-		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
-		// Plot
+	echo('rk.print.literal(result |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
+	// Plot
 	if (plot){
 		if (tail=="lower.tail=TRUE" ){
 			echo('x <- seq(0,' + q + '[1], 0.01)\n');

@@ -44,6 +44,10 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
   echo('library(ez)\n');
   echo('library(nlme)\n');
   echo('library(multcomp)\n');
@@ -89,13 +93,14 @@ function calculate() {
   // Pairwise means coparison
   if (pairwiseMeans | pairwisePlot) {
     if (design == 'between') {
-      echo('pairs <- TukeyHSD(anova.results[["aov"]])\n');
+      echo('pairs <- tidy(TukeyHSD(anova.results[["aov"]])) |>\n');
+      echo('\tmutate(conf.int = paste0("(", round(conf.low, 6), " , ", round(conf.high, 6), ")"))\n');
     }
     if (design == 'within') {
-      echo('pairs <- glht(lme(' + variableName + '~' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + withinName.join("=\"Tukey\",") + '= "Tukey"))\n');
+      echo('pairs <- tidy(glht(lme(' + variableName + '~' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + withinName.join("=\"Tukey\",") + '= "Tukey")))\n');
     }
     if (design == 'mixed') {
-      echo('pairs <- glht(lme(' + variableName + '~' + betweenName.join("*") + '*' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + betweenName.join("=\"Tukey\",") + '= "Tukey", ' + withinName.join("=\"Tukey\",") + '= "Tukey"))\n');
+      echo('pairs <- tidy(glht(lme(' + variableName + '~' + betweenName.join("*") + '*' + withinName.join("*") + ', data = ' + dataframe + '[!is.na(' + dataframe + '$' + variableName + '),], random = ~1|' + caseIdName + '), linfct = mcp(' + betweenName.join("=\"Tukey\",") + '= "Tukey", ' + withinName.join("=\"Tukey\",") + '= "Tukey")))\n');
     }
   }
 }
@@ -120,76 +125,98 @@ function printout() {
   }
   header.print();
   // ANOVA results
-  echo('rk.results(list(');
+  echo('rk.print.literal(tibble(');
   echo(i18n("Source of variation") + ' = anova.results[["ANOVA"]][["Effect"]], ');
-  echo(i18n("Degrees of freedom <br/> numerator") + ' = anova.results[["ANOVA"]][["DFn"]], ');
-  echo(i18n("Degrees of freedom <br/> denominator") + ' = anova.results[["ANOVA"]][["DFd"]], ');
+  echo(i18n("Num DF") + ' = anova.results[["ANOVA"]][["DFn"]], ');
+  echo(i18n("Den DF") + ' = anova.results[["ANOVA"]][["DFd"]], ');
   if (showSumSq) {
-    echo(i18n("Sum of squares <br/> numerator") + ' = anova.results[["ANOVA"]][["SSn"]], ');
-    echo(i18n("Sum of squares <br/> denominator") + ' = anova.results[["ANOVA"]][["SSd"]], ');
+    echo(i18n("Num sum of squares") + ' = anova.results[["ANOVA"]][["SSn"]], ');
+    echo(i18n("Den sum of squares") + ' = anova.results[["ANOVA"]][["SSd"]], ');
   }
   echo(i18n("F statistic") + ' = anova.results[["ANOVA"]][["F"]], ');
   echo(i18n("p-value") + ' = anova.results[["ANOVA"]][["p"]]');
-  echo('))\n');
+  echo(') |>\n');
+  echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+  echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+  echo(')\n'); 
   // Mauchly's sphericity test (for repeated measures)
   echo("if(\"Mauchly\'s Test for Sphericity\" %in% names(anova.results)){\n");
   echo('\trk.header(' + i18n("Mauchly\'s test for sphericity") + ', level=3)\n');
-  echo('\trk.results(list(');
+  echo('\trk.print.literal(tibble(');
   echo(i18n("Source of variation") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["Effect"]], ');
   echo(i18n("W statistic") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["W"]], ');
   echo(i18n("p-value") + ' = anova.results[["Mauchly\'s Test for Sphericity"]][["p"]]');
-  echo('))\n}\n');
+  echo(') |>\n');
+  echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+  echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+  echo('\t)\n'); 
+  echo('}\n');
   // Sphericity correction
   echo('if("Sphericity Corrections" %in% names(anova.results)){\n');
   echo('\trk.header(' + i18n("Sphericity correction") + ', level=3)\n');
-  echo('\trk.results(list(');
+  echo('\trk.print.literal(tibble(');
   echo(i18n("Source of variation") + ' = anova.results[["Sphericity Corrections"]][["Effect"]], ');
   echo(i18n("Epsilon Greenhouse-Geisser") + ' = anova.results[["Sphericity Corrections"]][["GGe"]], ');
   echo(i18n("G-G corrected p-value") + ' = anova.results[["Sphericity Corrections"]][["p[GG]"]], ');
   echo(i18n("Epsilon Huynh-Feldt") + ' = anova.results[["Sphericity Corrections"]][["HFe"]], ');
   echo(i18n("H-F corrected p-value") + ' = anova.results[["Sphericity Corrections"]][["p[HF]"]]');
-  echo('))\n}\n');
+  echo(') |>\n');
+  echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+  echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+  echo('\t)\n'); 
+  echo('}\n');
   // Levene's test for homogeneity of variance
   echo('if("Levene\'s Test for Homogeneity of Variance" %in% names(anova.results)){\n');
   echo('\trk.header("Levene\'s test for comparing variances", level=3)\n');
-  echo('\trk.results(list(');
-  echo(i18n("Degrees of freedom <br/> numerator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFn"]], ');
-  echo(i18n("Degrees of freedom <br/> denominator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFd"]], ');
-  echo(i18n("Sum of squares <br/> numerator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSn"]], ');
-  echo(i18n("Sum of squares <br/> denominator") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSd"]], ');
+  echo('\trk.print.literal(tibble(');
+  echo(i18n("Num DF") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFn"]], ');
+  echo(i18n("Den DF") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["DFd"]], ');
+  echo(i18n("Num sum of squares") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSn"]], ');
+  echo(i18n("Den sum of squares") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["SSd"]], ');
   echo(i18n("F statistics") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["F"]], ');
   echo(i18n("p-value") + ' = anova.results[["Levene\'s Test for Homogeneity of Variance"]][["p"]]');
-  echo('))\n}\n');
+  echo(') |>\n');
+  echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+  echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+  echo('\t)\n'); 
+  echo('}\n');
   // Pairwise means comparison
   if (pairwiseMeans) {
     echo('rk.header(' + i18n("Pairwise comparison of means") + ', level=3)\n');
     if (design == 'between') {
-      echo('for(i in 1:length(pairs)){\n');
-      echo('\trk.header(paste(' + i18n("Confidence intervals for the difference of means according to") + ', names(pairs)[i]),level=4)\n');
-      echo('rk.results(list(');
-      echo(i18n("Pairs") + ' = rownames(pairs[[i]]), ');
-      echo(i18n("Difference of means") + ' = pairs[[i]][,1], ');
-      echo(i18n("Lower limit") + ' = pairs[[i]][,2], ');
-      echo(i18n("Upper limit") + ' = pairs[[i]][,3], ');
-      echo(i18n("p-value") + ' = pairs[[i]][,4]');
-      echo('))\n');
-      echo('}\n');
+      echo('rk.header(' + i18n("Confidence intervals for the difference between the means") + ', level=4)\n');
+      echo('rk.print.literal(tibble(');
+      echo(i18n("Pairs") + ' = pairs$contrast, ');
+      echo(i18n("Difference between means") + ' = pairs$estimate, ');
+      echo(i18n("Confidence interval<br>difference between means") + ' = pairs$conf.int, ');
+      echo(i18n("p-value") + ' = pairs$adj.p.value');
+      echo(') |>\n');
+      echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+      echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+      echo(')\n'); 
     } else {
       echo('rk.header(' + i18n("Tukey\'s test for pairwise comparison of means") + ', level=4)\n');
-      echo('rk.results(list(');
+      echo('rk.print.literal(tibble(');
       echo(i18n("Pairs") + ' = names(summary(pairs)$test$coefficients), ');
       echo(i18n("Estimate") + ' = summary(pairs)$test$coefficients, ');
       echo(i18n("Standard error") + ' = summary(pairs)$test$sigma, ');
       echo(i18n("t statistic") + ' = summary(pairs)$test$tstat, ');
       echo(i18n("p-value") + ' = summary(pairs)$test$pvalues');
-      echo('))\n');
+      echo(') |>\n');
+      echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+      echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+      echo('\t)\n'); 
+      echo('}\n');
       echo('rk.header(' + i18n("Confidence intervals for the difference of means") + ', level=4)\n');
-      echo('rk.results(list(');
+      echo('rk.print.literal(tibble(');
       echo(i18n("Pairs") + ' = rownames(confint(pairs)$confint), ');
       echo(i18n("Estimate") + ' = confint(pairs)$confint[,1], ');
-      echo(i18n("Lower limit") + ' = confint(pairs)$confint[,2], ');
-      echo(i18n("Upper limit") + ' = confint(pairs)$confint[,3]');
-      echo('))\n');
+      echo(i18n("Confidence interval<br>difference between means") + ' = pairs$conf.int, ');
+      echo(') |>\n');
+      echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+      echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+      echo('\t)\n'); 
+      echo('}\n');
     }
   }
   // Pairwise means plot

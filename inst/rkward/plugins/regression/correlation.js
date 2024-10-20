@@ -28,21 +28,25 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(rkTeaching)\n');
-  echo('library(plyr)\n');
+  echo('library(psych)\n');
+  echo('library(tidyverse)\n');
+  echo('library(broom)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
   // Filter
   filter();
+  echo('result <- ' + dataframe + ' |>\n');
   // Grouped mode
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-		// Correlation Matrix
-    echo('result <- dlply(' + dataframe + ', ".groups", function(df) correlationMatrix(df[c("' + variablesNames.join("\", \"") + '")],  use="' + missing + '", method="' + method + '"))\n');
-	} else {
-    // Correlation Matrix
-    echo('result <- correlationMatrix(' + dataframe + '[c("' + variablesNames.join("\", \"") + '")], use=' + quote(missing) + ', method=' + quote(method) + ')\n');
+      echo('\tgroup_by(' + groupsName + ') |>\n');
+      echo('\tsummarise(correlation = list(corr.test(across(c(' + variablesNames.join(", ") + ')), use = ' + quote(missing) + ', method=' + quote(method) + ')))\n');
+      echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
+  } else {
+      echo('\tselect(' + variablesNames.join(", ") + ') |>\n');
+      echo('\tcorr.test(use = ' + quote(missing) + ', method=' + quote(method) + ')\n');
   }
 }
 
@@ -65,37 +69,33 @@ function calculate() {
     }
     header.print();
 
-    //Grouped mode
+    // Grouped mode
     if (grouped) {
       echo('for (i in 1:length(result)){\n');
       echo('\trk.header(paste(' + i18n("Group %1 =", groupsName.join('.')) + ', names(result)[i]), level=3)\n');
-      echo('\trk.header (' + i18n("Correlation coefficient") + ', level=3)\n');
-      echo('\trk.results (as.data.frame(round(result[[i]]$cor,4)), titles=c(' + i18n("Coefficients") + ', colnames(result[[i]]$cor)))\n');
+      echo('\trk.header(' + i18n("Correlation coefficient") + ', level=4)\n');
+      echo('\trk.print.literal(result[[i]]$correlation[[1]]$r |>\n');
+        echo('\tkable("html", align = "c", escape = F) |>\n');
+        echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE))\n');
       if (pvalue) {
-        echo('\trk.header (' + i18n("p-value and sample size") + ', level=3)\n');
-        echo('\trk.results (as.data.frame(round(result[[i]]$p,4)), titles=c ("n \\\\ p", colnames(result[[i]]$p)))\n');
+        echo('\trk.header(' + i18n("p-value") + ', level=4)\n');
+        echo('\trk.print.literal(result[[i]]$correlation[[1]]$p |>\n');
+        echo('\tkable("html", align = "c", escape = F) |>\n');
+        echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE))\n');
       }
-      echo('\tif(length(result[[i]]$transformed) > 0){\n');
-      echo('\t\trk.header(' + i18n("Variables treated as ranks") + ', level=3)\n');
-      echo('\t\tfor (j in names(result[[i]]$transformed)) {\n');
-      echo('\t\t\trk.print(paste(' + i18n("Variable:") + ', j))\n');
-      echo('\t\t\trk.results(result[[i]]$transformed[[j]], titles=c(' + i18n("Real value") + ',' + i18n("Rank assigned") + '))\n');
-      echo('\t\t}\n');
-      echo('\t}\n');
       echo('}\n');
     } else {
-      echo('rk.header (' + i18n("Correlation coefficient") + ', level=3)\n');
-      echo('rk.results (as.data.frame(round(result$cor,4)), titles=c(' + i18n("Coefficients") + ', colnames(result$cor)))\n');
+      echo('rk.header(' + i18n("Correlation coefficient") + ', level=4)\n');
+      echo('rk.print.literal(result$r |>\n');
+      echo('\tkable("html", align = "c", escape = F) |>\n');
+      echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+      echo(')\n'); 
       if (pvalue) {
-        echo('rk.header (' + i18n("p-value and sample size") + ', level=3)\n');
-        echo('rk.results (as.data.frame(round(result$p,4)), titles=c ("n \\\\ p", colnames(result$p)))\n');
+        echo('rk.header(' + i18n("p-value") + ', level=4)\n');
+        echo('rk.print.literal(result$p |>\n');
+        echo('\tkable("html", align = "c", escape = F) |>\n');
+        echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+        echo(')\n');   
       }
-      echo('if(length(result$transformed) > 0){\n');
-      echo('	rk.header(' + i18n("Variables treated as ranks") + ', level=3)\n');
-      echo('	for (i in names(result$transformed)) {\n');
-      echo('		rk.print(paste(' + i18n("Variable:") + ', i))\n');
-      echo('		rk.results(result$transformed[[i]], titles=c(' + i18n("Real value") + ',' + i18n("Rank assigned") + '))\n');
-      echo('	}\n');
-      echo('}\n');
-    }
   }
+}

@@ -24,12 +24,6 @@
           </column>
         </row>
       </tab>
-      <tab id="tabFrequencies" label="Frequencies">
-        <checkbox id="observed" label="Show observed frequencies" value_unchecked="0" value="1" />
-        <checkbox id="expected" label="Show expected frequencies" value_unchecked="0" value="1" />
-        <checkbox id="percentages" label="Show percentages" value_unchecked="0" value="1" />
-        <stretch/>
-      </tab>
     </tabbook>
   </dialog>
   <wizard label="McNemar test of independence">
@@ -47,27 +41,6 @@
         </p>
       </text>
       <copy id="rowVars"/>
-    </page>
-    <page>
-      <text>
-        <p>Check the box to show the observed frequencies in the contingency table.</p>
-      </text>
-      <copy id="observed"/>
-      <stretch/>
-    </page>
-    <page>
-      <text>
-        <p>Check the box to show the expected frequencies in the contingency table.</p>
-      </text>
-      <copy id="expected"/>
-      <stretch/>
-    </page>
-    <page>
-      <text>
-        <p>Check the box to show the percentages in the contingency table. 	</p>
-      </text>
-      <copy id="percentages"/>
-      <stretch/>
     </page>
   </wizard>
 </document>

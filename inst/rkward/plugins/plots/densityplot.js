@@ -12,6 +12,7 @@ var dataframe,
   xlab,
   ylab,
   fill,
+  color, 
   position,
   pos,
   fillColor,
@@ -30,42 +31,55 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
-  echo('library(plyr)\n');
-  echo('library(ggplot2)\n');
+  echo('library(tidyverse)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Set fill color
+  fill = '';
   fillColor = getString("fillColor.code.printout")
   if (fillColor !== '') {
-    fillColor = 'fill=I(' + fillColor + ')';
+    fillColor = 'fill = I(' + fillColor + ')';
   } else {
-    fillColor = 'fill=I("#FF9999")'; // Default bar color
+    fillColor = 'fill = I("#FF9999")'; // Default bar color
   }
   // Set border color
+  color = '';
   borderColor = getString("borderColor.code.printout");
   if (borderColor !== '') {
-    borderColor = ', colour=I(' + borderColor + ')';
+    borderColor = ', colour = I(' + borderColor + ')';
   } else {
-    borderColor = ', colour=I("#FF9999")'; // Default bar color
+    borderColor = ', colour = I("#FF9999")'; // Default bar color
   }
   // Prepare data
   // Set grouped mode
   pos = '';
   facet = '';
   if (grouped) {
-    echo(dataframe + ' <- transform(' + dataframe + ', ' + groupsName.join(".") + '=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-    echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[["' + groupsName.join(".") + '"]]),]\n');
-    fillColor = 'aes(fill=' + groupsName.join('.');
-    borderColor = ', colour=' + groupsName.join('.') + ')';
-    if (position === 'faceted') {
-      facet = ' + facet_grid(' + groupsName.join('.') + '~.)';
+    fillColor = '';
+    if (groupsName.length == 1) {
+      fill = ', fill = ' + groupsName;
     } else {
-      pos = ', position=' + quote(position);
+      fill = ', fill = interaction(' + groupsName.join(', ') + ')';
+    }
+    borderColor = '';
+    if (groupsName.length == 1) {
+      color = ', colour = ' + groupsName;
+    } else {
+      color = ', colour = interaction(' + groupsName.join(', ') + ')';
+    }
+    if (position === 'faceted') {
+      facet = ' +\n\tfacet_grid(interaction(' + groupsName.join(', ') + ') ~ .)';
+    } else {
+      pos = 'position=' + quote(position);
     }
   }
+  // Plot
+  echo('plot <- ' + dataframe + ' |>\n');
+  echo('\tggplot(aes(x = ' + variableName + fill + color + ')) +\n');
+  echo('\tgeom_density(' + fillColor + borderColor + pos + ', alpha=0.5)' + facet + getString("plotOptions.code.calculate") + '\n');
 }
 
 function printout() {
@@ -95,8 +109,7 @@ function doPrintout(full) {
   }
   // Plot
   echo('try ({\n');
-  echo('densityplot <- ggplot(data=' + dataframe + ', aes(x=' + variableName + ')) + geom_density(' + fillColor + borderColor + pos + ', alpha=0.5)' + facet + getString("plotOptions.code.calculate") + '\n');
-  echo('print(densityplot)\n');
+  echo('\tprint(plot)\n');
   echo('})\n');
 
   if (full) {

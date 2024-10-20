@@ -1,6 +1,7 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
-var objects, numObjects,
+var objects, 
+	numObjects,
 	listObjects,
 	numDraws,
 	numTimes,
@@ -10,7 +11,7 @@ var objects, numObjects,
 	dataframe;
 
 function preprocess() {
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -36,12 +37,12 @@ function calculate() {
 			', ordered=' + ordered + ')\n');
 	}
 	echo('s <- probspace(s)\n');
-	echo('results <- sim(s, ntrials=' + numTimes + ')\n');
+	echo('result <- sim(s, ntrials = ' + numTimes + ')\n');
 	if (getBoolean("freq")) {
-		echo('results <- empirical(results)\n');
-		echo('names(results)[ncol(results)]=' + i18n("frequency") + '\n');
+		echo('result <- empirical(result)\n');
+		echo('names(result)[ncol(result)]=' + i18n("frequency") + '\n');
 	}
-	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

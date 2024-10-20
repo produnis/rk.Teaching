@@ -10,7 +10,7 @@ var objects,
 	prob;
 
 function preprocess() {
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -27,14 +27,14 @@ function setGlobals() {
 function calculate() {
 	setGlobals();
 	if (objects === "num") {
-		echo('results <- urnsamples(1:' + numObjects + ', size=' + numDraws + ', replace=' + replace + ', ordered=' + ordered + ')\n');
+		echo('result <- urnsamples(1:' + numObjects + ', size=' + numDraws + ', replace=' + replace + ', ordered=' + ordered + ')\n');
 	} else {
-		echo('results <- urnsamples(c("' + listObjects.replace(/,/g, "\",\"") + '"), size=' + numDraws + ', replace=' + replace + ', ordered=' + ordered + ')\n');
+		echo('result <- urnsamples(c("' + listObjects.replace(/,/g, "\",\"") + '"), size=' + numDraws + ', replace=' + replace + ', ordered=' + ordered + ')\n');
 	}
 	if (prob) {
-		echo('results <- probspace(results)\n');
+		echo('result <- probspace(result)\n');
 	}
-	echo('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

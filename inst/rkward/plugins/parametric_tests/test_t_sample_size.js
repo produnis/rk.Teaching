@@ -1,16 +1,14 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 // globals
-var delta,
-  sd,
+var effect,
   sigLevel,
   power,
   type,
   h1;
 
 function setGlobalVars() {
-  delta = getString("delta");
-  sd = getString("sd");
+  effect = getString("effect");
   sigLevel = getString("sigLevel");
   power = getString("power");
   type = getString("type");
@@ -19,10 +17,14 @@ function setGlobalVars() {
 
 function preprocess() {
   setGlobalVars();
+  echo('library(tidyverse)\n');
+  echo('library(pwr)\n');
+  echo('library(knitr)\n');
+  echo('library(kableExtra)\n');
 }
 
 function calculate() {
-  echo('result <- power.t.test(delta=' + delta + ', sd=' + sd + ', sig.level=' + sigLevel + ', power=' + power + ', type="' + type + '", alternative="' + h1 + '")\n');
+  echo('result <- pwr.t.test(d = ' + effect + ', sig.level = ' + sigLevel + ', power = ' + power + ', type = "' + type + '", alternative = "' + h1 + '")\n');
 }
 
 function printout() {
@@ -40,11 +42,12 @@ function printout() {
   } else {
     header.add(i18n("Alternative hypothesis"), "Two-sided");
   }
-  header.add(i18n("Difference between the means"), delta);
-  header.add(i18n("Standard deviation of the population"), sd);
+  header.add(i18n("Effect size"), effect);
   header.add(i18n("Significance level"), sigLevel);
   header.add(i18n("Power"), power);
   header.print();
   // // Sample size result
-  echo('rk.results (list(' + i18n("Sample size required") + ' = result$n))\n');
+  echo('rk.print.literal(tibble(' + i18n("Sample size required") + ' = result$n) |>\n');
+  echo('\tkable("html", align = "c", escape = F) |>\n');
+  echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE))\n');
 }

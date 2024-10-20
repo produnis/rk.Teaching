@@ -4,10 +4,6 @@
 	<code file="cards_probability_space.js" />
 	<help file="cards_probability_space.rkh" />
 	<dialog label="Probability space of drawing a card">
-		<radio id="deck" label="Type of deck">
-			<option value="us" label="American" checked="true" />
-			<option value="es" label="Spanish"/>
-		</radio>
 		<checkbox id="prob" label="Compute probabilities" checked="true" value="TRUE" uncheked_value="FALSE" />
 		<saveobject id="save" label="Save probability space" initial="probability.space.cards" />
 	</dialog>
@@ -16,12 +12,6 @@
 			<text>
 				<p>This procedure generates the probability space of drawing a card from a deck of cards.</p>
 			</text>
-		</page>
-		<page>
-			<text>
-				<p>Select the type of deck.</p>
-			</text>
-			<copy id="deck" />
 		</page>
 		<page>
 			<text>

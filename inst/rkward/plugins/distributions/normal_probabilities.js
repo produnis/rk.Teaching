@@ -24,7 +24,8 @@ function preprocess() {
 }
 
 function calculate() {
-	echo('result <- (pnorm(q = c(' + q + '), mean = ' + mean + ', sd = ' + sd + ', ' + tail + '))\n');
+	echo('prob <- (pnorm(q = c(' + q + '), mean = ' + mean + ', sd = ' + sd + ', ' + tail + '))\n');
+	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }
 
 function printout() {
@@ -39,7 +40,10 @@ function printout() {
 	}
 	header.print();
 	// Results
-	echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
+	echo('rk.print.literal(result |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
 	// Plot
 	if (plot) {
 		if (tail == "lower.tail=TRUE") {

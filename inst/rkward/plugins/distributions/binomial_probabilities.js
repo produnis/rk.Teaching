@@ -16,11 +16,16 @@ function setGlobals() {
 
 function calculate() {
 	setGlobals();
-	echo('result <- ' + fun + 'binom(c(' + q + '), size = ' + size + ', prob = ' + prob);
+	echo('prob <- ' + fun + 'binom(c(' + q + '), size = ' + size + ', prob = ' + prob);
 	if (fun === 'p') {
 		echo(', ' + tail);
 	}
 	echo(')\n');
+	if (fun === 'p') {
+		echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
+	} else {
+		echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Probability") + ' = prob)\n');
+	}
 }
 
 function printout() {
@@ -41,9 +46,8 @@ function printout() {
 	}
 	header.print();
 	// Results
-	if (fun === 'p') {
-		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative prob") + ' = result))\n');
-	} else {
-		echo('rk.results (list(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Probability") + ' = result))\n');
-	}
+	echo('rk.print.literal(result |>\n');
+    echo('\tkable("html", align = "c", escape = F) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
 }

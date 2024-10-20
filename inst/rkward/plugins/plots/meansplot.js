@@ -12,10 +12,7 @@ var dataframe,
   getPoints,
   points,
   getConfInt,
-  confInt,
-  meanColor,
-  intervalColor,
-  facet;
+  confLevel;
 
 function setGlobalVars() {
   variables = getList("variables");
@@ -26,44 +23,37 @@ function setGlobalVars() {
   groupsName = getList("groups.shortname");
   getPoints = getBoolean("points");
   getConfInt = getBoolean("frameConfInt.checked");
+  confLevel = getString("conflevel");
 }
 
 function preprocess() {
   setGlobalVars();
-  echo('library(ggplot2)\n');
+  echo('library(tidyverse)\n');
 }
 
 function calculate() {
   // Filter
   filter();
   // Prepare data frame
-  echo('.df <- data.frame(y=c(' + variables.join() + '), x=factor(rep(c(' + variablesName.map(quote) + '), each=nrow(' + dataframe + ')))');
+  echo('plot <- ' + dataframe + ' |>\n');
   if (grouped) {
-    echo(', ' + groupsName.join(".") + '=rep(interaction(' + groups + '),' + variables.length + '))\n');
-    echo('.df <- .df[!is.na(.df[["' + groupsName.join(".") + '"]]),]\n');
-  } else {
-    echo(')\n');
-  }
-  // Set mean and interval color
-  // Set grouped mode
-  facet = '';
-  if (grouped) {
-    meanColor = ', colour=' + groupsName.join(".");
-    intervalColor = '';
-  } else {
-    meanColor = '';
-    intervalColor = ', colour="#FF5555"';
-  }
-  // Set confidence intervals
-  confInt = '';
-  if (getConfInt) {
-    confInt = ' + stat_summary(fun.data=function(x) mean_cl_normal(x, conf.int=' + getString("conflevel") + '), geom="pointrange"' + intervalColor + ', position=position_dodge(width=0.25))';
-  }
+    echo('\tmutate(' + groupsName.join(".") + ' = interaction(' + groupsName.join(", ") + ')) |>\n');
+  } 
+  echo('\tpivot_longer(cols = c(' + variablesName.join(", ") + '), names_to = "Variable", values_to = "Value") |>\n');
+  echo('\tggplot(aes(x = ' + groupsName.join(".") + ', y = Value, colour = Variable, group = Variable)) +\n');
   // Set points
-  points = '';
   if (getPoints) {
-    points = ' + geom_point(position=position_dodge(width=0.25))';
+    echo('\tgeom_point(position = position_dodge(0.5)) +\n');
   }
+  echo('\tstat_summary(fun.data = ~ mean_cl_normal(., conf.int = ' + confLevel + '), ');
+  // Set confidence intervals
+  if (getConfInt) {
+    echo('geom = "pointrange", ');
+  } else {
+    echo('geom = "point", ');
+  }
+  echo('position = position_dodge(width = 0.5))');
+  echo(getString("plotOptions.code.calculate") + '\n');
 }
 
 function printout() {
@@ -93,8 +83,7 @@ function doPrintout(full) {
     }
   // Plot
   echo('try ({\n');
-  echo('.meansplot <- ggplot(data=.df, aes(x=x,y=y' + meanColor + ')) + stat_summary(fun="mean", size=3,  geom="point", position=position_dodge(width=0.25)' + intervalColor + ')' + points + confInt + ' + xlab("") + ylab("")' + facet + getString("plotOptions.code.calculate") + '\n');
-  echo('print(.meansplot)\n');
+  echo('print(plot)\n');
   echo('})\n');
   if (full) {
     echo('rk.graph.off ()\n');

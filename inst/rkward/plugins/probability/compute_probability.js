@@ -1,11 +1,15 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 var probSpace, 
-event, 
-conditioned, 
-condition;
+	event, 
+	conditioned, 
+	condition;
 
 function preprocess(){
-	echo('library(prob)\n');
+	echo('library(tidyverse)\n');
+	echo('library(broom)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -17,7 +21,7 @@ function setGlobals() {
 
 function calculate () {
 	setGlobals();	
-	echo('results <- Prob(' + probSpace + ', event=' + event);
+	echo('result <- Prob(' + probSpace + ', event=' + event);
 	if (conditioned)
 		echo(', given= ' + condition );
 	echo(')\n');
@@ -30,8 +34,11 @@ function printout () {
 		header.add(i18n("Probability space"), probSpace);
 		header.print();
 	
-	echo ('rk.results(list(' + i18n("Event") + ' = \'' + event + '\'');
+	echo ('rk.print.literal(tibble(' + i18n("Event") + ' = \'' + event + '\'');
 	if (conditioned)
 		echo(', ' + i18n("Condition") + ' = \'' + condition + '\'');
-	echo(', ' + i18n("Probability") + ' = results))\n');
+	echo(', ' + i18n("Probability") + ' = result) |>\n')
+	echo('\tkable("html", align = "c", escape = FALSE) |>\n');
+    echo('\tkable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)\n');
+    echo(')\n'); 
 }

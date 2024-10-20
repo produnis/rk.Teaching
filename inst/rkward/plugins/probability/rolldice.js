@@ -1,12 +1,12 @@
 // author: Alfredo Sánchez Alberca (asalber@ceu.es)
 
 var ndice, 
-ntimes,
-freq, 
-dataframe;
+	ntimes,
+	freq, 
+	dataframe;
 
 function preprocess(){
-	echo('library(prob)\n');
+	echo('library(probs)\n');
 }
 
 function setGlobals() {
@@ -22,14 +22,14 @@ function calculate () {
 	ntimes = getString("ntimes");
 	dataframe= getString("save");
 	echo('s <- rolldie(' + ndice + ', makespace=TRUE)\n');
-	echo('results <- sim(s, ntrials=' + ntimes + ')\n');
+	echo('result <- sim(s, ntrials = ' + ntimes + ')\n');
 	if (getBoolean("freq")) {
-		echo('results <- empirical(results)\n');
-		echo('names(results)[ncol(results)]=' + i18n("frequency") + '\n');
+		echo('result <- empirical(result)\n');
+		echo('names(result)[ncol(result)] = ' + i18n("frequency") + '\n');
 	}
 	echo('for (i in 1:'+ ndice+ ')\n');
-	echo('\t names(results)[i]= paste0(' + i18n("dice") + ', i)\n');
-	echo ('assign("' + dataframe + '", results, .GlobalEnv)\n');
+	echo('\t names(result)[i]= paste0(' + i18n("dice") + ', i)\n');
+	echo ('assign("' + dataframe + '", result, .GlobalEnv)\n');
 }
 
 function printout() {

@@ -28,43 +28,43 @@
 				<column id="colStatistics">
 					<frame label="General">
 						<row>
-							<checkbox id="min" label="Minimum" checked="false" value="'min'," />
-							<checkbox id="max" label="Maximum" checked="false" value="'max'," />
+							<checkbox id="min" label="Minimum" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="max" label="Maximum" value_unchecked="0" checked="false" value="1" />
 						</row>
 					</frame>
 					<frame label="Central tendency">
 						<row>
-							<checkbox id="mean" label="Arithmetic mean" checked="false" value="'mean',"/>
-							<checkbox id="median" label="Median" checked="false" value="'median',"/>
-							<checkbox id="mode" label="Mode" checked="false" value="'Mode',"/>
+							<checkbox id="mean" label="Arithmetic mean" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="median" label="Median" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="mode" label="Mode" value_unchecked="0" checked="false" value="1" />
 						</row>
 					</frame>
 					<frame label="Dispersion">
 						<row>
-							<checkbox id="variance" label="Variance" checked="false" value="'variance',"/>
-							<checkbox id="unvariance" label="Corrected variance" checked="false" value="'unvariance',"/>
+							<checkbox id="variance" label="Variance" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="unvariance" label="Corrected variance" value_unchecked="0" checked="false" value="1" />
 						</row>
 						<row>
-							<checkbox id="stdev" label="Standard deviation" checked="false" value="'stdev',"/>
-							<checkbox id="sd" label="Corrected standard deviation" checked="false" value="'sd',"/>
+							<checkbox id="stdev" label="Standard deviation" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="sd" label="Corrected standard deviation" value_unchecked="0" checked="false" value="1" />
 						</row>
 						<row>
-							<checkbox id="cv" label="Coefficient of variation" checked="false" value="'cv',"/>
+							<checkbox id="cv" label="Coefficient of variation" value_unchecked="0" checked="false" value="1" />
 						</row>
 						<row>
-							<checkbox id="range" label="Range" checked="false" value="'ran',"/>
-							<checkbox id="iqrange" label="Interquartile range" checked="false" value="'iqrange',"/>
+							<checkbox id="range" label="Range" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="iqrange" label="Interquartile range" value_unchecked="0" checked="false" value="1" />
 						</row>
 					</frame>
 					<frame label="Shape">
 						<row>
-							<checkbox id="skewness" label="Coefficient of skewness" checked="false" value="'skewness'," />
-							<checkbox id="kurtosis" label="Coefficient of kurtosis" checked="false" value="'kurtosis'," />
+							<checkbox id="skewness" label="Coefficient of skewness" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="kurtosis" label="Coefficient of kurtosis" value_unchecked="0" checked="false" value="1" />
 						</row>
 					</frame>
 					<frame label="Quantiles">
 						<column>
-							<checkbox id="quartile" label="Quartiles" value_unchecked="0" checked="false" value="1" />
+							<checkbox id="quartiles" label="Quartiles" value_unchecked="0" checked="false" value="1" />
 							<text> Percentiles </text>
 							<input id="quantiles" label="Enter the relative frequencies separated by commas. e.g. 0.25,0.5,0.75 for the quartiles" />
 						</column>
