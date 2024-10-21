@@ -12,8 +12,13 @@ function setGlobals() {
 	tail = getString("tail");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+function calculate() {
 	echo('result <- (qf(p = c(' + p + '), df1 = ' + df1 + ', df2 = ' + df2 + ', ' + tail + '))\n');
 }
 

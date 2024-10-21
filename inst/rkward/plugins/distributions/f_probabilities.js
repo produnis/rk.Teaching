@@ -23,8 +23,14 @@ function setGlobals() {
 	}
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo ('prob <- (pf(q = c(' + q + '), df1 = ' + df1 + ', df2 = ' + df2 + ', ' + tail + '))\n');
 	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }

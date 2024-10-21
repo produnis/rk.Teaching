@@ -18,8 +18,14 @@ function setGlobals() {
   tail = getString("tail");
 }
 
+function preprocess() {
+	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
 function calculate() {
-  setGlobals();
   echo('result <- (qhyper(p = c(' + p + '), m = ' + successes + ', n = ' + failures + ', k = ' + sampleSize + ', ' + tail + '))\n');
 }
 

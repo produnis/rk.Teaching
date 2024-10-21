@@ -5,7 +5,6 @@ var p,
 	sd,
 	tail;
 
-
 function setGlobals() {
 	p = getString("p");
 	mean = getString("mean");
@@ -13,8 +12,14 @@ function setGlobals() {
 	tail = getString("tail");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('result <- (qnorm(p = c(' + p + '), mean = ' + mean + ', sd = ' + sd + ', ' + tail + '))\n');
 }
 

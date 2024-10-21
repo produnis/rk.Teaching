@@ -20,11 +20,13 @@ function setGlobals() {
 
 function preprocess() {
 	setGlobals();
-	echo('library(ggplot2)\n');
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 }
 
 function calculate() {
-	echo('prob <- (pnorm(q = c(' + q + '), mean = ' + mean + ', sd = ' + sd + ', ' + tail + '))\n');
+	echo('prob <- pnorm(q = c(' + q + '), mean = ' + mean + ', sd = ' + sd + ', ' + tail + ')\n');
 	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }
 

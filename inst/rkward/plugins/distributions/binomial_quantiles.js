@@ -12,8 +12,14 @@ function setGlobals() {
 	tail = getString("tail");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('result <- qbinom(p = c(' + p + '), size = ' + size + ', prob = ' + prob + ', ' + tail + ')\n');
 }
 

@@ -16,8 +16,14 @@ function setGlobals() {
 	max = 4;
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('prob <- (pt(q = c(' + q + '), df = ' + df + ', ' + tail + '))\n');
 	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }

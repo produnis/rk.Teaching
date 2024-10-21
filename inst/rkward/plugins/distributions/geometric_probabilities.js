@@ -11,9 +11,14 @@ function setGlobals() {
 	tail = getString("tail");
 	fun = getString("function");
 }
+function preprocess() {
+	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
 
 function calculate() {
-	setGlobals();
 	echo('prob <- ' + fun + 'geom(c(' + q + '), prob = ' + prob);
 	if (fun === 'p') {
 		echo(', ' + tail);

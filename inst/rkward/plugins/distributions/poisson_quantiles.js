@@ -10,8 +10,14 @@ function setGlobals() {
 	tail = getString("tail");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('result <- (qpois(p = c(' + p + '), lambda = ' + lambda + ', ' + tail + '))\n');
 }
 

@@ -12,8 +12,14 @@ function setGlobals() {
 	fun = getString("function");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('prob <- ' + fun + 'pois(c(' + q + '), lambda = ' + lambda);
 	if (fun === 'p') {
 		echo(', ' + tail);

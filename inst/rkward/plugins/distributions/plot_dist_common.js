@@ -14,7 +14,9 @@ function setGlobals() {
 
 function preprocess() {
 	setGlobals();
-	echo('library(ggplot2)\n');
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
 }
 
 function printout() {

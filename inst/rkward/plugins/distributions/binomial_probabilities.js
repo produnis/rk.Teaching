@@ -14,8 +14,14 @@ function setGlobals() {
 	fun = getString("function");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('prob <- ' + fun + 'binom(c(' + q + '), size = ' + size + ', prob = ' + prob);
 	if (fun === 'p') {
 		echo(', ' + tail);

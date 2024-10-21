@@ -38,7 +38,7 @@ function calculate() {
 		echo('\tunnest(test)\n');
 		echo('result <- split(result, list(result$' + groupsName.join(",result$") + '), drop = TRUE)\n');
 	} else {
-		echo('result <- tidy(shapiro.test(' + variableName + '))\n');
+		echo('result <- tidy(shapiro.test(' + variable + '))\n');
 	}
 }
 

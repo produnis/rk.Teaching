@@ -12,8 +12,14 @@ function setGlobals() {
 	plot = getBoolean("plot");
 }
 
-function calculate() {
+function preprocess() {
 	setGlobals();
+	echo('library(tidyverse)\n');
+	echo('library(knitr)\n');
+	echo('library(kableExtra)\n');
+}
+
+function calculate() {
 	echo('prob <- (punif(q = c(' + q + '), min = ' + min + ', max = ' + max + ', ' + tail + '))\n');
 	echo('result <- tibble(' + i18n("Values") + ' = c(' + q + '), ' + i18n("Cumulative Prob") + ' = prob)\n');
 }
