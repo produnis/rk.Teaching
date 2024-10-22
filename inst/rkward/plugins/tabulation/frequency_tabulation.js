@@ -23,7 +23,10 @@ function setGlobalVars() {
 
 function preprocess() {
     setGlobalVars();
-    echo('library(dplyr)\n');
+    echo('library(tidyverse)\n');
+    echo('library(broom)\n');
+    echo('library(knitr)\n');
+    echo('library(kableExtra)\n');
 }
 
 function calculate() {

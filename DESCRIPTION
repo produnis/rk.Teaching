@@ -13,13 +13,16 @@ Depends:
     utils,
     graphics,
     grDevices,
-    tidyverse,
     R2HTML,
     car,
     e1071,
     Hmisc,
     ez,
     multcomp,
+    probs,
+    tidyverse,
+    knitr,
+    kableExtra,
     R (>= 4.3.0)
 Description: Basic utilities for teaching statistics.
     It contains procedures for:
