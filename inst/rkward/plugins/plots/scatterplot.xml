@@ -55,7 +55,7 @@
 					<column>
 						<embed id="pointColor" label="Points color" component="rkTeaching::color_chooser"/>
 						<embed id="pointSymbol" label="Points symbol" component="rkTeaching::point_chooser"/>
-						<spinbox id="pointSize" label="Points size" type="integer" min="0" max="10" initial="3"/>
+						<spinbox id="pointSize" label="Points size" type="integer" min="0" max="10" initial="2"/>
 						<embed id="plotOptions" component="rkTeaching::plot_options" as_button="true" label="Graphic options"/>
 						<stretch/>
 					</column>

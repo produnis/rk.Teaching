@@ -19,6 +19,7 @@ Depends:
     Hmisc,
     ez,
     multcomp,
+    psych,
     probs,
     tidyverse,
     knitr,

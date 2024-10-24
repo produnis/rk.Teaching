@@ -4,6 +4,7 @@
 	<components>
 		<component type="standard" id="cells" file="cells.xml" label="Classes" />
 		<component type="standard" id="color_chooser" file="color_chooser.xml" label="Color selector" />
+		<component type="standard" id="line_chooser" file="line_chooser.xml" label="Line type selector" />
 		<component type="standard" id="point_chooser" file="point_chooser.xml" label="Point type selector" />
 		<component type="standard" id="plot_options" file="plot_options.xml" label="Graphic options" />
 	</components>

@@ -2,6 +2,7 @@
 <!DOCTYPE rkpluginmap>
 <document base_prefix="plots/" po_id="rkTeaching" namespace="rkTeaching">
 	<components>
+		<component type="standard" id="linesplot" file="linesplot.xml" label="Lines chart" />
 		<component type="standard" id="barplot" file="barplot.xml" label="Bar chart" />
 		<component type="standard" id="histogram" file="histogram.xml" label="Histogram" />
 		<component type="standard" id="densityplot" file="densityplot.xml" label="Density chart" />
@@ -15,6 +16,7 @@
 	<hierarchy>
 		<menu id="teaching">
 			<menu id="plots" label="Charts">
+				<entry component="linesplot"/>
 				<entry component="barplot"/>
 				<entry component="histogram"/>
 				<entry component="densityplot"/>

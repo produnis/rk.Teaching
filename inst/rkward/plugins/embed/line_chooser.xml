@@ -1,0 +1,24 @@
+<!-- author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
+<!DOCTYPE rkplugin>
+<document>
+	<code file="line_chooser.js" />
+	<help file="line_chooser.rkh" />
+	<logic></logic>
+	<dialog label="Line type">
+		<dropdown id="line" label="Line type">
+			<option value="" label="default" checked="true" />
+			<option value="1" label="Solid" />
+			<option value="2" label="Dashed" />
+			<option value="3" label="Dotted" />
+			<option value="4" label="Dot dash" />
+			<option value="5" label="Long dash" />
+			<option value="6" label="Two dash" />
+		</dropdown>
+	</dialog>
+	<wizard label="Line type">
+		<text>
+			<p>Choose the line type.</p>
+		</text>
+		<copy id="line" />
+	</wizard>
+</document>

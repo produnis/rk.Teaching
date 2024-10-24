@@ -40,7 +40,11 @@ function calculate() {
     echo('\tmutate(' + groupsName.join(".") + ' = interaction(' + groupsName.join(", ") + ')) |>\n');
   } 
   echo('\tpivot_longer(cols = c(' + variablesName.join(", ") + '), names_to = "Variable", values_to = "Value") |>\n');
-  echo('\tggplot(aes(x = ' + groupsName.join(".") + ', y = Value, colour = Variable, group = Variable)) +\n');
+  if (grouped) {
+    echo('\tggplot(aes(x = ' + groupsName.join(".") + ', y = Value, colour = Variable, group = Variable)) +\n');
+  } else {
+    echo('\tggplot(aes(x = Variable, y = Value, color = I("#FF9999"))) +\n');
+  }
   // Set points
   if (getPoints) {
     echo('\tgeom_point(position = position_dodge(0.5)) +\n');

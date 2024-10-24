@@ -65,158 +65,251 @@ function calculate() {
     // Set point color
     pointColor = getString("pointColor.code.printout");
     if (pointColor != '') {
-        pointColor = '), colour=' + pointColor;
+        pointColor = 'colour = ' + pointColor;
     } else {
-        pointColor = '), colour="#FF9999"'; // Default bar color
+        pointColor = 'colour = "#FF9999"'; // Default bar color
     }
     // Set point symbol
     pointSymbol = getString("pointSymbol.code.printout");
     if (pointSymbol != '') {
-        pointSymbol = ', shape=' + pointSymbol;
+        pointSymbol = ', shape = ' + pointSymbol;
     }
     // Set point size
-    pointSize = ', size=' + pointSize;
+    pointSize = ', size = ' + pointSize;
     // Set grouped mode
     facet = '';
-    smoothColor = '';
-    stripColor = ')';
     legend = '';
+    // Scatter plot
+    echo('# Plot scatter plot\n');
+    echo('plot <- ' + dataframe + ' |>\n');
     if (grouped) {
-        echo(dataframe + ' <- transform(' + dataframe + ', .groups=interaction(' + dataframe + '[,c(' + groupsName.map(quote) + ')]))\n');
-        echo(dataframe + ' <- ' + dataframe + '[!is.na(' + dataframe + '[[".groups"]]),]\n');
-        pointColor = ', colour=.groups';
-        pointSymbol = ', shape=.groups)';
-        smoothColor = ', colour=.groups';
-        stripColor = ', fill=.groups)';
-        legend = ' + scale_colour_discrete(name=' + quote(groupsName.join('.')) + ') + scale_shape_discrete(name=' + quote(groupsName.join('.')) + ')';
-        if (confidenceStrip){
-            legend += ' + scale_fill_discrete(name=' + quote(groupsName.join('.')) + ')';
+        if (groupsName.length > 1) {  
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tggplot(aes(x = ' + xName + ', y = ' + yName + ', colour = ' + groupsName.join('.') + ', shape = ' + groupsName.join('.') + ')) +\n');
+        } else {
+            echo('\tggplot(aes(x = ' + xName + ', y = ' + yName + ', colour = ' + groupsName + ', shape = ' + groupsName + ')) +\n');
         }
+        echo('\tgeom_point(' + pointSize + ')\n');
+        // legend = ' + scale_colour_discrete(name = ' + quote(groupsName.join('.')) + ') + scale_shape_discrete(name = ' + quote(groupsName.join('.')) + ')';
+        // if (confidenceStrip){
+        //     legend += ' + scale_fill_discrete(name = ' + quote(groupsName.join('.')) + ')';
+        // }
         if (getString("position") === 'faceted') {
-            facet = ' + facet_grid(.~.groups)';
+            facet = ' + facet_grid(. ~ ' + groupsName.join('.') + ')';
         }
+    } else {
+        echo('\tggplot(' + 'aes(x = ' + xName + ', y = ' + yName + ')) +\n');
+        echo('\tgeom_point(' + pointColor + pointSymbol + pointSize + ')\n'); 
     }
     regression = linear | quadratic | cubic | potential | exponential | logarithmic | inverse | sigmoid;
     smooth = '';
     model = [];
     formula = '';
     if (regression) {
-        echo('.df <- data.frame(x=' + x + ', y=' + y);
-        if (grouped) {
-            echo(', .groups=' + dataframe + '[[".groups"]]');
-        }
-        echo(')\n');
-        echo('.df <- .df[complete.cases(.df),]\n');
-        smooth = ' +\n\t# Legend\n\tscale_linetype("Regression model")';
+        smooth = ' +\n\tscale_linetype(' + i18n("Regression model") + ')';
     }
     if (linear) {
+        echo('# Plot linear model\n');
         if (grouped) {
-            echo('.df.linear <- ddply(.df, ".groups", function(.df) predictions(lm(y~x, data=.df), seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df_linear <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(' + yName + ' ~ ' + xName + ', data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_linear, aes(x = ' + xName + ', y = fit, colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Linear") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_linear, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr, fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.linear <- predictions(lm(y~x, data=.df), seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
+            echo('linear_model <- lm(' + yName + ' ~ ' + xName + ', data = na.omit(' + dataframe + '))\n');
+            echo('df_linear <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_linear <- cbind(df_linear, predict(linear_model, newdata = df_linear, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_linear, aes(x = ' + xName + ', y = fit, linetype = ' + i18n("Linear") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_linear, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Linear model\n\tgeom_line(data=.df.linear, aes(x=x, y=pred.y' + smoothColor + ', linetype="Linear"))';
-        model.push('Linear (' + yName + ' = a+b*' + xName + ')');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.linear, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Linear").slice(1,-1) + ' (' + yName + ' = a+b*' + xName + ')');
     }
     if (quadratic) {
+        echo('# Plot quadratic model\n');
         if (grouped) {
-            echo('.df.quadratic <- ddply(.df,".groups",function(.df) predictions(lm(y~x+I(x^2),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df_quadratic <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(' + yName + ' ~ ' + xName + ' + I(' + xName + '^2), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_quadratic, aes(x = ' + xName + ', y = fit, colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Quadratic") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_quadratic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr, fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.quadratic <- predictions(lm(y~x+I(x^2),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
+            echo('quadratic_model <- lm(' + yName + ' ~ ' + xName + ' + I(' + xName + '^2), data = na.omit(' + dataframe + '))\n');
+            echo('df_quadratic <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_quadratic <- cbind(df_quadratic, predict(quadratic_model, newdata = df_quadratic, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_quadratic, aes(x = ' + xName + ', y = fit, linetype = ' + i18n("Quadratic") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_quadratic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Cuadratic model\n\tgeom_line(data=.df.quadratic, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Cuadratic"))';
-        model.push('Quadratic (' + yName + ' = a+b*' + xName + '+c*' + xName + '<sup>2</sup>)');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.quadratic, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Quadratic").slice(1,-1) + ' (' + yName + ' = a+b*' + xName + '+c*' + xName + '<sup>2</sup>)');
     }
     if (cubic) {
+        echo('# Plot quadratic model\n');
         if (grouped) {
-            echo('.df.cubic <- ddply(.df,".groups",function(.df) predictions(lm(y~x+I(x^2)+I(x^3),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df_cubic <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(' + yName + ' ~ ' + xName + ' + I(' + xName + '^2) + I(' + xName + '^3), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_cubic, aes(x = ' + xName + ', y = fit, colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Cubic") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_cubic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr, fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.cubic <- predictions(lm(y~x+I(x^2)+I(x^3),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
+            echo('cubic_model <- lm(' + yName + ' ~ ' + xName + ' + I(' + xName + '^2) + I(' + xName + '^3), data = na.omit(' + dataframe + '))\n');
+            echo('df_cubic <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_cubic <- cbind(df_cubic, predict(cubic_model, newdata = df_cubic, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_cubic, aes(x = ' + xName + ', y = fit, linetype = ' + i18n("Cubic") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_cubic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Cubic model\n\tgeom_line(data=.df.cubic, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Cubic"))';
-        model.push('Cubic (' + yName + ' = a+b*' + xName + '+c*' + xName + '<sup>2</sup>+d*' + xName + '<sup>3</sup>)');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.cubic, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Cubic").slice(1,-1) + ' (' + yName + ' = a+b*' + xName + '+c*' + xName + '<sup>2</sup>+d*' + xName + '<sup>3</sup>)');
     }
     if (potential) {
+        echo('# Plot potential model\n');
         if (grouped) {
-            echo('.df.potential <- ddply(.df,".groups",function(.df) predictions(lm(log(y)~log(x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
-            echo('.df.potential[,-2:-1]=exp(.df.potential[,-2:-1])\n');
-            echo('names(.df.potential)[3]="pred.y"\n');
+            echo('df_potential <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(log(' + yName + ') ~ log(' + xName + '), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_potential, aes(x = ' + xName + ', y = exp(fit), colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Potential") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_potential, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr), fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.potential <- predictions(lm(log(y)~log(x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
-            echo('.df.potential[,-1]=exp(.df.potential[,-1])\n');
-            echo('names(.df.potential)[2]="pred.y"\n');
+            echo('potential_model <- lm(log(' + yName + ') ~ log(' + xName + '), data = na.omit(' + dataframe + '))\n');
+            echo('df_potential <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_potential <- cbind(df_potential, predict(potential_model, newdata = df_potential, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_potential, aes(x = ' + xName + ', y = exp(fit), linetype = ' + i18n("Potential") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_potential, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr)), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Potential model\n\tgeom_line(data=.df.potential, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Potential"))';
-        model.push('Potential (' + yName + ' = a*' + xName + '^b)');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.potential, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Potential").slice(1,-1) +' (' + yName + ' = a*' + xName + '^b)');
     }
     if (exponential) {
+        echo('# Plot exponential model\n');
         if (grouped) {
-            echo('.df.exponential <- ddply(.df,".groups",function(.df) predictions(lm(log(y)~x,data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
-            echo('.df.exponential[,-2:-1]=exp(.df.exponential[,-2:-1])\n');
-            echo('names(.df.exponential)[3]="pred.y"\n');
+            echo('df_exponential <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(log(' + yName + ') ~ ' + xName + ', data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_exponential, aes(x = ' + xName + ', y = exp(fit), colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Exponential") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_exponential, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr), fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.exponential <- predictions(lm(log(y)~x,data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
-            echo('.df.exponential[,-1]=exp(.df.exponential[,-1])\n');
-            echo('names(.df.exponential)[2]="pred.y"\n');
+            echo('exponential_model <- lm(log(' + yName + ') ~ ' + xName + ', data = na.omit(' + dataframe + '))\n');
+            echo('df_exponential <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_exponential <- cbind(df_exponential, predict(exponential_model, newdata = df_exponential, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_exponential, aes(x = ' + xName + ', y = exp(fit), linetype = ' + i18n("Exponential") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_exponential, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr)), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Exponential model\n\tgeom_line(data=.df.exponential, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Exponential"))';
-        model.push('Exponential (' + yName + ' = exp(a+b*' + xName + '))');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.exponential, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Exponential").slice(1,-1) +' (' + yName + ' = exp(a+b*' + xName + '))');
     }
     if (logarithmic) {
+        echo('# Plot logarithmic model\n');
         if (grouped) {
-            echo('.df.logarithmic <- ddply(.df,".groups",function(.df) predictions(lm(y~log(x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence"))\n');
+            echo('df_logarithmic <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(' + yName + ' ~ log(' + xName + '), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_logarithmic, aes(x = ' + xName + ', y = fit, colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Logarithmic") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_logarithmic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr, fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.logarithmic <- predictions(lm(y~log(x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100), interval="confidence")\n');
+            echo('logarithmic_model <- lm(' + yName + ' ~ log(' + xName + '), data = na.omit(' + dataframe + '))\n');
+            echo('df_logarithmic <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_logarithmic <- cbind(df_logarithmic, predict(logarithmic_model, newdata = df_logarithmic, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_logarithmic, aes(x = ' + xName + ', y = fit, linetype = ' + i18n("Logarithmic") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_logarithmic, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Logarithmic model\n\tgeom_line(data=.df.logarithmic, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Logarithmic"))';
-        model.push('Logarithmic (' + yName + ' = a+b*log(' + xName + '))');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.logarithmic, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Logarithmic").slice(1,-1) +' (' + yName + ' = a+b*log(' + xName + '))');
     }
     if (inverse) {
+        echo('# Plot inverse model\n');
         if (grouped) {
-            echo('.df.inverse <- ddply(.df,".groups",function(.df) predictions(lm(y~I(1/x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100),interval="confidence"))\n');
+            echo('df_inverse <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(' + yName + ' ~ I(1/' + xName + '), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_inverse, aes(x = ' + xName + ', y = fit, colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Inverse") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_inverse, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr, fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.inverse <- predictions(lm(y~I(1/x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100),interval="confidence")\n');
+            echo('inverse_model <- lm(' + yName + ' ~ I(1/' + xName + '), data = na.omit(' + dataframe + '))\n');
+            echo('df_inverse <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_inverse <- cbind(df_inverse, predict(inverse_model, newdata = df_inverse, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_inverse, aes(x = ' + xName + ', y = fit, linetype = ' + i18n("Inverse") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_inverse, aes(x = ' + xName + ', y = fit, ymin = lwr, ymax = upr), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Inverse model\n\tgeom_line(data=.df.inverse, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Inverse"))';
-        model.push('Inverse (' + yName + ' = a+b/' + xName + ')');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.inverse, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Inverse").slice(1,-1) +' (' + yName + ' = a+b/' + xName + ')');
     }
     if (sigmoid) {
+        echo('# Plot sigmoidal model\n');
         if (grouped) {
-            echo('.df.sigmoidal <- ddply(.df,".groups",function(.df) predictions(lm(log(y)~I(1/x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100),interval="confidence"))\n');
-            echo('.df.sigmoidal[,-2:-1]=exp(.df.sigmoidal[,-2:-1])\n');
-            echo('names(.df.sigmoidal)[3]="pred.y"\n');
+            echo('df_sigmoidal <- ' + dataframe + ' |>\n');
+            echo('\tmutate(' + groupsName.join('.') + ' = interaction(' + groupsName.join(', ') + ')) |>\n');
+            echo('\tnest_by(' + groupsName.join('.') + ') |>\n');
+            echo('\tmutate(model = list(lm(log(' + yName + ') ~ I(1/' + xName + '), data = na.omit(data)))) |>\n');
+            echo('\tmutate(newdata = list(data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100)))) |>\n')
+            echo('\tmutate(pred = list(cbind(newdata, predict(model, newdata = newdata, interval = "confidence")))) |>\n');
+            echo('\tunnest(pred)\n');
+            echo('plot <- plot + geom_line(data = df_sigmoidal, aes(x = ' + xName + ', y = exp(fit), colour = ' + groupsName.join('.') + ', linetype = ' + i18n("Sigmoidal") + '))');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_sigmoidal, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr), fill = ' + groupsName.join('.') + '), alpha = 0.2)\n');
+            }
         } else {
-            echo('.df.sigmoidal <- predictions(lm(log(y)~I(1/x),data=.df),seq(min(.df[["x"]]), max(.df[["x"]]), length.out=100),interval="confidence")\n');
-            echo('.df.sigmoidal[,-1]=exp(.df.sigmoidal[,-1])\n');
-            echo('names(.df.sigmoidal)[2]="pred.y"\n');
+            echo('sigmoidal_model <- lm(log(' + yName + ') ~ I(1/' + xName + '), data = na.omit(' + dataframe + '))\n');
+            echo('df_sigmoidal <- data.frame(' + xName + ' = seq(min(' + x + '), max(' + x + '), length.out = 100))\n');
+            echo('df_sigmoidal <- cbind(df_sigmoidal, predict(sigmoidal_model, newdata = df_sigmoidal, interval = "confidence"))\n');
+            echo('plot <- plot + geom_line(data = df_sigmoidal, aes(x = ' + xName + ', y = exp(fit), linetype = ' + i18n("Sigmoidal") + '), colour = "#00BFC4")');
+            if (confidenceStrip) {
+                echo(' +\n\tgeom_ribbon(data = df_sigmoidal, aes(x = ' + xName + ', y = exp(fit), ymin = exp(lwr), ymax = exp(upr)), fill = "#00BFC4", alpha = 0.2)\n');
+            }
         }
-        smooth += ' +\n\t# Sigmoidal model\n\tgeom_line(data=.df.sigmoidal, aes(x=x, y=pred.y' + smoothColor + ',  linetype="Sigmoidal"))';
-        model.push('Sigmoidal (' + yName + ' = exp(a+b/' + xName + '))');
-        if (confidenceStrip) {
-            smooth += ' +\n\tgeom_ribbon(data=.df.sigmoidal, aes(x=x, ymin=lwr.conf.int, ymax=upr.conf.int' + stripColor + ', alpha=0.3)';
-        }
+        model.push(i18n("Sigmoidal").slice(1,-1) +' (' + yName + ' = exp(a+b/' + xName + '))');
     }
+    echo('\nplot <- plot' + smooth + legend + facet + '\n');
+
 }
 
 function printout() {
@@ -248,8 +341,10 @@ function doPrintout(full) {
         header.print();
         echo('rk.graph.on()\n');
     }
-    echo('p <- ggplot(data = ' + dataframe + ') + geom_point(' + 'aes(x=' + xName + ', y=' + yName + pointColor + pointSymbol + pointSize + ')' + smooth + legend + facet + getString("plotOptions.code.calculate") + '\n');
-    echo('print(p)\n');
+    // Plot
+    echo('try ({\n');
+    echo('\tprint(plot)\n');
+    echo('})\n');
     if (full) {
         echo('rk.graph.off()\n');
     }
