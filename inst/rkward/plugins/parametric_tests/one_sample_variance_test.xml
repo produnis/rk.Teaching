@@ -1,21 +1,21 @@
 <!--author: Alfredo Sánchez Alberca (asalber@ceu.es) -->
 <!DOCTYPE rkplugin>
 <document>
-  <code file="one_sample_t_test.js"/>
-  <help file="one_sample_t_test.rkh"/>
+  <code file="one_sample_variance_test.js"/>
+  <help file="one_sample_variance_test.rkh"/>
   <logic>
     <convert id="groupedMode" mode="equals" sources="grouped.state" standard="1"/>
     <connect client="groups.visible" governor="groupedMode"/>
     <convert id="filterMode" mode="equals" sources="filter.state" standard="1"/>
     <connect client="condition.visible" governor="filterMode"/>
   </logic>
-  <dialog label="T-test for the mean of one population">
+  <dialog label="Test for the variance of one population">
     <tabbook>
       <tab id="tabVariables" label="Variable">
         <row id="rowVars">
           <varselector id="selector" label="Select variable(s)"/>
           <column>
-            <varslot id="variable" label="Mean of" source="selector" types="numeric" required="true"/>
+            <varslot id="variable" label="Variance of" source="selector" types="numeric" required="true"/>
             <checkbox id="grouped" label="Test by groups" value_unchecked="0" checked="false"/>
             <varslot id="groups" label="Grouping variable(s):" types="factor" source="selector" multi="true" required="true"/>
             <include file="../common/filter.xml"/>
@@ -26,13 +26,13 @@
       <tab id="tabOptions" label="Test options">
         <row>
           <column id="colHypothesis">
-            <input id="mean" label="Mean value in null hypothesis" size="small" initial="0"/>
+            <input id="variance" label="Variance value in null hypothesis" size="small" initial="1"/>
             <radio id="hypothesis" label="Alternative hypothesis">
               <option value="two.sided" label="Two-sided (&#8800;)"/>
               <option value="greater" label="Greater (&gt;)"/>
               <option value="less" label="Less (&lt;)"/>
             </radio>
-            <frame id="frameConfInt" label="Confidence interval for the mean" checkable="true" checked="true" value="1">
+            <frame id="frameConfInt" label="Confidence interval for the variance" checkable="true" checked="true" value="1">
               <spinbox id="confLevel" label="Confidence level" type="real" min="0" max="0.99" initial="0.95"/>
             </frame>
           </column>
@@ -41,10 +41,10 @@
       </tab>
     </tabbook>
   </dialog>
-  <wizard label="T-test for the mean of one population">
+  <wizard label="Test for the variance of one population">
     <page>
       <text>
-        <p>This procedure performs the T test for detecting a significant difference between the mean of one population and a given value, and estimating the mean with a confidence interval.        </p>
+        <p>This procedure performs the variance test for detecting a significant difference between the variance of one population and a given value, and estimating the variance with a confidence interval.</p>
       </text>
     </page>
     <page>
@@ -58,18 +58,18 @@
     </page>
     <page>
       <text>
-        <p>Enter the value of the mean in the null hypothesis</p>
+        <p>Enter the value of the variance in the null hypothesis</p>
       </text>
-      <copy id="mean"/>
+      <copy id="variance"/>
       <stretch/>
     </page>
     <page>
       <text>
         <p>Select the type of alternative hypothesis to test:</p>
         <ul>
-          <li>Check two-sided you have no assumption about what mean is greater.</li>
-          <li>Check greater if you assume that the mean of the population is greater than the value set in the null hypothesis.</li>
-          <li>Check less if you assume that the mean of the population is less than the value set in the null hypothesis.</li>
+          <li>Check two-sided you have no assumption about what variance is greater.</li>
+          <li>Check greater if you assume that the variance of the population is greater than the vale set in the null hypothesis.</li>
+          <li>Check less if you assume that the variance of the population is less than the value set in the null hypothesis.</li>
         </ul>
         <p>The one-sided hypothesis tends to increase the power of the test.</p>
       </text>
@@ -78,7 +78,7 @@
     </page>
     <page>
       <text>
-        <p>If you wants a confidence interval to estimate the mean of the population check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
+        <p>If you wants a confidence interval to estimate the variance of the population check the box and enter the desired confidence level (a 95% of confidence correspond to a 5% of significance).</p>
       </text>
       <copy id="frameConfInt"/>
       <stretch/>

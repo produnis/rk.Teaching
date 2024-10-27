@@ -55,11 +55,11 @@ function calculate() {
   // Manual frequency
   if (manualFreq) {
     if (type == "binomial") {
-      echo('result <- binom.test (' + freq + ',' + n +  options + ')\n');
+      echo('result <- tidy(binom.test(' + freq + ',' + n +  options + '))\n');
     } else if (type == "normal_correction") {
-      echo('result <- prop.test (' + freq + ',' + n +  options + ')\n');
+      echo('result <- tidy(prop.test(' + freq + ',' + n +  options + '))\n');
     } else {
-      echo('result <- prop.test (' + freq + ',' + n +  options + ', correct=FALSE)\n');
+      echo('result <- tidy(prop.test(' + freq + ',' + n +  options + ', correct=FALSE))\n');
     }
   } else {
     // Non-manual frequency

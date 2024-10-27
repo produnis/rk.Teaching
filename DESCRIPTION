@@ -21,6 +21,7 @@ Depends:
     multcomp,
     psych,
     probs,
+    pwr,
     tidyverse,
     knitr,
     kableExtra,

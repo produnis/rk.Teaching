@@ -2,10 +2,10 @@
 
 <!DOCTYPE rkplugin>
 <document>
-  <code file="test_t_sample_size.js"/>
-  <help file="test_t_sample_size.rkh"/>
+  <code file="test_t_power.js"/>
+  <help file="test_t_power.rkh"/>
 
-  <dialog label="Sample size computation for the t-test">
+  <dialog label="Power computation for the t-test">
     <row>
       <column id="colType">
         <radio id="type" label="Type of test">
@@ -22,15 +22,15 @@
       <column>
         <input id="effect" label="Effect size" required="true"/>
         <spinbox id="sigLevel" label="Significance level" types="real" min="0.01" max="1" initial="0.05"/>
-        <spinbox id="power" label="Power" type="real" min="0.00" max="0.99" initial="0.8"/>
+        <input id="n" label="Sample size" required="true"/>
       </column>
     </row>
   </dialog>
 
-  <wizard label="Sample size computation for the t-test">
+  <wizard label="Power computation for the t-test">
     <page>
       <text>
-        <p>This procedure computes the sample size required to perform a t-test for comparing means with a given effect size, significance level and power.</p>
+        <p>This procedure computes the power of a t-test for comparing means with a given effect size, significance level and sample size.</p>
       </text>
     </page>
     <page>
@@ -59,9 +59,9 @@
     </page>
     <page>
       <text>
-        Enter the power of the test.
+        Enter the sample size.
       </text>
-      <copy id="power"/>
+      <copy id="n"/>
     </page>
   </wizard>
 </document>

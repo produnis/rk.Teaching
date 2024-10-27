@@ -8,10 +8,12 @@
 		<component type="standard" id="anova" file="anova.xml" label="ANOVA" />
 		<component type="standard" id="one_proportion_test" file="one_proportion_test.xml" label="Test for one proportion" />
 		<component type="standard" id="two_proportions_test" file="two_proportions_test.xml" label="Test for comparing two proportions" />
+		<component type="standard" id="one_sample_variance_test" file="one_sample_variance_test.xml" label="Test for the variance of one population" />
 		<component type="standard" id="f_test" file="f_test.xml" label="Fisher's F test" />
 		<component type="standard" id="levene_test" file="levene_test.xml" label="Levene's test" />		
 		<component type="standard" id="mean_sample_size" file="mean_sample_size.xml" label="Sample size to estimate one mean" />
 		<component type="standard" id="test_t_sample_size" file="test_t_sample_size.xml" label="Sample size for the t-test" />
+		<component type="standard" id="test_t_power" file="test_t_power.xml" label="Power of the t-test" />
 		<component type="standard" id="proportion_sample_size" file="proportion_sample_size.xml" label="Sample size to estimate one proportion" />
 	</components>
 	
@@ -25,8 +27,10 @@
 					<entry component="anova" />
 					<entry component="mean_sample_size"/>
 					<entry component="test_t_sample_size"/>
+					<entry component="test_t_power"/>
 				</menu>
 				<menu id="variances" label="Variances">
+					<entry component="one_sample_variance_test"/>
 					<entry component="f_test"/>
 					<entry component="levene_test"/>
 				</menu>
